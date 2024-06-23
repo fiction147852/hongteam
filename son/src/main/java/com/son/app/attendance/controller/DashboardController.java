@@ -10,6 +10,6 @@ public class DashboardController {
     @GetMapping("/")
     public String getIndex(Model model) {
         // 필요한 모델 데이터를 추가
-        return "index";
+        return "parent";
     }
 }
