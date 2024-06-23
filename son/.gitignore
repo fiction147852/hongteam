@@ -28,3 +28,9 @@ replay_pid*
 .factorypath
 .project
 .settings/
+
+# IntelliJ IDEA project files
+.idea/
+
+# Exclude specific file types
+*.iml
