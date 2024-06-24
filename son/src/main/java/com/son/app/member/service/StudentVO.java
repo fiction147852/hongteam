@@ -3,7 +3,7 @@ package com.son.app.member.service;
 import lombok.Data;
 
 @Data
-public class ChildInfoVO {
+public class StudentVO {
     private Integer studentNumber;
     private String name;
     private String email;
