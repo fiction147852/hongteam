@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class DashboardController {
 
-    @GetMapping("/dashboard")
-    public String getDashboard(Model model) {
+    @GetMapping("/")
+    public String getIndex(Model model) {
         // 필요한 모델 데이터를 추가
-        return "index";
+        return "parent";
     }
 }

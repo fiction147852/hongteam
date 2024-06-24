@@ -1,5 +1,6 @@
 package com.son.app.councel.web;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class CounselController {
 	CounselService counselService;
 
 	// 상담 스케줄 전체조회
-	@GetMapping("counselList")
+	@GetMapping("List")
 	public String counselList(Model model) {
 		List<CounselVO> list = counselService.counselList();
 		model.addAttribute("counsel", list);
