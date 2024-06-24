@@ -12,13 +12,12 @@ import com.son.app.member.service.StudentVO;
 @Service
 public class ParentServiceImpl implements ParentService{
 	@Autowired
-	ParentMapper childinfomapper;
+	ParentMapper parentmapper;
 	
 	// 전체조회
 	@Override
-	public List<StudentVO> ChildInfoList() {
-		// TODO Auto-generated method stub
-		return childinfomapper.childInfoAll();
+	public List<StudentVO> ParentInfoList() {
+		return parentmapper.childInfoAll();
 	}
 
 }

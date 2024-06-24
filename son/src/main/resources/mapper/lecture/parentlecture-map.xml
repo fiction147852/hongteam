@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.son.app.lecture.mapper.ParentLectureMapper">
+
+    <!-- 학부모의 모든 학생 정보 조회 -->
+    <select id="parentLectureInfoAll" resultType="lectureVO">
+        SELECT
+            LECTURE_NUMBER as lectureNumber,
+            LECTURE_TITLE as lectureTitle,
+            LECTURE_DESCRIPTION as lectureDescription,
+            LECTURE_COST as lectureCost,
+            SUBJECT_CODE as subjectCode,
+            DETAIL_SUBJECT_CODE as detailSubjectCode,
+            CAPACITY as capacity,
+            LECTURE_LEVEL_CODE as lectureLevelCode,
+            WEEKDAYS_CODE as weekdaysCode,
+            TIME_CODE as timeCode,
+            LECTURE_START_DATE as lectureStartDate,
+            LECTURE_END_DATE as lectureEndDate,
+            INSTRUCTOR_NUMBER as instructorNumber
+        FROM
+            lectures
+        WHERE
+            INSTRUCTOR_NUMBER IN (
+                SELECT
+                    instructor_number
+                FROM
+                    instructors
+                WHERE
+                    parent_number = #{parentNumber}
+            )
+    </select>
+
+</mapper>

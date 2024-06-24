@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class StudentVO {
+	//학생
     private Integer studentNumber;
     private String name;
     private String email;

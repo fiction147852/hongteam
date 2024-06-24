@@ -14,7 +14,7 @@
         parent_number,
         birth
         FROM
-        students;
+        student
     </select>
 
 </mapper>
