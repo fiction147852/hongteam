@@ -50,7 +50,7 @@ public class CounselServiceImpl implements CounselService{
 	}
 
 	@Override
-	public List<CounselVO> counselCalinder() {
+	public List<CounselVO> counselCalender() {
 		// TODO Auto-generated method stub
 		return null;
 	}
