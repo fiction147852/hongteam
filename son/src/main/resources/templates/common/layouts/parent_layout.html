@@ -7,7 +7,7 @@
 </head>
 <body>
 	<div th:replace="common/fragments/parent_nav :: parentNavFragment"></div>
-	<div th:insert="common/fragments/parent_header :: parentSidebarFragment"></div>
+	<div th:replace="common/fragments/parent_header :: parentSidebarFragment"></div>
 	<main>
 		<th:block layout:fragment="content"></th:block>
 	</main>
