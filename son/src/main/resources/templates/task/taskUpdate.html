@@ -8,14 +8,31 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script
+	src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.14/index.global.min.js'></script>
+<script
+	src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.14/index.global.min.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script
+	src='https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@6.1.14/index.global.min.js'></script>
+	<script src="
+https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@6.1.14/index.global.min.js
+"></script>
 
 <title>PolluxUI Admin</title>
 
 <!-- Include ConfigFragment -->
 <th:block th:replace="common/configs/default_config :: ConfigFragment"></th:block>
+<script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<style>
+        #taskInfoBody {
+            font-family: 'Roboto', sans-serif;
+        }
+</style>
 </head>
 
-<body>
+<body id="taskInfoBody" class="bg-gray-100 p-6">
 	<!-- partial:partials/_navbar.html -->
 	<nav
 		th:replace="common/fragments/instructor_nav :: instructorNavFragment"
@@ -42,13 +59,13 @@
 			class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
 			<ul class="navbar-nav mr-lg-2">
 				<li class="nav-item ml-0">
-					<h4 class="mb-0">Dashboard</h4>
+					<h4 class="mb-0">강의별 과제 목록</h4>
 				</li>
 				<li class="nav-item">
 					<div class="d-flex align-items-baseline">
-						<p class="mb-0">Home</p>
+						<p class="mb-0">과제</p>
 						<i class="typcn typcn-chevron-right"></i>
-						<p class="mb-0">Main Dahboard</p>
+						<p class="mb-0">과제 전체 목록</p>
 					</div>
 				</li>
 			</ul>
@@ -270,11 +287,46 @@
 		<!-- partial -->
 		<div class="main-panel">
 			<div class="content-wrapper">
-				<div id='calendar'></div>
-
-
-
+ <form name="updateForm" th:object="${taskInfo}">
+    <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="grid grid-cols-4 gap-4 p-6 border-b">
+            <div class="col-span-1 font-bold">제목</div>
+            <div class="col-span-3 border-gray-300">
+            <input type="text" class="form-control" th:field="*{title}" />
+            </div>
+        </div>
+            <div class="grid grid-cols-4 gap-4 p-6 border-b">
+            <div class="col-span-1 font-bold">게시일자</div>
+            <div class="col-span-1  border-gray-300">[[*{#dates.format(postDate, 'yyyy년 MM월 dd일')}]]</div>
+            <div class="col-span-1 font-bold">제출기한</div>
+            <div class="col-span-1  border-gray-300">
+            <input type="text" class="form-control" th:field="*{submitDeadline}" placeholder="yyyy/MM/dd"/></div>
+        </div>
+        <div class="grid grid-cols-4 p-6 border-b">
+            <div class="col-span-1 font-bold mb-2">내용</div>
+            <div class="col-span-1  border-gray-300">
+				<textarea class="form-control" th:field="*{description}" style="resize: none; width:45em; height: 12.25em;"></textarea>
 			</div>
+        </div>
+        <div class="grid grid-cols-4 p-6 border-b">
+            <div class="col-span-1 font-bold mb-2">강의번호</div>
+            <div class="col-span-1  border-gray-300">
+				<input type="number" class="form-control" th:field="*{lectureNumber}">
+			</div>
+        </div>
+        <div class="grid grid-cols-4 p-6 border-b">
+            <div class="col-span-1 font-bold mb-2">첨부 파일</div>
+            <div class="col-span-1  border-gray-300">
+            <!-- 파일로 교체해야함 -->
+            <input type="text" th:field="*{material}" class="form-control"/>
+            </div>
+        </div>
+    </div>
+        <div class="btn-group float-end" role="group" style="position: relative; right: 340px;">
+        	<button type="button" id="updateBtn" class="btn btn-primary mt-3">수정</button>
+			<button type="button" class="btn btn-danger mt-3" th:onclick="|location.href='@{/taskList}'|">취소</button>
+        </div>
+      </form>
 			<!-- content-wrapper ends -->
 			<!-- partial -->
 		</div>
@@ -299,60 +351,41 @@
 	<!-- endinject -->
 	<!-- Custom js for this page-->
 	<script src="js/dashboard.js"></script>
-	<script src="js/instructorCalendar.js"></script>
 	<script>
-	document.addEventListener('DOMContentLoaded', function() {
-	    const sidebarItems = document.querySelectorAll('.sidebar .nav-item > .nav-link');
-	    let isProcessing = false;
+	$("#updateBtn").on("click", taskUpdateAjax);
 
-	    sidebarItems.forEach(item => {
-	        item.addEventListener('click', function(e) {
-				// 클릭 메뉴 처리중 다른 처리 무시
-	            if (isProcessing) return;
-	            isProcessing = true;
+    function taskUpdateAjax(event) {
 
-	            const parent = this.parentElement;
-	            const isActive = parent.classList.contains('active');
+       let info = getTaskInfo();
 
-	            // 모든 메뉴 닫기
-	            sidebarItems.forEach(otherItem => {
-	                otherItem.parentElement.classList.remove('active');
-	                const target = document.querySelector(otherItem.getAttribute('data-target'));
-	                if (target) {
-	                    target.classList.remove('show');
-	                }
-	                otherItem.setAttribute('aria-expanded', 'false');
-	                
-	                // 화살표 아이콘 초기화
-	                const otherArrow = otherItem.querySelector('.menu-arrow');
-	                if (otherArrow) {
-	                    otherArrow.style.transform = 'rotate(0deg)';
-	                }
-	            });
 
-	            // 클릭한 메뉴 열기
-	            // 지연시간 추가
-	            setTimeout(() => {
-	                if (!isActive) {
-	                    parent.classList.add('active');
-	                    const target = document.querySelector(this.getAttribute('data-target'));
-	                    if (target) {
-	                        target.classList.add('show');
-	                    }
-	                    this.setAttribute('aria-expanded', 'true');
+       $.ajax('taskUpdate', {
+           type: 'post',
+           contentType: 'application/JSON',
+           data: JSON.stringify(info)
 
-	                    // 화살표 아이콘 변경
-	                    const arrow = this.querySelector('.menu-arrow');
-	                    if (arrow) {
-	                        arrow.style.transform = 'rotate(180deg)';
-	                    }
-	                }
-	                isProcessing = false;
-	            }, 50);
-	        });
-	    });
-	});
+       })
+       .done(result => {
+           console.log(result);
+       })
+       .fail(err => console.log(err));
+    };
+
+    function getTaskInfo() {
+       let formData = $('form[name="updateForm"]').serializeArray();
+       console.log('1) serializeArray', formData);
+       
+
+       let objData = {};
+       $.each(formData, (idx, input) =>{
+           console.log('2) input', idx, input);
+           objData[input.name] = input.value;
+       })
+       return objData;
+    }
+	
 	</script>
+		
 	<!-- End custom js for this page-->
 </body>
 

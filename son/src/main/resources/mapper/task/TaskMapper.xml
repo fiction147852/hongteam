@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.son.app.task.mapper.TaskMapper">
+	<select id="selectTaskAll" resultType="TaskVO">
+		SELECT task_number,
+			   title,
+			   description,
+			   material,
+			   post_date,
+			   submit_deadline,
+			   lecture_number
+		FROM task
+		ORDER BY task_number
+	</select>
+	
+	<select id="selectTaskInfo" resultType="TaskVO">
+		SELECT task_number,
+			   title,
+			   description,
+			   material,
+			   post_date,
+			   submit_deadline,
+			   lecture_number
+		FROM task
+		WHERE task_number = #{taskNumber}
+	</select>
+	
+	<insert id="insertTaskInfo" parameterType="TaskVO">
+		<selectKey keyProperty="taskNumber" resultType="int" order="BEFORE">
+        	SELECT NVL(MAX(task_number), 0) + 1 FROM task
+    	</selectKey>
+		INSERT INTO task
+				(
+					task_number,
+					title,
+					description,
+					material,
+					post_date,
+					submit_deadline,
+					lecture_number
+				)
+			VALUES
+				(
+					#{taskNumber},
+					#{title},
+					#{description},
+					#{material},
+					sysdate,
+					#{submitDeadline},
+					#{lectureNumber}
+				)
+				
+	</insert>
+	
+
+	<update id="updateTaskInfo">
+		UPDATE task
+		SET
+			title = #{title}
+		  , description = #{description}
+		  , submit_deadline = #{submitDeadline}
+		  , material = #{material}
+		  , lecture_number = #{lectureNumber}
+		WHERE task_number = #{taskNumber}
+	</update>
+	
+	<delete id="deleteTaskInfo" parameterType="int">
+		DELETE FROM task
+		WHERE task_number = #{taskNumber}
+	</delete>
+</mapper>

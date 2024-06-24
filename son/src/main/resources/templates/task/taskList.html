@@ -8,6 +8,16 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script
+	src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.14/index.global.min.js'></script>
+<script
+	src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.14/index.global.min.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script
+	src='https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@6.1.14/index.global.min.js'></script>
+	<script src="
+https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@6.1.14/index.global.min.js
+"></script>
 
 <title>PolluxUI Admin</title>
 
@@ -42,13 +52,13 @@
 			class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
 			<ul class="navbar-nav mr-lg-2">
 				<li class="nav-item ml-0">
-					<h4 class="mb-0">Dashboard</h4>
+					<h4 class="mb-0">강의별 과제 목록</h4>
 				</li>
 				<li class="nav-item">
 					<div class="d-flex align-items-baseline">
-						<p class="mb-0">Home</p>
+						<p class="mb-0">과제</p>
 						<i class="typcn typcn-chevron-right"></i>
-						<p class="mb-0">Main Dahboard</p>
+						<p class="mb-0">과제 전체 목록</p>
 					</div>
 				</li>
 			</ul>
@@ -270,7 +280,34 @@
 		<!-- partial -->
 		<div class="main-panel">
 			<div class="content-wrapper">
-				<div id='calendar'></div>
+				          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="table-responsive pt-3">
+                  <table class="table table-striped project-orders-table">
+                    <thead>
+                      <tr>
+                        <th>번호</th>
+                        <th>제목</th>
+                        <th>게시 일자</th>
+                        <th>제출 기한</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <th:block th:each="tasks : ${taskList}">
+                      <tr th:onclick="|location.href='@{/taskInfo(taskNumber=${tasks.taskNumber})}'|">
+                        <td>[[ ${tasks.taskNumber} ]]</td>
+                        <td>[[ ${tasks.title} ]]</td>
+                        <td>[[ ${#dates.format(tasks.postDate, 'yyyy년 MM월 dd일')} ]]</td>
+                        <td>[[ ${#dates.format(tasks.submitDeadline, 'yyyy년 MM월 dd일')} ]]</td>
+                      </tr>
+                      </th:block>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+                <button type="button" class="btn btn-primary mt-3 float-end" th:onclick="|location.href='@{/taskInsert}'|">작성</button>
+            </div>
 
 
 
@@ -299,60 +336,7 @@
 	<!-- endinject -->
 	<!-- Custom js for this page-->
 	<script src="js/dashboard.js"></script>
-	<script src="js/instructorCalendar.js"></script>
-	<script>
-	document.addEventListener('DOMContentLoaded', function() {
-	    const sidebarItems = document.querySelectorAll('.sidebar .nav-item > .nav-link');
-	    let isProcessing = false;
-
-	    sidebarItems.forEach(item => {
-	        item.addEventListener('click', function(e) {
-				// 클릭 메뉴 처리중 다른 처리 무시
-	            if (isProcessing) return;
-	            isProcessing = true;
-
-	            const parent = this.parentElement;
-	            const isActive = parent.classList.contains('active');
-
-	            // 모든 메뉴 닫기
-	            sidebarItems.forEach(otherItem => {
-	                otherItem.parentElement.classList.remove('active');
-	                const target = document.querySelector(otherItem.getAttribute('data-target'));
-	                if (target) {
-	                    target.classList.remove('show');
-	                }
-	                otherItem.setAttribute('aria-expanded', 'false');
-	                
-	                // 화살표 아이콘 초기화
-	                const otherArrow = otherItem.querySelector('.menu-arrow');
-	                if (otherArrow) {
-	                    otherArrow.style.transform = 'rotate(0deg)';
-	                }
-	            });
-
-	            // 클릭한 메뉴 열기
-	            // 지연시간 추가
-	            setTimeout(() => {
-	                if (!isActive) {
-	                    parent.classList.add('active');
-	                    const target = document.querySelector(this.getAttribute('data-target'));
-	                    if (target) {
-	                        target.classList.add('show');
-	                    }
-	                    this.setAttribute('aria-expanded', 'true');
-
-	                    // 화살표 아이콘 변경
-	                    const arrow = this.querySelector('.menu-arrow');
-	                    if (arrow) {
-	                        arrow.style.transform = 'rotate(180deg)';
-	                    }
-	                }
-	                isProcessing = false;
-	            }, 50);
-	        });
-	    });
-	});
-	</script>
+		
 	<!-- End custom js for this page-->
 </body>
 
