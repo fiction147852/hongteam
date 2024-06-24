@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AttendanceController {
 
-    @GetMapping("/")
+    @GetMapping("parent")
     public String getIndex(Model model) {
         // 필요한 모델 데이터를 추가
-        return "parent";
+        return "member/parent/parent_info";
     }
 
     @GetMapping("student")
