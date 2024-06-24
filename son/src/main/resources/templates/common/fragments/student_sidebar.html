@@ -1,0 +1,27 @@
+ <nav class="sidebar sidebar-offcanvas" id="sidebar" xmlns:th="https://www.thymeleaf.org" th:fragment="studentSidebarFragment">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">
+                    <i class="fa-regular fa-calendar menu-icon"></i>
+                    <span class="menu-title">내 일정</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                    <i class="fas fa-book menu-icon"></i>
+                    <span class="menu-title">내 수업</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="ui-basic">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">미적분</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
+                    <i class="fas fa-user menu-icon"></i>
+                    <span class="menu-title">내 정보</span>
+                </a>
+        </ul>
+ </nav>
