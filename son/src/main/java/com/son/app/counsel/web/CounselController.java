@@ -33,21 +33,21 @@ public class CounselController {
 	}
 
 	// 상담 스케쥴
-	@GetMapping("counselCalinder")
+	@GetMapping("counselCalender")
 	public String counselCalinder(Model model) {
-		List<CounselVO> list = counselService.counselCalinder();
-		model.addAttribute("counselCalinder", list);
+		List<CounselVO> list = counselService.counselCalender();
+		model.addAttribute("counselCalender", list);
 
-		return "counsel/counselCalinder";
+		return "counselCalender";
 
 	}
 
-	@PostMapping("counselCalinder")
+	@PostMapping("counselCalender")
 	public String counselTime(Model model) {
 		List<CounselVO> list = counselService.counselTime();
 		model.addAttribute("counselTime", list);
 
-		return "counsel/counselCalinder";
+		return "counselCalender";
 
 	}
 
