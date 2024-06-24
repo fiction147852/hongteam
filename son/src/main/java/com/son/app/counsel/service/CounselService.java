@@ -1,4 +1,4 @@
-package com.son.app.councel.service;
+package com.son.app.counsel.service;
 
 import java.util.List;
 import java.util.Map;

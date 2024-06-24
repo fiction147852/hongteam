@@ -1,8 +1,8 @@
-package com.son.app.councel.mapper;
+package com.son.app.counsel.mapper;
 
 import java.util.List;
 
-import com.son.app.councel.service.CounselVO;
+import com.son.app.counsel.service.CounselVO;
 
 public interface CounselMapper {
 	
