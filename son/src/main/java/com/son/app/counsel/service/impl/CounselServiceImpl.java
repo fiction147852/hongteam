@@ -1,4 +1,4 @@
-package com.son.app.councel.service.impl;
+package com.son.app.counsel.service.impl;
 
 import java.util.List;
 import java.util.Map;
@@ -6,9 +6,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.son.app.councel.mapper.CounselMapper;
-import com.son.app.councel.service.CounselService;
-import com.son.app.councel.service.CounselVO;
+import com.son.app.counsel.mapper.CounselMapper;
+import com.son.app.counsel.service.CounselService;
+import com.son.app.counsel.service.CounselVO;
 
 @Service
 public class CounselServiceImpl implements CounselService{
