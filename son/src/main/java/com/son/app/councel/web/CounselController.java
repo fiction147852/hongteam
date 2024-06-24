@@ -1,4 +1,4 @@
-package com.son.app.counseling.controller;
+package com.son.app.councel.web;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.son.app.counseling.service.CounselService;
-import com.son.app.counseling.service.CounselVO;
+import com.son.app.councel.service.CounselService;
+import com.son.app.councel.service.CounselVO;
 
 @Controller
 public class CounselController {
@@ -26,8 +26,28 @@ public class CounselController {
 		return "counsel/counselList";
 	}
 
+	
+	// 상담 스케쥴
+	@GetMapping("counselCalinder")
+	public String counselCalinder(Model model) {
+		List<CounselVO> list = counselService.counselCalinder();
+		model.addAttribute("counselCalinder", list);
+		
+		return "counsel/counselCalinder";
+		
+	}
+	
+	@PostMapping("counselCalinder")
+	public String counselTime(Model model) {
+		List<CounselVO> list = counselService.counselTime();
+		model.addAttribute("counselTime", list);
+		
+		return "counsel/counselCalinder";
+		
+	}
+	
 	// 상담 단건 조회
-	@GetMapping("counselInsert")
+	@GetMapping("counselInfo")
 	public String counselInsertForm(CounselVO counselVO, Model model) {
 		CounselVO findVO = counselService.counselInfo(counselVO);
 		model.addAttribute("counselInfo", findVO);

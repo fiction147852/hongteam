@@ -1,4 +1,4 @@
-package com.son.app.counseling.service;
+package com.son.app.councel.service;
 
 import java.sql.Date;
 

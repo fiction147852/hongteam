@@ -1,4 +1,4 @@
-package com.son.app.counseling.service.impl;
+package com.son.app.councel.service.impl;
 
 import java.util.List;
 import java.util.Map;
@@ -6,9 +6,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.son.app.counseling.mapper.CounselMapper;
-import com.son.app.counseling.service.CounselService;
-import com.son.app.counseling.service.CounselVO;
+import com.son.app.councel.mapper.CounselMapper;
+import com.son.app.councel.service.CounselService;
+import com.son.app.councel.service.CounselVO;
 
 @Service
 public class CounselServiceImpl implements CounselService{
@@ -47,6 +47,18 @@ public class CounselServiceImpl implements CounselService{
 	public int counselDelete(int counselNo) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public List<CounselVO> counselCalinder() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<CounselVO> counselTime() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

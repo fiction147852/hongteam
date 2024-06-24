@@ -1,4 +1,4 @@
-package com.son.app.counseling.service;
+package com.son.app.councel.service;
 
 import java.util.List;
 import java.util.Map;
@@ -19,5 +19,11 @@ public interface CounselService {
 	
 	//삭제
 	public int counselDelete(int counselNo);
+
+	//상담 달력 조회 
+	public List<CounselVO> counselCalinder();
+
+	//상담 시간 조율 
+	public List<CounselVO> counselTime();
 	
 }
