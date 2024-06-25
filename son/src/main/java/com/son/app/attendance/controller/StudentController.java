@@ -5,7 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class AttendanceController {
+public class StudentController {
 
     @GetMapping("student")
     public String attendancePage(Model model) {
