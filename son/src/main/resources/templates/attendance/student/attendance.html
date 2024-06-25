@@ -2,12 +2,16 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{common/layouts/student_layout}">
 <head>
+    <link rel="stylesheet" th:href="@{/css/student/calendar.css}"/>
     <script src="js/calendar.js"></script>
 </head>
 <body>
+
     <div layout:fragment="content">
+
         <div id="calendar">
         </div>
     </div>
+
 </body>
 </html>

@@ -1,0 +1,80 @@
+/* 제목 폰트 굵기 변경 */
+.fc .fc-toolbar-title {
+    font-weight: bold;
+}
+
+.fc-col-header-cell-cushion {
+    color: #2C3D4F;
+    font-weight: 800;
+}
+
+/* 날짜 색상 변경 */
+.fc-daygrid-day-number {
+    color: #2C3D4F;
+    font-weight: 600;
+}
+
+/* 오늘 날짜에 대한 배경색*/
+.fc-daygrid-day-frame {
+    background-color: #FFFFFF;
+}
+
+/* 날짜 */
+.fc-daygrid-day-top {
+    padding: 3px;
+}
+
+/* 오늘 날짜 스타일 변경 */
+.fc-day-today .fc-daygrid-day-number {
+    color: white;
+    background-color: #2C3D4F;
+    border-radius: 50%;
+    padding: 5px;
+}
+
+/* 주간 일간 */
+.fc-timegrid-axis-cushion {
+    max-width: 80px !important;
+}
+
+.fc-timegrid-slots tbody {
+    background-color: #FFFFFF;
+}
+
+.fc-event-main {
+    background-color: #2C3D4F;
+}
+
+.fc-event-main div div {
+    color: white;
+}
+
+.fc-timegrid-event {
+    height: 100% !important;
+    margin: 0 !important;
+    border: 0 !important;
+    width: 100%;
+}
+
+.fc-timegrid-col-events .fc-timegrid-event-harness-inset .fc-event .fc-event-main div {
+    justify-content: center;
+    height: 300px;
+}
+
+
+/* 모달 */
+.modal-content {
+    border: 0 solid #f3f3f3;
+    padding: 0;
+}
+
+.modal-header {
+    color: white;
+    background-color: #2C3D4F;
+    justify-content: center;
+}
+
+.modal-body {
+    padding: 0;
+}
+

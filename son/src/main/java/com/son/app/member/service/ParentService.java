@@ -2,7 +2,7 @@ package com.son.app.member.service;
 
 import java.util.List;
 
-public interface ChildInfoService {
+public interface ParentService {
 	//전체조회
-	public List<ChildInfoVO> ChildInfoList();
+	public List<StudentVO> ParentInfoList();
 }
