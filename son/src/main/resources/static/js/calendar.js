@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // 언어 및 시간에 대한 설정
         timeZone: 'Asia/Seoul',
-        locale: 'kr',
 
         // 하루에 표시할 수 있는 최대 이벤트 수를 설정. 특정 숫자로 설정하면 그 숫자만큼의 이벤트만 한 번에 표시하고, 추가 이벤트는 "+n more" 링크로 표시된다.
         dayMaxEvents: true,
@@ -52,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 end: '2024-06-24T20:00:00',
 
                 // 이벤트 객체의 색상
-                backgroundColor: '#F4F5FA',
+                backgroundColor: '#ffffff',
                 borderColor: '#F4F5FA',
                 textColor: '#000000',
 
@@ -65,12 +64,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 // 이벤트 객체의 정보
                 title: '확률과 통계',
                 start: '2024-06-24T20:00:00',
-                end: '2024-06-24T21:00:00',
+                end: '2024-06-25T21:00:00',
 
                 // 이벤트 객체의 색상
                 backgroundColor: '#F4F5FA',
                 borderColor: '#F4F5FA',
-                textColor: '#000000',
+                textColor: '#FFFFFF',
 
                 // FullCalendar 의 이벤트 객체에 추가적인 사용자 정의 속성을 저장하기 위해 사용된다.
                 extendedProps: {
@@ -95,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         ],
 
-        // 이벤트(일정)의 콘텐츠를 커스터마이징하는 데 사용된다. 이벤트의 콘텐츠를 구성하는 DOM 요소를 반환한다.
+        // 이벤트(일정)의 콘텐츠를 커스터마이징하는 데 사용된다. 이벤트의 콘텐츠를 구성하는 DOM 요소를 반환한다. (이벤트가 렌더링될 때 호출된다.)
         eventContent: function(scheduleWithMetadata) {
             // 해당 이벤트 객체와 그와 관련된 추가 정보를 포함하는 객체를 매개변수로 전달받는다.
 
@@ -111,18 +110,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const title = document.createElement('div');
             title.innerHTML = ` ` + schedule.title;
-            title.style.color = "#132743";
-            title.style.fontWeight = "800";
-            title.style.fontSize = "14px";
-
-            const time = document.createElement('div');
-            time.innerHTML = schedule.extendedProps.startTime;
-            time.style.color = "#132743";
-            time.style.fontWeight = "800";
-            time.style.fontSize = "14px";
 
             container.appendChild(title);
-            container.appendChild(time);
 
             return { domNodes: [container] };
         },
@@ -132,10 +121,26 @@ document.addEventListener('DOMContentLoaded', function () {
             // 이벤트 요소에 클릭 이벤트 추가
             const schedule = scheduleWithMetadata.event;
 
-            console.log(schedule.title);
-
             document.getElementById('eventAssignment').innerText = schedule.extendedProps.assignment || 'X';
             document.getElementById('eventExam').innerText = schedule.extendedProps.exam || 'X';
+
+            /* 날짜 포맷팅
+            const startDate = schedule.start;
+            const endDate = schedule.end;
+
+            // numeric (숫자로 표시), long (긴 형식으로 표시), 2-digit (2자리 형식으로 표시)
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const startTime = startDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const endTime = endDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            startDate.setDate(startDate.getDate() - 1);
+            endDate.setDate(endDate.getDate() - 1);
+
+            if (startDate.toDateString() === endDate.toDateString()) {
+                document.getElementById('eventTime').innerText = endDate.toLocaleDateString('ko-KR', options) +  ' ' + startTime;
+            } else {
+                document.getElementById('eventTime').innerText = endDate.toLocaleDateString('ko-KR', options) + ' ' +  endTime;
+            } */
 
             const eventModal = new bootstrap.Modal(document.getElementById('eventModal'), {
                 keyboard: false
