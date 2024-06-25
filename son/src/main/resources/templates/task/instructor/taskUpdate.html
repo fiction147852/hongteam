@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/instructor_layout}"
+	layout:fragment="content">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>과제 수정</title>
+
+<!-- Include ConfigFragment -->
+<script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<style>
+        #taskInfoBody {
+            font-family: 'Roboto', sans-serif;
+        }
+</style>
+</head>
+
+<body id="taskInfoBody">
+<div id="container" style="width:878px; margin:0 auto;">
+ <form name="updateForm" th:object="${taskInfo}">
+    <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="grid grid-cols-4 gap-4 p-6 border-b">
+        	<input type="hidden" th:field="*{taskNumber}" />
+            <div class="col-span-1 font-bold">제목</div>
+            <div class="col-span-3 border-gray-300">
+            <input type="text" class="form-control" th:field="*{title}" />
+            </div>
+        </div>
+            <div class="grid grid-cols-4 gap-4 p-6 border-b">
+            <div class="col-span-1 font-bold">게시일자</div>
+            <div class="col-span-1  border-gray-300">[[*{#dates.format(postDate, 'yyyy년 MM월 dd일')}]]</div>
+            <div class="col-span-1 font-bold">제출기한</div>
+            <div class="col-span-1  border-gray-300">
+            <input type="text" class="form-control" th:field="*{submitDeadline}" placeholder="yyyy/MM/dd"/></div>
+        </div>
+        <div class="grid grid-cols-4 p-6 border-b">
+            <div class="col-span-1 font-bold mb-2">내용</div>
+            <div class="col-span-1  border-gray-300">
+				<textarea class="form-control" th:field="*{description}" style="resize: none; width:45em; height: 12.25em;"></textarea>
+			</div>
+        </div>
+        <div class="grid grid-cols-4 p-6 border-b">
+            <div class="col-span-1 font-bold mb-2">강의번호</div>
+            <div class="col-span-1  border-gray-300">
+				<input type="number" class="form-control" th:field="*{lectureNumber}">
+			</div>
+        </div>
+        <div class="grid grid-cols-4 p-6 border-b">
+            <div class="col-span-1 font-bold mb-2">첨부 파일</div>
+            <div class="col-span-1  border-gray-300">
+            <!-- 파일로 교체해야함 -->
+            <input type="text" th:field="*{material}" class="form-control"/>
+            </div>
+        </div>
+    </div>
+        <div class="btn-group float-end" role="group">
+        	<button type="button" id="updateBtn" class="btn btn-primary mt-3">수정</button>
+			<button type="button" class="btn btn-danger mt-3" th:onclick="|location.href='@{/instructor/taskList}'|">취소</button>
+        </div>
+      </form>
+     </div>
+	<script>
+	
+	document.getElementById('updateBtn').addEventListener('click', taskUpdateAjax);
+    function taskUpdateAjax(event) {
+
+       let info = getTaskInfo();
+
+
+       $.ajax('taskUpdate', {
+           type: 'post',
+           contentType: 'application/JSON',
+           data: JSON.stringify(info)
+
+       })
+       .done(result => {
+           console.log(result);
+       })
+       .fail(err => console.log(err));
+    };
+
+    function getTaskInfo() {
+       let formData = $('form[name="updateForm"]').serializeArray();
+       console.log('1) serializeArray', formData);
+       
+
+       let objData = {};
+       $.each(formData, (idx, input) =>{
+           console.log('2) input', idx, input);
+           objData[input.name] = input.value;
+       })
+       return objData;
+    }
+	
+	</script>
+		
+	<!-- End custom js for this page-->
+</body>
+
+</html>
+

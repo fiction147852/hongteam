@@ -5,11 +5,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class StudentController {
+public class instructorController {
 
-    @GetMapping("student")
-    public String attendancePage(Model model) {
-        return "attendance/student/attendance";
+    @GetMapping("instructor")
+    public String instructorAttendancePage(Model model) {
+        return "attendance/instructor/insAttendance";
     }
 
 }

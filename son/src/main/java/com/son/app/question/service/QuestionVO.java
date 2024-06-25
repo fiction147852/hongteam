@@ -1,4 +1,4 @@
-package com.son.app.exam.service;
+package com.son.app.question.service;
 
 import lombok.Data;
 
@@ -11,7 +11,7 @@ public class QuestionVO {
 	private String subjectCode;
 	private String detailSubjectCode;
 	private String difficultyCode;
-	private String answerAnswer;
+	private String answer;
 	private String option1;
 	private String option2;
 	private String option3;
