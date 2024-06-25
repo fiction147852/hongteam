@@ -20,4 +20,7 @@ public interface CounselMapper {
 	
 	//삭제
 	public int counselDeleteInfo(int counselNo);
+
+	//상담 일정 시간 수정
+	public List<CounselVO> counselTimeUpdate();
 }

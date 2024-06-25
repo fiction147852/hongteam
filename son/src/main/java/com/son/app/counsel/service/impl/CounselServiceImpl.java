@@ -54,11 +54,11 @@ public class CounselServiceImpl implements CounselService{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	//상담 시간 조율 
 	@Override
-	public List<CounselVO> counselTime() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<CounselVO> counselTimeUpdate() {
+		return counselMapper.counselTimeUpdate();
 	}
 
 }
