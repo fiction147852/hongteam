@@ -21,55 +21,55 @@ public class TaskController {
 	TaskService taskService;
 	
 	// 전체
-	@GetMapping("taskList")
+	@GetMapping("/instructor/taskList")
 	public String taskList(Model model) {
 		List<TaskVO> list = taskService.taskList();
 		model.addAttribute("taskList", list);
-		return "task/taskList";
+		return "task/instructor/taskList";
 	}
 	
 	// 상세
-	@GetMapping("taskInfo")
+	@GetMapping("/instructor/taskInfo")
 	public String taskInfo(TaskVO taskVO, Model model) {
 		TaskVO findVO = taskService.taskInfo(taskVO);
 		
 		model.addAttribute("taskInfo", findVO);
-		return "task/taskInfo";
+		return "task/instructor/taskInfo";
 	}
 	
 	// 등록 페이지
-	@GetMapping("taskInsert")
+	@GetMapping("/instructor/taskInsert")
 	public String taskInsertForm() {
-		return "task/taskInsert";
+		return "task/instructor/taskInsert";
 		
 	}
 	
 	// 등록 처리페이지
-	@PostMapping("taskInsert")
+	@PostMapping("/instructor/taskInsert")
 	public String taskInsertProcess(TaskVO taskVO) {
 		taskService.insertTask(taskVO);
-		return "redirect:taskList";
+		return "redirect:/instructor/taskList";
 	}
 	
 	// 수정 페이지
-	@GetMapping("taskUpdate")
+	@GetMapping("/instructor/taskUpdate")
 	public String taskUpdateForm(TaskVO taskVO, Model model) {
 		TaskVO findVO = taskService.taskInfo(taskVO);
 		model.addAttribute("taskInfo", findVO);
-		return "task/taskUpdate";
+		return "task/instructor/taskUpdate";
 	}
 	
 	// 수정 처리페이지
-	@PostMapping("taskUpdate")
+	@PostMapping("/instructor/taskUpdate")
 	@ResponseBody
 	public Map<String, Object> taskUpdateJSON(@RequestBody TaskVO taskVO) {
 		return taskService.updateTask(taskVO);
 	}
 	
 	// 삭제
-	@GetMapping("taskDelete")
+	@GetMapping("/instructor/taskDelete")
 	public String taskDelete(Integer taskNo) {
 		taskService.deleteTask(taskNo);
-		return "redirect:taskList";
+		return "redirect:/instructor/taskList";
 	}
 }
