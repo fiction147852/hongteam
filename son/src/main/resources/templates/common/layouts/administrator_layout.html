@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<th:block th:replace="common/configs/default_config :: ConfigFragment"></th:block>
+</head>
+<body>
+	<div th:replace="common/fragments/administrator_nav :: administratorNavFragment"></div>
+	<div class="container-fluid page-body-wrapper" style="padding-top: 88px">
+		<div th:insert="common/fragments/administrator_sidebar :: administratorSidebarFragment"></div>
+		<div class="main-panel">
+            <div class="content-wrapper">
+				<th:block layout:fragment="content"></th:block>
+					<!-- base:js -->
+	<script src="/lms/vendors/js/vendor.bundle.base.js"></script>
+	<!-- endinject -->
+	<!-- Plugin js for this page-->
+	<script src="/lms/vendors/chart.js/Chart.min.js"></script>
+	<!-- End plugin js for this page-->
+	<!-- inject:js -->
+	<script src="/lms/js/off-canvas.js"></script>
+	<script src="/lms/js/hoverable-collapse.js"></script>
+	<script src="/lms/js/template.js"></script>
+	<script src="/lms/js/settings.js"></script>
+	<script src="/lms/js/todolist.js"></script>
+	<!-- endinject -->
+	<!-- Custom js for this page-->
+	<script src="/lms/js/dashboard.js"></script>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
