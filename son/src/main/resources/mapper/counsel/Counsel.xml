@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.son.app.counsel.mapper.CounselMapper">
+	
+	<!-- 상담 일정 전체 조회 -->
+	<select id="counselSelectAll" resultType="CounselVO">
+		SELECT counsel_number
+				, parent_name
+				, student_name
+				, phone
+				, time_code
+				, reservation_date
+				, reservation_code
+		FROM counsel
+	</select>
+	
+	<!-- 상담 일전 단건 조회 -->
+	
+	<!-- 상담 일정 캘린더 표시 -->
+
+	<!-- 상담 일정 시간 조율 -->
+</mapper>
