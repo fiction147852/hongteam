@@ -905,54 +905,6 @@
   <!-- endinject -->
   <!-- Custom js for this page-->
   <script src="js/dashboard.js"></script>
-  <script>
-	document.addEventListener('DOMContentLoaded', function() {
-	    const sidebarItems = document.querySelectorAll('.sidebar .nav-item > .nav-link');
-	    let isProcessing = false;
-	    sidebarItems.forEach(item => {
-	        item.addEventListener('click', function(e) {
-				// 클릭 메뉴 처리중 다른 처리 무시
-	            if (isProcessing) return;
-	            isProcessing = true;
-	            const parent = this.parentElement;
-	            const isActive = parent.classList.contains('active');
-	            // 모든 메뉴 닫기
-	            sidebarItems.forEach(otherItem => {
-	                otherItem.parentElement.classList.remove('active');
-	                const target = document.querySelector(otherItem.getAttribute('data-target'));
-	                if (target) {
-	                    target.classList.remove('show');
-	                }
-	                otherItem.setAttribute('aria-expanded', 'false');
-	               
-	                // 화살표 아이콘 초기화
-	                const otherArrow = otherItem.querySelector('.menu-arrow');
-	                if (otherArrow) {
-	                    otherArrow.style.transform = 'rotate(0deg)';
-	                }
-	            });
-	            // 클릭한 메뉴 열기
-	            // 지연시간 추가
-	            setTimeout(() => {
-	                if (!isActive) {
-	                    parent.classList.add('active');
-	                    const target = document.querySelector(this.getAttribute('data-target'));
-	                    if (target) {
-	                        target.classList.add('show');
-	                    }
-	                    this.setAttribute('aria-expanded', 'true');
-	                    // 화살표 아이콘 변경
-	                    const arrow = this.querySelector('.menu-arrow');
-	                    if (arrow) {
-	                        arrow.style.transform = 'rotate(180deg)';
-	                    }
-	                }
-	                isProcessing = false;
-	            }, 50);
-	        });
-	    });
-	});
-	</script>+
   <!-- End custom js for this page-->
 </body>
 
