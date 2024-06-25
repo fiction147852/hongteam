@@ -1,4 +1,4 @@
-package com.son.app.exam.service.impl;
+package com.son.app.question.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,9 +7,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.son.app.exam.mapper.QuestionMapper;
-import com.son.app.exam.service.QuestionService;
-import com.son.app.exam.service.QuestionVO;
+import com.son.app.question.mapper.QuestionMapper;
+import com.son.app.question.service.QuestionService;
+import com.son.app.question.service.QuestionVO;
 
 @Service
 public class QuestionServiceImpl implements QuestionService{
@@ -21,9 +21,14 @@ public class QuestionServiceImpl implements QuestionService{
 	public List<QuestionVO> questionList() {
 		return questionMapper.selectQuestionAll();
 	}
+	
+	@Override
+	public QuestionVO questionInfo(QuestionVO questionVO) {
+		return questionMapper.selectQuestionInfo(questionVO);
+	}
 
 	@Override
-	public int insertQuesti(QuestionVO questionVO) {
+	public int insertQuestion(QuestionVO questionVO) {
 		int result = questionMapper.insertQuestionInfo(questionVO);
 		
 		return result == 1 ? questionVO.getQuestionNumber() : -1;
@@ -50,5 +55,6 @@ public class QuestionServiceImpl implements QuestionService{
 	public int deleteQuestion(int questionNo) {
 		return questionMapper.deleteQuestionInfo(questionNo);
 	}
+
 	
 }

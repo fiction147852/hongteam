@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 @Data
@@ -14,7 +16,9 @@ public class TaskVO {
 	private String material;	// 자료
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private Date postDate;		// 게시 일자
+	
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@JsonFormat(pattern = "yyyy/MM/dd")
 	private Date submitDeadline;// 제출 기한
 	private int lectureNumber;	// 강의 번호
 }
