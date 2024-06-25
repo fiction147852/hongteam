@@ -19,6 +19,35 @@
             </div>
         </div>
     </div>
+    <!-- 모달 -->
+    <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventModalLabel">미적분</h5>
+                </div>
+                <div class="modal-body">
+                    <table class="table" style="text-align: center">
+                        <thead>
+                            <tr>
+                                <th scope="col">과제</th>
+                                <th scope="col">시험</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="eventAssignment"></td>
+                                <td id="eventExam"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="vendors/js/vendor.bundle.base.js"></script>
     <script src="vendors/chart.js/Chart.min.js"></script>
@@ -27,6 +56,5 @@
     <script src="js/template.js"></script>
     <script src="js/settings.js"></script>
     <script src="js/todolist.js"></script>
-    <script src="js/dashboard.js"></script>
 </body>
 </html>
