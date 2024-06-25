@@ -24,7 +24,10 @@ public interface CounselService {
 	public List<CounselVO> counselCalender();
 
 	//상담 시간 조율 
-	public List<CounselVO> counselTime();
+	public 	List<CounselVO> counselTimeUpdate();
+
+
+
 
 	
 }
