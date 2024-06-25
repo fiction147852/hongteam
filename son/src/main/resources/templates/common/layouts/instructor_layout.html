@@ -1,15 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
-<th:block th:replace="common/configs/default_config :: ConfigFragment"></th:block>
+<th:block th:insert="common/configs/default_config :: ConfigFragment"></th:block>
 </head>
 <body>
-	<div th:replace="common/fragments/default_nav :: instructorNavFragment"></div>
-	<div th:insert="common/fragments/default_header :: instructorSidebarFragment"></div>
-	<main>
-		<th:block layout:fragment="content"></th:block>
-	</main>
+	<th:block
+		th:insert="common/fragments/instructor_nav :: instructorNavFragment"></th:block>
+
+	<div class="container-fluid page-body-wrapper">
+		<th:block th:replace="common/fragments/instructor_sidebar :: instructorSidebarFragment"></th:block>
+		<div class="main-panel">
+			<div class="content-wrapper">
+				<th:block layout:fragment="content">
+
+				</th:block>
+			</div>
+		</div>
+	</div>
+	<!-- base:js -->
+	<script src="vendors/js/vendor.bundle.base.js"></script>
+	<!-- endinject -->
+	<!-- Plugin js for this page-->
+	<script src="vendors/chart.js/Chart.min.js"></script>
+	<!-- End plugin js for this page-->
+	<!-- inject:js -->
+	<script src="js/off-canvas.js"></script>
+	<script src="js/hoverable-collapse.js"></script>
+	<script src="js/template.js"></script>
+	<script src="js/settings.js"></script>
+	<script src="js/todolist.js"></script>
+	<!-- endinject -->
+	<!-- Custom js for this page-->
+	<script src="js/dashboard.js"></script>
 </body>
 </html>
