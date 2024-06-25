@@ -59,12 +59,18 @@ public class TaskController {
 		return "task/instructor/taskUpdate";
 	}
 	
-	// 수정 처리페이지
+//	// 수정 처리페이지
 	@PostMapping("/instructor/taskUpdate")
 	@ResponseBody
 	public Map<String, Object> taskUpdateJSON(@RequestBody TaskVO taskVO) {
 		return taskService.updateTask(taskVO);
 	}
+	
+//	@PostMapping("/instructor/taskUpdate")
+//	@ResponseBody
+//	public Map<String, Object> taskUpdateAJAXQS(TaskVO taskVO) {
+//		return taskService.updateTask(taskVO);
+//	}
 	
 	// 삭제
 	@GetMapping("/instructor/taskDelete")

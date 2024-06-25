@@ -1,4 +1,4 @@
-package com.son.app.exam.service;
+package com.son.app.question.service;
 
 import java.util.List;
 import java.util.Map;
@@ -6,7 +6,9 @@ import java.util.Map;
 public interface QuestionService {
 	public List<QuestionVO> questionList();
 	
-	public int insertQuesti(QuestionVO questionVO);
+	public QuestionVO questionInfo(QuestionVO questionVO);
+	
+	public int insertQuestion(QuestionVO questionVO);
 	
 	public Map<String, Object> updateQuestion(QuestionVO questionVO);
 	

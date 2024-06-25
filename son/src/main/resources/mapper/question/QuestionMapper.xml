@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.son.app.question.mapper.QuestionMapper">
+	<select id="selectQuestionAll" resultType="QuestionVO">
+		SELECT question_number,
+			   question_type_code,
+			   text,
+			   attachment_file,
+			   subject_code,
+			   detail_subject_code,
+			   difficulty_code,
+			   answer,
+			   option1,
+			   option2,
+			   option3,
+			   option4,
+			   instructor_number,
+			   explanation
+		FROM question
+		ORDER BY question_number
+	</select>
+
+
+</mapper>

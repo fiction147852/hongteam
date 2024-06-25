@@ -1,4 +1,4 @@
-package com.son.app.exam.service;
+package com.son.app.question.service;
 
 import lombok.Data;
 
