@@ -66,11 +66,6 @@ public class TaskController {
 		return taskService.updateTask(taskVO);
 	}
 	
-//	@PostMapping("/instructor/taskUpdate")
-//	@ResponseBody
-//	public Map<String, Object> taskUpdateAJAXQS(TaskVO taskVO) {
-//		return taskService.updateTask(taskVO);
-//	}
 	
 	// 삭제
 	@GetMapping("/instructor/taskDelete")

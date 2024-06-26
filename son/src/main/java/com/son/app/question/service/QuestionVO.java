@@ -10,6 +10,8 @@ public class QuestionVO {
 	private String attachmentFile;
 	private String subjectCode;
 	private String detailSubjectCode;
+	private String subjectName;
+	private String detailSubjectName;
 	private String difficultyCode;
 	private String answer;
 	private String option1;
@@ -17,6 +19,7 @@ public class QuestionVO {
 	private String option3;
 	private String option4;
 	private int instructorNumber;
+	private String instructorName;
 	private String explanation;
 	
 }
