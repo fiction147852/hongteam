@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/instructor_layout}"
+	layout:fragment="content">
+<script src="https://cdn.tailwindcss.com"></script>
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+	rel="stylesheet">
+<style>
+body {
+	font-family: 'Roboto', sans-serif;
+}
+</style>
+<head>
+
+<title>문제은행</title>
+
+</head>
+
+<body>
+	<div class="card mx-auto" style="width: 75rem;">
+		<div class="card-body">
+			<div class="card-body bg-gray-100">
+				<h5 class="card-title font-medium mb-2">문제</h5>
+				<p class="card-text" style="white-space: pre-line;">[[
+					${questionInfo.text} ]]</p>
+			</div>
+			<div class="card-footer">
+				<div class="d-flex justify-content">
+					<p class="mr-10">1. [[${questionInfo.option1}]]</p>
+					<p class="mr-10">2. [[${questionInfo.option2}]]</p>
+					<p class="mr-10">3. [[${questionInfo.option3}]]</p>
+					<p>4. [[${questionInfo.option4}]]</p>
+				</div>
+			</div>
+		</div>
+		<div class="card-footer bg-white">
+			<p class="card-title">답안과 해설</p>
+			<p class="card-text">[[${questionInfo.answer}]]</p>
+			<p class="card-text">[[${questionInfo.explanation}]]</p>
+			<button type="button" class="btn btn-secondary float-end" th:onclick="|location.href='@{/instructor/questionList}'|">목록</button>
+		</div>
+	</div>
+</body>
+</html>
+
