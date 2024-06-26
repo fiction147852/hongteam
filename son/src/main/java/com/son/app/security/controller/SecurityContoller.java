@@ -16,6 +16,11 @@ public class SecurityContoller {
 		return "security/join";
 	}
 	
+	@GetMapping("/loginTest")
+	public String loginTest() {
+		return "security/test";
+	}
+	
 //	@PostMapping("/lms/loginProcessing")
 //	public 
 }
