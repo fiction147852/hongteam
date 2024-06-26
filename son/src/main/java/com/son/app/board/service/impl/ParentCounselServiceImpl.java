@@ -14,21 +14,21 @@ import com.son.app.board.service.ParentCounselVO;
 @Service
 public class ParentCounselServiceImpl implements ParentCounselService {
 	@Autowired
-	ParentCounselMapper parentcounselmapper;
+	ParentCounselMapper parentcounselMapper;
 
 	@Override
 	public List<ParentCounselVO> ParentCounselList() {
-		return parentcounselmapper.selectParentCounselAll();
+		return parentcounselMapper.selectParentCounselAll();
 	}
 
 	@Override
 	public ParentCounselVO ParentCounselInfo(ParentCounselVO parentcounselVO) {
-		return parentcounselmapper.selectParentCounselInfo(parentcounselVO);
+		return parentcounselMapper.selectParentCounselInfo(parentcounselVO);
 	}
 
 	@Override
 	public int insertParentCounsel(ParentCounselVO parentcounselVO) {
-		int result = parentcounselmapper.insertParentCounselInfo(parentcounselVO);
+		int result = parentcounselMapper.insertParentCounselInfo(parentcounselVO);
 		
 		return result == 1 ? parentcounselVO.getCounselNumber() : -1;
 	}
@@ -38,7 +38,7 @@ public class ParentCounselServiceImpl implements ParentCounselService {
 		Map<String, Object> map = new HashMap<>();
 		boolean inSuccessed = false;
 		
-		int result = parentcounselmapper.updateParentCounselInfo(parentcounselVO);
+		int result = parentcounselMapper.updateParentCounselInfo(parentcounselVO);
 		
 		if(result == 1) {
 			inSuccessed = true;
@@ -50,8 +50,8 @@ public class ParentCounselServiceImpl implements ParentCounselService {
 	}
 
 	@Override
-	public int deleteParentCounsel(int taskNo) {
-		return parentcounselmapper.deleteParentCounselInfo(taskNo);
+	public int deleteParentCounsel(int counselNumber) {
+		return parentcounselMapper.deleteParentCounselInfo(counselNumber);
 	}
 
 }
