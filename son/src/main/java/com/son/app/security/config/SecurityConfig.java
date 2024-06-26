@@ -1,45 +1,46 @@
 package com.son.app.security.config;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
-	
-	@Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+public class SecurityConfig{
 	
 //	@Autowired
-//	private AuthenticationSuccessHandler authenticationSuccessHandler;
-//	
-//	@Autowired
-//	private AuthenticationFailureHandler authenticationFailureHandler;
+//	private SecurityUserService service;
 	
 	@Bean
-	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests()
-//			.anyRequest().authenticated()
-			.anyRequest().permitAll()
-			.and()
-			.formLogin()
-			.loginPage("/login")
-			.and().csrf().disable();
-//			.loginProcessingUrl("/login")
-//			.loginPage("/login")
-//			.defaultSuccessUrl("/")
-//			.failureUrl("/login");
-		
-		return http.build();
+	public BCryptPasswordEncoder passwordEncoder(){
+		return new BCryptPasswordEncoder();
+	}
+	
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		// 사이트 위변조 요청 방지
+	    http.csrf().disable();
+	    
+	    http.authorizeHttpRequests()
+	    	.antMatchers("/lms/admin/**").hasAnyRole("admin")
+	    	.antMatchers("/lms/student/**").hasAnyRole("student")
+	    	.antMatchers("/lms/parent/**").hasAnyRole("parent")
+	    	.antMatchers("/lms/instructor/**").hasAnyRole("instructor")
+	    	.anyRequest().permitAll();
+	    
+	    http.formLogin()
+	    	.loginPage("/login")
+	    	.loginProcessingUrl("/loginProcess")
+	    	.defaultSuccessUrl("/");
+	    
+	    http.logout()
+	    	.invalidateHttpSession(true);
+	    
+	    return http.build();
 	}
 }
