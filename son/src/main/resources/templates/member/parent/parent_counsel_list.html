@@ -5,52 +5,38 @@
     layout:fragment="Content">
 <head>
 <meta charset="UTF-8">
-<title>학부모 QNA 전체조회</title>
+<title>학부모 상담 전체조회</title>
 </head>
 <body>
-          <div class="row">
-            <div class="col-md-12">
-              <div class="card">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
                 <div class="table-responsive pt-3">
-                  <table class="table table-striped project-orders-table">
-                    <thead>
-                      <tr>
-                        <th class="ml-5">번호</th>
-                        <th>제목</th>
-                        <th>작성자</th>
-                        <th>작성일</th>
-                        <th>답변상태</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>#D1</td>
-                        <td>수업진도가 어떻게 되고있나요</td>
-                        <td>김옥균</td>
-                        <td>2024-06-24</td>
-                        <td>미답변</td>
-                      </tr>
-                      <tr>
-                        <td>#D2</td>
-                        <td>수업진도가 어떻게 되고있나요</td>
-                        <td>김옥균</td>
-                        <td>2024-06-20</td>
-                        <td>답변</td>
-                      </tr>
-                      <tr>
-                        <td>#D3</td>
-                        <td>저희 애 잘하고있나요</td>
-                        <td>김옥균</td>
-                        <td>2024-06-13</td>
-                        <td>답변</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                    <table class="table table-striped project-orders-table">
+                        <thead>
+                            <tr>
+                                <th class="ml-5">번호</th>
+                                <th>제목</th>
+                                <th>작성자</th>
+                                <th>작성일</th>
+                                <th>답변상태</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="counsel : ${ParentCounselList}">
+                                <td th:text="${counsel.counselNumber}">#번호</td>
+                                <td th:text="${counsel.title}">제목</td>
+                                <td th:text="${counsel.parentNumber}">작성자</td>
+                                <td th:text="${#dates.format(counsel.writeDate, 'yyyy-MM-dd')}">작성일</td>
+                                <td th:text="${counsel.responseStatus}">답변상태</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-              </div>
-              			<button type="button" class="btn btn-primary mt-3 float-end"
-				th:onclick="|location.href='@{counselList}'|">작성</button>
             </div>
-          </div>
+            <button type="button" class="btn btn-primary mt-3 float-end"
+                th:onclick="|location.href='@{counselInsert}'|">작성</button>
+        </div>
+    </div>
 </body>
 </html>

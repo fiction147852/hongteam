@@ -70,6 +70,5 @@ public class QuestionController {
 	public String questiongDelete(Integer questionNo) {
 		questionService.deleteQuestion(questionNo);
 		return "redirect:/instructor/questionList";
-		
-	}
+		}
 }
