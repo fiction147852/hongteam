@@ -13,10 +13,11 @@ body {
 }
 
 .card-text {
-   width: 25rem;
-   text-overflow: ellipsis;
-   overflow: hidden;
-   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 </style>
 <head>
@@ -118,19 +119,19 @@ function confirmDelete(button) {
         icon: "warning",
         showCancelButton: true,
         confirmButtonText: "네, 삭제합니다!",
-        cancelButtonText: "아니요, 취소합니다!",
-        reverseButtons: true
+        cancelButtonText: "아니요, 취소합니다!"
     }).then((result) => {
         if (result.isConfirmed) {
             // 삭제 작업 수행
             const questionNo = button.getAttribute('data-question-no');
-            location.href = `/instructor/questionDelete?questionNo=${questionNo}`;
+            location.href = `/lms/instructor/questionDelete?questionNo=${questionNo}`;
             
-            swalWithBootstrapButtons.fire({
+/*              swalWithBootstrapButtons.fire({
                 title: "삭제되었습니다!",
                 text: "파일이 삭제되었습니다.",
-                icon: "success"
-            });
+                icon: "success",
+                showConfirmButton: false,
+            }) */
         } else if (result.dismiss === Swal.DismissReason.cancel) {
             swalWithBootstrapButtons.fire({
                 title: "취소되었습니다",
