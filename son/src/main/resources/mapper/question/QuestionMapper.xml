@@ -2,13 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.son.app.question.mapper.QuestionMapper">
 	<select id="selectQuestionAll" resultType="QuestionVO">
+		SELECT q.question_number,
+		       q.question_type_code,
+		       q.text,
+		       q.attachment_file,
+		       subject_name(q.subject_code) AS subject_name,
+		       detail_subject_name(q.detail_subject_code) AS detail_subject_name,
+		       q.difficulty_code,
+		       q.answer,
+		       q.option1,
+		       q.option2,
+		       q.option3,
+		       q.option4,
+		       q.instructor_number,
+		       i.name AS instructor_name,
+		       q.explanation
+		FROM question q
+		JOIN instructor i ON q.instructor_number = i.instructor_number
+		ORDER BY q.question_number
+	</select>
+	
+	<select id="selectQuestionInfo" resultType="QuestionVO">
 		SELECT question_number,
 			   question_type_code,
 			   text,
 			   attachment_file,
-			   subject_code,
-			   detail_subject_code,
-			   difficulty_code,
+			   subject_name(subject_code) AS subject_name,
+			   detail_subject_name(detail_subject_code) AS detail_subject_name,
 			   answer,
 			   option1,
 			   option2,
@@ -17,8 +37,71 @@
 			   instructor_number,
 			   explanation
 		FROM question
-		ORDER BY question_number
+		WHERE question_number = #{questionNumber}
 	</select>
-
+	
+	<insert id="insertQuestionInfo" parameterType="QuestionVO">
+		<selectKey keyProperty="questionNumber" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(question_number), 0) + 1 FROM question
+		</selectKey>
+		INSERT INTO question
+				(
+					question_number,
+					question_type_code,
+					text,
+					attachment_file,
+					subject_code,
+					detail_subject_code,
+					difficulty_code,
+					answer,
+					option1,
+					option2,
+					option3,
+					option4,
+					instructor_number,
+					explanation
+				)
+			VALUES
+				(
+					#{questionNumber},
+					#{questionTypeCode},
+					#{text},
+					#{attachmentFile},
+					#{subjectCode},
+					#{detailSubjectCode},
+					#{difficultyCode},
+					#{answer},
+					#{option1},
+					#{option2},
+					#{option3},
+					#{option4},
+					#{instructorNumber},
+					#{explanation}
+				)
+	
+	</insert>
+	
+	<update id="updateQuestionInfo">
+		UPDATE question
+		SET
+			question_type_code = #{questionTypeCode},
+			text = #{text},
+			attachment_file = #{attachmentFile},
+			subject_code = #{subjectCode},
+			detail_subject_code = #{detailSubjectCode},
+			difficulty_code = #{difficultyCode},
+			answer = #{answer},
+			option1 = #{option1},
+			option2 = #{option2},
+			option3 = #{option3},
+			option4 = #{option4},
+			explanation = #{explanation}
+		WHERE question_number = #{questionNumber}
+	</update>
+	
+	<delete id="deleteQuestionInfo" parameterType="int">
+		DELETE FROM question
+		WHERE question_number = #{questionNumber}
+	</delete>
 
 </mapper>
