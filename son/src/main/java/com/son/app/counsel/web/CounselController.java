@@ -7,8 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.son.app.counsel.service.CounselPossibilityVO;
+import com.son.app.counsel.service.AdmissionCounselPossibilityVO;
 import com.son.app.counsel.service.CounselService;
 import com.son.app.counsel.service.CounselVO;
 
@@ -33,28 +35,31 @@ public class CounselController {
 		return "counsel/counselList";
 	}
 
-	// 상담 스케쥴 보기
-	@GetMapping("admin/counselCalender")
+	// 상담 스케쥴 전체 보기 - 캘린더, 시간
+	@GetMapping("admin/counselCalendar")
 	public String counselCalinder(Model model) {
-		List<CounselVO> list = counselService.counselCalender();
-		model.addAttribute("counselCalender", list);
+		List<CounselVO> counList = counselService.counselCalendar();
+		model.addAttribute("counselCalendar", counList);
 
-		return "counsel/counselCalender";
-
-	}
-	// 수정 - 상담 시간 조율 기능
-	@PostMapping("admin/counselCalender")
-	public String counselTime(String weekdaysCode, Model model) {
-		CounselPossibilityVO counselPos = new CounselPossibilityVO();
-		counselPos.setWeekdaysCode(weekdaysCode);
+		List<AdmissionCounselPossibilityVO> counTimeList = counselService.counselTimeList();
+		model.addAttribute("counselTime", counTimeList);
 		
-		List<CounselVO> list = counselService.counselTimeUpdate();
-		model.addAttribute("counselTimeUpdate", list);
-
-		return "counsel/counselCalender";
+		return "counsel/counselCalendar";
 
 	}
+	
+	// 처리 - 상담 시간 조율 
+	@ResponseBody
+	@PostMapping("admin/counselDayTime")
+	public int counselTime(@RequestBody List<AdmissionCounselPossibilityVO> admissionCounselPossibilityList , Model model) {
+		int counTimeList = counselService.counselTimeUpdate(admissionCounselPossibilityList);
 
+		return counTimeList;
+	}
+
+	
+	
+	
 	// 상담 단건 조회
 	@GetMapping("admin/counselInfo")
 	public String counselInsertForm(Model model, CounselVO counselVO) {

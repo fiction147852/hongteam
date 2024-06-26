@@ -61,10 +61,20 @@ body {
 	max-width: 80%;
 }
 
+.table-responsive {
+	margin-left: 10%;
+}
+
 .schedule-settings {
 	flex: 1;
 	padding-left: 20px;
 	max-width: 80%;
+	text-align: center;
+}
+
+.day-time-setting {
+	width: 500px;
+	display: flex;
 }
 
 .form-select {
@@ -81,59 +91,132 @@ body {
 				<div class="table-responsive pt-3">
 					<div class="schedule-settings">
 						<h2>상담 시간 조정</h2>
-						<form id="time-settings">
-							<div id="day-time-settings-container"></div>
-							<button type="submit" class="btn btn-primary">저장</button>
-						</form>
+						<div id="counselDayTime"></div>
+						<button type="button" id="timeBtn" class="btn btn-primary">저장</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<!-- content-wrapper ends -->
+	<script th:inline="javascript">
+	
+	
+	
 
 
-
-	<script>
+	
+	
         const days = ['월요일', '화요일', '수요일', '목요일', '금요일'];
-        const container = document.getElementById('day-time-settings-container');
+        const container = document.getElementById('counselDayTime');
 
-        days.forEach(day => {
-            const dayTimeSetting = document.createElement('div');
-            dayTimeSetting.className = 'day-time-setting';
-            dayTimeSetting.innerHTML = `
-                <label for="${day}-start">${day}:</label>
-                <select id="${day}-start" name="counselTime" class="form-select" aria-label="${day}요일 시작 시간">
-                    <option selected>상담 시작</option>
-                    <option value="11">11:00</option>
-                    <option value="12">12:00</option>
-                    <option value="13">13:00</option>
-                    <option value="14">14:00</option>
-                    <option value="15">15:00</option>
-                    <option value="16">16:00</option>
-                    <option value="17">17:00</option>
-                    <option value="18">18:00</option>
-                    <option value="19">19:00</option>
-                    <option value="20">20:00</option>
-                </select>
-                <p style="margin: 0 10px;">~</p>
-                <select id="${day}-end" class="form-select" aria-label="${day}요일 마감 시간">
-                    <option selected>상담 마감</option>
-                    <option value="11">11:00</option>
-                    <option value="12">12:00</option>
-                    <option value="13">13:00</option>
-                    <option value="14">14:00</option>
-                    <option value="15">15:00</option>
-                    <option value="16">16:00</option>
-                    <option value="17">17:00</option>
-                    <option value="18">18:00</option>
-                    <option value="19">19:00</option>
-                    <option value="20">20:00</option>
-                </select>
-            `;
-            container.appendChild(dayTimeSetting);
+        const data = [[${counselTime}]]
+        
+        $(document).ready(function() {
+        	updateTimeSetting();
         });
+        
+		function updateTimeSetting(){
+			 
+        	days.forEach((day, idx) => {
+	        	let times = data[idx].timeCode.split(',');
+		        	
+		        	
+	            const dayTimeSetting = document.createElement('div');
+	            dayTimeSetting.className = 'day-time-setting';
+	        	let opt = `
+                <label for="start${idx}">${day}:</label>    
+                
+                <select id="start${idx}" name="counselTime" class="form-select" aria-label="${day} 시작 시간">
+                   <option selected>상담 시작</option>`
+                for(i=9; i<=22; i++){
+ 					opt += `<option value="${i}" ${ times[0]==i ? 'selected' : ''  }>${i}:00</option>`
+                }  
+	                   
+                opt += `</select>
+                <p style="margin: 0 10px;">~</p>
+                
+                <select id="end${idx}" class="form-select" aria-label="${day} 마감 시간">
+                <option selected>상담 마감</option>`
+               
+                for(i=9; i<=22; i++){
+     				opt += `<option value="${i}"  ${ times[1] == i ? 'selected' : ''  } >${i}:00</option>`
+                }  
+          		opt += `</select>`;
+          		
+	            dayTimeSetting.innerHTML = opt;
+	            container.appendChild(dayTimeSetting);
+	        });
+		} 
+		
+		
+		
+		const tBtn = document.getElementById('timeBtn');
+		tBtn.addEventListener('click', ()=>{
+			let param =[];
+			days.forEach((day, i) => {
+				let startTime = document.getElementById(`start${i}`).value
+				let endTime = document.getElementById(`end${i}`).value
+				param.push(  {weekdaysCode: day, timeCode: startTime +"," + endTime} );
+			})
+			console.log(param.Timecode);
+			
+			  $.ajax({
+			        type: 'post',
+			        url: 'counselDayTime', // 데이터를 주고받을 파일 주소 입력
+			        data: JSON.stringify(param),
+			        contentType: 'application/json; charset=utf-8',
+			        dataType: 'json', // JSON 형식으로 받기
+			        success: function(result){
+			            console.log('서버 응답:', result);
+			        },
+			        error: function(){  
+			            console.error('서버 요청 실패');
+			        }
+			    });
+			
+		})
+		
+		
+		
+		
+		
+		
+		
+// 		            eventClick: function (arg) {
+//                     Swal.fire({
+//                         text: "해당 일정을 삭제하실건가요?",
+//                         icon: "warning",
+//                         showCancelButton: true,
+//                         buttonsStyling: false,
+//                         confirmButtonText: "네, 삭제하겠습니다.",
+//                         cancelButtonText: "아니요, 그냥 둘래요",
+//                         customClass: {
+//                             confirmButton: "btn btn-primary m-2",
+//                             cancelButton: "btn btn-danger"
+//                         }
+//                     }).then(function (result) {
+//                         if (result.value) {
+//                             arg.event.remove()
+//                         } else if (result.dismiss === "cancel") {
+//                             Swal.fire({
+//                                 text: "일정이 삭제 되지 않았습니다.",
+//                                 icon: "error",
+//                                 buttonsStyling: false,
+//                                 confirmButtonText: "네, 알겠어요.",
+//                                 customClass: {
+//                                     confirmButton: "btn btn-primary",
+//                                 }
+//                             });
+//                         }
+//                     });
+//                 }
+
+            
+
+
+		
+		
     </script>
 
 	<!-- 달력복사한거 -->
@@ -173,18 +256,27 @@ body {
 		            }
 		        },
 		        customButtons: {
-		        	myCustomButton: {
+		        	myCustomButton1: {
 		        		text:"일정추가", 
 		        		click: function() {
 		        			addNewEvent();
 		        		}
-		        	}
-		        },	
+		        	},
+		        	myCustomButton2: {
+		        		text:"학원 시간 관리", 
+		        		click: function() {
+		        			timeSetting();
+		        		}
+	        	}
+		        
+		        },
+	
+
 		        timeZone: 'Asia/Seoul', 
 		        locale: 'kr',        // 언어 설정
 		        dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
 				headerToolbar : {
-					left : 'prevYear,prev,next,nextYear today,myCustomButton',
+					left : 'prevYear,prev,next,nextYear today,myCustomButton1,myCustomButton2',
 					center : 'title',
 					right: 'dayGridMonth,timeGridWeek,timeGridDay'
 				},
@@ -367,6 +459,9 @@ body {
                 ]
             });
 			
+			
+			
+			
 			function addNewEvent() {
 			    Swal.fire({
 			        html: `
@@ -377,6 +472,66 @@ body {
 			        <input type='date' class='form-control mb-5' name='start_date' />
 			        <div class='fw-bold mb-5'>시작 시간:</div>
 			        <input type='time' class='form-control mb-5' name='start_time' />
+			        `,
+			        icon: "info",
+			        showCancelButton: true,
+			        buttonsStyling: false,
+			        confirmButtonText: "네, 만들게요!",
+			        cancelButtonText: "아니요, 취소할게요.",
+			        customClass: {
+			            confirmButton: "btn btn-primary m-2",
+			            cancelButton: "btn btn-danger"
+			        }
+			    }).then(function (result) {
+			        if (result.value) {
+			            var title = document.querySelector("input[name='event_name']").value;
+// 			            var allDay = document.querySelector("input[name='allDayEvent']").checked;
+			            var startDate = document.querySelector("input[name='start_date']").value;
+			            var startTime = document.querySelector("input[name='start_time']").value;
+// 			            var endDate = document.querySelector("input[name='end_date']").value;
+// 			            var endTime = document.querySelector("input[name='end_time']").value;
+
+			            if (title) {
+			                var newEvent = {
+			                    title: title,
+			                    allDay: allDay
+			                };
+							// 전체 일정 설정 시 종료일 + 1
+			                if (allDay) {
+			                    newEvent.start = startDate;
+			                    var end = new Date(endDate);
+			                    end.setDate(end.getDate() + 1);
+			                    newEvent.end = end.toISOString().split('T')[0];
+			                } else {
+			                	
+			                    newEvent.start = startDate + 'T' + startTime;
+			                    newEvent.end = endDate + 'T' + endTime;
+			                }
+
+			                calendar.addEvent(newEvent);
+			            }
+			        } else if (result.dismiss === "cancel") {
+			            Swal.fire({
+			                text: "일정 생성이 취소되었습니다!",
+			                icon: "error",
+			                buttonsStyling: false,
+			                confirmButtonText: "네, 알겠어요.",
+			                customClass: {
+			                    confirmButton: "btn btn-primary",
+			                }
+			            });
+			        }
+			    });
+			}
+
+			calendar.render();
+			
+
+			function timeSetting() {
+			    Swal.fire({
+			        html: `
+			       
+			        
 			        `,
 			        icon: "info",
 			        showCancelButton: true,

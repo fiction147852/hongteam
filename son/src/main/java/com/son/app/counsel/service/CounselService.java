@@ -21,10 +21,13 @@ public interface CounselService {
 	public int counselDelete(int counselNo);
 
 	//상담 달력 조회 
-	public List<CounselVO> counselCalender();
+	public List<CounselVO> counselCalendar();
 
-	//상담 시간 조율 
-	public 	List<CounselVO> counselTimeUpdate();
+	// 페이지 - 상담 시간 메뉴 
+	public List<AdmissionCounselPossibilityVO> counselTimeList();
+	
+	// 처리 - 상담 시간 조율 
+	public 	int counselTimeUpdate(List<AdmissionCounselPossibilityVO> admissionCounselPossibilityList);
 
 
 
