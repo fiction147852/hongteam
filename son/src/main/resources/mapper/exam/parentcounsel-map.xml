@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.son.app.counsel.mapper.ParentCounselMapper">
+
+    <!-- 학부모의 QNA 게시판 전체조회 -->
+	<select id="selectParentCounselAll" resultType="ParentCounselVO">
+		SELECT task_number,
+			   title,
+			   description,
+			   material,
+			   post_date,
+			   submit_deadline,
+			   lecture_number
+		FROM task
+		ORDER BY task_number
+	</select>
+	
+	<select id="selectParentCounselInfo" resultType="ParentCounselVO">
+		SELECT task_number,
+			   title,
+			   description,
+			   material,
+			   post_date,
+			   submit_deadline,
+			   lecture_number
+		FROM task
+		WHERE task_number = #{taskNumber}
+	</select>
+	
+	<insert id="insertParentCounselInfo" parameterType="ParentCounselVO">
+		<selectKey keyProperty="counselNumber" resultType="int" order="BEFORE">
+        	SELECT NVL(MAX(counsel_number), 0) + 1 FROM task
+    	</selectKey>
+		INSERT INTO task
+				(
+					task_number,
+					title,
+					description,
+					material,
+					post_date,
+					submit_deadline,
+					lecture_number
+				)
+			VALUES
+				(
+					#{taskNumber},
+					#{title},
+					#{description},
+					#{material},
+					sysdate,
+					#{submitDeadline},
+					#{lectureNumber}
+				)
+				
+	</insert>
+	
+
+	<update id="updateParentCounselInfo">
+		UPDATE task
+		SET
+			title = #{title}
+		  , description = #{description}
+		  , submit_deadline = #{submitDeadline}
+		  , material = #{material}
+		  , lecture_number = #{lectureNumber}
+		WHERE task_number = #{taskNumber}
+	</update>
+	
+	<delete id="deleteParentCounselInfo" parameterType="int">
+		DELETE FROM task
+		WHERE task_number = #{taskNumber}
+	</delete>
+</mapper>
