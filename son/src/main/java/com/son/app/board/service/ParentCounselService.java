@@ -13,5 +13,5 @@ public interface ParentCounselService {
 	
 	public Map<String, Object> updateParentCounsel(ParentCounselVO parentcounselVO);
 	
-	public int deleteParentCounsel (int taskNo);
+	public int deleteParentCounsel (int counselNumber);
 }
