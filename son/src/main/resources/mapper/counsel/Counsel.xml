@@ -27,16 +27,38 @@
 		WHERE counsel_number = #{counselNumber}
 	</select>
 		
-	<!-- 상담 일정 시간 설정 -->
-	<select id="counselTimeUpdate" resultType="CounselVO">
-		UPDATE counsel_possibility
-			SET
-				impossibility_number = #{impossibilityNumber}
-				time_code = #{timeCode}
-		WHERE weekdays_code = #{weekdaysCode}
+	<!-- 주간 시간 조회 -->
+	<select id="counselWeekTimeSelectAll" resultType="AdmissioncounselPossibilityVO">
+		SELECT weekdays_code
+				, time_code
+		FROM admission_counsel_possibility
 	</select>
 		
-	<!-- 상담 일정 캘린더 표시 -->
+	<!-- 주간 시간 설정 -->
+	<update id="counselWeekTimeUpdate" parameterType="AdmissioncounselPossibilityVO">
+			UPDATE admission_counsel_possibility
+			SET
+				time_code = #{timeCode}
+			WHERE weekdays_code = #{weekdaysCode}
+	</update>
+		
+		
+	<!-- 일간 상담 조회 ====================== -->
+	<select id="counselDayTimeSelectAll" resultType="AdmissioncounselPossibilityVO">
+		SELECT weekdays_code
+				, time_code
+		FROM counsel_impossibility
+	</select>
+
+	<!--  일간 상담 설정 -->
+	<update id="counselDayTimeUpdate" parameterType="AdmissioncounselPossibilityVO">
+			UPDATE counsel_impossibility
+			SET
+				time_code = #{timeCode}
+			WHERE weekdays_code = #{weekdaysCode}
+	</update>
+
+
 
 	<!-- 상담 일정 신청 -->
 		<select id="counselInsert" resultType="CounselVO">
