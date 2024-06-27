@@ -47,6 +47,7 @@
 	<select id="counselDayTimeSelectAll" resultType="AdmissioncounselPossibilityVO">
 		SELECT weekdays_code
 				, time_code
+				, possible
 		FROM counsel_impossibility
 	</select>
 
@@ -55,6 +56,7 @@
 			UPDATE counsel_impossibility
 			SET
 				time_code = #{timeCode}
+				, possible = #{possible}
 			WHERE weekdays_code = #{weekdaysCode}
 	</update>
 

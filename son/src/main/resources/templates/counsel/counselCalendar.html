@@ -227,30 +227,18 @@ body {
 	    dayContainer.appendChild(table);
 	} 
 	
-	// function impossible()  {
-	// 	  const timeCheck = document.getElementById('time${i}');
-		  
-	// 	  timeCheck.value = "불가능";
-	// 	}
-	
-	// `time${i}`.addEventListener('click', function(){
-	// 	impossible();
-	// })
-	
 	
 	const weekBtn = document.getElementById('weekBtn');
 	weekBtn.addEventListener('click', ()=>{
 		let param =[];
-		days.forEach((day, i) => {
-			let startTime = document.getElementById(`start${i}`).value
-			let endTime = document.getElementById(`end${i}`).value
-			param.push({weekdaysCode: day, timeCode: startTime +"," + endTime});
+		times.forEach((time, i) => {
+			let startWeekTime = document.getElementById(`wStart${i}`).value
 		});
 		console.log(param.Timecode);
 			
 		$.ajax({
 			type: 'post',
-			url: 'counselWeekTime', // 데이터를 주고받을 파일 주소 입력
+			url: 'counselDayTime', // 데이터를 주고받을 파일 주소 입력
 			data: JSON.stringify(param),
 			contentType: 'application/json; charset=utf-8',
 			dataType: 'json', // JSON 형식으로 받기
@@ -270,12 +258,11 @@ body {
 	const days = ['월요일', '화요일', '수요일', '목요일', '금요일'];
 	const container = document.getElementById('counselWeekTime');
 
-	const data = [[${counselTime}]];
+	const data = /*[[${counselTime}]]*/"";
         
 	document.addEventListener('DOMContentLoaded', function() {
 		updateTimeSetting();
 	    console.log('test clg')
-
 	});
         
 	function updateTimeSetting(){
