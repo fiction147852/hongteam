@@ -1,5 +1,6 @@
 package com.son.app.member.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,18 @@ public class ParentController {
 	@Autowired
 	ParentService parentService;
 	
-    @GetMapping("parent")
+	@GetMapping("parent")
+    public String getParentDashboard(Model model, Principal principal) {
+		String email = principal.getName();
+		int parentNumber = parentService.getParentNumberByEmail(email);
+
+		List<StudentVO> studentList = parentService.getStudentsByParentNumber(parentNumber);
+		model.addAttribute("studentList", studentList);
+		return "common/fragments/parent_sidebar";
+	}
+    
+
+    @GetMapping("parent/{studentNumber}")
     public String getParent(Model model) {
 		List<StudentVO> list = parentService.ParentInfoList();
 		model.addAttribute("parent", list);
