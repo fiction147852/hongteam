@@ -1,6 +1,7 @@
 package com.son.app.attendance.controller;
 
 import com.son.app.attendance.service.StudentAttendanceService;
+import com.son.app.attendance.service.StudentLectureInfoVO;
 import com.son.app.attendance.service.StudentScheduleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,11 @@ public class StudentAttendanceController {
 
     // 일정 화면 출력
     @GetMapping("student")
-    public String attendancePage() {
+    public String attendancePage(Model model) {
+        int studentNumber = 1;
+        List<StudentLectureInfoVO> studentLectureInfoVOS = studentAttendanceService.lectureList(studentNumber);
+
+        model.addAttribute("lectureList", studentLectureInfoVOS);
 
         return "attendance/student/attendance";
     }
@@ -31,6 +36,9 @@ public class StudentAttendanceController {
 
         return studentScheduleVOList;
     }
+
+
+
 
 
 }

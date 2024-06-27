@@ -2,6 +2,7 @@ package com.son.app.attendance.service.impl;
 
 import com.son.app.attendance.mapper.StudentAttendanceMapper;
 import com.son.app.attendance.service.StudentAttendanceService;
+import com.son.app.attendance.service.StudentLectureInfoVO;
 import com.son.app.attendance.service.StudentScheduleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,5 +18,10 @@ public class StudentAttendanceServiceImpl implements StudentAttendanceService {
     @Override
     public List<StudentScheduleVO> scheduleList(int studentNumber) {
         return studentAttendanceMapper.scheduleList(studentNumber);
+    }
+
+    @Override
+    public List<StudentLectureInfoVO> lectureList(int studentNumber) {
+        return studentAttendanceMapper.lectureList(studentNumber);
     }
 }

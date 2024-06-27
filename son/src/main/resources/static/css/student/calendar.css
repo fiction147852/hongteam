@@ -41,14 +41,6 @@
     background-color: #FFFFFF;
 }
 
-.fc-event-main {
-    background-color: #2C3D4F;
-}
-
-.fc-event-main div div {
-    color: white;
-}
-
 .fc-timegrid-event {
     height: 100% !important;
     margin: 0 !important;
@@ -61,11 +53,22 @@
     height: 300px;
 }
 
+.fc-h-event {
+    border: none;
+    background-color: transparent; /* 배경색 투명하게 설정 */
+}
+
 .fc-event div {
     font-size: 14px;
-    font-weight: 800;
+    font-weight: 600;
     color: #132743;
 }
+
+.fc-daygrid-day-top:hover {
+    text-decoration-line: none;
+    color: #0ba1b5;
+}
+
 
 /* 모달 */
 .modal-content {

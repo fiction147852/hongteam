@@ -5,4 +5,6 @@ import java.util.List;
 public interface StudentAttendanceService {
 
     public List<StudentScheduleVO> scheduleList(int studentNumber);
+    public List<StudentLectureInfoVO> lectureList(int studentNumber);
+
 }
