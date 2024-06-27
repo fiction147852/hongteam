@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.son.app.attendance.mapper.StudentAttendanceMapper">
+    <!-- 캘린더 조회 -->
     <select id="scheduleList" resultType="StudentScheduleVO">
         SELECT
             'task' as type
@@ -19,4 +20,29 @@
                       ON registration.lecture_number = test.lecture_number
         WHERE student_number = #{studentNumber}
     </select>
+
+    <!-- 강의 조회 -->
+    <select id="lectureList" resultType="StudentLectureInfoVO" parameterType="int">
+        SELECT
+            registration.lecture_number
+             , subject_name(lecture.subject_code) as subject_name
+             , detail_subject_name(detail_subject_code) as detail_subject_name
+             , lecture_level_code as lecture_level
+             , weekdays_code as weekday
+             , time_code as time
+             , lecture_start_date as begin
+             , lecture_end_date as finish
+             , instructor.name
+        FROM registration
+        JOIN lecture
+            ON lecture.lecture_number = registration.lecture_number
+        JOIN instructor
+            ON instructor.instructor_number = lecture.instructor_number
+        WHERE student_number = #{studentNumber}
+    </select>
+
+    <!-- 과제 및 시험 상세 보기 -->
+
+
+
 </mapper>

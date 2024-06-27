@@ -3,11 +3,33 @@
       layout:decorate="~{common/layouts/student_layout}">
 <head>
     <link rel="stylesheet" th:href="@{/css/student/calendar.css}"/>
-    <script src="js/calendar.js"></script>
+    <link rel="stylesheet" th:href="@{/css/student/lectureInfo.css}"/>
+
+    <script src="js/attendance/calendar.js"></script>
+    <script src="js/attendance/lectureInfo.js"></script>
+
 </head>
 <body>
-
     <div layout:fragment="content">
+        <div class="swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" th:each="lecture : ${lectureList}">
+                    <div class="slide-content">
+                        <h4 class="subject-title">[[${lecture.detailSubjectName}]]（[[${lecture.lectureLevel}]]）</h4>
+                        <div class="subject-info">
+                            <div class="info-item"><i class="fas fa-book"></i>[[${lecture.subjectName}]] </div>
+                            <div class="info-item"><i class="fas fa-user"></i> [[${lecture.name}]] 교수</div>
+                            <div class="info-item"><i class="fas fa-calendar-alt"></i>[[${lecture.weekday}]] [[${#strings.arraySplit(lecture.time, ',')[0]}]] : 00 ~ [[${#strings.arraySplit(lecture.time, ',')[1]}]] : 00</div>
+                            <div class="info-item"><i class="fas fa-clock"></i> [[${#dates.format(lecture.begin, 'yyyy-MM-dd')}]] ~ [[${#dates.format(lecture.finish, 'yyyy-MM-dd')}]]</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
 
         <div id="calendar">
         </div>
@@ -15,3 +37,6 @@
 
 </body>
 </html>
+
+
+
