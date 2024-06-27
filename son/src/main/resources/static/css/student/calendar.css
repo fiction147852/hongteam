@@ -61,6 +61,11 @@
     height: 300px;
 }
 
+.fc-event div {
+    font-size: 14px;
+    font-weight: 800;
+    color: #132743;
+}
 
 /* 모달 */
 .modal-content {

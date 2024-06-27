@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.son.app.counsel.mapper.CounselMapper;
+import com.son.app.counsel.service.CounselImpossibility;
 import com.son.app.counsel.service.AdmissionCounselPossibilityVO;
 import com.son.app.counsel.service.CounselService;
 import com.son.app.counsel.service.CounselVO;
@@ -56,23 +57,39 @@ public class CounselServiceImpl implements CounselService{
 		return null;
 	}
 	
-	//상담 시간 전체 조회
+	//주간 상담 시간 전체 조회
 	@Override
-	public List<AdmissionCounselPossibilityVO> counselTimeList() {
-		return counselMapper.counselTimeSelectAll();
+	public List<AdmissionCounselPossibilityVO> counselWeekTimeList() {
+		return counselMapper.counselWeekTimeSelectAll();
 	}
 	
-	//상담 시간 조율 
+	//주간 시간 조율 
 	@Override
-	public int counselTimeUpdate(
-							List<AdmissionCounselPossibilityVO> admissionCounselPossibilityList) {
+	public int counselWeekTimeUpdate(List<AdmissionCounselPossibilityVO> 
+											admissionCounselPossibilityList) {
 		int time = 0;
 		
 		for(int i=0; i<admissionCounselPossibilityList.size(); i++) {
-			int result = counselMapper.counselTimeUpdate(admissionCounselPossibilityList.get(i));
+			int result = counselMapper.counselWeekTimeUpdate(admissionCounselPossibilityList.get(i));
 			time = result + time;
 		}
 		return time;
+	}
+
+	
+	
+	//일간 상담 시간 조율 조회
+	@Override
+	public List<CounselImpossibility> counselDayTimeList() {
+		return counselMapper.counselDayTimeSelectAll();
+	}
+
+	//일간 상담 시간 조율 
+	@Override
+	public int counselDayTimeUpdate(List<CounselImpossibility> 
+											admissionCounselPossibilityList) {
+	
+		return 0;
 	}
 
 

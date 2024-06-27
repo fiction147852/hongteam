@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // 언어 및 시간에 대한 설정
         timeZone: 'Asia/Seoul',
-        locale: 'kr',
 
         // 하루에 표시할 수 있는 최대 이벤트 수를 설정. 특정 숫자로 설정하면 그 숫자만큼의 이벤트만 한 번에 표시하고, 추가 이벤트는 "+n more" 링크로 표시된다.
         dayMaxEvents: true,
@@ -44,62 +43,11 @@ document.addEventListener('DOMContentLoaded', function () {
         },
 
         // 이벤트 객체를 포함하는 배열이며, 각 이벤트 객체는 일정(이벤트)을 나타낸다.
-        events: [
-            {
-                // 이벤트 객체의 정보
-                title: '미적분',
-                start: '2024-06-24T19:00:00',
-                end: '2024-06-24T20:00:00',
+        events: [],
 
-                // 이벤트 객체의 색상
-                backgroundColor: '#F4F5FA',
-                borderColor: '#F4F5FA',
-                textColor: '#000000',
-
-                // FullCalendar 의 이벤트 객체에 추가적인 사용자 정의 속성을 저장하기 위해 사용된다.
-                extendedProps: {
-                    startTime: '오후 7시'
-                }
-            },
-            {
-                // 이벤트 객체의 정보
-                title: '확률과 통계',
-                start: '2024-06-24T20:00:00',
-                end: '2024-06-24T21:00:00',
-
-                // 이벤트 객체의 색상
-                backgroundColor: '#F4F5FA',
-                borderColor: '#F4F5FA',
-                textColor: '#000000',
-
-                // FullCalendar 의 이벤트 객체에 추가적인 사용자 정의 속성을 저장하기 위해 사용된다.
-                extendedProps: {
-                    startTime: '오후 9시'
-                }
-            },
-            {
-                // 이벤트 객체의 정보
-                title: '미적분',
-                start: '2024-06-30T19:00:00',
-                end: '2024-06-30T20:00:00',
-
-                // 이벤트 객체의 색상
-                backgroundColor: '#F4F5FA',
-                borderColor: '#F4F5FA',
-                textColor: '#000000',
-
-                // FullCalendar 의 이벤트 객체에 추가적인 사용자 정의 속성을 저장하기 위해 사용된다.
-                extendedProps: {
-                    startTime: '오후 7시'
-                }
-            }
-        ],
-
-        // 이벤트(일정)의 콘텐츠를 커스터마이징하는 데 사용된다. 이벤트의 콘텐츠를 구성하는 DOM 요소를 반환한다.
+        // 이벤트(일정)의 콘텐츠를 커스터마이징하는 데 사용된다. 이벤트의 콘텐츠를 구성하는 DOM 요소를 반환한다. (이벤트가 렌더링될 때 호출된다.)
         eventContent: function(scheduleWithMetadata) {
             // 해당 이벤트 객체와 그와 관련된 추가 정보를 포함하는 객체를 매개변수로 전달받는다.
-
-            console.log(scheduleWithMetadata);
             const schedule = scheduleWithMetadata.event;
 
             const container = document.createElement('div');
@@ -107,42 +55,73 @@ document.addEventListener('DOMContentLoaded', function () {
             container.style.justifyContent = 'space-between';
             container.style.alignItems = 'center';
             container.style.width = "100%";
-            container.style.padding = "0 12px";
+            container.style.padding = "3px 12px";
+
+            switch(schedule.extendedProps.type) {
+                case "test" :
+                    container.style.backgroundColor = "#342649"
+                    break;
+                case "task" :
+                    container.style.backgroundColor = "#2C3D4F";
+                    break;
+                default :
+                    container.style.backgroundColor = "#0D3E2A";
+            }
 
             const title = document.createElement('div');
-            title.innerHTML = ` ` + schedule.title;
-            title.style.color = "#132743";
-            title.style.fontWeight = "800";
-            title.style.fontSize = "14px";
-
-            const time = document.createElement('div');
-            time.innerHTML = schedule.extendedProps.startTime;
-            time.style.color = "#132743";
-            time.style.fontWeight = "800";
-            time.style.fontSize = "14px";
-
+            title.innerHTML = schedule.title;
+            title.style.color = "white";
             container.appendChild(title);
-            container.appendChild(time);
 
             return { domNodes: [container] };
         },
-        // 이벤트가 캘린더에 렌더링된 후 실행되는 콜백 함수를 정의하는 데 사용된다.
-        eventClick: function(scheduleWithMetadata) {
+        // 날짜 셀이 렌더링된 후에 호출 (셀이 DOM 에 추가된 이후 실행)
+        dayCellDidMount: function(date) {
+            const day = date.date.getDay();
 
-            // 이벤트 요소에 클릭 이벤트 추가
-            const schedule = scheduleWithMetadata.event;
-
-            console.log(schedule.title);
-
-            document.getElementById('eventAssignment').innerText = schedule.extendedProps.assignment || 'X';
-            document.getElementById('eventExam').innerText = schedule.extendedProps.exam || 'X';
-
-            const eventModal = new bootstrap.Modal(document.getElementById('eventModal'), {
-                keyboard: false
-            });
-            eventModal.show();
-        }
+            // if (day === 6) {
+            //
+            // } else if (day === 0) {
+            //
+            // }
+        },
     });
+
+    axios.get("student/1")
+        .then(response => {
+            const eventData = response.data;
+
+            // (날짜, 제목) 중복된 이벤트를 하나의 이벤트로 결합하기 위해 객체 정의
+            const groupedEvents = {};
+
+            eventData.forEach(event => {
+                // 날짜(문자열)을 T(날짜와 시간 구분자) 문자를 기준으로 문자열을 나누어 배열을 반환한다. 그 배열의 첫 번째 원소인 날짜를 반환
+                const eventDate = event.start.split('T')[0];
+                const eventKey = `${eventDate}-${event.title}`;
+
+                if (!groupedEvents[eventKey]) {
+                    groupedEvents[eventKey] = {
+                        ...event,
+                        count: 0
+                    };
+                }
+                groupedEvents[eventKey].count += 1;
+            });
+
+            // 그룹화된 이벤트를 캘린더에 추가
+            for (const key in groupedEvents) {
+                const event = groupedEvents[key];
+                if (event.count > 1) {
+                    event.title = `${event.title}（${event.count}）`;
+                }
+                calendar.addEvent(event);
+            }
+
+            calendar.render();
+        })
+        .catch(error => {
+            console.error(error);
+        });
 
     calendar.render();
 });

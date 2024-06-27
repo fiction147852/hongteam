@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/instructor_layout}"
+	layout:fragment="content">
+<head>
+
+<title>과제 상세 조회</title>
+
+<!-- Include ConfigFragment -->
+<script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<style>
+        #taskInfoBody {
+            font-family: 'Roboto', sans-serif;
+        }
+</style>
+</head>
+
+<body id="taskInfoBody">
+			
+			
+	<div id="container" style="width: 896px; margin: 0 auto;">
+    <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="grid grid-cols-4 gap-4 p-6 border-b">
+            <div class="col-span-1 font-bold">제목</div>
+            <div class="col-span-3 border-gray-300">[[${taskInfo.title}]]</div>
+        </div>
+        <div class="grid grid-cols-4 gap-4 p-6 border-b">
+            <div class="col-span-1 font-bold">게시일자</div>
+            <div class="col-span-1  border-gray-300">[[ ${#dates.format(taskInfo.postDate, 'yyyy년 MM월 dd일')} ]]</div>
+            <div class="col-span-1 font-bold">제출기한</div>
+            <div class="col-span-1  border-gray-300">[[ ${#dates.format(taskInfo.submitDeadline, 'yyyy년 MM월 dd일')} ]]</div>
+        </div>
+        <div class="grid grid-cols-4 p-6 border-b">
+            <div class="col-span-1 font-bold mb-2">내용</div>
+            <div class="col-span-1  border-gray-300">
+            [[${taskInfo.description}]]
+			</div>
+        </div>
+        <div class="grid grid-cols-4 p-6 border-b">
+            <div class="col-span-1 font-bold mb-2">첨부 파일</div>
+            <div class="col-span-1  border-gray-300">
+            [[${taskInfo.material}]]</div>
+        </div>
+    </div>
+        <div class="btn-group float-end" role="group">
+        	<button type="button" class="btn btn-primary mt-3" th:onclick="|location.href='@{/instructor/taskUpdate(taskNumber=${taskInfo.taskNumber})}'|">수정</button>
+			<button type="button" class="btn btn-secondary mt-3" th:onclick="|location.href='@{/instructor/taskList}'|">목록</button>
+			<button type="button" class="btn btn-danger mt-3" th:onclick="|location.href='@{/instructor/taskDelete(taskNo=${taskInfo.taskNumber})}'|">삭제</button>
+        </div>
+  	</div>
+</body>
+
+</html>
+

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/instructor_layout}"
+	layout:fragment="content">
+<head>
+
+<title>과제 목록</title>
+
+</head>
+
+<body>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="table-responsive pt-3">
+					<table class="table table-striped project-orders-table">
+						<thead>
+							<tr>
+								<th>번호</th>
+								<th>제목</th>
+								<th>게시 일자</th>
+								<th>제출 기한</th>
+							</tr>
+						</thead>
+						<tbody>
+							<th:block th:each="tasks : ${taskList}">
+								<tr
+									th:onclick="|location.href='@{/instructor/taskInfo(taskNumber=${tasks.taskNumber})}'|">
+									<td>[[ ${tasks.taskNumber} ]]</td>
+									<td>[[ ${tasks.title} ]]</td>
+									<td>[[ ${#dates.format(tasks.postDate, 'yyyy년 MM월 dd일')}
+										]]</td>
+									<td>[[ ${#dates.format(tasks.submitDeadline, 'yyyy년 MM월
+										dd일')} ]]</td>
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<button type="button" class="btn btn-primary mt-3 float-end"
+				th:onclick="|location.href='@{/instructor/taskInsert}'|">작성</button>
+		</div>
+	</div>
+</body>
+
+</html>
+

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/instructor_layout}"
+	layout:fragment="content">
+<script src="https://cdn.tailwindcss.com"></script>
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+	rel="stylesheet">
+<style>
+body {
+	font-family: 'Roboto', sans-serif;
+}
+</style>
+<head>
+
+<title>문제 생성</title>
+
+</head>
+<body>
+    <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+	<form name="insertForm" action="/lms/instructor/questionInsert" method="post">
+		<div class="grid grid-cols-1 gap-6">
+		    <div class="grid grid-cols-3 gap-4">
+		        <div>
+		        
+		            <label for="questionType" class="block text-sm font-medium text-gray-700">문제유형</label>
+		            <select id="questionType" name="questionTypeCode" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" onchange="toggleOptions()">
+		                <option>객관식</option>
+		                <option>주관식</option>
+		            </select>
+		        </div>
+                <div>
+                    <label for="difficulty" class="block text-sm font-medium text-gray-700">난이도</label>
+                    <select id="difficulty" name="difficultyCode" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <option>상</option>
+                        <option>중</option>
+                        <option>하</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="category" class="block text-sm font-medium text-gray-700">과목선택</label>
+                    <select id="category" name="subjectCode" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" onchange="updateDetailSubjects()">
+                        <option value="A001">수학문제</option>
+                        <option value="A002">영어문제</option>
+                        <option value="A003">국어문제</option>
+                    </select>
+                </div>
+                <div class="col-start-3">
+				    <label for="detailSubject" class="block text-sm font-medium text-gray-700">세부 과목</label>
+				    <select id="detailSubject" name="detailSubjectCode" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+				        
+				    </select>
+				</div>
+            </div>
+            <div>
+                <label for="questionText" class="block text-sm font-medium text-gray-700">문제지문</label>
+                <textarea id="questionText" name="text" rows="4" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
+            </div>
+            <div id="optionsContainer">
+		        <div>
+		            <label for="option1" class="block text-sm font-medium text-gray-700">보기1</label>
+		            <input type="text" id="option1" name="option1" class="mt-1 mb-3 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+		        </div>
+		        <div>
+		            <label for="option2" class="block text-sm font-medium text-gray-700">보기2</label>
+		            <input type="text" id="option2" name="option2" class="mt-1 mb-3 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+		        </div>
+		        <div>
+		            <label for="option3" class="block text-sm font-medium text-gray-700">보기3</label>
+		            <input type="text" id="option3" name="option3" class="mt-1 mb-3 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+		        </div>
+		        <div>
+		            <label for="option4" class="block text-sm font-medium text-gray-700">보기4</label>
+		            <input type="text" id="option4" name="option4" class="mt-1 mb-3 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+		        </div>
+		    </div>
+            <div>
+                <label for="answer" class="block text-sm font-medium text-gray-700">답안</label>
+                <input type="text" id="answer" name="answer" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+            <div>
+                <label for="questionAnswer" class="block text-sm font-medium text-gray-700">문제해설</label>
+                <textarea id="questionAnswer" name="explanation" rows="4" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="문제해설을 입력하세요. (필수아님)"></textarea>
+            </div>
+            <div>
+                <label for="fileUpload" class="block text-sm font-medium text-gray-700">첨부파일</label>
+                <input type="file" id="fileUpload" name="attachmentFile" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+            </div>
+            <!-- 이후에 없애야함 -->
+            <input type="hidden" value="1" name="instructorNumber">
+            <div class="flex justify-end space-x-4">
+                <button type="submit" class="btn btn-primary">등록</button>
+                <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/instructor/questionList}'|">취소</button>
+            </div>
+        </div>
+        </form>
+    </div>
+</body>
+<script src="/lms/js/question/question-options.js"></script>
+</html>
+

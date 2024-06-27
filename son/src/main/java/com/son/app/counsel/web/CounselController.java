@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.son.app.counsel.service.CounselImpossibility;
 import com.son.app.counsel.service.AdmissionCounselPossibilityVO;
 import com.son.app.counsel.service.CounselService;
 import com.son.app.counsel.service.CounselVO;
@@ -41,24 +42,34 @@ public class CounselController {
 		List<CounselVO> counList = counselService.counselCalendar();
 		model.addAttribute("counselCalendar", counList);
 
-		List<AdmissionCounselPossibilityVO> counTimeList = counselService.counselTimeList();
+		List<AdmissionCounselPossibilityVO> counTimeList = counselService.counselWeekTimeList();
 		model.addAttribute("counselTime", counTimeList);
-		
+
+		List<CounselImpossibility> counNTimeList = counselService.counselDayTimeList();
+		model.addAttribute("counselDayTime", counNTimeList);
+
 		return "counsel/counselCalendar";
 
 	}
 	
-	// 처리 - 상담 시간 조율 
+	// 처리 - 주간 상담 시간 조율 
 	@ResponseBody
-	@PostMapping("admin/counselDayTime")
-	public int counselTime(@RequestBody List<AdmissionCounselPossibilityVO> admissionCounselPossibilityList , Model model) {
-		int counTimeList = counselService.counselTimeUpdate(admissionCounselPossibilityList);
+	@PostMapping("admin/counselWeekTime")
+	public int counselWeekTime(@RequestBody List<AdmissionCounselPossibilityVO> admissionCounselPossibilityList , Model model) {
+		int weekTimeList = counselService.counselWeekTimeUpdate(admissionCounselPossibilityList);
 
-		return counTimeList;
+		return weekTimeList;
 	}
 
 	
-	
+	// 처리 - 일간 상담 시간 조율 
+	@ResponseBody
+	@PostMapping("admin/counselDayTime")
+	public int counselDayTime(@RequestBody List<CounselImpossibility> admissionCounselPossibilityList , Model model) {
+		int dayTimeList = counselService.counselDayTimeUpdate(admissionCounselPossibilityList);
+
+		return dayTimeList;
+	}
 	
 	// 상담 단건 조회
 	@GetMapping("admin/counselInfo")
@@ -68,6 +79,9 @@ public class CounselController {
 		return "counsel/counselInfo";
 	}
 
+	
+	
+	
 	// 상담 등록 - 페이지
 	@GetMapping("counselInsert")
 	public String counsertInsert(Model model) {
