@@ -1,13 +1,24 @@
 package com.son.app.security.controller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.son.app.security.service.CustomUserDetails;
 
 @Controller
 public class SecurityContoller {
 	
-	@GetMapping("/login")
-	public String login() {
+	@RequestMapping("/login")
+	public String login(Model model, @RequestParam(value="error", required=false) String error) {
+		if(error != null) {
+			model.addAttribute("error", error);
+		}
+		
 		return "security/login";
 	}
 	
@@ -17,7 +28,10 @@ public class SecurityContoller {
 	}
 	
 	@GetMapping("/loginTest")
-	public String loginTest() {
+	public String loginTest(Model model, @AuthenticationPrincipal CustomUserDetails principal, Authentication auth) {
+		model.addAttribute("user", principal);
+		model.addAttribute("userVO", principal.getMember());
+		model.addAttribute("auth", auth.getAuthorities().toString());		
 		return "security/test";
 	}
 	

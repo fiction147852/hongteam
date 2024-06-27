@@ -26,16 +26,18 @@ public class SecurityConfig{
 	    http.csrf().disable();
 	    
 	    http.authorizeHttpRequests()
-//	    	.antMatchers("/lms/admin/**").hasAnyRole("admin")
-//	    	.antMatchers("/lms/student/**").hasAnyRole("student")
-//	    	.antMatchers("/lms/parent/**").hasAnyRole("parent")
-//	    	.antMatchers("/lms/instructor/**").hasAnyRole("instructor")
-	    	.anyRequest().permitAll();
+	    	.antMatchers("/", "/join", "/login", "/signUp", "/css/**", "/fonts/**", "/images/**", "/js/**", "/vendors/**").permitAll()
+	    	.antMatchers("/admin/**").hasRole("ADMIN")
+	    	.antMatchers("/student/**").hasRole("STUDENT")
+	    	.antMatchers("/parent/**").hasRole("PARENT")
+	    	.antMatchers("/instructor/**").hasRole("INSTRUCTOR")
+	    	.anyRequest().authenticated();
 	    
 	    http.formLogin()
 	    	.loginPage("/login")
 	    	.loginProcessingUrl("/loginProcess")
-	    	.defaultSuccessUrl("/loginTest");
+	    	.successHandler(new CustomLoginSuccessHandler())
+	    	.failureHandler(new CustomLoginFailureHandler());
 	    
 	    http.logout()
 	    	.invalidateHttpSession(true);

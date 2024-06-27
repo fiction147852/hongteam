@@ -57,4 +57,15 @@ public class QuestionServiceImpl implements QuestionService{
 	}
 
 	
+//	 @Override
+//	    public List<Map<String, String>> getAllSubjects() {
+//	        return questionMapper.getAllSubjects();
+//	    }
+//
+//	    @Override
+//	    public List<Map<String, String>> getDetailSubjects(String subjectCode) {
+//	        return questionMapper.getDetailSubjects(subjectCode);
+//	    }
+
+	
 }

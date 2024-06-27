@@ -19,4 +19,8 @@ public interface QuestionMapper {
 	
 	// 삭제
 	public int deleteQuestionInfo(int questionNo);
+
+//	public List<Map<String, String>> getAllSubjects();
+//
+//	public List<Map<String, String>> getDetailSubjects(String subjectCode);
 }

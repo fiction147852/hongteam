@@ -13,4 +13,9 @@ public interface QuestionService {
 	public Map<String, Object> updateQuestion(QuestionVO questionVO);
 	
 	public int deleteQuestion (int questionNo);
+	
+	/*
+	 * List<Map<String, String>> getAllSubjects(); List<Map<String, String>>
+	 * getDetailSubjects(String subjectCode);
+	 */
 }

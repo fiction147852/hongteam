@@ -53,9 +53,48 @@ public class QuestionController {
 	// 수정 페이지
 	@GetMapping("/instructor/questionUpdate")
 	public String questionUpdateForm(QuestionVO questionVO, Model model) {
-		QuestionVO findVO = questionService.questionInfo(questionVO);
-		model.addAttribute("questionInfo", findVO);
-		return "question/instructor/qupdate";
+	    QuestionVO findVO = questionService.questionInfo(questionVO);
+	    if (findVO == null) {
+	        return "error/questionNotFound";
+	    }
+	    
+	    model.addAttribute("questionInfo", findVO);
+	    
+	    // 문제 유형
+	    List<Map<String, String>> questionTypes = List.of(
+	        Map.of("code", "객관식", "name", "객관식"),
+	        Map.of("code", "주관식", "name", "주관식")
+	    );
+	    model.addAttribute("questionTypes", questionTypes);
+	    
+	    // 난이도
+	    List<Map<String, String>> difficulties = List.of(
+	        Map.of("code", "상", "name", "상"),
+	        Map.of("code", "중", "name", "중"),
+	        Map.of("code", "하", "name", "하")
+	    );
+	    model.addAttribute("difficulties", difficulties);
+	    
+	    // 과목 목록 가져오기
+	    List<Map<String, String>> subjects = List.of(
+		       Map.of("code", "A001", "name", "수학"),
+		       Map.of("code", "A002", "name", "영어"),
+		       Map.of("code", "A003", "name", "국어")
+		    );
+	    model.addAttribute("subjects", subjects);
+	    
+	    // 세부 과목 목록 가져오기
+	    List<Map<String, String>> detailSubjects = List.of(
+			       Map.of("code", "B001", "name", "미적분"),
+			       Map.of("code", "B002", "name", "확률과 통계"),
+			       Map.of("code", "C001", "name", "독해"),
+			       Map.of("code", "C002", "name", "문법"),
+			       Map.of("code", "D001", "name", "문학"),
+			       Map.of("code", "D001", "name", "문법")
+			    );
+	    model.addAttribute("detailSubjects", detailSubjects);
+	    
+	    return "question/instructor/qupdate";
 	}
 	
 	// 수정 처리
