@@ -152,7 +152,7 @@ body {
 	
     const dayContainer = document.getElementById('counselDayTime');
     
-    const dayTimeData = [[${counselDayTime}]];
+    const dayTimeData = /*[[${counselDayTime}]]*/"";
     
     // 모달 객체 생성
 	const counselModal2 = new bootstrap.Modal(document.getElementById('dayTime'));
@@ -192,10 +192,18 @@ body {
 		    const timeCell = document.createElement('td');
 		    
 		    // 체크박스 생성
-		    const timeCheck = document.createElement('input');
-		    timeCheck.type = 'checkbox'; // input 요소의 타입을 checkbox로 설정
-		    timeCheck.id = `checkbox-${i}`; // id 설정 (옵션)
-		    
+		    let timeCheck = document.createElement('input');
+		    timeCheck.type = 'button'; // input 요소의 타입을 checkbox로 설정
+		    timeCheck.value = '가능';
+		    // timeCheck.onclick = 'impossible'
+		    timeCheck.id = `time${i}`; // id 설정 (옵션)
+		    timeCheck.addEventListener('click', function(ev){
+				if(timeCheck.value == "가능"){
+					timeCheck.value="불가능";
+				} else if (timeCheck.value == "불가능"){
+					timeCheck.value="가능";
+				}
+			});
 		    // 시간 셀에 시간 텍스트 추가
 		    timeCell.textContent = time;
 		    
@@ -218,6 +226,16 @@ body {
 	    dayContainer.innerHTML = '';
 	    dayContainer.appendChild(table);
 	} 
+	
+	// function impossible()  {
+	// 	  const timeCheck = document.getElementById('time${i}');
+		  
+	// 	  timeCheck.value = "불가능";
+	// 	}
+	
+	// `time${i}`.addEventListener('click', function(){
+	// 	impossible();
+	// })
 	
 	
 	const weekBtn = document.getElementById('weekBtn');
