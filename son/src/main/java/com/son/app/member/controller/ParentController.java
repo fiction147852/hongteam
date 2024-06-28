@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.son.app.member.service.ParentService;
 import com.son.app.member.service.StudentVO;
@@ -17,7 +18,7 @@ public class ParentController {
 	@Autowired
 	ParentService parentService;
 	
-	@GetMapping("parent")
+	@PostMapping("/np")
     public String getParentDashboard(Model model, Principal principal) {
 		String email = principal.getName();
 		int parentNumber = parentService.getParentNumberByEmail(email);
@@ -28,7 +29,7 @@ public class ParentController {
 	}
     
 
-    @GetMapping("parent/{studentNumber}")
+    @GetMapping("parent")
     public String getParent(Model model) {
 		List<StudentVO> list = parentService.ParentInfoList();
 		model.addAttribute("parent", list);
