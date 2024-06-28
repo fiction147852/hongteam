@@ -45,6 +45,32 @@ document.addEventListener('DOMContentLoaded', function () {
         // 이벤트 객체를 포함하는 배열이며, 각 이벤트 객체는 일정(이벤트)을 나타낸다.
         events: [],
 
+        // event | 클릭된 이벤트에 대한 상세 정보를 담고 있는 속성.
+        // el | 클릭된 이벤트를 나타내는 HTML 요소를 나타내는 속성.
+        // jsEvent | 클릭 이벤트에 대한 상세 정보를 담고 있는 속성.
+        // 이 세 가지 속성을 모두 담고 있는 매개변수를 전달받는다.
+        eventClick: function(eventInfo) {
+            const eventDate = eventInfo.event.start.getFullYear() + "-0" + (eventInfo.event.start.getMonth() + 1) + "-" + eventInfo.event.start.getDate();
+
+            console.log(eventDate);
+            axios.get("student/scheduleDetail?deadlineDate=" +  eventDate)
+                .then(response => {
+                    const events = response.data;
+                    events.forEach(event => {
+                        console.log(event);
+
+
+
+
+
+                    })
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+
+        },
+
         // 이벤트(일정)의 콘텐츠를 커스터마이징하는 데 사용된다. 이벤트의 콘텐츠를 구성하는 DOM 요소를 반환한다. (이벤트가 렌더링될 때 호출된다.)
         eventContent: function(scheduleWithMetadata) {
             // 해당 이벤트 객체와 그와 관련된 추가 정보를 포함하는 객체를 매개변수로 전달받는다.
@@ -87,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
         },
     });
 
-    axios.get("student/1")
+    axios.get("student/schedule")
         .then(response => {
             const eventData = response.data;
 
@@ -122,6 +148,22 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => {
             console.error(error);
         });
+
+    // function createSlideTag() {
+    //     const swiperDiv = document.querySelector("#eventModal .swiper-wrapper");
+    //
+    //     const slideDiv = document.createElement("div");
+    //     const slideContentDiv = document.createElement("div");
+    //     const infoDiv = document.createElement("div");
+    //
+    //     slideContentDiv.className = "slide-content";
+    //     slideDiv.className = "swiper-slide";
+    //     infoDiv.className = "subject-info";
+    //
+    //     swiperDiv.appendChild(slideContentDiv);
+    //     slideContentDiv.appendChild(slideDiv);
+    //     slideDiv.appendChild(infoDiv);
+    // }
 
     calendar.render();
 });
