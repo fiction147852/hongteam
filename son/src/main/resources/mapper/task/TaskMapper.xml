@@ -5,7 +5,6 @@
 		SELECT task_number,
 			   title,
 			   description,
-			   material,
 			   post_date,
 			   submit_deadline,
 			   lecture_number

@@ -24,4 +24,15 @@ public class TaskVO {
 	@JsonFormat(pattern = "yyyy/MM/dd")
 	private Date submitDeadline;// 제출 기한
 	private int lectureNumber;	// 강의 번호
+	
+	
+	private List<MultipartFile> files;
+	
+    public List<MultipartFile> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<MultipartFile> files) {
+        this.files = files;
+    }
 }
