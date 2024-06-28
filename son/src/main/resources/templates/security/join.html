@@ -31,13 +31,15 @@
 			    <option value="nate.com">nate.com</option>
 			    <option value="yahoo.com">yahoo.com</option>
 			</select>
+			<input type="button" value="인증" class="btn2" onclick="checkEmail()">
+			<input type="hidden" id="confirm" style="display:none">
         </td>
     </tr>
-    <tr><td>이메일 인증</td></tr>
-    <tr>
+    
+    <tr id="mail_number" name="mail_number" style="display: none">
     	<td>
-    		<input type="text" class="text">
-    		<input type="button" id="emailCheckBtn" value="인증번호 보내기" class="btn2" onclick="checkEmail()">
+    		<input type="text" name="emailCertNumber" id="emailCertNumber" class="text">
+    		<input type="button" value="확인" placeholder="인증번호 입력" class="btn2" onclick="compareNumber()">
     	</td>
     </tr>
     <tr><td>비밀번호</td></tr>
@@ -46,8 +48,11 @@
     <tr><td><input type="password" class="text"></td></tr>
     <tr><td>이름</td></tr>
     <tr><td><input type="text" class="text"></td></tr>
+    <tr><td>휴대폰번호</td></tr>
+    <tr><td><input type="text" class="text"></td></tr>
     <tr><td>생년월일</td></tr>
     <tr><td><input type="date" class="text"></td></tr>
+    
     <tr><td><input type="submit" value="가입하기" class="btn"></td></tr>
     </table>
 </form>

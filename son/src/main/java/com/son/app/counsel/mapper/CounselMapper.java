@@ -37,6 +37,6 @@ public interface CounselMapper {
 	public List<CounselImpossibility> counselDayTimeSelectAll();
 	
 	//일간 시간 수정
-	public int counselDayTimeUpdate(AdmissionCounselPossibilityVO admissionCounselPossibilityVO);
+	public int counselDayTimeUpdate(CounselImpossibility admissionCounselPossibilityVO);
 	
 }
