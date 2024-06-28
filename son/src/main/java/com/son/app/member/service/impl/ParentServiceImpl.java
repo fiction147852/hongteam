@@ -20,4 +20,14 @@ public class ParentServiceImpl implements ParentService{
 		return parentmapper.childInfoAll();
 	}
 
+	@Override
+	public List<StudentVO> getStudentsByParentNumber(int parentNumber) {
+		return parentmapper.getStudentsByParentNumber(parentNumber);
+	}
+
+	@Override
+	public int getParentNumberByEmail(String email) {
+		return parentmapper.getParentNumberByEmail(email);
+	}
+	
 }

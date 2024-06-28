@@ -16,5 +16,13 @@
         FROM
         student
     </select>
+	<!-- 부모 번호로 자녀 정보 조회 -->
+	<select id="getStudentsByParentNumber" parameterType="int" resultType="StudentVO">
+		SELECT * FROM students WHERE parent_number = #{parentNumber}
+	</select>
 
+	<!-- 이메일로 부모 번호 조회 -->
+	<select id="getParentNumberByEmail" parameterType="string" resultType="int">
+		SELECT parent_number FROM parent WHERE email = #{email}
+	</select>
 </mapper>
