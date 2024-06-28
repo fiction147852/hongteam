@@ -20,6 +20,7 @@
 								<th>번호</th>
 								<th>제목</th>
 								<th>과목</th>
+								<th>강의 난이도</th>
 								<th>강의 시작일자</th>
 								<th>강의 종료일자</th>
 								<th>정원</th>
@@ -32,12 +33,30 @@
 									<td>[[ ${lecs.lectureNumber} ]]</td>
 									<td>[[ ${lecs.lectureTitle} ]]</td>
 									<td th:switch="${lecs.subjectCode}">
-									    <span th:case="'A001'">수학</span>
-									    <span th:case="'A002'">영어</span>
-									    <span th:case="'A003'">국어</span>
-									    <span th:case="*">[[${lecs.subjectCode}]]</span>
+									    <span th:case="'A001'">수학
+									    <span th:switch="${lecs.detailSubjectCode}">
+										        <span th:case="'B001'">(미적분)</span>
+										        <span th:case="'B002'">(확률과 통계)</span>
+										        <span th:case="*">([[${lecs.detailSubjectCode}]])</span>
+										    </span>
+	    									</span>
+									    <span th:case="'A002'">영어
+									        <span th:switch="${lecs.detailSubjectCode}">
+									            <span th:case="'B003'">(문법)</span>
+										        <span th:case="'B004'">(독해)</span>
+									            <span th:case="*">([[${lecs.detailSubjectCode}]])</span>
+									        </span>
+									    </span>
+									    <span th:case="'A003'">국어
+									        <span th:switch="${lecs.detailSubjectCode}">
+									            <span th:case="'B005'">(화법과 작문)</span>
+										        <span th:case="'B006'">(언어와 매체)</span>
+									            <span th:case="*">([[${lecs.detailSubjectCode}]])</span>
+									        </span>
+									    </span>
+									    <span th:case="*">[[${lecs.subjectCode}]] ([[${lecs.detailSubjectCode}]])</span>
 									</td>
-
+									<td>[[ ${lecs.lectureLevelCode} ]]</td>
 									<td>[[ ${#dates.format(lecs.lectureStartDate, 'yyyy년 MM월 dd일')}
 										]]</td>
 									<td>[[ ${#dates.format(lecs.lectureEndDate, 'yyyy년 MM월

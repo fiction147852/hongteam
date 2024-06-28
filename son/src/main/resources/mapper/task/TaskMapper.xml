@@ -13,17 +13,39 @@
 		ORDER BY task_number
 	</select>
 	
-	<select id="selectTaskInfo" resultType="TaskVO">
-		SELECT task_number,
-			   title,
-			   description,
-			   material,
-			   post_date,
-			   submit_deadline,
-			   lecture_number
-		FROM task
-		WHERE task_number = #{taskNumber}
+	<select id="selectTaskInfo" resultMap="taskWithFilesResultMap">
+	    SELECT 
+	        t.task_number,
+	        t.title,
+	        CAST(t.description AS VARCHAR(4000)) as description,
+	        t.post_date,
+	        t.submit_deadline,
+	        t.lecture_number,
+	        f.attachment_file_number,
+	        f.original_file_name,
+	        f.save_file_name,
+	        f.file_size
+	    FROM task t
+	    	LEFT OUTER JOIN attachment_file f 
+	    		ON t.task_number = f.task_number
+	    WHERE t.task_number = #{taskNumber}
 	</select>
+
+	<resultMap id="taskWithFilesResultMap" type="TaskVO">
+	    <id property="taskNumber" column="task_number"/>
+	    <result property="title" column="title"/>
+	    <result property="description" column="description" jdbcType="VARCHAR" javaType="String"/>
+	    <result property="postDate" column="post_date" jdbcType="DATE" javaType="Date"/>
+	    <result property="submitDeadline" column="submit_deadline" jdbcType="DATE" javaType="Date"/>
+	    <result property="lectureNumber" column="lecture_number"/>
+	    
+	    <collection property="files" ofType="FileRequest" javaType="list">
+	        <id property="attachmentFileNumber" column="attachment_file_number"/>
+	        <result property="originalFileName" column="original_file_name"/>
+	        <result property="saveFileName" column="save_file_name"/>
+	        <result property="fileSize" column="file_size"/>
+	    </collection>
+	</resultMap>
 	
 	<insert id="insertTaskInfo" parameterType="TaskVO">
 		<selectKey keyProperty="taskNumber" resultType="int" order="BEFORE">
@@ -34,7 +56,6 @@
 					task_number,
 					title,
 					description,
-					material,
 					post_date,
 					submit_deadline,
 					lecture_number
@@ -44,7 +65,6 @@
 					#{taskNumber},
 					#{title},
 					#{description},
-					#{material},
 					sysdate,
 					#{submitDeadline},
 					#{lectureNumber}

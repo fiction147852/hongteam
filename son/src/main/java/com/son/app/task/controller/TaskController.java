@@ -9,8 +9,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.son.app.file.common.FileUtils;
+import com.son.app.file.service.FileRequest;
+import com.son.app.file.service.FileService;
 import com.son.app.task.service.TaskService;
 import com.son.app.task.service.TaskVO;
 
@@ -19,6 +24,10 @@ public class TaskController {
 	
 	@Autowired
 	TaskService taskService;
+	@Autowired
+	FileService fileService;
+	@Autowired
+	FileUtils fileUtils;
 	
 	// 전체
 	@GetMapping("/instructor/taskList")
@@ -46,9 +55,17 @@ public class TaskController {
 	
 	// 등록 처리페이지
 	@PostMapping("/instructor/taskInsert")
-	public String taskInsertProcess(TaskVO taskVO) {
-		taskService.insertTask(taskVO);
-		return "redirect:/instructor/taskList";
+	public String taskInsertProcess(TaskVO taskVO, @RequestParam("files") List<MultipartFile> multipartFiles) {
+	    // 태스크 저장
+	    int taskNumber = taskService.insertTask(taskVO);
+	    
+	    // 파일 업로드 및 저장
+	    if (multipartFiles != null && !multipartFiles.isEmpty()) {
+	        List<FileRequest> fileRequests = fileUtils.uploadFiles(multipartFiles);
+	        fileService.saveFiles(0, 0, taskNumber, 0, 0, fileRequests);
+	    }
+	    
+	    return "redirect:/instructor/taskList";
 	}
 	
 	// 수정 페이지
