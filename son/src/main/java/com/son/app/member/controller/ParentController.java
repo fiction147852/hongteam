@@ -3,7 +3,9 @@ package com.son.app.member.controller;
 import java.security.Principal;
 import java.util.List;
 
+import com.son.app.security.service.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +20,8 @@ public class ParentController {
 	ParentService parentService;
 	
 	@GetMapping("parent")
-    public String getParentDashboard(Model model, Principal principal) {
-		String email = principal.getName();
+    public String getParentDashboard(Model model, @AuthenticationPrincipal CustomUserDetails principal) {
+		String email = principal.getMember().getEmail();
 		int parentNumber = parentService.getParentNumberByEmail(email);
 
 		List<StudentVO> studentList = parentService.getStudentsByParentNumber(parentNumber);

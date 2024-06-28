@@ -25,11 +25,11 @@ function toggleOptions() {
 	        addOption(detailSubject, 'B001', '미적분');
 	        addOption(detailSubject, 'B002', '확률과 통계');
 	    } else if (selectedCategory === 'A002') {  // 영어
-	        addOption(detailSubject, 'C001', '독해');
-	        addOption(detailSubject, 'C002', '문법');
+	        addOption(detailSubject, 'B003', '독해');
+	        addOption(detailSubject, 'B004', '문법');
 	    } else if (selectedCategory === 'A003') {  // 국어
-	        addOption(detailSubject, 'D001', '문학');
-	        addOption(detailSubject, 'D002', '문법');
+	        addOption(detailSubject, 'B005', '화법과 작문');
+	        addOption(detailSubject, 'B006', '언어와 매체');
 	    }
 	   }
 	

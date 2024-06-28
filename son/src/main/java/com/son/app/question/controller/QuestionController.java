@@ -87,10 +87,10 @@ public class QuestionController {
 	    List<Map<String, String>> detailSubjects = List.of(
 			       Map.of("code", "B001", "name", "미적분"),
 			       Map.of("code", "B002", "name", "확률과 통계"),
-			       Map.of("code", "C001", "name", "독해"),
-			       Map.of("code", "C002", "name", "문법"),
-			       Map.of("code", "D001", "name", "문학"),
-			       Map.of("code", "D001", "name", "문법")
+			       Map.of("code", "B003", "name", "독해"),
+			       Map.of("code", "B004", "name", "문법"),
+			       Map.of("code", "B005", "name", "화법과 작문"),
+			       Map.of("code", "B006", "name", "언어와 매체")
 			    );
 	    model.addAttribute("detailSubjects", detailSubjects);
 	    
