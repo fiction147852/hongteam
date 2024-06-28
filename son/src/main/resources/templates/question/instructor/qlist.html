@@ -13,11 +13,11 @@ body {
 }
 
 .card-text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
 }
 </style>
 <head>
@@ -28,36 +28,44 @@ body {
 
 <body>
 	<div id="container">
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-			<!-- Card 1 -->
-			<th:block th:each="qs : ${questionList}">
-			<div class="card">
-				<div style="display: flex; justify-content: space-between;">
-					<h6 class="text-lg font-semibold mt-3 ml-3">
-					[[ ${qs.questionTypeCode} ]]
-					<br>
-					[[ ${qs.subjectName ?: '미지정'} ]]
-					</h6>
-					<div>
-						<button type="button" class="btn btn-primary mt-2 mr-3 float-end" th:onclick="|location.href='@{/instructor/questionUpdate(questionNumber=${qs.questionNumber})}'|">수정</button>
-						<br>
-						<button type="button" class="btn btn-danger mt-2 mr-3 float-end" th:onclick="confirmDelete(this)" th:data-question-no="${qs.questionNumber}">삭제</button>
-					</div>
-				</div>
-				<div class="card-body">
+		<div class="swiper">
+			<div class="swiper-wrapper mb-3">
+				<th:block th:each="qs : ${questionList}">
+					<div class="swiper-slide">
+						<div class="card">
+							<div class="slide-content">
+								<div style="display: flex; justify-content: space-between;">
+									<h6 class="text-lg font-semibold mt-3 ml-3">
+										[[ ${qs.questionTypeCode} ]] <br> [[ ${qs.subjectName ?:
+										'미지정'} ]]
+									</h6>
+									<div>
+										<button type="button"
+											class="btn btn-primary mt-2 mr-3 float-end"
+											th:onclick="|location.href='@{/instructor/questionUpdate(questionNumber=${qs.questionNumber})}'|">수정</button>
+										<br>
+										<button type="button"
+											class="btn btn-danger mt-2 mr-3 float-end"
+											th:onclick="confirmDelete(this)"
+											th:data-question-no="${qs.questionNumber}">삭제</button>
+									</div>
+								</div>
+								<div class="card-body">
 
-					<div class="card-body bg-gray-100" th:onclick="|location.href='@{/instructor/questionInfo(questionNumber=${qs.questionNumber})}'|">
-						<h5 class="card-title text-center font-medium mb-2">출제자: [[ ${qs.instructorName} ]]</h5>
-						<h6 class="card-subtitle">문제</h6>
-						<p class="card-text">[[ ${qs.text} ]]</p>
+									<div class="card-body bg-gray-100"
+										th:onclick="|location.href='@{/instructor/questionInfo(questionNumber=${qs.questionNumber})}'|">
+										<h5 class="card-title text-center font-medium mb-2">출제자:
+											[[ ${qs.instructorName} ]]</h5>
+										<h6 class="card-subtitle">문제</h6>
+										<p class="card-text">[[ ${qs.text} ]]</p>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
-				</div>
+				</th:block>
 			</div>
-			<th:block>
-			<!-- Card 2 -->
-
-			<!-- Card 3 -->
-
+			<div class="swiper-scrollbar"></div>
 		</div>
 		<div class="bg-white shadow-md rounded-lg p-4" style="width: 20rem;">
 			<div>
@@ -95,11 +103,13 @@ body {
 			</form>
 		</div>
 		<div>
-			<button type="button" class="btn btn-success float-end" th:onclick="|location.href='@{/instructor/questionInsert}'|">문제생성</button>
+			<button type="button" class="btn btn-success float-end"
+				th:onclick="|location.href='@{/instructor/questionInsert}'|">문제생성</button>
 		</div>
 	</div>
 </body>
 
+<script src="/lms/js/question/qlist-slider.js"></script>
 <script>
 
 function confirmDelete(button) {

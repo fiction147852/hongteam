@@ -15,36 +15,36 @@
         }
     </style>
 </head>
-<body id="taskInfoBody" class="bg-gray-100">
+<body id="parentCounselInfoBody" class="bg-gray-200">
     <div id="container" class="w-full max-w-none mx-auto p-6">
-        <form name="insertForm" action="/lms/instructor/taskInsert" method="post">
+        <form name="insertForm" action="/lms/parent/counselInsert" method="post">
             <div class="bg-white shadow-md rounded-lg overflow-hidden">
-                <div class="grid grid-cols-4 gap-4 p-6 border-b">
-                    <div class="col-span-1 font-bold">제목</div>
-                    <div class="col-span-3 border-gray-300">
+                <div class="grid grid-cols-12 gap-4 p-6 border-b">
+                    <div class="col-span-1 font-bold align-self-center">제목</div>
+                    <div class="col-span-5 border-2">
                         <input type="text" class="form-control w-full border rounded p-2" name="title" />
                     </div>
                 </div>
-                <div class="grid grid-cols-4 gap-4 p-6 border-b">
-                    <div class="col-span-1 font-bold">작성자</div>
-                    <div class="col-span-1 border-gray-300">
+                <div class="grid grid-cols-12 gap-4 p-6 border-b">
+                    <div class="col-span-1 font-bold align-self-center">작성자</div>
+                    <div class="col-span-5 border-2">
                         <input type="text" class="form-control w-full border rounded p-2" name="author" />
                     </div>
-                    <div class="col-span-1 font-bold">작성자 자녀</div>
-                    <div class="col-span-1 border-gray-300">
+                    <div class="col-span-1 font-bold align-self-center">작성자 자녀</div>
+                    <div class="col-span-5 border-2">
                         <input type="text" class="form-control w-full border rounded p-2" name="authorChild" />
                     </div>
                 </div>
-                <div class="grid grid-cols-4 p-6 border-b">
-                    <div class="col-span-1 font-bold mb-2">내용</div>
-                    <div class="col-span-3 border-gray-300">
-                        <textarea class="form-control w-full border rounded p-2" name="description" style="resize: none; height: 12.25em;"></textarea>
+                <div class="grid grid-cols-12 p-6 border-b">
+                    <div class="col-span-1 font-bold mb-2 align-self-center">내용</div>
+                    <div class="col-span-11 border-2">
+                        <textarea class="form-control w-full border rounded p-2" name="content" style="resize: none; height: 25em;"></textarea>
                     </div>
                 </div>
-                <div class="grid grid-cols-4 p-6 border-b">
-                    <div class="col-span-1 font-bold mb-2">첨부 파일</div>
-                    <div class="col-span-3 border-gray-300">
-                        <input type="file" name="material" class="form-control w-full border rounded p-2" />
+                <div class="grid grid-cols-12 p-6 border-b">
+                    <div class="col-span-1 font-bold mb-2 align-self-center">첨부 파일</div>
+                    <div class="col-span-11 border-2">
+                        <input type="file" name="material" class="form-control w-full border rounded p-3" />
                     </div>
                 </div>
             </div>

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.son.app.lecture.mapper.ParentLectureMapper;
-import com.son.app.lecture.service.LectureVO;
+import com.son.app.lecture.service.LectureInstructorVO;
 import com.son.app.lecture.service.ParentLectureService;
 
 @Service
@@ -16,7 +16,7 @@ public class ParentLectureServiceImpl implements ParentLectureService{
 	ParentLectureMapper parentlecturemapper;
 
 	@Override
-	public List<LectureVO> ParentLetureInfoList() {
+	public List<LectureInstructorVO> ParentLetureInfoList() {
 		return parentlecturemapper.ParentLectureInfoAll();
 	}	
 }
