@@ -132,15 +132,19 @@ body {
 <script th:inline="javascript">
 	
 	// 일 - 상담 시간 설정
-	const times = [];
-	for (let i = 9; i <= 22; i++) {
-	    const time = i < 10 ? `0${i}:` : `${i}:`;
-	    times.push(time);
+	function weekSchedule(){
+		
+		const times = [];
+		for (let i = fTime; i <= sTime; i++) {
+		    const time = i < 10 ? `0${i}:` : `${i}:`;
+		    times.push(time);
+		}
+		
+		let timeD = data[idx].timeCode.split(',');
+		let fTime = timeD.substr(0,2);
+		let sTime = timeD.substr(2,4);
+	
 	}
-	
-	let timeD = data[idx].timeCode.split(',');
-	
-	
     const dayContainer = document.getElementById('counselDayTime');
     
     const dayTimeData = /*[[${counselDayTime}]]*/"";
