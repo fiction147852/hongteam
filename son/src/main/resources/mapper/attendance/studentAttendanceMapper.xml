@@ -5,6 +5,7 @@
     <select id="scheduleList" resultType="StudentScheduleVO">
         SELECT
             'task' as type
+             , task_number as "number"
              , de_sub_name_by_lecture(task.lecture_number) || ' 과제' as title
              , submit_deadline as "start"
         FROM task
@@ -13,8 +14,9 @@
         WHERE student_number = #{studentNumber}
         UNION ALL
         SELECT 'test'
+             , test_number
              , de_sub_name_by_lecture(test.lecture_number) || ' 시험' as title
-             , exam_end_date
+             , exam_date
         FROM test
                  JOIN registration
                       ON registration.lecture_number = test.lecture_number
@@ -42,7 +44,29 @@
     </select>
 
     <!-- 과제 및 시험 상세 보기 -->
-
+    <select id="scheduleDetail" resultType="StudentScheduleDetailVO">
+        SELECT
+            'task' as type
+             , title
+             , post_date
+             , submit_deadline as deadline_date
+             , task_submit_code as status
+        FROM task_submit submit
+        JOIN task
+            ON task.task_number = submit.task_number
+        WHERE student_number = #{studentNumber} AND submit_deadline = #{deadlineDate}
+        UNION ALL
+        SELECT
+            'test' as type
+             , test_title
+             , exam_date
+             , exam_date
+             , participate_status
+        FROM participate
+        JOIN test
+            ON test.test_number = participate.test_number
+        WHERE student_number = #{studentNumber} AND exam_date = #{deadlineDate}
+    </select>
 
 
 </mapper>

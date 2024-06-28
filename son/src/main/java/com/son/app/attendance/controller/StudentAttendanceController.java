@@ -2,13 +2,14 @@ package com.son.app.attendance.controller;
 
 import com.son.app.attendance.service.StudentAttendanceService;
 import com.son.app.attendance.service.StudentLectureInfoVO;
+import com.son.app.attendance.service.StudentScheduleDetailVO;
 import com.son.app.attendance.service.StudentScheduleVO;
+import com.son.app.security.service.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,8 +21,8 @@ public class StudentAttendanceController {
 
     // 일정 화면 출력
     @GetMapping("student")
-    public String attendancePage(Model model) {
-        int studentNumber = 1;
+    public String attendancePage(Model model, @AuthenticationPrincipal CustomUserDetails principal) {
+        int studentNumber = principal.getMember().getIdNumber();
         List<StudentLectureInfoVO> studentLectureInfoVOS = studentAttendanceService.lectureList(studentNumber);
 
         model.addAttribute("lectureList", studentLectureInfoVOS);
@@ -29,13 +30,27 @@ public class StudentAttendanceController {
         return "attendance/student/attendance";
     }
 
-    @GetMapping("student/{studentNumber}")
+    // 일정 정보 받기
+    @GetMapping("student/schedule")
     @ResponseBody
-    public List<StudentScheduleVO> attendancePage(@PathVariable int studentNumber) {
+    public List<StudentScheduleVO> attendancePage(@AuthenticationPrincipal CustomUserDetails principal) {
+        int studentNumber = principal.getMember().getIdNumber();
         List<StudentScheduleVO> studentScheduleVOList = studentAttendanceService.scheduleList(studentNumber);
 
         return studentScheduleVOList;
     }
+
+    // 과제 및 시험 상세 정보
+    @GetMapping("student/scheduleDetail")
+    @ResponseBody
+    public List<StudentScheduleDetailVO> scheduleDetail(@AuthenticationPrincipal CustomUserDetails principal,  StudentScheduleDetailVO studentScheduleDetailVO) {
+        int studentNumber = principal.getMember().getIdNumber();
+        studentScheduleDetailVO.setStudentNumber(studentNumber);
+
+        return studentAttendanceService.scheduleDetail(studentScheduleDetailVO);
+    }
+
+
 
 
 
