@@ -5,89 +5,125 @@
 	<!-- 상담 일정 전체 조회 -->
 	<select id="counselSelectAll" resultType="CounselVO">
 		SELECT counsel_number
-				, parent_name
-				, student_name
-				, phone
-				, time_code
-				, reservation_date
-				, reservation_code
+			, parent_name
+			, student_name
+			, phone
+			, time_code
+			, reservation_date
+			, reservation_code
 		FROM admission_counsel
 	</select>
 
 	<!-- 상담 일정 단건 조회 -->
 	<select id="counselSelectInfo" resultType="CounselVO">
 		SELECT counsel_number
-				, parent_name
-				, student_name
-				, phone
-				, time_code
-				, reservation_date
-				, reservation_code
+			, parent_name
+			, student_name
+			, phone
+			, time_code
+			, reservation_date
+			, reservation_code
 		FROM admission_counsel
 		WHERE counsel_number = #{counselNumber}
 	</select>
-		
+
 	<!-- 주간 시간 조회 -->
-	<select id="counselWeekTimeSelectAll" resultType="AdmissioncounselPossibilityVO">
+	<select id="counselWeekTimeSelectAll"
+		resultType="AdmissioncounselPossibilityVO">
 		SELECT weekdays_code
-				, time_code
+			, time_code
 		FROM admission_counsel_possibility
 	</select>
-		
+
 	<!-- 주간 시간 설정 -->
-	<update id="counselWeekTimeUpdate" parameterType="AdmissioncounselPossibilityVO">
-			UPDATE admission_counsel_possibility
+	<update id="counselWeekTimeUpdate"
+		parameterType="AdmissioncounselPossibilityVO">
+		UPDATE admission_counsel_possibility
 			SET
 				time_code = #{timeCode}
-			WHERE weekdays_code = #{weekdaysCode}
+		WHERE weekdays_code = #{weekdaysCode}
 	</update>
-		
-		
+
+
 	<!-- 일간 상담 조회 ====================== -->
-	<select id="counselDayTimeSelectAll" resultType="AdmissioncounselPossibilityVO">
+	<select id="counselDayTimeSelectAll"
+		resultType="AdmissioncounselPossibilityVO">
 		SELECT weekdays_code
-				, time_code
-				, possible
+			, time_code
 		FROM counsel_impossibility
 	</select>
 
-	<!--  일간 상담 설정 -->
-	<update id="counselDayTimeUpdate" parameterType="AdmissioncounselPossibilityVO">
-			UPDATE counsel_impossibility
-			SET
-				time_code = #{timeCode}
-				, possible = #{possible}
-			WHERE weekdays_code = #{weekdaysCode}
+	<!-- 일간 상담 설정 -->
+	<update id="counselDayTimeUpdate" parameterType="CounselImpossibility">
+		MERGE INTO counsel_impossibility ci
+			USING (SELECT #{reservation} reservation_date, #{timeCode} time_code FROM dual) src
+		ON ( ci.reservation_date = src.reservation_date AND
+			 ci.time_code =	src.time_code)
+		WHEN MATCHED THEN
+		UPDATE 
+			SET 
+				weekdays_code = ''
+		WHERE reservation_date= src.reservation_date AND
+			  time_code = src.time_code
+
+		DELETE WHERE 
+				reservation_date= src.reservation_date AND
+				time_code =	src.time_code
+		WHEN NOT MATCHED THEN
+		INSERT (
+				impossibility_number,
+				time_code,
+				reservation_date
+				)
+			VALUES
+				(
+				NVL(
+					(SELECT /*+ INDEX_DESC(ci impossibility_number) */
+					ci.impossibility_number
+					FROM counsel_impossibility ci
+					WHERE rownum = 1), 0) +1,
+				src.time_code,
+				src.reservation_date
+				);
 	</update>
+
+
+
+
+
+
+
+
+
 
 
 
 	<!-- 상담 일정 신청 -->
-		<select id="counselInsert" resultType="CounselVO">
-		 INSERT INTO admission_counsel
-		 		(
-		 		counsel_number
-				, parent_name
-				, student_name
-				, phone
-				, time_code
-				, reservation_date
-		 		)
-		 	VALUES
-		 		(
-		 		#{counselNumber}
-		 		#{parentName}
-		 		#{studentName}
-		 		#{phone}
-		 		#{timeCode}
-		 		#{reservationDate}
-		 		)
-		
-		</select>
-		
-		
-		
-		
-		
-		
+	<select id="counselInsert" resultType="CounselVO">
+		INSERT INTO admission_counsel
+		(
+		counsel_number
+		, parent_name
+		, student_name
+		, phone
+		, time_code
+		, reservation_date
+		)
+		VALUES
+		(
+		#{counselNumber}
+		#{parentName}
+		#{studentName}
+		#{phone}
+		#{timeCode}
+		#{reservationDate}
+		)
+
+	</select>
+
+
+
+
+
+
 </mapper>
