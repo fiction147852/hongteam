@@ -39,8 +39,3 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 });
-
-
-=======
-    });
-});
