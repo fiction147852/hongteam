@@ -48,7 +48,7 @@ body {
 
 #calendar {
 	flex: 1;
-	max-width: 80%;
+	max-width: 100%;
 }
 
 .table-responsive {
@@ -138,7 +138,24 @@ body {
 	    times.push(time);
 	}
 	
-	let timeD = data[idx].timeCode.split(',');
+	
+	function schedule(){
+		days.forEach((day,idx) =>{			
+			const times = [];
+			let timeD = data[idx].timeCode.split(',');
+			let fTime = timeD[0];
+			let sTime = timeD[1];
+			
+			for (let i = fTime; i <= sTime; i++) {
+			    const time = i < 10 ? `0${i}:` : `${i}:`;
+			    times.push(time);
+			}
+		})
+		console.log(times);
+// 		let fTime = timeD.substr(0,2);
+// 		let sTime = timeD.substr(2,4);
+	
+	}
 	
 	
     const dayContainer = document.getElementById('counselDayTime');
@@ -253,6 +270,8 @@ body {
 	const container = document.getElementById('counselWeekTime');
 
 	const data = /*[[${counselTime}]]*/"";
+
+	
 
 
 	document.addEventListener('DOMContentLoaded', function() {
