@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
         },
     });
 
+
     swiperTwo = new Swiper('#eventModal .swiper', {
         grabCursor: true,
         pagination: {
@@ -40,3 +41,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+=======
+    });
+});

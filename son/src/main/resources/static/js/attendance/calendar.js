@@ -122,8 +122,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     console.error(error);
                 });
 
-        },
-
         // 이벤트(일정)의 콘텐츠를 커스터마이징하는 데 사용된다. 이벤트의 콘텐츠를 구성하는 DOM 요소를 반환한다. (이벤트가 렌더링될 때 호출된다.)
         eventContent: function (scheduleWithMetadata) {
             // 해당 이벤트 객체와 그와 관련된 추가 정보를 포함하는 객체를 매개변수로 전달받는다.
@@ -201,6 +199,22 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => {
             console.error(error);
         });
+
+    // function createSlideTag() {
+    //     const swiperDiv = document.querySelector("#eventModal .swiper-wrapper");
+    //
+    //     const slideDiv = document.createElement("div");
+    //     const slideContentDiv = document.createElement("div");
+    //     const infoDiv = document.createElement("div");
+    //
+    //     slideContentDiv.className = "slide-content";
+    //     slideDiv.className = "swiper-slide";
+    //     infoDiv.className = "subject-info";
+    //
+    //     swiperDiv.appendChild(slideContentDiv);
+    //     slideContentDiv.appendChild(slideDiv);
+    //     slideDiv.appendChild(infoDiv);
+    // }
 
     calendar.render();
 });

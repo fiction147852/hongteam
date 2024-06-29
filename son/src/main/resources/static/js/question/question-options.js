@@ -13,25 +13,26 @@ function toggleOptions() {
 	}
 	
 	function updateDetailSubjects() {
-	    var category = document.getElementById('category');
-	    var detailSubject = document.getElementById('detailSubject');
-	    var selectedCategory = category.value;
-	    
-	    // 기존 옵션을 모두 제거
-	    detailSubject.innerHTML = '';
-	    
+    var category = document.getElementById('category');
+    var detailSubject = document.getElementById('detailSubject');
+    var selectedCategory = category.value;
+
+    // 기존 옵션을 모두 제거
+    detailSubject.innerHTML = '';
+
 	    // 선택된 카테고리에 따라 새로운 옵션 추가
 	    if (selectedCategory === 'A001') {  // 수학
 	        addOption(detailSubject, 'B001', '미적분');
 	        addOption(detailSubject, 'B002', '확률과 통계');
 	    } else if (selectedCategory === 'A002') {  // 영어
-	        addOption(detailSubject, 'C001', '독해');
-	        addOption(detailSubject, 'C002', '문법');
+	        addOption(detailSubject, 'B003', '독해');
+	        addOption(detailSubject, 'B004', '문법');
 	    } else if (selectedCategory === 'A003') {  // 국어
-	        addOption(detailSubject, 'D001', '문학');
-	        addOption(detailSubject, 'D002', '문법');
+	        addOption(detailSubject, 'B005', '화법과 작문');
+	        addOption(detailSubject, 'B006', '언어와 매체');
 	    }
-	    // 첫 번째 옵션을 선택 상태로
+
+		// 첫 번째 옵션을 선택 상태로
 	    if (detailSubject.options.length > 0) {
 	        detailSubject.selectedIndex = 0;
 	    }
@@ -48,4 +49,4 @@ function toggleOptions() {
 	document.addEventListener('DOMContentLoaded', function() {
 	    toggleOptions();
 	    updateDetailSubjects();
-	});
+});

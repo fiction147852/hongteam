@@ -2,6 +2,8 @@ package com.son.app.counsel.mapper;
 
 import java.util.List;
 
+import com.son.app.counsel.service.CounselImpossibility;
+import com.son.app.counsel.service.AdmissionCounselPossibilityVO;
 import com.son.app.counsel.service.CounselVO;
 
 public interface CounselMapper {
@@ -21,6 +23,20 @@ public interface CounselMapper {
 	//삭제
 	public int counselDeleteInfo(int counselNo);
 
-	//상담 일정 시간 수정
-	public List<CounselVO> counselTimeUpdate();
+	
+	
+
+	
+	//주간 상담 시간 조회
+	public List<AdmissionCounselPossibilityVO> counselWeekTimeSelectAll();
+	
+	//주간 상담 시간 수정
+	public int counselWeekTimeUpdate(AdmissionCounselPossibilityVO admissionCounselPossibilityVO);
+
+	//일간 시간 조회
+	public List<CounselImpossibility> counselDayTimeSelectAll();
+	
+	//일간 시간 수정
+	public int counselDayTimeUpdate(CounselImpossibility admissionCounselPossibilityVO);
+	
 }

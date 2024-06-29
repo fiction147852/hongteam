@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/instructor_layout}"
+	layout:fragment="content">
+<head>
+
+<title>강의 목록</title>
+
+</head>
+
+<body>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="table-responsive pt-3">
+					<table class="table table-striped project-orders-table">
+						<thead>
+							<tr>
+								<th>번호</th>
+								<th>제목</th>
+								<th>과목</th>
+								<th>강의 난이도</th>
+								<th>강의 시작일자</th>
+								<th>강의 종료일자</th>
+								<th>정원</th>
+							</tr>
+						</thead>
+						<tbody>
+							<th:block th:each="lecs : ${lectureList}">
+								<tr
+									th:onclick="|location.href='@{/instructor/lecinfo(lectureNumber=${lecs.lectureNumber})}'|">
+									<td>[[ ${lecs.lectureNumber} ]]</td>
+									<td>[[ ${lecs.lectureTitle} ]]</td>
+									<td th:switch="${lecs.subjectCode}">
+									    <span th:case="'A001'">수학
+									    <span th:switch="${lecs.detailSubjectCode}">
+										        <span th:case="'B001'">(미적분)</span>
+										        <span th:case="'B002'">(확률과 통계)</span>
+										        <span th:case="*">([[${lecs.detailSubjectCode}]])</span>
+										    </span>
+	    									</span>
+									    <span th:case="'A002'">영어
+									        <span th:switch="${lecs.detailSubjectCode}">
+									            <span th:case="'B003'">(문법)</span>
+										        <span th:case="'B004'">(독해)</span>
+									            <span th:case="*">([[${lecs.detailSubjectCode}]])</span>
+									        </span>
+									    </span>
+									    <span th:case="'A003'">국어
+									        <span th:switch="${lecs.detailSubjectCode}">
+									            <span th:case="'B005'">(화법과 작문)</span>
+										        <span th:case="'B006'">(언어와 매체)</span>
+									            <span th:case="*">([[${lecs.detailSubjectCode}]])</span>
+									        </span>
+									    </span>
+									    <span th:case="*">[[${lecs.subjectCode}]] ([[${lecs.detailSubjectCode}]])</span>
+									</td>
+									<td>[[ ${lecs.lectureLevelCode} ]]</td>
+									<td>[[ ${#dates.format(lecs.lectureStartDate, 'yyyy년 MM월 dd일')}
+										]]</td>
+									<td>[[ ${#dates.format(lecs.lectureEndDate, 'yyyy년 MM월
+										dd일')} ]]</td>
+									<td>[[ ${lecs.capacity} ]]</td>
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<button type="button" class="btn btn-primary mt-3 float-end"
+				th:onclick="|location.href='@{/instructor/lecinsert}'|">강의 등록</button>
+		</div>
+	</div>
+</body>
+
+</html>
+

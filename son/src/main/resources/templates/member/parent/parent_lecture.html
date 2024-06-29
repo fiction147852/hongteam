@@ -36,71 +36,35 @@
 </style>
 </head>
 <body>
-    <div class="class-info">
+    <div class="class-info"  th:each="lectureInstructor : ${lectureInstructorList}">
         <h3>수업 1</h3>
-        <table>
-            <tr>
-                <th>강의명</th>
-                <td>수학</td>
-            </tr>
-            <tr>
-                <th>교수명</th>
-                <td>김의준 교수</td>
-            </tr>
-            <tr>
-                <th>강의 설명</th>
-                <td>고3수학의 끝</td>
-            </tr>
-            <tr>
-                <th>강의 일정</th>
-                <td>2024-06-10 ~ 2024-12-30</td>
-            </tr>
-            <tr>
-                <th>강의 수준</th>
-                <td>초급</td>
-            </tr>
-            <tr>
-                <th>수강 대상</th>
-                <td>고3</td>
-            </tr>
-            <tr>
-                <th>수강료</th>
-                <td>5,000,000원</td>
-            </tr>
-        </table>
-    </div>
-    <div class="class-info">
-        <h3>수업 2</h3>
-        <table>
-            <tr>
-                <th>강의명</th>
-                <td>수학</td>
-            </tr>
-            <tr>
-                <th>교수명</th>
-                <td>김의준 교수</td>
-            </tr>
-            <tr>
-                <th>강의 설명</th>
-                <td>고3수학의 끝</td>
-            </tr>
-            <tr>
-                <th>강의 일정</th>
-                <td>2024-06-10 ~ 2024-12-30</td>
-            </tr>
-            <tr>
-                <th>강의 수준</th>
-                <td>초급</td>
-            </tr>
-            <tr>
-                <th>수강 대상</th>
-                <td>고3</td>
-            </tr>
-            <tr>
-                <th>수강료</th>
-                <td>5,000,000원</td>
-            </tr>
-        </table>
+		<table>
+			<tr>
+				<th>강의명</th>
+				<td th:text="${lectureInstructor.lectureTitle}"></td>
+			</tr>
+			<tr>
+				<th>교수명</th>
+				<td th:text="${lectureInstructor.instructorName}"></td>
+			</tr>
+			<tr>
+				<th>강의 설명</th>
+				<td th:text="${lectureInstructor.lectureDescription}"></td>
+			</tr>
+			<tr>
+				<th>강의 일정</th>
+				<td
+					th:text="${#dates.format(lectureInstructor.lectureStartDate, 'yyyy-MM-dd')} + ' ~ ' + ${#dates.format(lectureInstructor.lectureEndDate, 'yyyy-MM-dd')}"></td>
+			</tr>
+			<tr>
+				<th>강의 수준</th>
+				<td th:text="${lectureInstructor.lectureLevelCode}"></td>
+			</tr>
+			<tr>
+				<th>수강료</th>
+				<td th:text="${lectureInstructor.lectureCost} +' 원'"></td>
+			</tr>
+		</table>
     </div>
 </body>
 </html>

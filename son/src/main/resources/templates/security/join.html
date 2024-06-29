@@ -4,93 +4,55 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Join</title>
-<style>
-    table {
-        width: 280px;
-        height: 550px;
-        margin: auto;
-        
-    }
-    .email {
-        width: 127px;
-        height: 32px;
-        font-size: 15px;
-        border: 0;
-        border-color: lightgray;
-        border-radius: 15px;
-        outline: none;
-        padding-left: 10px;
-        background-color: rgb(233,233,233);
-    }
-    .text {
-        width: 250px;
-        height: 32px;
-        font-size: 15px;
-        border: 0;
-        border-radius: 15px;
-        outline: none;
-        padding-left: 10px;
-        background-color: rgb(233,233,233);
-    }
-    select {
-        width: 100px;
-        height: 32px;
-        font-size: 15px;
-        border: 1;
-        border-color: lightgray;
-        border-radius: 15px;
-        outline: none;
-        padding-left: 10px;
-    }
-    .btn {
-        width: 262px;
-        height: 32px;
-        font-size: 15px;
-        border: 0;
-        border-radius: 15px;
-        outline: none;
-        padding-left: 10px;
-        background-color: rgb(164, 199, 255);
-    }
-    .btn:active {
-        width: 262px;
-        height: 32px;
-        font-size: 15px;
-        border: 0;
-        border-radius: 15px;
-        outline: none;
-        padding-left: 10px;
-        background-color: rgb(61, 135, 255);
-    }
-</style>
+
+<link rel="stylesheet" th:href="@{/css/security/join.css}"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/lms/js/security/join.js"></script>
 </head>
 <body>
-<form action="login.html">
+<form method="post" th:action="@{/signUp}">
     <table>
     <tr>
         <td><h2>회원가입</h2></td>
     </tr>
-    <tr><td>아이디</td></tr>
-    <tr><td><input type="text" class="text"></td></tr>
+    <tr><td>아이디(이메일)</td></tr>
+    <tr>
+        <td>
+			<input type="text" id="email_id" class="text" title="이메일 아이디" placeholder="이메일" maxlength="18" /> @ 
+			<input type="text" id="email_domain" class="text" title="이메일 도메인" placeholder="이메일 도메인" maxlength="18"/> 
+			<select class="select" title="이메일 도메인 주소 선택" onclick="setEmailDomain(this.value)">
+			    <option value="">-직접입력-</option>
+			    <option value="naver.com">naver.com</option>
+			    <option value="gmail.com">gmail.com</option>
+			    <option value="hanmail.net">hanmail.net</option>
+			    <option value="hotmail.com">hotmail.com</option>
+			    <option value="korea.com">korea.com</option>
+			    <option value="nate.com">nate.com</option>
+			    <option value="yahoo.com">yahoo.com</option>
+			</select>
+			<input type="button" value="인증" class="btn2" onclick="checkEmail()">
+			<input type="hidden" id="confirm" style="display:none">
+        </td>
+    </tr>
+    
+    <tr id="mail_number" name="mail_number" style="display: none">
+    	<td>
+    		<input type="text" name="emailCertNumber" id="emailCertNumber" class="text">
+    		<input type="button" value="확인" placeholder="인증번호 입력" class="btn2" onclick="compareNumber()">
+    	</td>
+    </tr>
     <tr><td>비밀번호</td></tr>
     <tr><td><input type="password" class="text"></td></tr>
     <tr><td>비밀번호 확인</td></tr>
     <tr><td><input type="password" class="text"></td></tr>
     <tr><td>이름</td></tr>
     <tr><td><input type="text" class="text"></td></tr>
+    <tr><td>휴대폰번호</td></tr>
+    <tr><td><input type="text" class="text"></td></tr>
     <tr><td>생년월일</td></tr>
     <tr><td><input type="date" class="text"></td></tr>
-    <tr><td>이메일</td></tr>
-    <tr>
-        <td><input type="text" class="email"> @ 
-            <select>
-                <option>naver.com</option>
-                <option>gmail.com</option>
-                <option>daum.net</option>
-                <option>nate.com</option>
-            </select>
-        </td>
-    </tr>
+    
     <tr><td><input type="submit" value="가입하기" class="btn"></td></tr>
     </table>
 </form>
