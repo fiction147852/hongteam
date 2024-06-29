@@ -45,8 +45,87 @@ document.addEventListener('DOMContentLoaded', function () {
         // 이벤트 객체를 포함하는 배열이며, 각 이벤트 객체는 일정(이벤트)을 나타낸다.
         events: [],
 
+        // event | 클릭된 이벤트에 대한 상세 정보를 담고 있는 속성.
+        // el | 클릭된 이벤트를 나타내는 HTML 요소를 나타내는 속성.
+        // jsEvent | 클릭 이벤트에 대한 상세 정보를 담고 있는 속성.
+        // 이 세 가지 속성을 모두 담고 있는 매개변수를 전달받는다.
+        eventClick: function (eventInfo) {
+            const eventDate = eventInfo.event.start.getFullYear() + "-0" + (eventInfo.event.start.getMonth() + 1) + "-" + eventInfo.event.start.getDate();
+
+            axios.get("student/scheduleDetail?deadlineDate=" + eventDate)
+                .then(response => {
+                    const events = response.data;
+
+                    const swiperWrapperDiv = document.querySelector("#eventModal .swiper-wrapper");
+                    swiperWrapperDiv.innerHTML = ''; // 슬라이드 초기화
+
+                    events.forEach(event => {
+                        // 틀잡기.
+                        const swiperSlideDiv = document.createElement("div");
+                        const slideContentDiv = document.createElement("div");
+                        const subjectInfoDiv = document.createElement("div");
+
+                        swiperSlideDiv.className = "swiper-slide";
+                        slideContentDiv.className = "slide-content";
+                        subjectInfoDiv.className = "subject-info";
+
+                        swiperWrapperDiv.appendChild(swiperSlideDiv);
+                        swiperSlideDiv.appendChild(slideContentDiv);
+                        slideContentDiv.appendChild(subjectInfoDiv)
+
+                        // 내용 생성
+                        const slideTitle = document.createElement("h5");
+                        const itemInfoDivOne = document.createElement("div");
+                        const iconOne = document.createElement("i");
+
+                        slideTitle.className = "slide-title";
+                        itemInfoDivOne.className = "info-item";
+                        iconOne.className = "fa-regular fa-circle-check";
+
+                        itemInfoDivOne.appendChild(iconOne);
+                        subjectInfoDiv.appendChild(slideTitle);
+                        subjectInfoDiv.appendChild(itemInfoDivOne);
+
+                        if (event.type === "task") {
+                            swiperWrapperDiv.closest(".swiper").style.height = "150px";
+
+                            slideTitle.innerText = event.title;
+                            const itemInfoDivOneTextNode = document.createTextNode(" " + event.status);
+
+                            const itemInfoDivTwo = document.createElement("div");
+                            const iconTwo = document.createElement("i");
+                            const itemInfoDivTextNode = document.createTextNode(" " + event.postDate.split("T")[0] + " ~ " + event.deadlineDate.split("T")[0]);
+
+                            itemInfoDivTwo.className = "info-item";
+                            iconTwo.className = "fas fa-clock";
+
+                            itemInfoDivOne.appendChild(itemInfoDivOneTextNode);
+                            itemInfoDivTwo.appendChild(iconTwo);
+                            itemInfoDivTwo.appendChild(itemInfoDivTextNode);
+                            subjectInfoDiv.appendChild(itemInfoDivTwo);
+                        } else {
+                            swiperWrapperDiv.closest(".swiper").style.height = "75px";
+
+                            slideTitle.innerText = event.title;
+                            const itemInfoDivOneTextNode = document.createTextNode(" " + event.status);
+
+                            itemInfoDivOne.appendChild(itemInfoDivOneTextNode);
+                        }
+
+                        swiperTwo.update();
+
+                        const modal = new bootstrap.Modal(document.getElementById('eventModal'));
+                        modal.show();
+                    });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+        },
+
         // 이벤트(일정)의 콘텐츠를 커스터마이징하는 데 사용된다. 이벤트의 콘텐츠를 구성하는 DOM 요소를 반환한다. (이벤트가 렌더링될 때 호출된다.)
-        eventContent: function(scheduleWithMetadata) {
+        eventContent: function (scheduleWithMetadata) {
             // 해당 이벤트 객체와 그와 관련된 추가 정보를 포함하는 객체를 매개변수로 전달받는다.
             const schedule = scheduleWithMetadata.event;
 
@@ -57,9 +136,9 @@ document.addEventListener('DOMContentLoaded', function () {
             container.style.width = "100%";
             container.style.padding = "3px 12px";
 
-            switch(schedule.extendedProps.type) {
+            switch (schedule.extendedProps.type) {
                 case "test" :
-                    container.style.backgroundColor = "#342649"
+                    container.style.backgroundColor = "#28587E";
                     break;
                 case "task" :
                     container.style.backgroundColor = "#2C3D4F";
@@ -73,10 +152,10 @@ document.addEventListener('DOMContentLoaded', function () {
             title.style.color = "white";
             container.appendChild(title);
 
-            return { domNodes: [container] };
+            return {domNodes: [container]};
         },
         // 날짜 셀이 렌더링된 후에 호출 (셀이 DOM 에 추가된 이후 실행)
-        dayCellDidMount: function(date) {
+        dayCellDidMount: function (date) {
             const day = date.date.getDay();
 
             // if (day === 6) {
@@ -87,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
         },
     });
 
-    axios.get("student/1")
+    axios.get("student/schedule")
         .then(response => {
             const eventData = response.data;
 
@@ -125,4 +204,3 @@ document.addEventListener('DOMContentLoaded', function () {
 
     calendar.render();
 });
-
