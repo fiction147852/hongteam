@@ -121,48 +121,48 @@ document.addEventListener('DOMContentLoaded', function () {
                 .catch(error => {
                     console.error(error);
                 });
-
-        // 이벤트(일정)의 콘텐츠를 커스터마이징하는 데 사용된다. 이벤트의 콘텐츠를 구성하는 DOM 요소를 반환한다. (이벤트가 렌더링될 때 호출된다.)
-        eventContent: function (scheduleWithMetadata) {
-            // 해당 이벤트 객체와 그와 관련된 추가 정보를 포함하는 객체를 매개변수로 전달받는다.
-            const schedule = scheduleWithMetadata.event;
-
-            const container = document.createElement('div');
-            container.style.display = 'flex';
-            container.style.justifyContent = 'space-between';
-            container.style.alignItems = 'center';
-            container.style.width = "100%";
-            container.style.padding = "3px 12px";
-
-            switch (schedule.extendedProps.type) {
-                case "test" :
-                    container.style.backgroundColor = "#28587E";
-                    break;
-                case "task" :
-                    container.style.backgroundColor = "#2C3D4F";
-                    break;
-                default :
-                    container.style.backgroundColor = "#0D3E2A";
-            }
-
-            const title = document.createElement('div');
-            title.innerHTML = schedule.title;
-            title.style.color = "white";
-            container.appendChild(title);
-
-            return {domNodes: [container]};
         },
-        // 날짜 셀이 렌더링된 후에 호출 (셀이 DOM 에 추가된 이후 실행)
-        dayCellDidMount: function (date) {
-            const day = date.date.getDay();
+            // 이벤트(일정)의 콘텐츠를 커스터마이징하는 데 사용된다. 이벤트의 콘텐츠를 구성하는 DOM 요소를 반환한다. (이벤트가 렌더링될 때 호출된다.)
+            eventContent: function (scheduleWithMetadata) {
+                // 해당 이벤트 객체와 그와 관련된 추가 정보를 포함하는 객체를 매개변수로 전달받는다.
+                const schedule = scheduleWithMetadata.event;
 
-            // if (day === 6) {
-            //
-            // } else if (day === 0) {
-            //
-            // }
-        },
-    });
+                const container = document.createElement('div');
+                container.style.display = 'flex';
+                container.style.justifyContent = 'space-between';
+                container.style.alignItems = 'center';
+                container.style.width = "100%";
+                container.style.padding = "3px 12px";
+
+                switch (schedule.extendedProps.type) {
+                    case "test" :
+                        container.style.backgroundColor = "#28587E";
+                        break;
+                    case "task" :
+                        container.style.backgroundColor = "#2C3D4F";
+                        break;
+                    default :
+                        container.style.backgroundColor = "#0D3E2A";
+                }
+
+                const title = document.createElement('div');
+                title.innerHTML = schedule.title;
+                title.style.color = "white";
+                container.appendChild(title);
+
+                return {domNodes: [container]};
+            },
+            // 날짜 셀이 렌더링된 후에 호출 (셀이 DOM 에 추가된 이후 실행)
+            dayCellDidMount: function (date) {
+                const day = date.date.getDay();
+
+                // if (day === 6) {
+                //
+                // } else if (day === 0) {
+                //
+                // }
+            },
+        });
 
     axios.get("student/schedule")
         .then(response => {
@@ -199,22 +199,6 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => {
             console.error(error);
         });
-
-    // function createSlideTag() {
-    //     const swiperDiv = document.querySelector("#eventModal .swiper-wrapper");
-    //
-    //     const slideDiv = document.createElement("div");
-    //     const slideContentDiv = document.createElement("div");
-    //     const infoDiv = document.createElement("div");
-    //
-    //     slideContentDiv.className = "slide-content";
-    //     slideDiv.className = "swiper-slide";
-    //     infoDiv.className = "subject-info";
-    //
-    //     swiperDiv.appendChild(slideContentDiv);
-    //     slideContentDiv.appendChild(slideDiv);
-    //     slideDiv.appendChild(infoDiv);
-    // }
 
     calendar.render();
 });
