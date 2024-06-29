@@ -4,9 +4,8 @@
 <head>
     <link rel="stylesheet" th:href="@{/css/student/calendar.css}"/>
     <link rel="stylesheet" th:href="@{/css/student/lectureInfo.css}"/>
-
-    <script src="js/attendance/calendar.js"></script>
     <script src="js/attendance/lectureInfo.js"></script>
+    <script src="js/attendance/calendar.js"></script>
 
 </head>
 <body>
@@ -33,48 +32,27 @@
 
         <div id="calendar">
         </div>
+
         <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header" style="background-color: #27587E; display: flex; align-items: center; justify-content: flex-end; padding-right: 20px;">
                         <button type="button" class="btn btn-dark" style="margin-right: 8px;">목록</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                        <button type="button" class="btn btn-secondary" id="closeModalButton">취소</button>
                     </div>
                     <div class="modal-body">
                         <!-- Swiper 시작 -->
                         <div class="swiper">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <div class="slide-content">
-                                        <h4 class="subject-title">제목</h4>
-                                        <div class="subject-info">
-                                            <div class="info-item"><i class="fas fa-book"></i> 미제출</div>
-                                            <div class="info-item"><i class="fas fa-clock"></i> 2024-06-01 ~ 2024-06-10</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="slide-content">
-                                        <div class="subject-info">
-                                            <div class="info-item"><i class="fas fa-book"></i> 수학</div>
-                                            <div class="info-item"><i class="fas fa-user"></i> 홍길동 교수</div>
-                                            <div class="info-item"><i class="fas fa-calendar-alt"></i> 월요일 09 : 00 ~ 10 : 00</div>
-                                            <div class="info-item"><i class="fas fa-clock"></i> 2024-06-01 ~ 2024-06-10</div>
-                                        </div>
-                                    </div>
-                                </div>
+
                             </div>
                             <div class="swiper-pagination"></div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </body>
 </html>
 
