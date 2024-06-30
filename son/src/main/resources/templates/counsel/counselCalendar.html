@@ -78,7 +78,7 @@ body {
 <!-- 			data-bs-target="#dayTime">상담 일정 조정</button> -->
 	</div>
 
-	<!-- 상담 가능 시간 설정 모달창 -->
+	<!-- 주간 상담 가능 시간 설정 모달창 -->
 	<div class="modal" id="weekTime" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -96,14 +96,14 @@ body {
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">Close</button>
-					<button type="button" id="dayBtn" class="btn btn-primary"
+					<button type="button" id="weekBtn" class="btn btn-primary"
 						data-bs-dismiss="modal">저장</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<!-- 시간별 설정 모달창 -->
+	<!-- 일간 시간별 설정 모달창 -->
 	<div class="modal" id="dayTime" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -122,7 +122,7 @@ body {
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">취소</button>
-					<button type="button" id="weekBtn" class="btn btn-primary"
+					<button type="button" id="dayBtn" class="btn btn-primary"
 						data-bs-dismiss="modal">저장</button>
 				</div>
 			</div>
@@ -132,51 +132,56 @@ body {
 <script th:inline="javascript">
 	
 	// 일 - 상담 시간 설정
-	const times = [];
-	for (let i = 9; i <= 22; i++) {
-	    const time = i < 10 ? `0${i}:` : `${i}:`;
-	    times.push(time);
-	}
+// 	for (let i = 9; i <= 22; i++) {
+// 	    const time = i < 10 ? `0${i}:` : `${i}:`;
+// 	    times.push(time);
+// 	}
+	let currClickedDate = 0;
 	
-	
-	function schedule(){
-		days.forEach((day,idx) =>{			
-			const times = [];
-			let timeD = data[idx].timeCode.split(',');
-			let fTime = timeD[0];
-			let sTime = timeD[1];
+	function schedule(ajax_data){
+// 	const dayTimes = [];
+// 		days.forEach((day,idx) =>{			
+// 			const times = [];
+// 			let timeD = ajax_data.split(',');
+// 			let fTime = timeD[0];
+// 			let sTime = timeD[1];
 			
-			for (let i = fTime; i <= sTime; i++) {
-			    const time = i < 10 ? `0${i}:` : `${i}:`;
-			    times.push(time);
-			}
-		})
-		console.log(times);
+// 			for (let i = fTime; i <= sTime; i++) {
+// 			    const time = i < 10 ? `0${i}:` : `${i}:`;
+// 			    times.push(time);
+// 			}
+// 			dayTimes.push(times);
+// 		})
+// 		console.log(dayTimes);
+		
+// 		return dayTimes;
 // 		let fTime = timeD.substr(0,2);
 // 		let sTime = timeD.substr(2,4);
-	
+		let arr = [];
+		let newData = ajax_data.split(',');
+	 	for(let i = newData[0]; i <= newData[1]; i++){
+	 		arr.push(i.toString());
+	 	}
+	 	return arr;
 	}
-	
 	
     const dayContainer = document.getElementById('counselDayTime');
     
     const dayTimeData = /*[[${counselDayTime}]]*/"";
     
-    
     // 모달 객체 생성
 	const counselModal2 = new bootstrap.Modal(document.getElementById('dayTime'));
-	
-    
+	console.log('오늘날짜 ', dayTime);
     //모달 실행
     document.addEventListener('DOMContentLoaded', function() {
-	    console.log('test clg')
-	     updateDayTimeSetting();
+// 	    console.log('test clg')
+// 	     updateDayTimeSetting();
 	 });
-	
-	function updateDayTimeSetting(){
+
+	function updateDayTimeSetting(unable=[], ajax_data){
 		//테이블 요소 생성
 		const table = document.createElement('table');
-		
+
 		//테이블 헤더 생성
 		const headRow = document.createElement('tr');
 		
@@ -194,7 +199,10 @@ body {
 		table.appendChild(headRow);
 		
 		// 시간별 데이터 행
-		times.forEach((time, i) => {
+	
+// 		schedule()[currClickedDate]
+// 		['15', '16', '17','18', '19', '20', '21', '22']
+		schedule(ajax_data).forEach((time, i) => {
 		    const row = document.createElement('tr');
 		    
 		    // 시간 셀 추가
@@ -203,7 +211,11 @@ body {
 		    // 체크박스 생성
 		    let timeCheck = document.createElement('input');
 		    timeCheck.type = 'button'; // input 요소의 타입을 checkbox로 설정
-		    timeCheck.value = '가능';
+		    if (!unable.includes(time)){
+		    	timeCheck.value = '가능';
+		    } else {
+		    	timeCheck.value = '불가능';
+		    }
 		    // timeCheck.onclick = 'impossible'
 		    timeCheck.id = `time${i}`; // id 설정 (옵션)
 		    timeCheck.addEventListener('click', function(ev){
@@ -238,14 +250,38 @@ body {
 	} 
 	
 	
-	const weekBtn = document.getElementById('weekBtn');
-	weekBtn.addEventListener('click', ()=>{
+	const dayBtn = document.getElementById('dayBtn');
+	
+	dayBtn.addEventListener('click', ()=>{
 		let param =[];
-		times.forEach((time, i) => {
-			let startWeekTime = document.getElementById(`wStart${i}`).value
-		});
-		console.log(param.Timecode);
-			
+
+		let modalDateValue = $('#modalDate').val();
+		console.log('오늘날짜', modalDateValue);
+	    param.push(modalDateValue);
+// 		times.forEach((time, i) => {
+// 			let startWeekTime = document.getElementById(`wStart${i}`).value
+// 		});
+// 		console.log(param.Timecode);
+// 		let selectTable = document.getElementById('counselDayTime');
+// 		let selectTableRows = selectTable;
+		let selectTable = $('#counselDayTime');
+		let selectInputs = selectTable.find('input');
+		selectInputs.each((idx, ele) => {
+			if ($(ele).val() == '불가능'){
+				param.push($(ele).parent().text());
+			}
+		})
+		
+// 		console.log('테이블', selectInputs);
+// 		for(let i=0; i<selectTableRows; i++){
+// 			let posVal = document.getElementById('time' + i).value;
+// 			if("불가능" == posVal){
+// 	            let rowText = selectTable.rows[i].cells[0].innerText;
+// 	            param.push(rowText);
+// 			}
+// 		}
+		
+		console.log('시간', param);
 		$.ajax({
 			type: 'post',
 			url: 'counselDayTime', // 데이터를 주고받을 파일 주소 입력
@@ -278,7 +314,7 @@ body {
 		updateTimeSetting();
 	    console.log('test clg')
 	});
-        
+	
 	function updateTimeSetting(){
 		days.forEach((day, idx) => {
 			let times = data[idx].timeCode.split(',');
@@ -288,14 +324,14 @@ body {
 				<label for="start${idx}">${day}:</label>    
 				<select id="start${idx}" name="counselTime" class="form-select" aria-label="${day} 시작 시간">
 					<option selected>상담 시작</option>`;
-			for(let i=9; i<=22; i++){
+			for(let i=10; i<=22; i++){
 				opt += `<option value="${i}" ${ times[0]==i ? 'selected' : ''  }>${i}:00</option>`;
 			}  
 			opt += `</select>
 				<p style="margin: 0 10px;">~</p>
 				<select id="end${idx}" class="form-select" aria-label="${day} 마감 시간">
 					<option selected>상담 마감</option>`;
-			for(let i=9; i<=22; i++){
+			for(let i=10; i<=22; i++){
 				opt += `<option value="${i}" ${ times[1] == i ? 'selected' : ''  }>${i}:00</option>`;
 			}  
 			opt += `</select>`;
@@ -304,8 +340,8 @@ body {
 		});
 	} 
 		
-	const dayBtn = document.getElementById('dayBtn');
-	dayBtn.addEventListener('click', ()=>{
+	const weekBtn = document.getElementById('weekBtn');
+	weekBtn.addEventListener('click', ()=>{
 		let param =[];
 		days.forEach((day, i) => {
 			let startTime = document.getElementById(`start${i}`).value
@@ -342,7 +378,8 @@ body {
 
 <!-- 달력복사한거 -->
 <!-- FullCalendar Core Stylesheet -->
-<script>
+<script th:inline="javascript">
+
 		// 	  	const weekDay = ['월요일', '화요일', '수요일', '목요일', '금요일'];
 
 		// 	  	function createWeekdayTimeOptions(){
@@ -364,10 +401,37 @@ body {
 
 		// 	  	}
 		
-		
-
+		//해당 날 불가능한 시간대를 가진리스트 불러오기 
+		async function getDayOfImp(date){
+			let data = [];
+			await $.ajax({
+				type: 'get',
+				url: 'ad/'+date, // 데이터를 주고받을 파일 주소 입력
+				success: function(result){
+// 					console.log(result);
+					data = result;
+				},
+				error: function(){  
+					console.error('서버 요청 실패');
+				}
+			});
+			return data;
+		}
+		async function getWeekDayPos(weekday){
+			let koParam = decodeURI(decodeURIComponent(weekday));
+			let str = "";
+			await $.ajax({
+				type: 'get',
+				url: `wkday/${koParam}`,
+				success : function(result){
+					 str = result
+				},
+				error: function () {}
+				
+			})
+			return str;
 			
-			
+		}
 		document.addEventListener('DOMContentLoaded', function() {
 			var calendarEl = document.getElementById('calendar');
 			plugins: [ 'dayGrid','interaction' ]
@@ -389,12 +453,13 @@ body {
 		        		}
 		        	}		        
 		        },
-		        
-		        dateClick: function(info) {
+		        //해당날 클릭시 이벤트 
+		        dateClick: async function(info) {
 					
 		        	let date = info.dateStr.slice(2, 10);
 		        	let dateMonth = date.slice(3,5);
 		        	let dateDay = date.slice(6,8)
+		        	let oraDay = date.replaceAll('-','/');
 		        	
 		        	console.log(info.dateStr);
 		        	console.log('Clicked on: ' + date);
@@ -402,20 +467,34 @@ body {
 		        	console.log('Clicked on: ' + dateDay);
 	        	    console.log('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
 	        	    console.log('Current view: ' + info.view.type);
-		        	    
+		        	console.log(oraDay);
 	        	    let dateObj = new Date(info.dateStr);
 
 	        	    const daysOfWeek = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
 	        	    let a = dateObj.getDay();
 	        	    console.log(daysOfWeek[a]);
+	        	    let b = a-1 === -1 ? 6 : a-1;
+	        	    //console.log(b);
 	        	    
 	        	    
-	        	    
-                    $('#modalDate').text(dateMonth + '월 ' + dateDay + '일 ' + daysOfWeek[a] + ' 일정' );
+                    $('#modalDate').text(dateMonth + '월 ' + dateDay + '일 ' + daysOfWeek[a] + ' 일정' ).val(oraDay);
                     $('#dayTime').modal('show');
-                    
 
-		        },
+                    
+					currClickedDate = b;
+					console.log(currClickedDate);
+// 					updateDayTimeSetting();
+// 					console.log(await getDayOfImp(info.dateStr));
+					
+					
+					const result = await getDayOfImp(info.dateStr);
+			        const ajax_data = await getWeekDayPos(daysOfWeek[a]);
+			        console.log(ajax_data);
+			        updateDayTimeSetting(result, ajax_data);
+
+			       	
+					
+                },
 		        
 		        timeZone: 'Asia/Seoul', 
 		        locale: 'kr',        // 언어 설정
