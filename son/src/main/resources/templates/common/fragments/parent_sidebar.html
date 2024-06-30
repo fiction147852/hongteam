@@ -8,8 +8,8 @@
             </a>
             <div class="collapse" id="ui-basic">
                 <ul class="nav flex-column sub-menu">
-                    <li th:each="student : ${studentList}" class="nav-item">
-                        <a class="nav-link" th:href="@{'/student/info/' + ${student.studentId}}" th:text="${student.studentName}">학생 이름</a>
+                    <li class="nav-item">
+                        <a class="nav-link">학생 이름</a>
                     </li>
                 </ul>
             </div>
