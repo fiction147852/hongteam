@@ -22,7 +22,7 @@
 
 <body id="taskInfoBody">
 <div id="container" style="width:878px; margin:0 auto;">
- <form name="insertForm" action="/lms/instructor/taskInsert" method="post">
+ <form name="insertForm" action="/lms/instructor/taskInsert" method="post" enctype="multipart/form-data">
     <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
         <div class="grid grid-cols-4 gap-4 p-6 border-b">
             <div class="col-span-1 font-bold">제목</div>
@@ -47,14 +47,18 @@
 				<input type="number" class="form-control" name="lectureNumber">
 			</div>
         </div>
-        <div class="grid grid-cols-4 p-6 border-b">
-            <div class="col-span-1 font-bold mb-2">첨부 파일</div>
-            <div class="col-span-1  border-gray-300">
-            <!-- 파일로 교체해야함 -->
-            <input type="text" name="material" class="form-control"/>
-            </div>
-        </div>
-    </div>
+				<div class="grid grid-cols-4 p-6 border-b" id="file_list">
+				  <div class="col-span-1 font-bold mb-2">첨부 파일</div>
+				  <div class="col-span-3 file_input" id="file_input">
+				    <input type="text" readonly class="form-control mb-1" />
+				    <label id="file-field">
+				      <input type="file" name="files" multiple class="form-control" onchange="selectFile(this);" />
+				    </label>
+				    <button type="button" onclick="removeFile(this);" class="btn btn-danger"><span>삭제</span></button>
+					<button type="button" onclick="addFile();" class="btn btn-info"><span>파일 추가</span></button>
+				  </div>
+				</div>
+			</div>
         <div class="btn-group float-end" role="group">
         	<button type="submit" class="btn btn-primary mt-3">등록</button>
 			<button type="button" class="btn btn-danger mt-3" th:onclick="|location.href='@{/instructor/taskList}'|">취소</button>
@@ -80,6 +84,54 @@
         insertForm.submit();
     };
 	
+ // 파일 선택
+    function selectFile(element) {
+      const file = element.files[0];
+      const filename = element.closest('.file_input').querySelector('input[type="text"]');
+
+      // 1. 파일 선택 창에서 취소 버튼이 클릭된 경우
+      if (!file) {
+        filename.value = '';
+        return false;
+      }
+
+      // 2. 파일 크기가 10MB를 초과하는 경우
+      const fileSize = Math.floor(file.size / 1024 / 1024);
+      if (fileSize > 10) {
+        alert('10MB 이하의 파일로 업로드해 주세요.');
+        filename.value = '';
+        element.value = '';
+        return false;
+      }
+
+      // 3. 파일명 지정
+      filename.value = file.name;
+    }
+
+    // 파일 추가
+    function addFile() {
+      const fileDiv = document.createElement('div');
+      fileDiv.className = 'col-span-3 file_input';
+      fileDiv.innerHTML = `
+        <input type="text" readonly class="form-control" />
+        <label>
+          <input type="file" name="files" class="form-control" onchange="selectFile(this);" />
+        </label>
+        <button type="button" onclick="removeFile(this);" class="btn btn-danger"><span>삭제</span></button>
+      `;
+      document.getElementById('file_input').appendChild(fileDiv);
+    }
+
+    // 파일 삭제
+    function removeFile(element) {
+      const fileInput = element.closest('.file_input');
+      if (fileInput.parentElement.id === 'file_list') {
+        const inputs = fileInput.querySelectorAll('input');
+        inputs.forEach(input => input.value = '');
+      } else {
+        fileInput.remove();
+      }
+    }
 	</script>
 		
 	<!-- End custom js for this page-->

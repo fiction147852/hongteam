@@ -2,6 +2,7 @@ package com.son.app.member.controller;
 
 import java.util.List;
 
+import com.son.app.security.service.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,7 @@ public class ParentController {
 	
 	@Autowired
 	ParentService parentService;
-	
+  
 	@GetMapping("dsa")
     public String getParentDashboard(Model model, @AuthenticationPrincipal CustomUserDetails principal) {
 		String email = principal.getMember().getEmail();

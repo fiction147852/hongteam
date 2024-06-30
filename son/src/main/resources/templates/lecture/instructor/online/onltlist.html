@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/instructor_layout}"
+	layout:fragment="content">
+<head>
+
+<title>온라인 강의 목록</title>
+
+</head>
+
+<body>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="table-responsive pt-3">
+					<table class="table table-striped project-orders-table">
+						<thead>
+							<tr>
+								<th>번호</th>
+								<th>제목</th>
+								<th>강의자</th>
+								<th>게시일자</th>
+								<th>조회수</th>
+							</tr>
+						</thead>
+						<tbody>
+							<th:block th:each="onlecs : ${onlineLectureList}">
+								<tr
+									th:onclick="|location.href='@{/instructor/onlineLTInfo(onlineLectureNumber=${onlecs.onlineLectureNumber})}'|">
+									<td>[[ ${onlecs.onlineLectureNumber} ]]</td>
+									<td>[[ ${onlecs.title} ]]</td>
+									<td>[[ ${onlecs.instructorName} ]]</td>
+									<td>[[ ${#dates.format(onlecs.postDate, 'yyyy년 MM월 dd일')} ]]</td>
+									<td>[[ ${onlecs.views} ]]</td>
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<button type="button" class="btn btn-primary mt-3 float-end"
+				th:onclick="|location.href='@{/instructor/lecinsert}'|">강의 등록</button>
+		</div>
+	</div>
+</body>
+
+</html>
+

@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface ParentLectureService {
 	//전체조회
-	public List<LectureVO> ParentLetureInfoList();
+	public List<LectureInstructorVO> ParentLetureInfoList();
 }

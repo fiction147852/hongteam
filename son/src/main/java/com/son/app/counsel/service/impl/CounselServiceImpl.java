@@ -87,7 +87,7 @@ public class CounselServiceImpl implements CounselService{
 	//일간 상담 시간 조율 
 	@Override
 	public int counselDayTimeUpdate(List<CounselImpossibility> 
-											admissionCounselPossibilityList) {
+												counselImpossibility) {
 	
 		return 0;
 	}

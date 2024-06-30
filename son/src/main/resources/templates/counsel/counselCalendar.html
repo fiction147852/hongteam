@@ -10,36 +10,25 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>PolluxUI Admin</title>
 
-<link
-	href="https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.min.css"
-	rel="stylesheet">
+ <!-- FullCalendar Core Stylesheet -->
+  <link href='https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.min.css' rel='stylesheet' />
 
-<!-- FullCalendar DayGrid Plugin Stylesheet (for dayGridMonth, dayGridWeek, dayGridDay views) -->
-<link
-	href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid/main.min.css"
-	rel="stylesheet">
+  <!-- FullCalendar DayGrid Plugin Stylesheet -->
+  <link href='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid/main.min.css' rel='stylesheet' />
 
-<!-- FullCalendar TimeGrid Plugin Stylesheet (for timeGridWeek, timeGridDay views) -->
-<link
-	href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid/main.min.css"
-	rel="stylesheet">
+  <!-- FullCalendar TimeGrid Plugin Stylesheet -->
+  <link href='https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid/main.min.css' rel='stylesheet' />
+
+  <!-- SweetAlert2 Stylesheet -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css" rel="stylesheet" />
+
+
+
 
 <!-- SweetAlert2 Stylesheet (optional, for styling SweetAlert2 dialogs) -->
 <link
 	href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
 	rel="stylesheet">
-<!-- FullCalendar Core JavaScript -->
-<script
-	src="https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.min.js"></script>
-
-<!-- FullCalendar DayGrid Plugin JavaScript -->
-<script
-	src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid/main.min.js"></script>
-
-<!-- FullCalendar TimeGrid Plugin JavaScript -->
-<script
-	src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid/main.min.js"></script>
-
 <!-- SweetAlert2 JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- Include ConfigFragment -->
@@ -59,7 +48,7 @@ body {
 
 #calendar {
 	flex: 1;
-	max-width: 80%;
+	max-width: 100%;
 }
 
 .table-responsive {
@@ -85,8 +74,8 @@ body {
 		<div id="calendar"></div>
 		<button type="button" class="btn btn-primary" data-bs-toggle="modal"
 			data-bs-target="#weekTime">기본 상담 시간 설정</button>
-		<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-			data-bs-target="#dayTime">상담 일정 조정</button>
+<!-- 		<button type="button" class="btn btn-primary" data-bs-toggle="modal" -->
+<!-- 			data-bs-target="#dayTime">상담 일정 조정</button> -->
 	</div>
 
 	<!-- 상담 가능 시간 설정 모달창 -->
@@ -122,7 +111,7 @@ body {
 				<div class="modal-header">
 					<div id="schedule-settings">
 						<div class="table-responsive pt-3">
-							<h2>당일 상담 시간 설정</h2>
+							<h2 id="modalDate"></h2>
 							<div id="counselDayTime"></div>
 						</div>
 					</div>
@@ -132,7 +121,7 @@ body {
 				<div class="modal-body">...</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">Close</button>
+						data-bs-dismiss="modal">취소</button>
 					<button type="button" id="weekBtn" class="btn btn-primary"
 						data-bs-dismiss="modal">저장</button>
 				</div>
@@ -150,9 +139,29 @@ body {
 	}
 	
 	
+	function schedule(){
+		days.forEach((day,idx) =>{			
+			const times = [];
+			let timeD = data[idx].timeCode.split(',');
+			let fTime = timeD[0];
+			let sTime = timeD[1];
+			
+			for (let i = fTime; i <= sTime; i++) {
+			    const time = i < 10 ? `0${i}:` : `${i}:`;
+			    times.push(time);
+			}
+		})
+		console.log(times);
+// 		let fTime = timeD.substr(0,2);
+// 		let sTime = timeD.substr(2,4);
+	
+	}
+	
+	
     const dayContainer = document.getElementById('counselDayTime');
     
     const dayTimeData = /*[[${counselDayTime}]]*/"";
+    
     
     // 모달 객체 생성
 	const counselModal2 = new bootstrap.Modal(document.getElementById('dayTime'));
@@ -200,6 +209,7 @@ body {
 		    timeCheck.addEventListener('click', function(ev){
 				if(timeCheck.value == "가능"){
 					timeCheck.value="불가능";
+					console.log(timeCheck.parentNode.innerText.substr(0,2));
 				} else if (timeCheck.value == "불가능"){
 					timeCheck.value="가능";
 				}
@@ -227,30 +237,18 @@ body {
 	    dayContainer.appendChild(table);
 	} 
 	
-	// function impossible()  {
-	// 	  const timeCheck = document.getElementById('time${i}');
-		  
-	// 	  timeCheck.value = "불가능";
-	// 	}
-	
-	// `time${i}`.addEventListener('click', function(){
-	// 	impossible();
-	// })
-	
 	
 	const weekBtn = document.getElementById('weekBtn');
 	weekBtn.addEventListener('click', ()=>{
 		let param =[];
-		days.forEach((day, i) => {
-			let startTime = document.getElementById(`start${i}`).value
-			let endTime = document.getElementById(`end${i}`).value
-			param.push({weekdaysCode: day, timeCode: startTime +"," + endTime});
+		times.forEach((time, i) => {
+			let startWeekTime = document.getElementById(`wStart${i}`).value
 		});
 		console.log(param.Timecode);
 			
 		$.ajax({
 			type: 'post',
-			url: 'counselWeekTime', // 데이터를 주고받을 파일 주소 입력
+			url: 'counselDayTime', // 데이터를 주고받을 파일 주소 입력
 			data: JSON.stringify(param),
 			contentType: 'application/json; charset=utf-8',
 			dataType: 'json', // JSON 형식으로 받기
@@ -263,19 +261,22 @@ body {
 		});
 	});
 	
-	
+	// ===================================================================================
+	// ===================================================================================
 	// 주 - 상담 시간 설정 =======================================================================================
 	const counselModal = new bootstrap.Modal(document.getElementById('weekTime'));
 	
 	const days = ['월요일', '화요일', '수요일', '목요일', '금요일'];
 	const container = document.getElementById('counselWeekTime');
 
-	const data = [[${counselTime}]];
-        
+	const data = /*[[${counselTime}]]*/"";
+
+	
+
+
 	document.addEventListener('DOMContentLoaded', function() {
 		updateTimeSetting();
 	    console.log('test clg')
-
 	});
         
 	function updateTimeSetting(){
@@ -362,9 +363,14 @@ body {
 		// 	  			}
 
 		// 	  	}
+		
+		
+
+			
+			
 		document.addEventListener('DOMContentLoaded', function() {
 			var calendarEl = document.getElementById('calendar');
-
+			plugins: [ 'dayGrid','interaction' ]
 			var calendar = new FullCalendar.Calendar(calendarEl, {
 				height : '1000px',
 				expandRows: true, // 화면에 맞게 높이 재설정
@@ -383,8 +389,34 @@ body {
 		        		}
 		        	}		        
 		        },
-	
+		        
+		        dateClick: function(info) {
+					
+		        	let date = info.dateStr.slice(2, 10);
+		        	let dateMonth = date.slice(3,5);
+		        	let dateDay = date.slice(6,8)
+		        	
+		        	console.log(info.dateStr);
+		        	console.log('Clicked on: ' + date);
+		        	console.log('Clicked on: ' + dateMonth);
+		        	console.log('Clicked on: ' + dateDay);
+	        	    console.log('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+	        	    console.log('Current view: ' + info.view.type);
+		        	    
+	        	    let dateObj = new Date(info.dateStr);
 
+	        	    const daysOfWeek = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
+	        	    let a = dateObj.getDay();
+	        	    console.log(daysOfWeek[a]);
+	        	    
+	        	    
+	        	    
+                    $('#modalDate').text(dateMonth + '월 ' + dateDay + '일 ' + daysOfWeek[a] + ' 일정' );
+                    $('#dayTime').modal('show');
+                    
+
+		        },
+		        
 		        timeZone: 'Asia/Seoul', 
 		        locale: 'kr',        // 언어 설정
 		        dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
@@ -407,7 +439,7 @@ body {
                 
 				titleFormat : function(date) {
 					// YYYY년 MM월
-					return `${date.date.year}년 ${date.date.month + 1}월`;
+					return `${date.date.year}년 ${date.date.month + 1}월 `;
 					
 				},
 				// 날짜 선택해서 이벤트 추가 못써서 뺐음
@@ -575,6 +607,17 @@ body {
 			
 			
 			
+			
+	
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			function addNewEvent() {
 			    Swal.fire({
 			        html: `
@@ -643,6 +686,19 @@ body {
 
 		});
 	</script>
+
+
+  <!-- FullCalendar Core JavaScript -->
+  <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.min.js'></script>
+
+  <!-- FullCalendar Interaction Plugin JavaScript -->
+  <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/interaction/main.min.js'></script>
+
+  <!-- FullCalendar DayGrid Plugin JavaScript -->
+  <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid/main.min.js'></script>
+
+  <!-- FullCalendar TimeGrid Plugin JavaScript -->
+  <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid/main.min.js'></script>
 
 </html>
 
