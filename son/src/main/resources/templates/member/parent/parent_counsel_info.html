@@ -4,10 +4,44 @@
     layout:decorate="~{common/layouts/parent_layout}"
     layout:fragment="Content">
 <head>
-<meta charset="UTF-8">
-<title>학부모 QNA 전체조회</title>
+    <meta charset="UTF-8">
+    <title>상담 조회</title>
 </head>
-<body>
-
+<body id="parentCounselInfoBody" class="bg-gray-200">
+    <div id="container" class="w-full max-w-none mx-auto p-6">
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="grid grid-cols-12 gap-4 p-6 border-b">
+                <div class="col-span-1 font-bold align-self-center">제목</div>
+                <div class="col-span-5 border-2">
+                    <p class="form-control w-full border rounded p-2" th:text="${ParentCounselInfo.title}"></p>
+                </div>
+            </div>
+            <div class="grid grid-cols-12 gap-4 p-6 border-b">
+                <div class="col-span-1 font-bold align-self-center">작성자</div>
+                <div class="col-span-5 border-2">
+                    <p class="form-control w-full border rounded p-2" th:text="${ParentCounselInfo.parentName}"></p>
+                </div>
+                <div class="col-span-1 font-bold align-self-center">작성자 자녀</div>
+                <div class="col-span-5 border-2">
+                    <p class="form-control w-full border rounded p-2" th:text="${ParentCounselInfo.studentName}"></p>
+                </div>
+            </div>
+            <div class="grid grid-cols-12 p-6 border-b">
+                <div class="col-span-1 font-bold mb-2 align-self-center">내용</div>
+                <div class="col-span-11 border-2">
+                    <p class="form-control w-full border rounded p-2" style="resize: none; height: 25em;" th:text="${ParentCounselInfo.content}"></p>
+                </div>
+            </div>
+<!--             <div class="grid grid-cols-12 p-6 border-b">
+                <div class="col-span-1 font-bold mb-2 align-self-center">첨부 파일</div>
+                <div class="col-span-11 border-2">
+                    <p class="form-control w-full border rounded p-2" th:text="${ParentCounselInfo.material}"></p>
+                </div>
+            </div> -->
+        </div>
+        <div class="flex justify-end mt-4">
+            <button type="button" class="bg-red-500 text-white font-bold py-2 px-4 rounded" onclick="location.href='counselList'">돌아가기</button>
+        </div>
+    </div>
 </body>
 </html>

@@ -28,7 +28,7 @@ public class ParentCounselServiceImpl implements ParentCounselService {
 
 	@Override
 	public int insertParentCounsel(ParentCounselVO parentcounselVO) {
-		int result = parentcounselMapper.insertParentCounselInfo(parentcounselVO);
+		int result = parentcounselMapper.insertParentCounsel(parentcounselVO);
 		
 		return result == 1 ? parentcounselVO.getCounselNumber() : -1;
 	}
@@ -38,7 +38,7 @@ public class ParentCounselServiceImpl implements ParentCounselService {
 		Map<String, Object> map = new HashMap<>();
 		boolean inSuccessed = false;
 		
-		int result = parentcounselMapper.updateParentCounselInfo(parentcounselVO);
+		int result = parentcounselMapper.updateParentCounsel(parentcounselVO);
 		
 		if(result == 1) {
 			inSuccessed = true;
@@ -51,7 +51,7 @@ public class ParentCounselServiceImpl implements ParentCounselService {
 
 	@Override
 	public int deleteParentCounsel(int counselNumber) {
-		return parentcounselMapper.deleteParentCounselInfo(counselNumber);
+		return parentcounselMapper.deleteParentCounsel(counselNumber);
 	}
 
 }

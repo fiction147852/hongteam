@@ -1,3 +1,5 @@
+let swiperTwo;
+
 document.addEventListener('DOMContentLoaded', function () {
 
     // 슬라이드의 동작과 설정을 제어할 수 있는 Swiper 객체
@@ -26,21 +28,14 @@ document.addEventListener('DOMContentLoaded', function () {
         },
     });
 
-    const swiperTwo = new Swiper('#eventModal .swiper', {
+
+    swiperTwo = new Swiper('#eventModal .swiper', {
         grabCursor: true,
         pagination: {
             el: '.swiper-pagination',
             clickable: true,
         },
+
     });
+
 });
-
-
-// <div className="swiper-slide">
-//     <div className="slide-content">
-//         <div className="subject-info">
-//
-//         </div>
-//     </div>
-// </div>
-

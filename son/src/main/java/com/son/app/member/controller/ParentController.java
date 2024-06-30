@@ -1,6 +1,5 @@
 package com.son.app.member.controller;
 
-import java.security.Principal;
 import java.util.List;
 
 import com.son.app.security.service.CustomUserDetails;
@@ -12,14 +11,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.son.app.member.service.ParentService;
 import com.son.app.member.service.StudentVO;
+import com.son.app.security.service.CustomUserDetails;
 
 @Controller
 public class ParentController {
 	
 	@Autowired
 	ParentService parentService;
-	
-	@GetMapping("parent")
+  
+	@GetMapping("dsa")
     public String getParentDashboard(Model model, @AuthenticationPrincipal CustomUserDetails principal) {
 		String email = principal.getMember().getEmail();
 		int parentNumber = parentService.getParentNumberByEmail(email);
@@ -30,7 +30,7 @@ public class ParentController {
 	}
     
 
-    @GetMapping("parent/{studentNumber}")
+    @GetMapping("parent")
     public String getParent(Model model) {
 		List<StudentVO> list = parentService.ParentInfoList();
 		model.addAttribute("parent", list);

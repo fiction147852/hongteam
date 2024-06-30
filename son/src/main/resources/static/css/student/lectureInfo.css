@@ -61,3 +61,22 @@
     background-color: #27587E;
 }
 
+/* 모달 창 안에 있는 슬라이드 */
+
+#eventModal .swiper {
+    height: 150px;
+    margin-top: 10px;
+}
+
+#eventModal .swiper-slide {
+    margin-top: 10px;
+}
+
+#eventModal .swiper-slide .subject-info {
+    justify-content: center;
+    align-items: center;
+}
+
+#eventModal .swiper-slide h5 {
+    font-weight: 600;
+}
