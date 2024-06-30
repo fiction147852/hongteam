@@ -2,16 +2,8 @@
  * 
  */
 
-$(document).ready(()=>{
-	
-})
 
-
-var email_rule =  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-var email_id =$('#email_id');
-var email_domain =$('#email_domain');
-var mail = '';
-
+const email_rule =  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 
 function setEmailDomain(domain){
 	$('#email_domain').val(domain);
@@ -27,37 +19,42 @@ function validateEmail(email_address){
 }
 
 function checkEmail() {
-	var emailInput = document.getElementById('email');
-
-	var email = emailInput.value;
+	let email = $('#email_id').val() + '@' + $('#email_domain').val();
 
 	if (validateEmail(email)) {
-		
-		$('#emailCheckBtn').val('인증번호 확인');
+		sendEmail(email);
+		$('#mail_number').css('display', 'block');
 	} else {
 		alert('잘못된 이메일 주소 형식입니다.');
 	}
 }
 
-function emailCheck(email_address){
-	
+function sendEmail(email){
+	console.log('이메일 주소 in js', email);
+	$.ajax({
+		url:'/lms/emailConfirm',
+		type:'post',
+		data:{"mail" : email},
+		//dataType:'json',
+		success:function(data){
+			console.log(data);
+			alert('인증번호를 발송했습니다');
+			$('#confirm').attr("value", data);
+		}
+	})
 }
-  /*if(!email_id){
-      alert("이메일을 입력해주세요");
-    $("#email_id").focus();
-  }
-  
-  if(!email_domain){
-      alert("도메인을 입력해주세요");
-    $("#email_domain").focus();
-  }
-  
-  
-  $("#mail").val(mail);  
-  
-  if(!email_rule.test(mail)){
-      alert("이메일을 형식에 맞게 입력해주세요.");
-    return false;
-  }*/
-  
-  
+
+function compareNumber(){
+	let certNo = $('#emailCertNumber').val();
+	let confirmNo = $('#confirm').val();
+	
+	if(certNo == confirmNo){
+		alert('인증되었습니다');
+		$('#confirm').val('Y');
+		$('#mail_number').css('display', 'block');
+	}else{
+		alert('번호가 다릅니다. 다시 입력하세요');
+	}
+	
+	console.log($('#confirm').val());
+}

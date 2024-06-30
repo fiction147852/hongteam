@@ -5,8 +5,10 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
+
 @Data
-public class LectureVO {
+public class LectureInstructorVO {
+	// Lecture
     private Integer lectureNumber;
     private String lectureTitle;
     private String lectureDescription;
@@ -21,5 +23,12 @@ public class LectureVO {
     private Date lectureStartDate;
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     private Date lectureEndDate;
+    
     private Integer instructorNumber;
-}
+    
+    // Instructor 
+    private String instructorName;
+    private String instructorEmail;
+    private String instructorAddress;
+    private String instructorPhone;
+    private String instructorFinalEducation;

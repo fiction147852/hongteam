@@ -15,6 +15,7 @@ public class ParentLectureController {
 	
     @GetMapping("parent/lecture")
     public String getParentLecture(Model model) {
+    	model.addAttribute("lectureInstructorList", parentlectureService.ParentLetureInfoList());
         return "member/parent/parent_lecture";
     }
 }
