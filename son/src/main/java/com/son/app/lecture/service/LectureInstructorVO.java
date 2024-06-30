@@ -32,4 +32,3 @@ public class LectureInstructorVO {
     private String instructorAddress;
     private String instructorPhone;
     private String instructorFinalEducation;
-}
