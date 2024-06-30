@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.son.app.lecture.mapper.ParentLectureMapper">
+    <select id="ParentLectureInfoAll()" resultType="LectureInstructorVO">
+        SELECT
+            l.lecture_number,
+            l.lecture_title,
+            l.lecture_description,
+            l.lecture_cost,
+            l.subject_code,
+            l.detail_subject_code,
+            l.capacity,
+            l.lecture_level_code,
+            l.weekdays_code,
+            l.time_code,
+            l.lecture_start_date,
+            l.lecture_end_date,
+            l.instructor_number,
+            i.name AS instructor_name,
+            i.email AS instructor_email,
+            i.address AS instructor_address,
+            i.phone AS instructor_phone,
+            i.final_education AS instructor_final_education
+        FROM
+            lecture l
+        JOIN
+            instructor i ON l.instructor_number = i.instructor_number
+    </select>
+</mapper>
