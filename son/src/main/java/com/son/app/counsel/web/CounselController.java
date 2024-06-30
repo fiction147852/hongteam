@@ -1,17 +1,22 @@
 package com.son.app.counsel.web;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.son.app.counsel.service.CounselImpossibility;
 import com.son.app.counsel.service.AdmissionCounselPossibilityVO;
+import com.son.app.counsel.service.CounselImpossibilityVO;
 import com.son.app.counsel.service.CounselService;
 import com.son.app.counsel.service.CounselVO;
 
@@ -45,11 +50,37 @@ public class CounselController {
 		List<AdmissionCounselPossibilityVO> counTimeList = counselService.counselWeekTimeList();
 		model.addAttribute("counselTime", counTimeList);
 
-		List<CounselImpossibility> counNTimeList = counselService.counselDayTimeList();
+		List<CounselImpossibilityVO> counNTimeList = counselService.counselDayTimeList();
 		model.addAttribute("counselDayTime", counNTimeList);
 
 		return "counsel/counselCalendar";
 
+	}
+	
+	// 해당 날짜 불가능한 시간 조회 
+	@ResponseBody
+	@GetMapping("admin/ad/{clickDate}")
+	public List<String> getDayImp(@PathVariable String clickDate) throws ParseException{
+		CounselImpossibilityVO vo = new CounselImpossibilityVO();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		
+		vo.setReservationDate(formatter.parse(clickDate));
+		System.out.println(vo.toString());
+		List<String> list = counselService.getDatImpList(vo);
+		
+		return list;
+	}
+	
+	
+	// 해당 날짜 가능한 시간대 조회
+	@ResponseBody
+	@GetMapping("admin/wkday/{wekDayTime}")
+	public String getWeekImp(@PathVariable String wekDayTime) throws UnsupportedEncodingException{
+		AdmissionCounselPossibilityVO vo = new AdmissionCounselPossibilityVO();
+		vo.setWeekdaysCode(wekDayTime);
+		String list = counselService.getdayPos(vo);
+		
+		return list;
 	}
 	
 	// 처리 - 주간 상담 시간 조율 
@@ -65,10 +96,16 @@ public class CounselController {
 	// 처리 - 일간 상담 시간 조율 
 	@ResponseBody
 	@PostMapping("admin/counselDayTime")
-	public int counselDayTime(@RequestBody List<CounselImpossibility> admissionCounselPossibilityList , Model model) {
-		int dayTimeList = counselService.counselDayTimeUpdate(admissionCounselPossibilityList);
+	public int counselDayTime(@RequestBody List<String> list) {
+		
+		
+		String day = list.get(0);
+		
+//		int dayTimeList = counselService.counselDayTimeUpdate(counselImpossibilityList);
 
-		return dayTimeList;
+		
+		
+		return 0;
 	}
 	
 	// 상담 단건 조회
