@@ -3,7 +3,7 @@
 <mapper namespace="com.son.app.payment.mapper.ParentPayMapper">
 
     <!-- 학부모의 학생정보 전체조회 -->
-    <select id="childInfoAll" resultType="PaymentVO">
+    <select id="ParentPayInfoAll" resultType="PaymentVO">
         SELECT
         student_number,
         name,
