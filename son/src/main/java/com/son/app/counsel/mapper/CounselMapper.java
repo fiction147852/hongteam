@@ -41,7 +41,7 @@ public interface CounselMapper {
 	
 	
 	//일간 시간 수정
-	public int counselDayTimeUpdate(CounselImpossibilityVO admissionCounselPossibilityVO);
+	public int counselDayTimeUpdate(CounselImpossibilityVO vo);
 
 	
 	// 해당 일간 가능한 시간대 조회 
