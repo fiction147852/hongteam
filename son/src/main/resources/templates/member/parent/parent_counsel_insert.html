@@ -25,17 +25,20 @@
                         <input type="text" class="form-control w-full border rounded p-2" name="title" />
                     </div>
                 </div>
-                <div class="grid grid-cols-12 gap-4 p-6 border-b">
-                    <div class="col-span-1 font-bold align-self-center">작성자</div>
-                    <div class="col-span-5 border-2">
-                        <input type="text" class="form-control w-full border rounded p-2" name="author" />
-                    </div>
-                    <div class="col-span-1 font-bold align-self-center">작성자 자녀</div>
-                    <div class="col-span-5 border-2">
-                        <input type="text" class="form-control w-full border rounded p-2" name="authorChild" />
-                    </div>
-                </div>
-                <div class="grid grid-cols-12 p-6 border-b">
+				<div class="grid grid-cols-12 gap-4 p-6 border-b">
+					<div class="col-span-1 font-bold align-self-center">작성자</div>
+					<div class="col-span-5 border-2">
+						<input type="text" class="form-control w-full border rounded p-2"
+							name="author" />
+					</div>
+					<div class="col-span-1 font-bold align-self-center">작성자 자녀</div>
+					<div class="col-span-5 border-2">
+						<select class="form-control w-full border rounded p-2" name="authorChild">
+							<option th:each="child : ${children}" th:value="${child.studentNumber}" th:text="${child.name}"></option>
+						</select>
+					</div>
+				</div>
+				<div class="grid grid-cols-12 p-6 border-b">
                     <div class="col-span-1 font-bold mb-2 align-self-center">내용</div>
                     <div class="col-span-11 border-2">
                         <textarea class="form-control w-full border rounded p-2" name="content" style="resize: none; height: 25em;"></textarea>

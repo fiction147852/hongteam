@@ -1,10 +1,10 @@
 package com.son.app.attendance.service;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
+import java.util.Date;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
+import lombok.Data;
 
 @Data
 public class StudentScheduleDetailVO {

@@ -2,7 +2,7 @@ package com.son.app.counsel.mapper;
 
 import java.util.List;
 
-import com.son.app.counsel.service.CounselImpossibility;
+import com.son.app.counsel.service.CounselImpossibilityVO;
 import com.son.app.counsel.service.AdmissionCounselPossibilityVO;
 import com.son.app.counsel.service.CounselVO;
 
@@ -34,9 +34,17 @@ public interface CounselMapper {
 	public int counselWeekTimeUpdate(AdmissionCounselPossibilityVO admissionCounselPossibilityVO);
 
 	//일간 시간 조회
-	public List<CounselImpossibility> counselDayTimeSelectAll();
+	public List<CounselImpossibilityVO> counselDayTimeSelectAll();
+	
+	// 해당 일간 불가능한 시간조회
+	public List<String> counselDayImpSelect(CounselImpossibilityVO counselImpossibilitVO);
+	
 	
 	//일간 시간 수정
-	public int counselDayTimeUpdate(CounselImpossibility admissionCounselPossibilityVO);
+	public int counselDayTimeUpdate(CounselImpossibilityVO admissionCounselPossibilityVO);
+
+	
+	// 해당 일간 가능한 시간대 조회 
+	public String counselDayPos(AdmissionCounselPossibilityVO admissionCounselPossibilityVO);
 	
 }

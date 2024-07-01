@@ -39,6 +39,7 @@ public class ParentCounselController {
     // 등록 페이지로 이동
     @GetMapping("parent/counselInsert")
     public String ParentCounselInsertForm() {
+    	
         return "member/parent/parent_counsel_insert";
     }
 
