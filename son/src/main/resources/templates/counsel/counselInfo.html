@@ -52,13 +52,13 @@
 								<td th:text="${counselInfo.content}"></td>
 							</tr>
 						</tbody>
-
+					
 					</table>
-					<!-- 							<div> -->
-					<!-- 								<button type="button" th:onclick="|location.href='@{/counselupdate(counselId=${counselInfo.counselNumber})}'|">수정</button> -->
-					<!-- 								<button type="button" th:onclick="|location.href='@{/counselList}'|">목록</button> -->
-					<!-- 								<button type="button" th:onclick="|location.href='@{/counseldelete(counselId=${counselInfo.counselNumber})}'|">삭제</button> -->
-					<!-- 							</div> -->
+												<div>
+													<button type="button" th:onclick="|location.href='@{/admin/counselupdate(counselId=${counselInfo.counselNumber})}'|">수정</button>
+													<button type="button" th:onclick="|location.href='@{/admin/counselList}'|">목록</button>
+													<button type="button" th:onclick="|location.href='@{/admin/counseldelete(counselId=${counselInfo.counselNumber})}'|">삭제</button>
+												</div>
 				</div>
 			</div>
 		</div>
