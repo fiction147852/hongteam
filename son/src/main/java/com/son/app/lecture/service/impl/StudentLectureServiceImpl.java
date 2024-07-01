@@ -12,7 +12,7 @@ import java.util.List;
 public class StudentLectureServiceImpl implements StudentLectureService {
 
     @Autowired
-    StudentLectureMapper studentLectureMapper;
+    private StudentLectureMapper studentLectureMapper;
 
     @Override
     public List<LectureMaterialVO> lectureMaterialList(Integer lectureNumber, String title, int startRow, int pageSize) {

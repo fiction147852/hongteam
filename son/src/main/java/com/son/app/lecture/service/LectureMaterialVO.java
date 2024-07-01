@@ -8,6 +8,7 @@ import java.util.Date;
 @Data
 public class LectureMaterialVO {
 
+    private Integer rowNum;
     private Integer lectureMaterialNumber; // 기본 키
     private Integer lectureNumber;
     private String title;
