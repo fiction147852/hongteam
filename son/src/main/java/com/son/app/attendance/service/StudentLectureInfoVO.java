@@ -23,4 +23,3 @@ public class StudentLectureInfoVO {
     // 교수자 이름
     private String name;
 }
-
