@@ -34,6 +34,7 @@ class SonApplicationTests {
 		String pw = "1111";
 		
 		System.out.println(passwordEncoder.encode(pw));
+		System.out.println(studentAttendanceService);
 	}
 
 	@Test
@@ -69,11 +70,14 @@ class SonApplicationTests {
 	public void lectureMaterialList() {
 		List<LectureMaterialVO> lectureMaterialVOS = studentLectureService.lectureMaterialList(1, null, 0,5);
 
-
-
 		System.out.println(lectureMaterialVOS);
+	}
 
-
+	@Test
+	@DisplayName("DH) 강의 조회")
+	public void lectureInfo() {
+		StudentLectureInfoVO studentLectureInfoVO = studentAttendanceService.lectureInfo(1);
+		System.out.println(studentLectureInfoVO);
 	}
 
 }

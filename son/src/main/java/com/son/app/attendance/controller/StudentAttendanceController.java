@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -51,14 +52,13 @@ public class StudentAttendanceController {
     }
     // ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
     // 강의별 출석 화면
-    @GetMapping("student/{detailSubjectName}")
-    public String detailSubjecAttendancePage(@AuthenticationPrincipal CustomUserDetails principal, @PathVariable String detailSubjectName, @RequestParam Integer lectureNumber, Model model) {
+    @GetMapping("student/{lectureNumber}")
+    public String detailSubjecAttendancePage(@AuthenticationPrincipal CustomUserDetails principal, @PathVariable Integer lectureNumber, HttpSession httpSession,  Model model) {
         int studentNumber = principal.getMember().getIdNumber();
 
-        model.addAttribute("lectureNumber", lectureNumber);
-        model.addAttribute("detailSubjectName", detailSubjectName);
+        StudentLectureInfoVO studentLectureInfoVO = studentAttendanceService.lectureInfo(lectureNumber);
+        httpSession.setAttribute("studentLectureInfo", studentLectureInfoVO);
 
         return "attendance/student/subjectDetailAttendance";
     }
