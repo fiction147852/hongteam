@@ -8,13 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.son.app.file.common.FileUtils;
 import com.son.app.file.service.FileRequest;
+import com.son.app.file.service.FileResponse;
 import com.son.app.file.service.FileService;
 import com.son.app.task.service.TaskService;
 import com.son.app.task.service.TaskVO;
@@ -79,8 +79,32 @@ public class TaskController {
 //	// 수정 처리페이지
 	@PostMapping("/instructor/taskUpdate")
 	@ResponseBody
-	public Map<String, Object> taskUpdateJSON(@RequestBody TaskVO taskVO) {
-		return taskService.updateTask(taskVO);
+	public Map<String, Object> taskUpdateJSON(TaskVO taskVO, 
+	                                          @RequestParam(value = "files", required = false) List<MultipartFile> multipartFiles,
+	                                          @RequestParam(value = "removeFileIds", required = false) List<Integer> removeFileIds) {
+	    // 1. 태스크 정보 수정
+	    Map<String, Object> result = taskService.updateTask(taskVO);
+
+	    if (multipartFiles != null && !multipartFiles.isEmpty()) {
+	        // 2. 파일 업로드 (to disk)
+	        List<FileRequest> uploadFiles = fileUtils.uploadFiles(multipartFiles);
+	        
+	        // 3. 파일 정보 저장 (to database)
+	        fileService.saveFiles(null, null, taskVO.getTaskNumber(), null, null, uploadFiles);
+	    }
+
+	    if (removeFileIds != null && !removeFileIds.isEmpty()) {
+	        // 4. 삭제할 파일 정보 조회 (from database)
+	        List<FileResponse> deleteFiles = fileService.findAllFileByAttachmentFileNumber(removeFileIds);
+	        
+	        // 5. 파일 삭제 (from disk)
+	        fileUtils.deleteFiles(deleteFiles);
+	        
+	        // 6. 파일 삭제 (from database)
+	        fileService.deleteAllFileByAttachmentFileNumber(removeFileIds);
+	    }
+
+	    return result;
 	}
 	
 	
