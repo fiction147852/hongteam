@@ -39,7 +39,10 @@
         </div>
         <div class="grid grid-cols-4 p-6 border-b">
             <div class="col-span-1 font-bold mb-2">첨부 파일</div>
-            <div class="col-span-1  border-gray-300">
+            <div class="col-span-3  border-gray-300" id="files">
+            	<p th:each="files : ${taskInfo.fileList}">
+            	<span class="icons"><i class="fas fa-folder-open"></i></span>
+            	[[${files.originalFileName}]]</p>
             </div>
         </div>
     </div>

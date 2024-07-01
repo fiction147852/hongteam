@@ -38,7 +38,7 @@
 	    <result property="submitDeadline" column="submit_deadline" jdbcType="DATE" javaType="Date"/>
 	    <result property="lectureNumber" column="lecture_number"/>
 	    
-	    <collection property="files" ofType="FileRequest" javaType="list">
+	    <collection property="fileList" ofType="FileRequest" javaType="list">
 	        <id property="attachmentFileNumber" column="attachment_file_number"/>
 	        <result property="originalFileName" column="original_file_name"/>
 	        <result property="saveFileName" column="save_file_name"/>
@@ -78,7 +78,6 @@
 			title = #{title}
 		  , description = #{description}
 		  , submit_deadline = #{submitDeadline}
-		  , material = #{material}
 		  , lecture_number = #{lectureNumber}
 		WHERE task_number = #{taskNumber}
 	</update>

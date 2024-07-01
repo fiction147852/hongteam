@@ -1,5 +1,6 @@
 package com.son.app.file.service;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -17,8 +18,8 @@ public class FileService {
 	private final FileMapper fileMapper;
 
 	@Transactional
-	public void saveFiles(final int lectureMaterialNumber, final int onlineLectureNumber, final int taskNumber,
-			final int questionNumber, final int taskSubmitNumber, final List<FileRequest> files) {
+	public void saveFiles(Integer lectureMaterialNumber, Integer onlineLectureNumber, Integer taskNumber,
+			Integer questionNumber, Integer taskSubmitNumber, List<FileRequest> files) {
 		if(CollectionUtils.isEmpty(files)) {
 			return;
 		}
@@ -30,5 +31,38 @@ public class FileService {
 			file.setTaskSubmitNumber(taskSubmitNumber);
 		}
 		fileMapper.saveAll(files);
+	}
+	
+	/**
+     * 파일 리스트 조회
+     * @param numbers - FK 번호 (FK)
+     * @return 파일 리스트
+     */
+	public List<FileResponse> findAllFile(Integer number, String type) {
+		return fileMapper.findAll(number, type);
+	}
+	
+    /**
+     * 파일 리스트 조회
+     * @param attachmentFileNumber - PK 리스트
+     * @return 파일 리스트
+     */
+	public List<FileResponse> findAllFileByAttachmentFileNumber(List<Integer> numbers) {
+		if(CollectionUtils.isEmpty(numbers)) {
+			return Collections.emptyList();
+		}
+		return fileMapper.findAllByAttachmentFileNumber(numbers);
+	}
+	
+    /**
+     * 파일 삭제 (from Database)
+     * @param Numbers - PK 리스트
+     */
+	@Transactional
+	public void deleteAllFileByAttachmentFileNumber(List<Integer> numbers) {
+		if(CollectionUtils.isEmpty(numbers)) {
+			return;
+		}
+		fileMapper.deleteAllByAttachmentFileNumber(numbers);
 	}
 }
