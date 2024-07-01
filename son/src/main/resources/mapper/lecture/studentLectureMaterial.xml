@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.son.app.lecture.mapper.StudentLectureMaterialMapper">
+
+    <select id="lectureMaterialList" resultType="LectureMaterialVO">
+        SELECT * FROM ( SELECT lecture_material_number
+                            , title
+                            , views
+                            , lecture_number
+                            , content
+                            , registration_date
+                            , ROW_NUMBER() OVER (ORDER BY lecture_material_number DESC) AS row_num
+                        FROM lecture_material
+                        WHERE lecture_number = #{lectureNumber}
+                        <if test="title != null and title != ''">
+                            AND title LIKE CONCAT('%', #{title}, '%')
+                        </if>
+                      )
+        WHERE row_num BETWEEN #{startRow} + 1 AND #{startRow} + #{pageSize}
+    </select>
+
+    <select id="lectureMaterialCount" resultType="int">
+        SELECT COUNT(*)
+        FROM lecture_material
+        WHERE lecture_number = #{lectureNumber}
+        <if test="title != null and title != ''">
+            AND title Like CONCAT('%', #{title}, '%')
+        </if>
+    </select>
+
+</mapper>

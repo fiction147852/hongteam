@@ -49,9 +49,19 @@ public class StudentAttendanceController {
 
         return studentAttendanceService.scheduleDetail(studentScheduleDetailVO);
     }
+    // ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+    // 강의별 출석 화면
+    @GetMapping("student/{detailSubjectName}")
+    public String detailSubjecAttendancePage(@AuthenticationPrincipal CustomUserDetails principal, @PathVariable String detailSubjectName, @RequestParam Integer lectureNumber, Model model) {
+        int studentNumber = principal.getMember().getIdNumber();
 
+        model.addAttribute("lectureNumber", lectureNumber);
+        model.addAttribute("detailSubjectName", detailSubjectName);
+
+        return "attendance/student/subjectDetailAttendance";
+    }
 
 
 
