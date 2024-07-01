@@ -30,4 +30,9 @@ public class StudentAttendanceServiceImpl implements StudentAttendanceService {
     public List<StudentScheduleDetailVO> scheduleDetail(StudentScheduleDetailVO studentScheduleDetailVO) {
         return studentAttendanceMapper.scheduleDetail(studentScheduleDetailVO);
     }
+
+    @Override
+    public StudentLectureInfoVO lectureInfo(Integer lectureNumber) {
+        return studentAttendanceMapper.lectureInfo(lectureNumber);
+    }
 }

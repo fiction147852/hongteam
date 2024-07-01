@@ -4,9 +4,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.son.app.file.service.FileRequest;
 
 import lombok.Data;
 
@@ -26,13 +26,6 @@ public class TaskVO {
 	private int lectureNumber;	// 강의 번호
 	
 	
-	private List<MultipartFile> files;
-	
-    public List<MultipartFile> getFiles() {
-        return files;
-    }
+	private List<FileRequest> fileList;
 
-    public void setFiles(List<MultipartFile> files) {
-        this.files = files;
-    }
 }

@@ -62,7 +62,7 @@ public class TaskController {
 	    // 파일 업로드 및 저장
 	    if (multipartFiles != null && !multipartFiles.isEmpty()) {
 	        List<FileRequest> fileRequests = fileUtils.uploadFiles(multipartFiles);
-	        fileService.saveFiles(0, 0, taskNumber, 0, 0, fileRequests);
+	        fileService.saveFiles(null, null, taskNumber, null, null, fileRequests);
 	    }
 	    
 	    return "redirect:/instructor/taskList";

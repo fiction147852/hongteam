@@ -68,5 +68,12 @@
         WHERE student_number = #{studentNumber} AND exam_date = #{deadlineDate}
     </select>
 
+    <select id="lectureInfo" resultType="StudentLectureInfoVO">
+        SELECT lecture_number
+             , de_sub_name_by_lecture(lecture_number) as detail_subject_name
+        FROM lecture
+        WHERE lecture_number = #{lectureNumber}
+    </select>
+
 
 </mapper>
