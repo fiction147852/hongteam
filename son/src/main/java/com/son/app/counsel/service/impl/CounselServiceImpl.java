@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.son.app.counsel.mapper.CounselMapper;
-import com.son.app.counsel.service.CounselImpossibility;
+import com.son.app.counsel.service.CounselImpossibilityVO;
 import com.son.app.counsel.service.AdmissionCounselPossibilityVO;
 import com.son.app.counsel.service.CounselService;
 import com.son.app.counsel.service.CounselVO;
@@ -75,21 +75,40 @@ public class CounselServiceImpl implements CounselService{
 		}
 		return time;
 	}
-
 	
 	
 	//일간 상담 시간 조율 조회
 	@Override
-	public List<CounselImpossibility> counselDayTimeList() {
+	public List<CounselImpossibilityVO> counselDayTimeList() {
 		return counselMapper.counselDayTimeSelectAll();
 	}
 
 	//일간 상담 시간 조율 
 	@Override
-	public int counselDayTimeUpdate(List<CounselImpossibility> 
+	public int counselDayTimeUpdate(List<CounselImpossibilityVO> 
 												counselImpossibility) {
-	
-		return 0;
+        
+		
+		int result = 0;
+        
+        
+        
+        for (CounselImpossibilityVO vo : counselImpossibility) {
+            result += counselMapper.counselDayTimeUpdate(vo);
+        }
+        return result;
+	}
+
+	//클릭시 불가능한 시간대 처리 
+	@Override
+	public List<String> getDatImpList(CounselImpossibilityVO coun) {
+		return counselMapper.counselDayImpSelect(coun);
+	}
+
+	// 클릭시 가능한 시간대 처리 
+	@Override
+	public String getdayPos(AdmissionCounselPossibilityVO vo) {
+		return counselMapper.counselDayPos(vo);
 	}
 
 

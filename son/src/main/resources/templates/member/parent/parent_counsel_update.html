@@ -1,10 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+    xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{common/layouts/parent_layout}"
+    layout:fragment="Content">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>학부모 상담 등록</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        #taskInfoBody {
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
 </head>
-<body>
-
+<body id="parentCounselInfoBody" class="bg-gray-200">
+    <div id="container" class="w-full max-w-none mx-auto p-6">
+        <form name="insertForm" action="/lms/parent/counselInsert" method="post">
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                <div class="grid grid-cols-12 gap-4 p-6 border-b">
+                    <div class="col-span-1 font-bold align-self-center">제목</div>
+                    <div class="col-span-5 border-2">
+                        <input type="text" class="form-control w-full border rounded p-2" name="title" />
+                    </div>
+                </div>
+                <div class="grid grid-cols-12 gap-4 p-6 border-b">
+                    <div class="col-span-1 font-bold align-self-center">작성자</div>
+                    <div class="col-span-5 border-2">
+                        <input type="text" class="form-control w-full border rounded p-2" name="author" />
+                    </div>
+                    <div class="col-span-1 font-bold align-self-center">작성자 자녀</div>
+                    <div class="col-span-5 border-2">
+                        <input type="text" class="form-control w-full border rounded p-2" name="authorChild" />
+                    </div>
+                </div>
+                <div class="grid grid-cols-12 p-6 border-b">
+                    <div class="col-span-1 font-bold mb-2 align-self-center">내용</div>
+                    <div class="col-span-11 border-2">
+                        <textarea class="form-control w-full border rounded p-2" name="content" style="resize: none; height: 25em;"></textarea>
+                    </div>
+                </div>
+                <div class="grid grid-cols-12 p-6 border-b">
+                    <div class="col-span-1 font-bold mb-2 align-self-center">첨부 파일</div>
+                    <div class="col-span-11 border-2">
+                        <input type="file" name="material" class="form-control w-full border rounded p-3" />
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-end mt-4">
+                <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded mr-2">등록</button>
+                <button type="button" class="bg-red-500 text-white font-bold py-2 px-4 rounded" onclick="location.href='counselList'">취소</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

@@ -52,9 +52,27 @@
 			, time_code
 		FROM counsel_impossibility
 	</select>
-
+	
+	
+	<!-- 그날 불가능한 시간조회  -->
+	<select id="counselDayImpSelect"
+		resultType="String" parameterType="CounselImpossibilityVO">
+		SELECT time_code
+		FROM counsel_impossibility
+		WHERE reservation_date = #{reservationDate}
+	</select>
+	
+	<!-- 그날 가능한 시간대 조회  -->
+	<select id="counselDayPos"
+		resultType="String" parameterType="AdmissionCounselPossibilityVO">
+		SELECT time_code
+		FROM admission_counsel_possibility
+		WHERE weekdays_code = #{weekdaysCode}	
+		
+	</select>
+	
 	<!-- 일간 상담 설정 -->
-	<update id="counselDayTimeUpdate" parameterType="CounselImpossibility">
+	<update id="counselDayTimeUpdate" parameterType="CounselImpossibilityVO">
 		MERGE INTO counsel_impossibility ci
 			USING (SELECT #{reservation} reservation_date, #{timeCode} time_code FROM dual) src
 		ON ( ci.reservation_date = src.reservation_date AND

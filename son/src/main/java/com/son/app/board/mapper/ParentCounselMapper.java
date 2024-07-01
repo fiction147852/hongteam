@@ -12,11 +12,11 @@ public interface ParentCounselMapper {
 	public ParentCounselVO selectParentCounselInfo(ParentCounselVO parentcounselVO);
 	
 	// 등록
-	public int insertParentCounselInfo(ParentCounselVO parentcounselVO);
+	public int insertParentCounsel(ParentCounselVO parentcounselVO);
 	
 	// 수정
-	public int updateParentCounselInfo(ParentCounselVO parentcounselVO);
+	public int updateParentCounsel(ParentCounselVO parentcounselVO);
 	
 	// 삭제
-	public int deleteParentCounselInfo(int counselNumber);
+	public int deleteParentCounsel(int counselNumber);
 }

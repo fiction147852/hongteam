@@ -19,4 +19,7 @@ public class ParentCounselVO {
 	    private String responseContent;
 	    private int parentNumber;
 	    private int instructorNumber;
+	    
+	    private String parentName; // 작성자
+	    private String studentName; // 자녀
 }
