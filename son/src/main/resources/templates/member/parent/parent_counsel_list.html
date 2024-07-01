@@ -23,7 +23,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="counsel : ${ParentCounselList}" th:onclick="|location.href='@{parent_counsel_info(counselNumber=${counsel.counselNumber})}'|">
+                            <tr th:each="counsel : ${ParentCounselList}" th:onclick="|location.href='@{counselInfo(counselNumber=${counsel.counselNumber})}'|">
                                 <td th:text="${counsel.counselNumber}">#번호</td>
                                 <td th:text="${counsel.title}">제목</td>
                                 <td th:text="${counsel.parentNumber}">작성자</td>

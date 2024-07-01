@@ -24,24 +24,33 @@
                     <div class="col-span-5 border-2">
                         <input type="text" class="form-control w-full border rounded p-2" name="title" />
                     </div>
+                    <div class="col-span-1 font-bold align-self-center">작성자</div>
+					<div class="col-span-5 border-2">
+                        <input type="text" class="form-control w-full border rounded p-2"
+                            th:value="${#authentication.principal.member.name}" id="parentName" readonly />
+					</div>
                 </div>
 				<div class="grid grid-cols-12 gap-4 p-6 border-b">
-					<div class="col-span-1 font-bold align-self-center">작성자</div>
-					<div class="col-span-5 border-2">
-						<input type="text" class="form-control w-full border rounded p-2"
-							name="author" />
-					</div>
 					<div class="col-span-1 font-bold align-self-center">작성자 자녀</div>
 					<div class="col-span-5 border-2">
-						<select class="form-control w-full border rounded p-2" name="authorChild">
-							<option th:each="child : ${children}" th:value="${child.studentNumber}" th:text="${child.name}"></option>
+						<select class="form-control w-full border rounded p-2" id="studentName"
+							name="studentName" onchange="chageLangSelect()">
+							<option th:each="student : ${students}" th:value="${student.studentNumber}"
+								th:text="${student.name}"></option>
 						</select>
 					</div>
+                    <div class="col-span-1 font-bold align-self-center">강의 선택</div>
+                    <div class="col-span-5 border-2">
+                        <select id="lectureSelect" class="form-control w-full border rounded p-2" name="lectureNumber" onchange="chageLangSelect()">
+                            <option th:each="student : ${students}" th:value="${student.studentNumber}"
+								th:text="${student.name}"></option>
+                        </select>
+                    </div>
 				</div>
 				<div class="grid grid-cols-12 p-6 border-b">
                     <div class="col-span-1 font-bold mb-2 align-self-center">내용</div>
                     <div class="col-span-11 border-2">
-                        <textarea class="form-control w-full border rounded p-2" name="content" style="resize: none; height: 25em;"></textarea>
+                        <textarea id="content" class="form-control w-full border rounded p-2" name="content" style="resize: none; height: 25em;"></textarea>
                     </div>
                 </div>
                 <div class="grid grid-cols-12 p-6 border-b">
@@ -52,10 +61,75 @@
                 </div>
             </div>
             <div class="flex justify-end mt-4">
-                <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded mr-2">등록</button>
+                <button id="submitForm" type="button" class="bg-blue-500 text-white font-bold py-2 px-4 rounded mr-2">등록</button>
                 <button type="button" class="bg-red-500 text-white font-bold py-2 px-4 rounded" onclick="location.href='counselList'">취소</button>
             </div>
         </form>
     </div>
 </body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#studentName').change(function() {
+            var studentNumber = $(this).val(); // 선택된 학생의 번호를 가져옴
+            
+            // AJAX 요청으로 해당 학생의 강의 정보를 가져옴
+            $.ajax({
+                type: 'GET', // 형식에 맞게 변경
+                url: '/lms/parent/getStudentLectures', // 실제 경로에 맞게 변경
+                data: {
+                    studentNumber: studentNumber
+                },
+                success: function(response) {
+                    // 성공적으로 데이터를 받아왔을 때 동작
+                    var lectures = response.lectures; // 강의 정보 배열
+                    
+                    // 기존 옵션 삭제
+                    $('#lectureSelect').empty();
+                    
+                    // 강의 정보를 옵션으로 추가
+                    lectures.forEach(function(lecture) {
+                        $('#lectureSelect').append('<option value="' + lecture.lectureNumber + '">' + lecture.title + '</option>');
+                    });
+                },
+                error: function(error) {
+                    // 오류 처리
+                    console.error('Error:', error);
+                }
+            });
+        });
+        
+        $('#submitForm').click(function() {
+            var title = $('input[name="title"]').val();
+            var content = $('#content').val();
+            var parentName = $('#parentName').val();
+            var studentName = $('#studentName option:selected').text();
+            var lectureNumber = $('#lectureSelect').val();
+            var writeDate = new Date().toISOString();
+            var responseStatus = 0;
+
+            // AJAX 요청으로 데이터 전송
+            $.ajax({
+                type: 'POST',
+                url: '/lms/parent/counselInsert',
+                data: {
+                    title: title,
+                    content: content,
+                    parentName: parentName,
+                    studentName: studentName,
+                    lectureNumber: lectureNumber,
+                    writeDate: writeDate,
+                    responseStatus: responseStatus
+                },
+                success: function(response) {
+                    console.log('Success:', response);
+                    // 필요에 따라 페이지 리디렉션 등 추가 처리 가능
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    });
+</script>
 </html>

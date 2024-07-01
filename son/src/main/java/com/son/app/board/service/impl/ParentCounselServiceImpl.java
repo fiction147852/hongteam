@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.son.app.board.mapper.ParentCounselMapper;
 import com.son.app.board.service.ParentCounselService;
 import com.son.app.board.service.ParentCounselVO;
+import com.son.app.member.service.StudentVO;
 
 @Service
 public class ParentCounselServiceImpl implements ParentCounselService {
@@ -22,8 +23,8 @@ public class ParentCounselServiceImpl implements ParentCounselService {
 	}
 
 	@Override
-	public ParentCounselVO ParentCounselInfo(ParentCounselVO parentcounselVO) {
-		return parentcounselMapper.selectParentCounselInfo(parentcounselVO);
+	public ParentCounselVO ParentCounselInfo(int counselNumber) {
+		return parentcounselMapper.selectParentCounselInfo(counselNumber);
 	}
 
 	@Override
@@ -52,6 +53,10 @@ public class ParentCounselServiceImpl implements ParentCounselService {
 	@Override
 	public int deleteParentCounsel(int counselNumber) {
 		return parentcounselMapper.deleteParentCounsel(counselNumber);
+	}
+
+	public List<StudentVO> getStudentsByParent(int parentNumber) {
+	    return parentcounselMapper.selectStudentsByParent(parentNumber);
 	}
 
 }
