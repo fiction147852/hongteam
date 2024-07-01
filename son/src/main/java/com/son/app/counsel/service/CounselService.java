@@ -33,14 +33,15 @@ public interface CounselService {
 	// 페이지 - 일간 상담 시간 메뉴 
 	public List<CounselImpossibilityVO> counselDayTimeList();
 	
-	//처리 - 일간 시간 노율
-	public int counselDayTimeUpdate(List<CounselImpossibilityVO> admissionCounselPossibilityList);
+	//처리 - 일간 시간 조율
+	public int counselDayTimeUpdate(List<CounselImpossibilityVO> list);
 
 	// 클릭시 불가능 시간 처리 
 	public List<String> getDatImpList(CounselImpossibilityVO Coun);
 
 	// 클릭시 가능한 시간대 처리 
 	public String getdayPos(AdmissionCounselPossibilityVO vo);
+
 
 	
 }

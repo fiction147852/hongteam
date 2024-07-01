@@ -1,7 +1,6 @@
 package com.son.app.counsel.web;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -44,9 +43,10 @@ public class CounselController {
 	// 상담 스케쥴 전체 보기 - 캘린더, 시간
 	@GetMapping("admin/counselCalendar")
 	public String counselCalinder(Model model) {
-		List<CounselVO> counList = counselService.counselCalendar();
-		model.addAttribute("counselCalendar", counList);
-
+		List<CounselVO> counList = counselService.counselList();
+		model.addAttribute("counselList", counList);
+		System.out.println(counList);
+		
 		List<AdmissionCounselPossibilityVO> counTimeList = counselService.counselWeekTimeList();
 		model.addAttribute("counselTime", counTimeList);
 
@@ -96,16 +96,9 @@ public class CounselController {
 	// 처리 - 일간 상담 시간 조율 
 	@ResponseBody
 	@PostMapping("admin/counselDayTime")
-	public int counselDayTime(@RequestBody List<String> list) {
-		
-		
-		String day = list.get(0);
-		
-//		int dayTimeList = counselService.counselDayTimeUpdate(counselImpossibilityList);
-
-		
-		
-		return 0;
+	public int counselDayTime(@RequestBody List<CounselImpossibilityVO> list) {
+		System.out.println(list.get(0));
+	    return counselService.counselDayTimeUpdate(list);
 	}
 	
 	// 상담 단건 조회

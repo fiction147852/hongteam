@@ -85,15 +85,11 @@ public class CounselServiceImpl implements CounselService{
 
 	//일간 상담 시간 조율 
 	@Override
-	public int counselDayTimeUpdate(List<CounselImpossibilityVO> 
-												counselImpossibility) {
+	public int counselDayTimeUpdate(List<CounselImpossibilityVO> list) {
         
-		
 		int result = 0;
         
-        
-        
-        for (CounselImpossibilityVO vo : counselImpossibility) {
+        for (CounselImpossibilityVO vo : list) {
             result += counselMapper.counselDayTimeUpdate(vo);
         }
         return result;

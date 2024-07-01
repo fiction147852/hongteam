@@ -3,21 +3,21 @@
 <mapper namespace="com.son.app.board.mapper.ParentCounselMapper">
 
 	<!-- 학부모의 QNA 게시판 전체조회 -->
-	<select id="selectParentCounselAll" resultType="ParentCounselVO">
-		SELECT
-		counsel_number , 
-		title , 
-		content , 
-		write_date , 
-		response_status ,
-		response_content, 
-		lecture_number , 
-		parent_number , 
-		instructor_number
-		FROM
-		parent_counsel
-		ORDER BY counsel_number DESC
-	</select>
+<!-- 	<select id="selectParentCounselAll" resultType="ParentCounselVO"> -->
+<!-- 		SELECT -->
+<!-- 		counsel_number ,  -->
+<!-- 		title ,  -->
+<!-- 		content ,  -->
+<!-- 		write_date ,  -->
+<!-- 		response_status , -->
+<!-- 		response_content,  -->
+<!-- 		lecture_number ,  -->
+<!-- 		parent_number ,  -->
+<!-- 		instructor_number -->
+<!-- 		FROM -->
+<!-- 		parent_counsel -->
+<!-- 		ORDER BY counsel_number DESC -->
+<!-- 	</select> -->
 	<select id="selectParentCounselInfo" parameterType="int"
 		resultType="ParentCounselVO">
 		SELECT
