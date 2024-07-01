@@ -1,18 +1,28 @@
 package com.son.app.certification.service.impl;
 
+import java.util.HashMap;
+
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.son.app.certification.mapper.CertMapper;
 import com.son.app.certification.service.CertService;
+
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 @Service
 public class CertServiceImpl implements CertService {
-	
+
 	@Autowired
 	private JavaMailSender javaMailSender;
 	
+	@Autowired
+	CertMapper mapper;
+
 	private String senderEmail = "thfqwl777@gmail.com";
 	private int number;
 
@@ -25,12 +35,12 @@ public class CertServiceImpl implements CertService {
 	public SimpleMailMessage createMail(String mail) {
 		createNumber();
 //        MimeMessage message = javaMailSender.createMimeMessage();
-        
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(senderEmail);
-        message.setTo(mail);
-        message.setSubject("이메일 인증");
-        message.setText("인증번호 : " + number);
+
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setFrom(senderEmail);
+		message.setTo(mail);
+		message.setSubject("이메일 인증");
+		message.setText("인증번호 : " + number);
 
 //        try {
 //            message.setFrom(senderEmail);
@@ -45,17 +55,50 @@ public class CertServiceImpl implements CertService {
 //            e.printStackTrace();
 //        }
 
-        return message;
+		return message;
 	}
 
 	@Override
 	public int sendEmail(String mail) {
-		
+
 		SimpleMailMessage message = createMail(mail);
 
-        javaMailSender.send(message);
+		javaMailSender.send(message);
 
-        return number;
+		return number;
+	}
+
+	@Override
+	public void sendPhone(String phone, int number) {
+		
+		System.out.println(phone + "폰폰폰폰폰폰");
+		
+		String api_key = "NCSFXLQ2RMRRNDC0";
+		String api_secret = "5GLKCEDKYWP0TTJSN1ZOFHQVZKKX9QDD";
+		Message coolsms = new Message(api_key, api_secret);
+
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("to", phone); // 수신전화번호
+		params.put("from", phone);
+		params.put("type", "SMS");
+		params.put("text", "[TEST] 인증번호는" + "[" + number + "]" + "입니다.");
+		params.put("app_version", "sonsonson");
+
+		try {
+			JSONObject obj = (JSONObject) coolsms.send(params);
+			System.out.println(obj.toString());
+			System.out.println("보냈음");
+		} catch (CoolsmsException e) {
+			System.out.println(e.getMessage());
+			System.out.println(e.getCode());
+		}
+
+	}
+
+	@Override
+	public int emailDoubleCheck(String mail) {
+		
+		return mapper.emailDoubleCheck(mail);
 	}
 
 }

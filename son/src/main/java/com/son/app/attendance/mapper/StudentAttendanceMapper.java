@@ -11,4 +11,6 @@ public interface StudentAttendanceMapper {
     public List<StudentScheduleVO> scheduleList(int studentNumber);
     public List<StudentLectureInfoVO> lectureList(int studentNumber);
     public List<StudentScheduleDetailVO> scheduleDetail(StudentScheduleDetailVO studentScheduleDetailVO);
+
+    public StudentLectureInfoVO lectureInfo(Integer lectureNumber);
 }

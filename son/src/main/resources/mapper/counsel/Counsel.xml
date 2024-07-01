@@ -74,7 +74,7 @@
 	<!-- 일간 상담 설정 -->
 	<update id="counselDayTimeUpdate" parameterType="CounselImpossibilityVO">
 		MERGE INTO counsel_impossibility ci
-			USING (SELECT #{reservation} reservation_date, #{timeCode} time_code FROM dual) src
+			USING (SELECT #{reservationDate} reservation_date, #{timeCode} time_code FROM dual) src
 		ON ( ci.reservation_date = src.reservation_date AND
 			 ci.time_code =	src.time_code)
 		WHEN MATCHED THEN
@@ -102,7 +102,7 @@
 					WHERE rownum = 1), 0) +1,
 				src.time_code,
 				src.reservation_date
-				);
+				)
 	</update>
 
 
