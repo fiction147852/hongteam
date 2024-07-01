@@ -23,6 +23,7 @@
 			, time_code
 			, reservation_date
 			, reservation_code
+			, content
 		FROM admission_counsel
 		WHERE counsel_number = #{counselNumber}
 	</select>

@@ -22,6 +22,7 @@
   <!-- SweetAlert2 Stylesheet -->
   <link href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css" rel="stylesheet" />
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
 
 
@@ -432,18 +433,18 @@ body {
 		document.addEventListener('DOMContentLoaded', function() {
 	        var calendarEl = document.getElementById('calendar');
 
-//             var counselEvent = /*[[${counselList}]]*/[];
+            var counselEvent = /*[[${counselList}]]*/[];
 
-//             var eventSchedule = counselEvent.map(function(event) {
-//                 var dateTimeString = moment(event.reservationDate).format('YYYY-MM-DD') 
-//                                     + 'T' + event.timeCode + ':00:00';
-//                 return {
-//                     title: event.parentName,
-//                     start: dateTimeString
-//             	};
-//             });
+            var eventSchedule = counselEvent.map(function(counEv) {
+                var dateTimeString = moment(counEv.reservationDate).format('YYYY-MM-DD') 
+                                    + 'T' + counEv.timeCode + ':00:00';
+                return {
+                    title: counEv.parentName + "상담",
+                    start: dateTimeString
+            	};
+            });
 	        
-			
+			console.log("아아", eventSchedule);
 			
 			plugins: [ 'dayGrid','interaction' ]
 			var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -540,7 +541,7 @@ body {
                 dayMaxEvents: true, // Row 높이보다 많으면 +숫자 more 링크 보임
                 // 이벤트 객체 필드 document : https://fullcalendar.io/docs/event-object
 
-//                 events: eventSchedule
+                events: eventSchedule
                 
             });
 
