@@ -15,11 +15,29 @@ public class CertController {
 	CertServiceImpl service;
 	
 	@ResponseBody
-	@PostMapping("/emailConfirm")
+	@PostMapping("/sec/emailConfirm")
 	public int emailConfirm(String mail) {
 		
 		int number = service.sendEmail(mail);
 		
 		return number;
+	}
+	
+	@ResponseBody
+	@PostMapping("/sec/phoneConfirm")
+	public int phoneConfirm(String phone) {
+		int number = (int)((Math.random()*(9999 - 1000 + 1)) + 1000);
+		
+		service.sendPhone(phone, number);
+		
+		return number;
+	}
+	
+	@ResponseBody
+	@PostMapping("/sec/emailDoubleCheck")
+	public int emailDoubleCheck(String mail) {
+		int cnt = service.emailDoubleCheck(mail);
+		
+		return cnt;
 	}
 }
