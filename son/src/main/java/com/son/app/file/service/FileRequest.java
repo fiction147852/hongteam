@@ -1,19 +1,21 @@
 package com.son.app.file.service;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
+@Data
+@NoArgsConstructor
 public class FileRequest {
 	private Integer attachmentFileNumber;
 	private String originalFileName;
 	private String saveFileName;
 	private long fileSize;
-    private int lectureMaterialNumber;
-    private int onlineLectureNumber;
-    private int taskNumber;
-    private int questionNumber;
-    private int taskSubmitNumber;
+    private Integer lectureMaterialNumber;
+    private Integer onlineLectureNumber;
+    private Integer taskNumber;
+    private Integer questionNumber;
+    private Integer taskSubmitNumber;
 	
 	@Builder
 	public FileRequest(String originalFileName, String saveFileName, long fileSize) {
@@ -21,26 +23,7 @@ public class FileRequest {
 		this.saveFileName = saveFileName;
 		this.fileSize = fileSize;
 	}
-	
-	public void setLectureMaterialNumber(int lectureMaterialNumber) {
-		this.lectureMaterialNumber = lectureMaterialNumber;
-	}
 
-	public void setOnlineLectureNumber(int onlineLectureNumber) {
-		this.onlineLectureNumber = onlineLectureNumber;
-	}
-
-	public void setTaskNumber(int taskNumber) {
-		this.taskNumber = taskNumber;
-	}
-
-	public void setQuestionNumber(int questionNumber) {
-		this.questionNumber = questionNumber;
-	}
-
-	public void setTaskSubmitNumber(int taskSubmitNumber) {
-		this.taskSubmitNumber = taskSubmitNumber;
-	}
 	
 	/*
 	// 일반적인 생성자를 통한 객체 생성

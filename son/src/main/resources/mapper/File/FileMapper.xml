@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.son.app.file.mapper.FileMapper">
+	<sql id="fileColumns">
+          attachment_file_number,
+      	  original_file_name,
+       	  save_file_name,
+       	  file_size,
+       	  created_date,
+       	  deleted_date,
+       	  is_deleted,
+       	  lecture_material_number,
+       	  online_lecture_number,
+       	  task_number,
+       	  question_number,
+       	  task_submit_number
+    </sql>
+
+	<!-- 파일 정보 저장 -->
+	<insert id="saveAll" parameterType="list">
+		INSERT ALL
+		<foreach item="file" collection="list">
+			INTO attachment_file (
+			<include refid="fileColumns" />
+			) 
+			VALUES 
+			(
+				FILE_INSERT,
+				#{file.originalFileName},
+				#{file.saveFileName},
+				#{file.fileSize},
+				SYSDATE,
+				NULL,
+				0,
+				#{file.lectureMaterialNumber},
+				#{file.onlineLectureNumber},
+				#{file.taskNumber},
+				#{file.questionNumber},
+				#{file.taskSubmitNumber}
+			)
+		</foreach>
+		SELECT * FROM DUAL
+	</insert>
+	
+
+	<update id="updateFile" parameterType="FileRequest">
+	    UPDATE attachment_file
+	    SET
+	        original_file_name = #{originalFileName},
+	        save_file_name = #{saveFileName},
+	        file_size = #{fileSize},
+	        lecture_material_number = #{lectureMaterialNumber},
+	        online_lecture_number = #{onlineLectureNumber},
+	        task_number = #{taskNumber},
+	        question_number = #{questionNumber},
+	        task_submit_number = #{taskSubmitNumber}
+	    WHERE attachment_file_number = #{attachmentFileNumber}
+	</update>
+	
+	<select id="findAll" resultType="FileResponse">
+		SELECT
+			<include refid="fileColumns" />
+		FROM attachment_file
+		WHERE 
+		is_deleted = 0
+		AND ${type} = #{number}
+	</select>
+	
+	<!-- 삭제 -->
+	<delete id="deleteAllByAttachmentFileNumber" parameterType="list">
+		UPDATE attachment_file
+		SET 
+			is_deleted = 1,
+			deleted_date = SYSDATE
+		WHERE
+			attachment_file_number IN
+				<foreach item="attachmentFileNumber" collection="list" open="(" separator="," close=")">
+				#{attachmentFileNumber}
+				</foreach>
+	</delete>
+</mapper>
