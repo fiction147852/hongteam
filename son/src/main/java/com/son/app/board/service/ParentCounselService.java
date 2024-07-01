@@ -7,7 +7,7 @@ public interface ParentCounselService {
 	// 학부모 계정에서의 학부모 QNA게시판 조회
 	public List<ParentCounselVO> ParentCounselList();
 	
-	public ParentCounselVO ParentCounselInfo(ParentCounselVO parentcounselVO);
+	public ParentCounselVO ParentCounselInfo(int counselNumber);
 	
 	public int insertParentCounsel(ParentCounselVO parentcounselVO);
 	
