@@ -1,6 +1,7 @@
 package com.son.app.security.config;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,12 +9,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.son.app.security.service.impl.CustomUserDetailsService;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig{
 	
 //	@Autowired
 //	private SecurityUserService service;
+	
+	@Autowired
+	private CustomUserDetailsService service;
 	
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder(){
@@ -40,7 +46,15 @@ public class SecurityConfig{
 	    	.failureHandler(new CustomLoginFailureHandler());
 	    
 	    http.logout()
+	    	.logoutUrl("/logout")
+	    	.logoutSuccessUrl("/login")
 	    	.invalidateHttpSession(true);
+	    
+	    http.rememberMe()
+	    	.key("son")
+	    	.rememberMeParameter("remember")
+	    	.alwaysRemember(true)
+	    	.userDetailsService(service);
 	    
 	    return http.build();
 	}
