@@ -53,7 +53,7 @@ public class SecurityConfig{
 	    http.rememberMe()
 	    	.key("son")
 	    	.rememberMeParameter("remember")
-	    	.alwaysRemember(true)
+//	    	.alwaysRemember(true)
 	    	.userDetailsService(service);
 	    
 	    return http.build();
