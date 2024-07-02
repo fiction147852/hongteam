@@ -41,6 +41,7 @@
       addActiveClass($this);
     })
 
+
     $('.horizontal-menu .nav li a').each(function() {
       var $this = $(this);
       addActiveClass($this);

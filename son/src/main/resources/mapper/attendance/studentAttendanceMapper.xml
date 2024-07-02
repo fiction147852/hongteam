@@ -9,8 +9,8 @@
              , de_sub_name_by_lecture(task.lecture_number) || ' 과제' as title
              , submit_deadline as "start"
         FROM task
-                 JOIN registration
-                      ON registration.lecture_number = task.lecture_number
+        JOIN registration
+            ON registration.lecture_number = task.lecture_number
         WHERE student_number = #{studentNumber}
         UNION ALL
         SELECT 'test'
@@ -18,8 +18,8 @@
              , de_sub_name_by_lecture(test.lecture_number) || ' 시험' as title
              , exam_date
         FROM test
-                 JOIN registration
-                      ON registration.lecture_number = test.lecture_number
+        JOIN registration
+            ON registration.lecture_number = test.lecture_number
         WHERE student_number = #{studentNumber}
     </select>
 
@@ -54,7 +54,7 @@
         FROM task_submit submit
         JOIN task
             ON task.task_number = submit.task_number
-        WHERE student_number = #{studentNumber} AND submit_deadline = #{deadlineDate}
+        WHERE student_number = #{studentNumber} AND TO_CHAR(submit_deadline, 'YY/MM/DD') = #{deadlineDate}
         UNION ALL
         SELECT
             'test' as type
@@ -65,7 +65,7 @@
         FROM participate
         JOIN test
             ON test.test_number = participate.test_number
-        WHERE student_number = #{studentNumber} AND exam_date = #{deadlineDate}
+        WHERE student_number = #{studentNumber} AND TO_CHAR(exam_date,'YY/MM/DD') = #{deadlineDate}
     </select>
 
     <select id="lectureInfo" resultType="StudentLectureInfoVO">

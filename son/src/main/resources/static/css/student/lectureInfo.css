@@ -66,10 +66,7 @@
 #eventModal .swiper {
     height: 150px;
     margin-top: 10px;
-}
-
-#eventModal .swiper-slide {
-    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 #eventModal .swiper-slide .subject-info {
@@ -79,4 +76,8 @@
 
 #eventModal .swiper-slide h5 {
     font-weight: 600;
+}
+
+.swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal, .swiper-pagination-custom, .swiper-pagination-fraction {
+    top : 100px;
 }
