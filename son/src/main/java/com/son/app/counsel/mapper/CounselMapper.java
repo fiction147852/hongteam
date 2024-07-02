@@ -17,7 +17,7 @@ public interface CounselMapper {
 	//등록
 	public int counselInsertInfo(CounselVO counselVO);
 	
-	//수정
+	// 상담 수정
 	public int counselUpdateInfo(CounselVO counselVO);
 	
 	//삭제
