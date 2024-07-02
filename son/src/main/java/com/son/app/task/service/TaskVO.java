@@ -27,5 +27,6 @@ public class TaskVO {
 	
 	
 	private List<FileRequest> fileList;
+	private List<Integer> removeFileIds;
 
 }

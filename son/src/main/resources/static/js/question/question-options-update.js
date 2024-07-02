@@ -23,13 +23,16 @@ function toggleOptions() {
 	    // 선택된 카테고리에 따라 새로운 옵션 추가
 	    if (selectedCategory === 'A001') {  // 수학
 	        addOption(detailSubject, 'B001', '미적분');
-	        addOption(detailSubject, 'B002', '확률과 통계');
+	        addOption(detailSubject, 'B002', '확률과통계');
+	        addOption(detailSubject, 'B003', '기하와벡터');
 	    } else if (selectedCategory === 'A002') {  // 영어
-	        addOption(detailSubject, 'B003', '독해');
-	        addOption(detailSubject, 'B004', '문법');
+	        addOption(detailSubject, 'B004', '독해');
+	        addOption(detailSubject, 'B005', '문법');
+	        addOption(detailSubject, 'B006', '듣기');
 	    } else if (selectedCategory === 'A003') {  // 국어
-	        addOption(detailSubject, 'B005', '화법과 작문');
-	        addOption(detailSubject, 'B006', '언어와 매체');
+	        addOption(detailSubject, 'B007', '화법과작문');
+	        addOption(detailSubject, 'B008', '언어와매체');
+	        addOption(detailSubject, 'B009', '문학');
 	    }
 	   }
 	

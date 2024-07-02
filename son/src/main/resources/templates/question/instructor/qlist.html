@@ -37,11 +37,12 @@ body {
 								<div style="display: flex; justify-content: space-between;">
 									<h6 class="text-lg font-semibold mt-3 ml-3">
 										[[ ${qs.questionTypeCode} ]] <br> [[ ${qs.subjectName ?:
-										'미지정'} ]]
+										'미지정'} ]] <span class="text-sm">([[${qs.detailSubjectName}]])</span>
+										<br> <span class="text-sm">난이도: [[${qs.difficultyCode}]]</span>
 									</h6>
 									<div>
 										<button type="button"
-											class="btn btn-primary mt-2 mr-3 float-end"
+											class="btn btn-info mt-2 mr-3 float-end"
 											th:onclick="|location.href='@{/instructor/questionUpdate(questionNumber=${qs.questionNumber})}'|">수정</button>
 										<br>
 										<button type="button"
@@ -99,7 +100,7 @@ body {
 					<option>문제유형</option>
 				</select> <input type="text" placeholder="검색어를 입력하세요."
 					class="form-control me-2 col-3">
-				<button type="submit" class="btn btn-primary">검색</button>
+				<button type="submit" class="btn btn-info">검색</button>
 			</form>
 		</div>
 		<div>
