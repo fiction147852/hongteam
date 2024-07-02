@@ -4,6 +4,8 @@
 
 
 const email_rule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+const pwd_rule = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+const id_rule = /^[A-Za-z0-9][A-Za-z0-9]*$/;
 
 let mailConfirm;
 let phoneConfirm;
@@ -108,9 +110,39 @@ function certPhone() {
 	}
 }
 
-$(function() {
-	$('#signUpForm').on('submit', function(e) {
+// 다음 주소검색 api
+function searchAddr(){
+	new daum.Postcode({
+        oncomplete: function(data) {
+			var addr;
+			
+			if (data.userSelectedType === 'R'){
+				addr = data.roadAddress;
+			}else{
+				addr = data.jibunAddress;
+			}
+			console.log(addr);
+			$('#address').val(addr);
+			$('#detailAddr').focus();
+        }
+    }).open();
+}
 
+$(function() {
+	
+	$('input[type=radio]').click(()=>{
+		let type = $('input[type=radio]:checked').val();
+		if(type == 2){
+			console.log('오잉');
+		}else{
+			
+		}
+	});
+	
+	$('#signUpForm').on('submit', (event) => {
+		
+		event.preventDefault();
+		
 		let confirmMail = $('#mailConfirm').val();
 		let confirmPhone = $('#phoneConfirm').val();
 
@@ -120,5 +152,6 @@ $(function() {
 		console.log(confirmMail, confirmPhone, '안됨');
 
 		return false;
-	})
+	});
+	
 })

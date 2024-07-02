@@ -8,6 +8,7 @@
 <link rel="stylesheet" th:href="@{/css/security/join.css}"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="/lms/js/security/join.js"></script>
 </head>
 <body>
@@ -15,6 +16,19 @@
     <table>
     <tr>
         <td><h2>회원가입</h2></td>
+    </tr>
+    <tr>
+    	<td>
+		   	<input type="radio" name="memberType" value="1">
+		   	<label> 학생 </label>
+		   	<input type="radio" name="memberType" value="2">
+		   	<label> 학부모 </label>
+    	</td>
+    </tr>
+    <tr id="studentCert" style="display: none">
+    	<td>
+    		
+    	</td>
     </tr>
     <tr><td>아이디(이메일)</td></tr>
     <tr>
@@ -64,7 +78,16 @@
     </tr>
     <tr><td>생년월일</td></tr>
     <tr><td><input type="date" class="text"></td></tr>
-    
+    <tr><td>주소</td></tr>
+    <tr>
+    	<td>
+    		<input type="text" id="address" class="text2" readonly>
+    		<input type="button" value="검색" class="btn2" onclick="searchAddr()">
+    	</td>
+    </tr>
+    <tr>
+    	<td><input type="text" id="detailAddr" class="text2" placeholder="상세주소"></td>
+    </tr>
     <tr><td><input type="submit" value="가입하기" class="btn"></td></tr>
     </table>
 </form>
