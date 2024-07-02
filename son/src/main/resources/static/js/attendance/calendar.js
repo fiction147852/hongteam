@@ -87,9 +87,11 @@ document.addEventListener('DOMContentLoaded', function () {
                         subjectInfoDiv.appendChild(itemInfoDivOne);
 
                         if (event.type === "task") {
-                            swiperWrapperDiv.closest(".swiper").style.height = "150px";
+                            swiperWrapperDiv.closest(".swiper").style.height = "130px";
+                            swiperWrapperDiv.closest(".swiper").style.marginBottom = "10px";
 
                             slideTitle.innerText = event.title;
+                            slideTitle.style.fontWeight = 800;
                             const itemInfoDivOneTextNode = document.createTextNode(" " + event.status);
 
                             const itemInfoDivTwo = document.createElement("div");

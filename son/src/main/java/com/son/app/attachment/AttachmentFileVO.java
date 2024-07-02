@@ -23,6 +23,8 @@ public class AttachmentFileVO {
     private Date createdDate;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date deletedDate;
-    private Boolean isDeleted;
+
+    // 0 or 1
+    private Integer isDeleted;
 
 }

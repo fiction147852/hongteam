@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.son.app.lecture.mapper.StudentLectureMapper">
 
+    <!-- 강의 자료 목록에서 한 페이지에 최대 5개의 게시글과 페이지 번호를 표시  -->
     <select id="lectureMaterialList" resultType="LectureMaterialVO">
         SELECT * FROM ( SELECT lecture_material_number
                             , title
@@ -13,19 +14,44 @@
                         FROM lecture_material
                         WHERE lecture_number = #{lectureNumber}
                         <if test="title != null and title != ''">
-                            AND title LIKE CONCAT('%', #{title}, '%')
+                            AND title LIKE '%' || #{title} || '%'
                         </if>
                       )
-        WHERE row_num BETWEEN #{startRow} + 1 AND #{startRow} + #{pageSize}
+        WHERE row_num BETWEEN #{startRow} AND #{endRow}
     </select>
 
+    <!-- 강의 자료 게시글 개수 출력  -->
     <select id="lectureMaterialCount" resultType="int">
         SELECT COUNT(*)
         FROM lecture_material
         WHERE lecture_number = #{lectureNumber}
         <if test="title != null and title != ''">
-            AND title Like CONCAT('%', #{title}, '%')
+            AND title LIKE '%' || #{title} || '%'
         </if>
+    </select>
+
+    <!-- 강의 자료 게시글을 클릭할 때 마다 1씩 증가하는 조회수   -->
+    <update id="incrementLectureMaterialViewCount">
+        UPDATE lecture_material
+        SET views = views + 1
+        WHERE lecture_material_number = #{lectureMaterialNumber}
+    </update>
+
+    <!-- 특정 강의 자료에 대한 상세 정보    -->
+    <select id="lectureMaterialInfo">
+        SELECT lecture_material_number
+             , title
+             , registration_date
+             , content
+        FROM lecture_material
+        WHERE lecture_material_number = #{lectureMaterialNumber}
+    </select>
+
+    <!-- 특정 강의 자료에 대한 첨부파일  -->
+    <select id="getAttachmentsForLectureMaterial">
+        SELECT *
+        FROM attachment_file
+        WHERE lecture_material_number = #{lectureMaterialNumber}
     </select>
 
 </mapper>
