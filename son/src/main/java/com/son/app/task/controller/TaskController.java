@@ -111,7 +111,7 @@ public class TaskController {
 	        fileUtils.deleteFiles(deleteFiles);
 	        
 	        // 6. 파일 삭제 (from database)
-	        fileService.deleteAllFileByAttachmentFileNumber(removeFileIds);
+//	        fileService.deleteAllFileByAttachmentFileNumber(removeFileIds);
 	    }
 
 	    return result;

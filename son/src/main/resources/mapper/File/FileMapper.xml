@@ -66,14 +66,14 @@
 			AND ${type} = #{number}
 	</select>
 	
-	<select id="findAllByAttachmentFileNumber" parameterType="list" resultType="FileResponse">
+	<select id="findAllByAttachmentFileNumber" resultType="FileResponse">
 		SELECT 
 			<include refid="fileColumns" />
 		FROM attachment_file
 		WHERE
 			is_deleted = 0
 			AND attachment_file_number IN
-			<foreach item="attachmentFileNumber" collection="list" open="(" separator="," close=")">
+			<foreach item="attachmentFileNumber" collection="numbers" open="(" separator="," close=")">
 				#{attachmentFileNumber}
 			</foreach>
 			
@@ -87,8 +87,8 @@
 			deleted_date = SYSDATE
 		WHERE
 			attachment_file_number IN
-				<foreach item="attachmentFileNumber" collection="list" open="(" separator="," close=")">
+			<foreach item="attachmentFileNumber" collection="numbers" open="(" separator="," close=")">
 				#{attachmentFileNumber}
-				</foreach>
+			</foreach>
 	</delete>
 </mapper>
