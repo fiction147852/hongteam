@@ -40,6 +40,8 @@ public class SecurityConfig{
 	    	.failureHandler(new CustomLoginFailureHandler());
 	    
 	    http.logout()
+	    	.logoutUrl("/logout")
+	    	.logoutSuccessUrl("/login")
 	    	.invalidateHttpSession(true);
 	    
 	    return http.build();
