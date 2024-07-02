@@ -1,5 +1,6 @@
 package com.son.app.task.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,9 +10,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.son.app.file.common.FileUtils;
 import com.son.app.file.service.FileRequest;
 import com.son.app.file.service.FileResponse;
@@ -80,8 +85,13 @@ public class TaskController {
 	@PostMapping("/instructor/taskUpdate")
 	@ResponseBody
 	public Map<String, Object> taskUpdateJSON(TaskVO taskVO, 
-	                                          @RequestParam(value = "files", required = false) List<MultipartFile> multipartFiles,
-	                                          @RequestParam(value = "removeFileIds", required = false) List<Integer> removeFileIds) {
+	                                          @RequestPart(value = "files", required = false) List<MultipartFile> multipartFiles,
+	                                          @RequestParam(value = "removeFileIdsStr", required = false) String removeFileIdsStr) throws JsonMappingException, JsonProcessingException {
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		
+		@SuppressWarnings("unchecked")
+		List<Integer> removeFileIds = objectMapper.readValue(removeFileIdsStr, ArrayList.class);
 	    // 1. 태스크 정보 수정
 	    Map<String, Object> result = taskService.updateTask(taskVO);
 

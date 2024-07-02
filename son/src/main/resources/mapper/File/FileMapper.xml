@@ -62,8 +62,21 @@
 			<include refid="fileColumns" />
 		FROM attachment_file
 		WHERE 
-		is_deleted = 0
-		AND ${type} = #{number}
+			is_deleted = 0
+			AND ${type} = #{number}
+	</select>
+	
+	<select id="findAllByAttachmentFileNumber" parameterType="list" resultType="FileResponse">
+		SELECT 
+			<include refid="fileColumns" />
+		FROM attachment_file
+		WHERE
+			is_deleted = 0
+			AND attachment_file_number IN
+			<foreach item="attachmentFileNumber" collection="list" open="(" separator="," close=")">
+				#{attachmentFileNumber}
+			</foreach>
+			
 	</select>
 	
 	<!-- 삭제 -->

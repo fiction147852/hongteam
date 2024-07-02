@@ -61,12 +61,10 @@
 					</div>
 				</div>
 				<div class="grid grid-cols-4 p-6 border-b" id="file_list">
-				<input type="hidden" id="removeFileIds" name="removeFileIds" />
 					<div class="col-span-1 font-bold mb-2">첨부 파일</div>
 					<div class="col-span-3 file_input" id="file_input">
-						<th:block th:each="file, stat : ${taskInfo.fileList}">
-							<div class="file-item d-flex justify-content"
-								th:id="'existing-file-' + ${stat.index}">
+						<th:block th:each="file : ${taskInfo.fileList}">
+							<div class="file-item d-flex justify-content">
 								<input type="text" readonly class="form-control col-8 mb-1"
 									th:value="${file.originalFileName}" />
 								<div>
@@ -101,9 +99,9 @@
 	    let formData = new FormData(form);
 
 	    // 삭제할 파일 ID 추가
-	    formData.append('removeFileIds', JSON.stringify(removeFileId.getAll()));
+	    formData.append('removeFileIdsStr', JSON.stringify(removeFileId.getAll()));
 
-	    $.ajax('/instructor/taskUpdate', {
+	    $.ajax('/lms/instructor/taskUpdate', {
 	        type: 'POST',
 	        data: formData,
 	        processData: false,

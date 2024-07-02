@@ -1,6 +1,5 @@
 package com.son.app.task.service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +27,6 @@ public class TaskVO {
 	
 	
 	private List<FileRequest> fileList;
-	private List<Integer> removeFileIds = new ArrayList<>();
+	private List<Integer> removeFileIds;
 
 }
