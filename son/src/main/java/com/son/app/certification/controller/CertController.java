@@ -1,13 +1,13 @@
 package com.son.app.certification.controller;
 
+import org.hamcrest.core.IsNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.son.app.certification.service.MailVO;
 import com.son.app.certification.service.impl.CertServiceImpl;
+import com.son.app.member.service.StudentVO;
 
 @Controller
 public class CertController {
@@ -40,4 +40,19 @@ public class CertController {
 		
 		return cnt;
 	}
+	
+	@ResponseBody
+	@PostMapping("/sec/childMailCheck")
+	public String childMailCheck(String mail) {
+		String result = "0";
+		
+		StudentVO std = service.childMailCheck(mail);
+		
+		if(std != null && std.getParentNumber() == -1) {
+			result = std.getPhone();
+		}
+		
+		return result;
+	}
+	
 }

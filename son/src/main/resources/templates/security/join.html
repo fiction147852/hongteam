@@ -19,15 +19,29 @@
     </tr>
     <tr>
     	<td>
-		   	<input type="radio" name="memberType" value="1">
+		   	<input type="radio" name="type" value="1">
 		   	<label> 학생 </label>
-		   	<input type="radio" name="memberType" value="2">
+		   	<input type="radio" name="type" value="2">
 		   	<label> 학부모 </label>
     	</td>
     </tr>
     <tr id="studentCert" style="display: none">
     	<td>
-    		
+    		<input type="text" id="childMail" placeholder="자녀 이메일" class="text"/>
+    		<input type="button" value="인증" class="btn2" onclick="childMailCheck()">
+    	</td>
+    </tr>
+    <tr id="child_phone" style="display:none">
+    	<td>
+	    	<input type="text" id="childPhone" placeholder="자녀 휴대폰 번호" class="text"/>
+	   		<input type="button" value="인증" class="btn2" onclick="childCheckPhone()">
+		</td>
+    </tr>
+    <tr id="child_phone_number" style="display: none">
+    	<td>
+    		<input type="text" id="childPhoneCertNumber" placeholder="인증번호 입력" class="text">
+    		<input type="button" value="확인" class="btn2" onclick="childCertPhone()">
+			<input type="hidden" id="childConfirm" style="display:none">
     	</td>
     </tr>
     <tr><td>아이디(이메일)</td></tr>
@@ -56,12 +70,15 @@
     		<input type="button" value="확인" class="btn2" onclick="certMail()">
     	</td>
     </tr>
+    
     <tr><td>비밀번호</td></tr>
-    <tr><td><input type="password" class="text"></td></tr>
+    <tr><td><input type="password" id="pwd" name="password" class="text"></td></tr>
     <tr><td>비밀번호 확인</td></tr>
-    <tr><td><input type="password" class="text"></td></tr>
+    <tr><td><input type="password" id="pwdCheck" class="text"></td></tr>
+    
     <tr><td>이름</td></tr>
-    <tr><td><input type="text" class="text"></td></tr>
+    <tr><td><input type="text" id="name" name="name" class="text"></td></tr>
+    
     <tr><td>휴대폰번호</td></tr>
     <tr>
     	<td>
@@ -77,7 +94,7 @@
     	</td>
     </tr>
     <tr><td>생년월일</td></tr>
-    <tr><td><input type="date" class="text"></td></tr>
+    <tr><td><input type="date" id="birth" class="text"></td></tr>
     <tr><td>주소</td></tr>
     <tr>
     	<td>
