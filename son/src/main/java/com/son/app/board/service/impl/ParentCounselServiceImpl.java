@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.son.app.board.mapper.ParentCounselMapper;
+import com.son.app.board.service.LectureNameVO;
 import com.son.app.board.service.ParentCounselService;
 import com.son.app.board.service.ParentCounselVO;
 import com.son.app.member.service.StudentVO;
@@ -54,9 +55,14 @@ public class ParentCounselServiceImpl implements ParentCounselService {
 	public int deleteParentCounsel(int counselNumber) {
 		return parentcounselMapper.deleteParentCounsel(counselNumber);
 	}
-
+	@Override
 	public List<StudentVO> getStudentsByParent(int parentNumber) {
 	    return parentcounselMapper.selectStudentsByParent(parentNumber);
+	}
+
+	@Override
+	public List<LectureNameVO> StudentInLecture(int studentNumber) {
+		return parentcounselMapper.StudentInLecture(studentNumber);
 	}
 
 }

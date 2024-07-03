@@ -9,4 +9,11 @@
 		FROM v_member
 		WHERE email = #{mail}
 	</select>
+	
+	<select id="childMailCheck" resultType="StudentVO">
+		SELECT nvl(parent_number, -1) as parent_number, phone
+		FROM student
+		WHERE email = #{mail}
+	</select>
+	
 </mapper>

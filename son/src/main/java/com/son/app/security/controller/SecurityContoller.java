@@ -6,9 +6,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.son.app.member.service.StudentVO;
 import com.son.app.security.service.CustomUserDetails;
 
 @Controller
@@ -29,8 +31,9 @@ public class SecurityContoller {
 	}
 	
 	@PostMapping("/signUp")
-	public String signUp() {
-		return "";
+	public String signUp(StudentVO memberInfo) {
+		System.out.println(memberInfo.toString());
+		return "security/join";
 	}
 	
 	@GetMapping("/loginTest")

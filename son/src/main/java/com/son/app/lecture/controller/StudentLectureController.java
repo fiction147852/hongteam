@@ -45,6 +45,4 @@ public class StudentLectureController {
         return studentLectureService.lectureMaterialInfo(lectureMaterialNumber);
     }
 
-
-
 }

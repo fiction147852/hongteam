@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.son.app.exam.mapper.StudentExamMapper">
+
+    <!-- 시험 목록에서 한 페이지에 최대 5개의 게시글 표시  -->
+    <select id="studentExamList" resultType="ExamListVO">
+        SELECT *
+        FROM ( SELECT ROW_NUMBER() OVER(ORDER BY test.test_number DESC) AS row_num
+                    , participate_number
+                    , participate_status
+                    , total_score
+                    , test_title
+                    , exam_date
+               FROM participate
+                        JOIN test
+                             ON test.test_number = participate.test_number
+               <where>
+                   test.lecture_number = #{lectureNumber}
+                   <if test="test_title != null AND test_title != ''">
+                       AND test_title LIKE '%' || #{participateTitle} || '%'
+                   </if>
+                   <choose>
+                       <when test="participate_status.equals('응시 완료')">
+                           AND participate_status = '응시 완료'
+                       </when>
+                       <otherwise>
+                           AND participate_status = '미응시'
+                       </otherwise>
+                   </choose>
+               </where>
+             )
+        WHERE row_num BETWEEN #{startRow} AND #{endRow}
+    </select>
+    
+    <!-- 시험 목록에 출력되는 행의 개수    -->
+    <select id="studentExamCount" resultType="int">
+        SELECT COUNT(*)
+        FROM participate
+        JOIN test
+             ON test.test_number = participate.test_number
+        <where>
+            test.lecture_number = #{lectureNumber}
+            <if test="test_title != null AND test_title != ''">
+                AND test_title LIKE '%' || #{participateTitle} || '%'
+            </if>
+            <choose>
+                <when test="participate_status.equals('응시 완료')">
+                    AND participate_status = '응시 완료'
+                </when>
+                <otherwise>
+                    AND participate_status = '미응시'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+</mapper>

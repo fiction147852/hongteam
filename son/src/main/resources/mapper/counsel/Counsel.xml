@@ -28,6 +28,8 @@
 		WHERE counsel_number = #{counselNumber}
 	</select>
 
+
+
 	<!-- 주간 시간 조회 -->
 	<select id="counselWeekTimeSelectAll"
 		resultType="AdmissioncounselPossibilityVO">
@@ -78,10 +80,11 @@
 	<update id="counselDayTimeUpdate"
 		parameterType="CounselImpossibilityVO">
 		MERGE INTO counsel_impossibility ci
-		USING (SELECT #{reservationDate} reservation_date, #{timeCode} time_code
-		FROM dual) src
-		ON ( ci.reservation_date = src.reservation_date AND
-		ci.time_code = src.time_code)
+			USING (SELECT #{reservationDate} reservation_date,
+						  #{timeCode} time_code
+				   FROM dual) src
+			ON ( ci.reservation_date = src.reservation_date AND
+				 ci.time_code = src.time_code)
 		WHEN MATCHED THEN
 			UPDATE
 				SET
@@ -90,27 +93,43 @@
 		time_code = src.time_code
 
 		DELETE WHERE
-		reservation_date= src.reservation_date AND
-		time_code = src.time_code
+			reservation_date= src.reservation_date AND
+			time_code = src.time_code
 		WHEN NOT MATCHED THEN
-		INSERT (
-		impossibility_number,
-		time_code,
-		reservation_date
-		)
-		VALUES
-		(
-		NVL(
-		(SELECT /*+ INDEX_DESC(ci XPK불가능_시간) */
-		ci.impossibility_number
-		FROM counsel_impossibility ci
-		WHERE rownum = 1), 0) +1,
-		src.time_code,
-		src.reservation_date
+			INSERT (
+				impossibility_number,
+				time_code,
+				reservation_date
+				)
+			VALUES
+				(NVL(
+					(SELECT /*+ INDEX_DESC(ci XPK불가능_시간) */
+							ci.impossibility_number
+					FROM counsel_impossibility ci
+					WHERE rownum = 1), 0) +1,
+				src.time_code,
+				src.reservation_date
 		)
 	</update>
 
 
+
+	<select id="counImpTime" resultType="counselVO">
+		SELECT *
+			FROM(
+				SELECT time_code
+				FROM admission_counsel
+				WHERE reservation_date = TO_DATE('24/07/02', 'YY/MM/DD')
+			UNION
+				SELECT time_code
+				FROM counsel_impossibility
+				WHERE reservation_date = TO_DATE('24/07/02', 'YY/MM/DD')
+			MINUS
+				SELECT time_code
+				FROM admission_counsel
+				WHERE counsel_number = 1)
+		ORDER BY time_code
+	</select>
 
 
 
@@ -160,7 +179,7 @@
 				time_code = #{timeCode},
 				reservation_date = #{reservationDate},
 				content = #{content}
-		WHERE counsel_number = #{counselNumber};
+		WHERE counsel_number = #{counselNumber}
 
 	</update>
 

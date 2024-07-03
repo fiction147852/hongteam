@@ -3,23 +3,24 @@
 <mapper namespace="com.son.app.board.mapper.ParentCounselMapper">
 
 	<!-- 학부모의 QNA 게시판 전체조회 -->
-<!-- 	<select id="selectParentCounselAll" resultType="ParentCounselVO"> -->
-<!-- 		SELECT -->
-<!-- 		counsel_number ,  -->
-<!-- 		title ,  -->
-<!-- 		content ,  -->
-<!-- 		write_date ,  -->
-<!-- 		response_status , -->
-<!-- 		response_content,  -->
-<!-- 		lecture_number ,  -->
-<!-- 		parent_number ,  -->
-<!-- 		instructor_number -->
-<!-- 		FROM -->
-<!-- 		parent_counsel -->
-<!-- 		ORDER BY counsel_number DESC -->
-<!-- 	</select> -->
+	<select id="selectParentCounselAll" resultType="ParentCounselVO">
+		SELECT
+		counsel_number ,
+		title ,
+		content ,
+		write_date ,
+		response_status ,
+		response_content,
+		lecture_number ,
+		parent_number ,
+		instructor_number
+		FROM
+		parent_counsel
+		ORDER BY counsel_number DESC
+	</select>
 	<!-- 학부모 QNA게시판 상세조회 -->
-	<select id="selectParentCounselInfo" resultType="ParentCounselVO">
+	<select id="selectParentCounselInfo"
+		resultType="ParentCounselVO">
 		SELECT
 		pc.COUNSEL_NUMBER,
 		pc.TITLE,
@@ -29,6 +30,7 @@
 		pc.RESPONSE_CONTENT,
 		pc.instructor_number,
 		pc.parent_number,
+		pc.student_number,
 		p.NAME AS parent_name,
 		s.NAME AS student_name
 		FROM
@@ -36,45 +38,79 @@
 		JOIN
 		PARENT p ON pc.PARENT_NUMBER = p.PARENT_NUMBER
 		JOIN
-		STUDENT s ON pc.PARENT_NUMBER = s.PARENT_NUMBER
+		STUDENT s ON pc.student_number = s.student_NUMBER
 		WHERE
 		pc.counsel_number = #{no}
 	</select>
-
-<insert id="insertParentCounsel" parameterType="ParentCounselVO">
-    <selectKey keyProperty="counselNumber" resultType="int" order="BEFORE">
-        SELECT NVL(MAX(counsel_number), 0) + 1 FROM parent_counsel
-    </selectKey>
-    INSERT INTO parent_counsel (
-        counsel_number,
-        title,
-        content,
-        write_date,
-        response_status,
-        response_content,
-        lecture_number,
-        parent_number,
-        instructor_number
-    ) VALUES (
-        #{counselNumber},
-        #{title},
-        #{content},
-        #{writeDate},
-        #{responseStatus},
-        #{responseContent},
-        #{lectureNumber},
-        #{parentNumber},
-        #{instructorNumber},
-        #{parentName},
-        #{studentName}
-        parent_number = #{parentNumber}
-</insert>
-
-
-
-<select id="selectStudentsByParent" parameterType="int" resultType="StudentVO">
-    SELECT STUDENT_NUMBER, NAME
-    FROM STUDENT 
-    WHERE PARENT_NUMBER = #{parentNumber}
-</select>
+	<!-- 상담게시판 등록 -->
+	<insert id="insertParentCounsel" parameterType="ParentCounselVO">
+		<selectKey keyProperty="counselNumber" resultType="int"
+			order="BEFORE">
+			SELECT NVL(MAX(counsel_number), 0) + 1 FROM parent_counsel
+		</selectKey>
+		INSERT INTO parent_counsel (
+		counsel_number,
+		title,
+		content,
+		write_date,
+		response_status,
+		lecture_number,
+		parent_number,
+		instructor_number,
+		student_number
+		) VALUES (
+		#{counselNumber},
+		#{title},
+		#{content},
+		sysdate,
+		0,
+		#{lectureNumber},
+		#{parentNumber},
+		(select instructor_number
+		from
+		lecture
+		where lecture_number = ${lectureNumber}),
+		#{studentNumber}
+		)
+	</insert>
+	<!-- 학부모 학생 리스트 쿼리 -->
+	<select id="selectStudentsByParent" parameterType="int"
+		resultType="StudentVO">
+		SELECT STUDENT_NUMBER, NAME
+		FROM STUDENT
+		WHERE PARENT_NUMBER
+		= #{parentNumber}
+	</select>
+	<!-- 학생에 연결된 강의 쿼리 -->
+	<select id="StudentInLecture" resultType="LectureNameVO">
+		select lecture_title,
+		lecture_number
+		from lecture
+		where lecture_number in
+		(select
+		lecture_number
+		from registration
+		where student_number =
+		#{student_number})
+	</select>
+	<!-- 수정 -->
+	<update id="updateParentCounsel" parameterType="ParentCounselVO">
+		UPDATE parent_counsel
+		SET
+			title = #{title},
+			content = #{content},
+			lecture_number = #{lectureNumber},
+			instructor_number = (SELECT instructor_number
+									FROM lecture
+									WHERE lecture_number = #{lectureNumber}
+									),
+			student_number = #{studentNumber}
+		WHERE counsel_number = #{counselNumber}
+	</update>
+	<!-- 삭제 -->
+	<delete id="deleteParentCounsel" parameterType="int">
+		DELETE FROM
+		parent_counsel
+		WHERE counsel_number = #{counselNumber}
+	</delete>
 </mapper>

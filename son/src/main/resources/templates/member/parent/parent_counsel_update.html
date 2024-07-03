@@ -17,28 +17,40 @@
 </head>
 <body id="parentCounselInfoBody" class="bg-gray-200">
     <div id="container" class="w-full max-w-none mx-auto p-6">
-        <form name="insertForm" action="/lms/parent/counselInsert" method="post">
+        <form name="UpdateForm" action="/lms/parent/counselUpdate" method="post" th:object="${counselInfo}">
+        <input type="hidden" th:field="*{counselNumber}">
             <div class="bg-white shadow-md rounded-lg overflow-hidden">
                 <div class="grid grid-cols-12 gap-4 p-6 border-b">
                     <div class="col-span-1 font-bold align-self-center">제목</div>
                     <div class="col-span-5 border-2">
-                        <input type="text" class="form-control w-full border rounded p-2" name="title" />
+                        <input type="text" class="form-control w-full border rounded p-2" th:field="*{title}"/>
                     </div>
-                </div>
-                <div class="grid grid-cols-12 gap-4 p-6 border-b">
                     <div class="col-span-1 font-bold align-self-center">작성자</div>
-                    <div class="col-span-5 border-2">
-                        <input type="text" class="form-control w-full border rounded p-2" name="author" />
-                    </div>
-                    <div class="col-span-1 font-bold align-self-center">작성자 자녀</div>
-                    <div class="col-span-5 border-2">
-                        <input type="text" class="form-control w-full border rounded p-2" name="authorChild" />
-                    </div>
+					<div class="col-span-5 border-2">
+                        <input type="text" class="form-control w-full border rounded p-2"
+                            th:value="${#authentication.principal.member.name}" id="parentName" readonly />
+					</div>
                 </div>
-                <div class="grid grid-cols-12 p-6 border-b">
+				<div class="grid grid-cols-12 gap-4 p-6 border-b">
+					<div class="col-span-1 font-bold align-self-center">작성자 자녀</div>
+					<div class="col-span-5 border-2">
+						<select class="form-control w-full border rounded p-2" th:field="*{studentNumber}" >
+							<option th:each="student : ${students}" th:value="${student.studentNumber}"
+								th:text="${student.name}"></option>
+						</select>
+					</div>
+                    <div class="col-span-1 font-bold align-self-center">강의 선택</div>
+                    <div class="col-span-5 border-2">
+                        <select id="lectureSelect" class="form-control w-full border rounded p-2"th:field="*{lectureNumber}">
+                        	<option th:each="lecture : ${lectureList}" th:value="${lecture.lectureNumber}"
+								th:text="${lecture.lectureTitle}"></option>
+                        </select>
+                    </div>
+				</div>
+				<div class="grid grid-cols-12 p-6 border-b">
                     <div class="col-span-1 font-bold mb-2 align-self-center">내용</div>
                     <div class="col-span-11 border-2">
-                        <textarea class="form-control w-full border rounded p-2" name="content" style="resize: none; height: 25em;"></textarea>
+                        <textarea th:field="*{content}" class="form-control w-full border rounded p-2" style="resize: none; height: 25em;"></textarea>
                     </div>
                 </div>
                 <div class="grid grid-cols-12 p-6 border-b">
@@ -49,10 +61,81 @@
                 </div>
             </div>
             <div class="flex justify-end mt-4">
-                <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded mr-2">등록</button>
+                <button id="submitForm" type="button" class="bg-blue-500 text-white font-bold py-2 px-4 rounded mr-2">등록</button>
                 <button type="button" class="bg-red-500 text-white font-bold py-2 px-4 rounded" onclick="location.href='counselList'">취소</button>
             </div>
         </form>
     </div>
 </body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#studentNumber').change(function() {
+            let studentNumber = $(this).val(); // 선택된 학생의 번호를 가져옴
+            console.log(studentNumber);
+            
+            if(!studentNumber)
+            	return false;
+            
+            // AJAX 요청으로 해당 학생의 강의 정보를 가져옴
+            $.ajax({
+                type: 'post', // 형식에 맞게 변경
+                url: '/lms/parent/StudentInLectureList', // 실제 경로에 맞게 변경
+               // dataType: 'json',
+                
+                data: {
+                    studentNumber: studentNumber
+                },
+                success: function(lectures) {
+                    
+                    // 기존 옵션 삭제
+                    $('#lectureSelect').empty();
+                    
+                    // 강의 정보를 옵션으로 추가
+                    lectures.forEach(function(lecture) {
+                        $('#lectureSelect').append('<option value="' + lecture.lectureNumber + '">' + lecture.lectureTitle + '</option>');
+                    });
+                },
+                error: function(error) {
+                    // 오류 처리
+                    console.error('Error:', error);
+                }
+            });
+            
+        });
+        
+        $('#submitForm').click(function() {
+            var title = $('input[name="title"]').val();
+            var content = $('#content').val();
+            var studentName = $('#studentName option:selected').text();
+            var lectureNumber = $('#lectureSelect').val();
+            var studentNumber =$('#studentNumber').val();
+            var counselNumber = $('#counselNumber').val();
+            // AJAX 요청으로 데이터 전송
+            $.ajax({
+                type: 'put',
+                url: '/lms/parent/counselUpdate',
+                contentType:"application/json",
+                
+                data: JSON.stringify({
+                	title,
+                    content,
+                    lectureNumber,
+                    studentNumber,
+                    counselNumber
+                }),
+                success: function(response) {
+                	if(response.result == true){
+                		location.href="counselInfo?counselNumber="+ counselNumber
+                	}
+                    console.log('Success:', response);
+                    // 필요에 따라 페이지 리디렉션 등 추가 처리 가능
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    });
+</script>
 </html>
