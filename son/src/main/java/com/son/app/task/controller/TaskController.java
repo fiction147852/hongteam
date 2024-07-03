@@ -1,6 +1,12 @@
 package com.son.app.task.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,9 +20,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.son.app.file.common.FileUtils;
 import com.son.app.file.service.FileRequest;
 import com.son.app.file.service.FileResponse;
@@ -24,7 +27,10 @@ import com.son.app.file.service.FileService;
 import com.son.app.task.service.TaskService;
 import com.son.app.task.service.TaskVO;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 public class TaskController {
 	
 	@Autowired
@@ -48,6 +54,7 @@ public class TaskController {
 		TaskVO findVO = taskService.taskInfo(taskVO);
 		
 		model.addAttribute("taskInfo", findVO);
+		log.info("taskInfo: {}", findVO);
 		return "task/instructor/taskInfo";
 	}
 	
@@ -67,7 +74,7 @@ public class TaskController {
 	    // 파일 업로드 및 저장
 	    if (multipartFiles != null && !multipartFiles.isEmpty()) {
 	        List<FileRequest> fileRequests = fileUtils.uploadFiles(multipartFiles);
-	        fileService.saveFiles(null, null, taskNumber, null, null, fileRequests);
+	        fileService.saveFiles(null, null, taskNumber, null, null, null, fileRequests);
 	    }
 	    
 	    return "redirect:/instructor/taskList";
@@ -81,37 +88,50 @@ public class TaskController {
 		return "task/instructor/taskUpdate";
 	}
 	
-//	// 수정 처리페이지
+	// 수정 처리페이지
 	@PostMapping("/instructor/taskUpdate")
 	@ResponseBody
-	public Map<String, Object> taskUpdateJSON(TaskVO taskVO, 
-	                                          @RequestPart(value = "files", required = false) List<MultipartFile> multipartFiles,
-	                                          @RequestParam(value = "removeFileIdsStr", required = false) String removeFileIdsStr) throws JsonMappingException, JsonProcessingException {
-		
-		ObjectMapper objectMapper = new ObjectMapper();
-		
-		@SuppressWarnings("unchecked")
-		List<Integer> removeFileIds = objectMapper.readValue(removeFileIdsStr, ArrayList.class);
-	    // 1. 태스크 정보 수정
-	    Map<String, Object> result = taskService.updateTask(taskVO);
+	public Map<String, Object> taskUpdateJSON(TaskVO taskVO,
+	        @RequestPart(value = "files", required = false) List<MultipartFile> multipartFiles,
+	        @RequestParam(value = "removeFileIdsStr", required = false) String removeFileIdsStr) {
+	    
+	    final Logger log = LoggerFactory.getLogger(ArrayList.class);
+	    Map<String, Object> result = new HashMap<>();
+	    
+	    try {
+	        ObjectMapper objectMapper = new ObjectMapper();
+	        List<Integer> removeFileIds = removeFileIdsStr != null ? 
+	            objectMapper.readValue(removeFileIdsStr, new TypeReference<List<Integer>>(){}) : 
+	            new ArrayList<>();
 
-	    if (multipartFiles != null && !multipartFiles.isEmpty()) {
-	        // 2. 파일 업로드 (to disk)
-	        List<FileRequest> uploadFiles = fileUtils.uploadFiles(multipartFiles);
-	        
-	        // 3. 파일 정보 저장 (to database)
-	        fileService.saveFiles(null, null, taskVO.getTaskNumber(), null, null, uploadFiles);
-	    }
+	        // 1. 태스크 정보 수정
+	        result = taskService.updateTask(taskVO);
 
-	    if (removeFileIds != null && !removeFileIds.isEmpty()) {
-	        // 4. 삭제할 파일 정보 조회 (from database)
-	        List<FileResponse> deleteFiles = fileService.findAllFileByAttachmentFileNumber(removeFileIds);
-	        
-	        // 5. 파일 삭제 (from disk)
-	        fileUtils.deleteFiles(deleteFiles);
-	        
-	        // 6. 파일 삭제 (from database)
-//	        fileService.deleteAllFileByAttachmentFileNumber(removeFileIds);
+	        if (multipartFiles != null && !multipartFiles.isEmpty()) {
+	            // 2. 파일 업로드 (to disk)
+	            List<FileRequest> uploadFiles = fileUtils.uploadFiles(multipartFiles);
+	            
+	            // 3. 파일 정보 저장 (to database)
+	            fileService.saveFiles(null, null, taskVO.getTaskNumber(), null, null, null, uploadFiles);
+	        }
+
+	        if (!removeFileIds.isEmpty()) {
+	            // 4. 삭제할 파일 정보 조회 (from database)
+	            List<FileResponse> deleteFiles = fileService.findAllFileByAttachmentFileNumber(removeFileIds);
+
+	            // 5. 파일 삭제 (from disk)
+	            fileUtils.deleteFiles(deleteFiles);
+
+	            // 6. 파일 삭제 (from database)
+	            fileService.deleteAllFileByAttachmentFileNumber(removeFileIds);
+	        }
+
+	        result.put("success", true);
+	    } catch (Exception e) {
+	        result.put("success", false);
+	        result.put("error", e.getMessage());
+	        // 로그에 상세한 오류 정보 기록
+	        log.error("Error in taskUpdateJSON", e);
 	    }
 
 	    return result;

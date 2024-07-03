@@ -64,7 +64,7 @@
 					<div class="col-span-1 font-bold mb-2">첨부 파일</div>
 					<div class="col-span-3 file_input" id="file_input">
 						<th:block th:each="file : ${taskInfo.fileList}">
-							<div class="file-item d-flex justify-content">
+							<div th:if="${file.isDeleted} == false" class="file-item d-flex justify-content">
 								<input type="text" readonly class="form-control col-8 mb-1"
 									th:value="${file.originalFileName}" />
 								<div>
@@ -108,8 +108,26 @@
 	        contentType: false
 	    })
 	    .done(result => {
-	        console.log(result);
-	        // 성공 처리 로직
+	    	console.log(result);
+	        if(result.result) { 
+	        	Swal.fire({
+	        		  icon: "success",
+	        		  title: "성공적으로 수정되었습니다",
+	        		  showConfirmButton: false,
+	        		  timer: 1000
+	        		}).then(() => {
+	        		  setTimeout(function() {
+	        		    window.location.href = '/lms/instructor/taskList';  // 목록 페이지로 리다이렉트
+	        		  }, 200);
+	        		});
+
+	        } else {
+	        	Swal.fire({
+	        		  icon: "error",
+	        		  title: "실패...",
+	        		  text: "뭔가 잘못되었어요."
+	        		});
+	        }
 	    })
 	    .fail(err => console.log(err));
 	}
@@ -145,8 +163,9 @@
     
     // 파일 선택
     function selectFile(element) {
-      const file = element.files[0];
-      const filename = element.closest('.file_input').querySelector('input[type="text"]');
+    	  const file = element.files[0];
+    	  const fileItem = element.closest('.file-item');
+    	  const filename = fileItem.querySelector('input[type="text"]');
 
       // 1. 파일 선택 창에서 취소 버튼이 클릭된 경우
       if (!file) {
@@ -166,19 +185,19 @@
       // 3. 파일명 지정
       filename.value = file.name;
       
-   // 4. 삭제할 파일 id 추가
+/*    // 4. 삭제할 파일 id 추가
       if (id) {
           removeFileId.add(id);
-      }
+      } */
     }
 	
     function addFile() {
         const fileDiv = document.createElement('div');
-        fileDiv.className = 'file-item mb-2 d-flex justify-content;'
+        fileDiv.className = 'file-item mb-2 d-flex justify-content';
         fileDiv.innerHTML = `
-            <input type="text" readonly class="form-control col-8 mb-1" />
-            <button type="button" onclick="removeFile(this)" class="btn btn-danger btn-sm mt-2">x</button>
-            <input type="file" name="newFiles" class="form-control" onchange="selectFile(this);" stlye="display:block;" />
+            <input type="file" name="files" class="form-control" onchange="selectFile(this);" style="display:none;" />
+            <input type="text" readonly class="form-control col-8 mb-1" onclick="this.previousElementSibling.click();" />
+            <div><button type="button" onclick="removeFile(this)" class="btn btn-danger btn-sm ml-1 mt-2">x</button></div>
         `;
         document.getElementById('new-file-inputs').appendChild(fileDiv);
     }
