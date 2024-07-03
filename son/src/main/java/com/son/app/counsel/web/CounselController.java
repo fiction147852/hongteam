@@ -98,6 +98,7 @@ public class CounselController {
 	@PostMapping("admin/counselDayTime")
 	public int counselDayTime(@RequestBody List<CounselImpossibilityVO> list) {
 		System.out.println(list.get(0));
+		System.out.println(list);
 	    return counselService.counselDayTimeUpdate(list);
 	}
 	
@@ -107,6 +108,24 @@ public class CounselController {
 		CounselVO findVO = counselService.counselInfo(counselVO);
 		model.addAttribute("counselInfo", findVO);
 		return "counsel/counselInfo";
+	}
+	
+	
+	// 상담 단건 수정 - 페이지
+	@GetMapping("admin/counselUpdate")
+	public String counselUpdateForm(Model model, Integer counselNumber) {
+		
+		CounselVO cvo = new CounselVO();
+		cvo.setCounselNumber(counselNumber);
+		
+		System.out.println(cvo);
+		
+		CounselVO findVO = counselService.counselInfo(cvo);
+		model.addAttribute("counselInfo", findVO);
+		
+		System.out.println(findVO);
+		
+		return "counsel/counselUpdate";
 	}
 
 	
