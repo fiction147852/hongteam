@@ -1,0 +1,47 @@
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layouts/student/studentDetailSubject_layout}">
+<head>
+    <link rel="stylesheet" th:href="@{/css/student/exam/examList.css}">
+    <script th:inline="javascript">let lectureNumber = [[${lectureNumber}]];</script>
+    <script th:src="@{/js/exam/student/exam.js}"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <h4 style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">시험</h4>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="table-responsive pt-2" style="padding-top: 0 !important;">
+                    <table class="table table-striped project-orders-table">
+                        <thead class="custom-thead">
+                        <tr>
+                            <th>번호</th>
+                            <th>제목</th>
+                            <th>응시일</th>
+                            <th>응시 여부</th>
+                            <th>점수</th>
+                        </tr>
+                        </thead>
+                        <tbody id="lecture-materials-tbody" class="custom-tbody">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center" style="margin-top: 30px">
+        <nav aria-label="Page navigation">
+            <ul id="pagination" class="pagination"></ul>
+        </nav>
+    </div>
+    <div class="mt-4">
+        <form id="search-form" class="d-flex justify-content-center mb-3">
+            <input type="text" id="search-title" placeholder="제목을 입력하세요." class="form-control me-2 col-3">
+            <button type="submit" class="btn btn-primary" style="background-color: #28587E">검색</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
