@@ -321,6 +321,7 @@ body {
 	document.addEventListener('DOMContentLoaded', function() {
 		updateTimeSetting();
 	});
+	console.log("넘어오는 시간 테스트", data);
 	
 	function updateTimeSetting(){
 		const days = ['월요일', '화요일', '수요일', '목요일', '금요일'];
@@ -335,6 +336,7 @@ body {
 			for(let i=10; i<=22; i++){
 				opt += `<option value="${i}" ${ times[0]==i ? 'selected' : ''  }>${i}:00</option>`;
 			}  
+			
 			opt += `</select>
 				<p style="margin: 0 10px;">~</p>
 				<select id="end${idx}" class="form-select" aria-label="${day} 마감 시간">
@@ -355,12 +357,16 @@ body {
 	weekBtn.addEventListener('click', ()=>{
 		
 		let param =[];
+		
+		
 		days.forEach((day, i) => {
 			let startTime = document.getElementById(`start${i}`).value
 			let endTime = document.getElementById(`end${i}`).value
+			
 			param.push({weekdaysCode: day, timeCode: startTime +"," + endTime});
 		});
-					
+				
+		console.log(param);
 		$.ajax({
 			type: 'post',
 			url: 'counselWeekTime', // 데이터를 주고받을 파일 주소 입력
