@@ -11,9 +11,9 @@
 	href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
 	rel="stylesheet">
 <style>
-        #taskInfoBody {
-            font-family: 'Roboto', sans-serif;
-        }
+#taskInfoBody {
+	font-family: 'Roboto', sans-serif;
+}
 </style>
 </head>
 <body id="parentCounselInfoBody" class="bg-gray-200">
@@ -43,7 +43,7 @@
 				<div class="col-span-11 border-2">
 					<p class="form-control w-full border rounded p-2"
 						style="resize: none; height: 25em;"
-						th:text="${counselInfo.responseContent}"></p>
+						th:text="${counselInfo.content}"></p>
 				</div>
 			</div>
 			<!--             <div class="grid grid-cols-12 p-6 border-b">
@@ -54,14 +54,19 @@
             </div> -->
 			<div class="grid grid-cols-12 p-6 border-b">
 				<div class="col-span-1 font-bold mb-2 align-self-center">답변 내용</div>
-				<div class="col-span-11 border-2">
-
-				</div>
+				<div class="col-span-11 border-2"></div>
 			</div>
 		</div>
 		<div class="flex justify-end mt-4">
-           <button type="button" class="bg-red-500 text-white font-bold py-2 px-4 rounded" onclick="location.href='counselList'">돌아가기</button>
-           <button type="button" class="bg-blue-500 text-white font-bold py-2 px-4 rounded ml-4" onclick="location.href='counselUpdate'">수정하기</button>
+			<button type="button"
+				class="bg-red-500 text-white font-bold py-2 px-4 rounded ml-2"
+				th:onclick="location.href= 'counselDelete?counselNumber=' + [[${counselInfo.counselNumber}]]">삭제</button>
+			<button type="button"
+				class="bg-blue-500 text-white font-bold py-2 px-4 rounded ml-2"
+				th:onclick="location.href= 'counselUpdate?counselNumber=' + [[${counselInfo.counselNumber}]]">수정</button>
+			<button type="button"
+				class="bg-gray-500 text-white font-bold py-2 px-4 rounded ml-2"
+				onclick="location.href='counselList'">목록</button>
 		</div>
 	</div>
 </body>
