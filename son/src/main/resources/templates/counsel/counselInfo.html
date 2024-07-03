@@ -12,6 +12,8 @@
 <title>PolluxUI Admin</title>
 
 <!-- Include ConfigFragment -->
+<th:block th:replace="common/configs/default_config :: ConfigFragment"></th:block>
+
 </head>
 
 <body>
@@ -56,13 +58,10 @@
 						</table>
 					</form>
 
-					<div>
-						<button type="button"
-							th:onclick="|location.href='@{/admin/counselUpdate(counselNumber=${counselInfo.counselNumber})}'|">수정</button>
-						<button type="button"
-							th:onclick="|location.href='@{/admin/counselList}'|">목록</button>
-						<button type="button"
-							th:onclick="|location.href='@{/admin/counseldelete(counselId=${counselInfo.counselNumber})}'|">삭제</button>
+					<div>  
+						<button type="button" class="btn btn-danger" th:onclick="|location.href='@{/admin/counselUpdate(counselNumber=${counselInfo.counselNumber})}'|">수정</button>
+						<button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/admin/counselList}'|">목록</button>
+						<button type="button" class="btn btn-primary" th:onclick="|location.href='@{/admin/counseldelete(counselId=${counselInfo.counselNumber})}'|">삭제</button>
 					</div>
 				</div>
 			</div>

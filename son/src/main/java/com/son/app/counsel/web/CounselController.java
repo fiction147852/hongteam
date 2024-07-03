@@ -3,6 +3,8 @@ package com.son.app.counsel.web;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,23 +116,48 @@ public class CounselController {
 	// 상담 단건 수정 - 페이지
 	@GetMapping("admin/counselUpdate")
 	public String counselUpdateForm(Model model, Integer counselNumber) {
-		
+		// 해당 상담 단건 번호
 		CounselVO cvo = new CounselVO();
 		cvo.setCounselNumber(counselNumber);
-		
-		System.out.println(cvo);
-		
+		// 해당 번호 정보 단건 조회
 		CounselVO findVO = counselService.counselInfo(cvo);
 		model.addAttribute("counselInfo", findVO);
+		// 해당날짜 가능한 불가능한 시간 제외시킬 시간
+		List<CounselVO> timeVO = counselService.counselImpTime();
+		model.addAttribute("counselImpTime", timeVO);
 		
-		System.out.println(findVO);
+		// 해당날짜 가능한 시간
+		AdmissionCounselPossibilityVO vo = new AdmissionCounselPossibilityVO();
+		
+		// 해당 날짜 가져오기
+		Date reservationDate = findVO.getReservationDate();
+		SimpleDateFormat format1 = new SimpleDateFormat("E요일");
+		//해당 요일 변환
+		vo.setWeekdaysCode(format1.format(reservationDate));
+		System.out.println(format1);
+		
+		//가능한 time code 
+		String list = counselService.getdayPos(vo);
+		System.out.println("무슨날짜?" + list);
+		String[] T = list.split(","); 
+		int start = Integer.parseInt(T[0].trim());
+		int end = Integer.parseInt(T[1].trim());
+		
+		// 
+		List<Integer> posTime = new ArrayList<Integer>();
+
+		for(int i=start; i<=end; i++) {
+
+			posTime.add(i);
+		}
+		
+		model.addAttribute("timeList", list);
+		
+		System.out.println("무슨시간?" + posTime);
 		
 		return "counsel/counselUpdate";
 	}
 
-	
-	
-	
 	// 상담 등록 - 페이지
 	@GetMapping("counselInsert")
 	public String counsertInsert(Model model) {
