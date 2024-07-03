@@ -12,6 +12,6 @@ public class CounselImpossibilityVO {
 	private Integer impossibilityNumber;
 	private String weekdaysCode;
 	private String timeCode;
-	@JsonFormat(pattern = "yy/MM/dd", timezone="Asia/Seoul")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone="Asia/Seoul")
 	private Date reservationDate;
 }

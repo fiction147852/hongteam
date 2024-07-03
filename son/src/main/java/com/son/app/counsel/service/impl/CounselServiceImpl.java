@@ -108,4 +108,9 @@ public class CounselServiceImpl implements CounselService {
 		return counselMapper.counselDayPos(vo);
 	}
 
+	@Override
+	public List<CounselVO> counselImpTime() {
+		return counselMapper.counImpTime();
+	}
+
 }

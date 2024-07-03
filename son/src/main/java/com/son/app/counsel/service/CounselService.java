@@ -42,6 +42,8 @@ public interface CounselService {
 	// 클릭시 가능한 시간대 처리 
 	public String getdayPos(AdmissionCounselPossibilityVO vo);
 
+	public List<CounselVO> counselImpTime();
+
 
 	
 }

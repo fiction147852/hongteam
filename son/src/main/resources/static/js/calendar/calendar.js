@@ -2,28 +2,6 @@
  * 
  */
 
- 
-		// 	  	const weekDay = ['월요일', '화요일', '수요일', '목요일', '금요일'];
-
-		// 	  	function createWeekdayTimeOptions(){
-		// 	  		const weekdayOptionContainer = document.getElementById('weekday-options');
-
-		// 	  		weekdayOptionContainer.innerHtml = '';
-
-		// 	  		weekday.forEach( day => {
-		// 	  			const labelStart = document.createElement('label');
-		// 	  			labelStart.textContent = `${day} : `;
-
-		// 	  			const selectStart = document.createElement('select');
-		// 	  			selectStart.setAttribute('name', `${day}-start`);
-
-		// 	  			for(let hour=9; hour<=18; hour++){
-		// 	  				const 
-
-		// 	  			}
-
-		// 	  	}
-		
 		//해당 날 불가능한 시간대를 가진리스트 불러오기 
 		async function getDayOfImp(date){
 			let data = [];
@@ -40,6 +18,7 @@
 			});
 			return data;
 		}
+		
 		async function getWeekDayPos(weekday){
 			let koParam = decodeURI(decodeURIComponent(weekday));
 			let str = "";
@@ -61,7 +40,6 @@
 		document.addEventListener('DOMContentLoaded', function() {
 	        var calendarEl = document.getElementById('calendar');
 
-            var counselEvent = /*[[${counselList}]]*/[];
 
             var eventSchedule = counselEvent.map(function(counEv) {
                 var dateTimeString = dayjs(counEv.reservationDate).format('YYYY-MM-DD') 
@@ -73,8 +51,6 @@
             });
 
 	        
-			console.log("아아", eventSchedule);
-			
 			plugins: [ 'dayGrid','interaction' ]
 			var calendar = new FullCalendar.Calendar(calendarEl, {
 				height : '1000px',
@@ -103,41 +79,16 @@
 		        //해당날 클릭시 이벤트 
 		        dateClick: async function(info) {
 					
-		        	let date = info.dateStr.slice(2, 10);
-		        	let dateMonth = date.slice(3,5);
-		        	let dateDay = date.slice(6,8)
-		        	let oraDay = date.replaceAll('-','/');
-		        	
-		        	console.log(info.dateStr);
-		        	console.log('Clicked on: ' + date);
-		        	console.log('Clicked on: ' + dateMonth);
-		        	console.log('Clicked on: ' + dateDay);
-	        	    console.log('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-	        	    console.log('Current view: ' + info.view.type);
-		        	console.log(oraDay);
-	        	    let dateObj = new Date(info.dateStr);
-
-	        	    const daysOfWeek = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
-	        	    let a = dateObj.getDay();
-	        	    console.log(daysOfWeek[a]);
-	        	    let b = a-1 === -1 ? 6 : a-1;
-	        	    //console.log(b);
-	        	    
-	        	    
-                    $('#modalDate').text(dateMonth + '월 ' + dateDay + '일 ' + daysOfWeek[a] + ' 일정' ).val(oraDay);
+					let dateObj = info.date; 
+	        	       
+	        	    // 모달 날짜변경
+                    $('#modalDate').text(getDateFormat(dateObj, 3));
+                    $('#modalDateParam').val(getDateFormat(dateObj, 2));
                     $('#dayTime').modal('show');
 
-                    
-					currClickedDate = b;
-					console.log(currClickedDate);
-// 					updateDayTimeSetting();
-// 					console.log(await getDayOfImp(info.dateStr));
-					
-					
-					const result = await getDayOfImp(info.dateStr);
-			        const ajax_data = await getWeekDayPos(daysOfWeek[a]);
-			        console.log(ajax_data);
-			        updateDayTimeSetting(result, ajax_data);
+
+			        //예약 시간대 
+			        updateDayTimeSetting();
 
                 },
 		        
