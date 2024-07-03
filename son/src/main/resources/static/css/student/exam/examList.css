@@ -1,0 +1,16 @@
+.project-orders-table thead tr, .project-orders-table tbody tr {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.project-orders-table td, .project-orders-table th {
+    width: 20%;
+    text-align: center;
+}
+
+.custom-thead tr th {
+    background-color: #28587E !important;
+    color: white;
+    font-weight: 800 !important;
+}

@@ -13,7 +13,8 @@
        	  online_lecture_number,
        	  task_number,
        	  question_number,
-       	  task_submit_number
+       	  task_submit_number,
+       	  student_question_number
     </sql>
 
 	<!-- 파일 정보 저장 -->
@@ -36,26 +37,12 @@
 				#{file.onlineLectureNumber},
 				#{file.taskNumber},
 				#{file.questionNumber},
-				#{file.taskSubmitNumber}
+				#{file.taskSubmitNumber},
+				#{file.studentQuestionNumber}
 			)
 		</foreach>
 		SELECT * FROM DUAL
 	</insert>
-	
-
-	<update id="updateFile" parameterType="FileRequest">
-	    UPDATE attachment_file
-	    SET
-	        original_file_name = #{originalFileName},
-	        save_file_name = #{saveFileName},
-	        file_size = #{fileSize},
-	        lecture_material_number = #{lectureMaterialNumber},
-	        online_lecture_number = #{onlineLectureNumber},
-	        task_number = #{taskNumber},
-	        question_number = #{questionNumber},
-	        task_submit_number = #{taskSubmitNumber}
-	    WHERE attachment_file_number = #{attachmentFileNumber}
-	</update>
 	
 	<select id="findAll" resultType="FileResponse">
 		SELECT
@@ -91,4 +78,16 @@
 				#{attachmentFileNumber}
 			</foreach>
 	</delete>
+	
+	<!-- 파일 상세정보 조회 -->
+	<select id="findByAttachmentFileNumber" parameterType="Integer" resultType="FileResponse">
+		SELECT
+		 	<include refid="fileColumns" />
+		FROM
+			attachment_file
+		WHERE
+			is_deleted = 0
+		AND attachment_file_number = #{attachmentFileNumber}
+	
+	</select>
 </mapper>

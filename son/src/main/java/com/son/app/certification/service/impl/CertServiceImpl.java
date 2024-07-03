@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.son.app.certification.mapper.CertMapper;
 import com.son.app.certification.service.CertService;
+import com.son.app.member.service.StudentVO;
 
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
@@ -99,6 +100,12 @@ public class CertServiceImpl implements CertService {
 	public int emailDoubleCheck(String mail) {
 		
 		return mapper.emailDoubleCheck(mail);
+	}
+	
+	@Override
+	public StudentVO childMailCheck(String mail) {
+		
+		return mapper.childMailCheck(mail);
 	}
 
 }

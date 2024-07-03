@@ -9,6 +9,8 @@ const id_rule = /^[A-Za-z0-9][A-Za-z0-9]*$/;
 
 let mailConfirm;
 let phoneConfirm;
+let childPhoneConfirm;
+let childPhoneNumber;
 
 function setEmailDomain(domain) {
 	$('#email_domain').val(domain);
@@ -86,6 +88,27 @@ function emailDoubleCheck(mail) {
 	return cnt;
 }
 
+function childMailCheck(){
+	let mail = $('#childMail').val();
+	
+	$.ajax({
+		url: '/lms/sec/childMailCheck',
+		type: 'post',
+		data: {'mail': mail},
+		success: function(data){
+			if(data == 0){
+				$('#child_phone').css('display', 'none');
+				alert('등록 불가능한 이메일입니다.');
+			}else{
+				alert('등록 가능한 이메일입니다.');
+				$('#child_phone').css('display', 'block');
+				childPhoneNumber = data;
+			}
+		}
+	})
+}
+
+// 발송된 인증번호 맨 위 전역변수에 저장
 function checkPhone() {
 	alert('번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.');
 	$('#phone_number').css('display', 'block');
@@ -100,6 +123,25 @@ function checkPhone() {
 	})
 }
 
+function childCheckPhone(){
+	if(childPhoneNumber == $('#childPhone').val()){
+		alert('번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.');
+		$('#child_phone_number').css('display', 'block');
+		/*$.ajax({
+			url: '/lms/sec/phoneConfirm',
+			type: 'post',
+			data: { "phone": $('#childPhone').val() },
+			success: function(data) {
+				console.log(data);
+				childPhoneConfirm = data;
+			}
+		})*/
+	}else{
+		alert('휴대폰 번호를 다시 확인해주세요');
+	}
+}
+
+// 전역변수로 받은 인증번호와 입력받은 인증번호가 일치하는지 확인
 function certPhone() {
 	let certNo = $('#phoneCertNumber').val();
 
@@ -107,6 +149,20 @@ function certPhone() {
 		alert('인증되었습니다');
 		$('#phonConfirm').val('Y');
 		$('#phone_number').css('display', 'none');
+	} else{
+		alert('인증번호가 일치하지 않습니다.');
+	}
+}
+
+function ChildCertPhone(){
+	let certNo = $('#childPhoneCertNumber').val();
+	
+	if(certNo == childPhoneConfirm){
+		alert('인증 완료');
+		$('#childPhoneConfirm').val('Y');
+		$('#child_phone_number #child_phone').css('display', 'none');
+	} else{
+		alert('인증번호가 일치하지 않습니다.');
 	}
 }
 
@@ -128,29 +184,59 @@ function searchAddr(){
     }).open();
 }
 
+function searchChild(){
+	let childMail = $('#childMail').val();
+	
+	
+}
+
 $(function() {
 	
 	$('input[type=radio]').click(()=>{
 		let type = $('input[type=radio]:checked').val();
-		if(type == 2){
-			console.log('오잉');
+		if(type == 1){
+			$('#studentCert').css('display', 'none');
 		}else{
-			
+			$('#studentCert').css('display', 'block');
 		}
 	});
 	
 	$('#signUpForm').on('submit', (event) => {
-		
-		event.preventDefault();
+		console.log($('#birth').val());
 		
 		let confirmMail = $('#mailConfirm').val();
 		let confirmPhone = $('#phoneConfirm').val();
-
+		let childPhoneConfirm = $('#childPhoneConfirm').val();
+		
+		let type = $('input[type=radio]:checked').val();
+		
 		if (confirmMail == 'Y' && confirmPhone == 'Y') {
-			return true;
+			if(type == 1 || childPhoneConfirm == 'Y'){
+				formData = {
+					'type' : type,
+					'mail' : $('#email_id').val() + '@' + $('#email_domain').val(),
+					'password' : $('#pwd').val(),
+					'name' : $('#name').val(),
+					'phone' : $('#phone').val(),
+					'birth' : $('#birth').val(),
+					'address' : $('#address').val() + ' ' + $('#detail_address').val(),
+					'childMail' : $('#childMail').val()
+				}
+				/*
+				var formData = new FormData();
+				formData.append('type', type);
+				formData.append('mail', $('#email_id').val() + '@' + $('#email_domain').val());
+				formData.append('password', $('#pwd').val());
+				formData.append('name', $('#name').val());
+				formData.append('phone', $('#phone').val());
+				formData.append('birth', $('#birth').val());
+				formData.append('address', $('#address').val() + ' ' + $('#detail_address').val());
+				*/
+			}
 		}
-		console.log(confirmMail, confirmPhone, '안됨');
-
+		
+		alert('정보를 다시 입력하세요');
+		
 		return false;
 	});
 	

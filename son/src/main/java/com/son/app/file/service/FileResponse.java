@@ -24,4 +24,5 @@ public class FileResponse {
     private Integer taskNumber;
     private Integer questionNumber;
     private Integer taskSubmitNumber;
+    private Integer studentQuestionNumber;
 }

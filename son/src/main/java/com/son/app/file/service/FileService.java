@@ -19,7 +19,7 @@ public class FileService {
 
 	@Transactional
 	public void saveFiles(Integer lectureMaterialNumber, Integer onlineLectureNumber, Integer taskNumber,
-			Integer questionNumber, Integer taskSubmitNumber, List<FileRequest> files) {
+			Integer questionNumber, Integer taskSubmitNumber, Integer studentQuestionNumber, List<FileRequest> files) {
 		if(CollectionUtils.isEmpty(files)) {
 			return;
 		}
@@ -29,6 +29,7 @@ public class FileService {
 			file.setQuestionNumber(questionNumber);
 			file.setTaskNumber(taskNumber);
 			file.setTaskSubmitNumber(taskSubmitNumber);
+			file.setStudentQuestionNumber(studentQuestionNumber);
 		}
 		fileMapper.saveAll(files);
 	}
@@ -64,5 +65,14 @@ public class FileService {
 			return;
 		}
 		fileMapper.deleteAllByAttachmentFileNumber(numbers);
+	}
+	
+    /**
+     * 파일 상세정보 조회
+     * @param id - PK
+     * @return 파일 상세정보
+     */
+	public FileResponse findFileByAttachmentFileNumber(Integer attachmentFileNumber) {
+		return fileMapper.findByAttachmentFileNumber(attachmentFileNumber);
 	}
 }

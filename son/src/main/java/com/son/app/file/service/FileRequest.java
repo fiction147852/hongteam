@@ -11,11 +11,13 @@ public class FileRequest {
 	private String originalFileName;
 	private String saveFileName;
 	private long fileSize;
+	private boolean isDeleted;
     private Integer lectureMaterialNumber;
     private Integer onlineLectureNumber;
     private Integer taskNumber;
     private Integer questionNumber;
     private Integer taskSubmitNumber;
+    private Integer studentQuestionNumber;
 	
 	@Builder
 	public FileRequest(String originalFileName, String saveFileName, long fileSize) {

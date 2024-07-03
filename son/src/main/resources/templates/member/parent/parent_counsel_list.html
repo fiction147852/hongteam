@@ -26,7 +26,7 @@
                             <tr th:each="counsel : ${ParentCounselList}" th:onclick="|location.href='@{counselInfo(counselNumber=${counsel.counselNumber})}'|">
                                 <td th:text="${counsel.counselNumber}">#번호</td>
                                 <td th:text="${counsel.title}">제목</td>
-                                <td th:text="${counsel.parentNumber}">작성자</td>
+                                <td th:text="${#authentication.principal.member.name}">작성자</td>
                                 <td th:text="${#dates.format(counsel.writeDate, 'yyyy-MM-dd')}">작성일</td>
                                 <td th:text="${counsel.responseStatus}">답변상태</td>
                             </tr>
