@@ -23,7 +23,8 @@
 	        f.attachment_file_number,
 	        f.original_file_name,
 	        f.save_file_name,
-	        f.file_size
+	        f.file_size,
+	        f.is_deleted
 	    FROM task t
 	    	LEFT OUTER JOIN attachment_file f 
 	    		ON t.task_number = f.task_number
@@ -43,6 +44,7 @@
 	        <result property="originalFileName" column="original_file_name"/>
 	        <result property="saveFileName" column="save_file_name"/>
 	        <result property="fileSize" column="file_size"/>
+	        <result property="isDeleted" column="is_deleted"/>
 	    </collection>
 	</resultMap>
 	

@@ -35,4 +35,11 @@ public interface FileMapper {
      * @param numbers - PK 리스트
      */
 	void deleteAllByAttachmentFileNumber(List<Integer> numbers);
+	
+	 /**
+     * 파일 상세정보 조회
+     * @param id - PK
+     * @return 파일 상세정보
+     */
+	FileResponse findByAttachmentFileNumber(Integer attachmentFileNumber);
 }
