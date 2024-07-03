@@ -11,6 +11,10 @@
 body {
 	font-family: 'Roboto', sans-serif;
 }
+.btn-primary {
+	border: none;
+	box-shadow: 0px;
+}
 </style>
 <head>
 
@@ -40,7 +44,7 @@ body {
 		</div>
 		<div>
 			<button type="button" class="btn btn-secondary float-end mt-3"
-				th:onclick="|location.href='@{/instructor/lecture/onlineLTList}'|">목록</button>
+				th:onclick="|location.href='@{/instructor/onlineLTList}'|">목록</button>
 		</div>
 	</div>
 	
