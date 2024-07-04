@@ -171,7 +171,15 @@ public class CounselController {
 		
 		return "counsel/counselUpdate";
 	}
-
+	
+//	// 최원호가함
+//	@ResponseBody
+//	@GetMapping("asdf/{today}")
+//	public List<Integer> getPosTime(@PathVariable Date today){
+//		List<Integer> list = null;
+//		return list;
+//	}
+	
 	// 상담 단건 수정 - 처리
 	@ResponseBody
 	@PostMapping("admin/counselUpdate")	//requestbody같은거 안쓸때는 fetch에서 그냥 데이터 보내기

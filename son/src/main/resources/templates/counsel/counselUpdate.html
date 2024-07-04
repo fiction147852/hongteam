@@ -72,7 +72,7 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="reservationDate">예약 일자</label>
-                                <input type="date" th:field="*{reservationDate}" class="form-control">
+                                <input type="date" onchange="changeDate()" id="reservationDate"th:field="*{reservationDate}" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label for="timeCode">시간</label>
@@ -107,19 +107,18 @@
 	counImpTime = /*[[counselPosTime]]*/[];
 </script>
 <script th:javascript>
+	const statusBtn = document.getElementById('statusBtn');
+	const reservationCode = document.getElementById('reservationCode');
 
-const statusBtn = document.getElementById('statusBtn');
-const reservationCode = document.getElementById('reservationCode');
-
-statusBtn.addEventListener('click', function(){
-    if (statusBtn.innerText == "대기") {
-        statusBtn.innerText = "확정";
-        reservationCode.value = "확정";
-    } else {
-        statusBtn.innerText = "대기";
-        reservationCode.value = "대기";
-    }
-});
+	statusBtn.addEventListener('click', function(){
+	    if (statusBtn.innerText == "대기") {
+	        statusBtn.innerText = "확정";
+	        reservationCode.value = "확정";
+	    } else {
+	        statusBtn.innerText = "대기";
+	        reservationCode.value = "대기";
+	    }
+	});
 
 	function updateAjax(event){
         fetch('counselUpdate', {
@@ -133,7 +132,6 @@ statusBtn.addEventListener('click', function(){
             let counselNumber = document.getElementById('counselNumber').value;
 
             location.href = '/lms/admin/counselInfo?counselNumber=' + counselNumber;
-
         })
         .catch(error => {
             console.error('Error:', error);
@@ -143,6 +141,39 @@ statusBtn.addEventListener('click', function(){
 		updateAjax();
 	})
     
+	
+	function changeDate(){
+		fetch('counselUpdate/'+$('#reservationDate').val(),{
+			method: 'GET',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+			body: $('#reservationDate').serialize()
+		})
+		.then(response => response.text())
+		.then(result =>{
+			const timeSelect = document.getElementById('timeCode');
+			timeSelect.innerText = '';
+			
+			// timecode 가져온거 넣기
+	        result.timeCodes.forEach(timeCode => {
+	            const option = document.createElement('option');
+	            option.value = timeCode;
+	            option.text = timeCode;
+	            timeSelect.add(option);
+	        });
+			
+		})
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </script>
 
 </html>
