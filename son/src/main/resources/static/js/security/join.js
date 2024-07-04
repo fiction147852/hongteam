@@ -70,6 +70,7 @@ function certMail() {
 	}
 
 	console.log($('#mailConfirm').val());
+	
 }
 
 function emailDoubleCheck(mail) {
@@ -96,13 +97,14 @@ function childMailCheck(){
 		type: 'post',
 		data: {'mail': mail},
 		success: function(data){
-			if(data == 0){
-				$('#child_phone').css('display', 'none');
-				alert('등록 불가능한 이메일입니다.');
-			}else{
+			if(data != null && data.parentNumber == -1){
 				alert('등록 가능한 이메일입니다.');
 				$('#child_phone').css('display', 'block');
-				childPhoneNumber = data;
+				childPhoneNumber = data.phone;
+				$('#studentNumber').val(data.studentNumber);
+			}else{
+				$('#child_phone').css('display', 'none');
+				alert('등록 불가능한 이메일입니다.');
 			}
 		}
 	})
@@ -127,7 +129,8 @@ function childCheckPhone(){
 	if(childPhoneNumber == $('#childPhone').val()){
 		alert('번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.');
 		$('#child_phone_number').css('display', 'block');
-		/*$.ajax({
+		
+		$.ajax({
 			url: '/lms/sec/phoneConfirm',
 			type: 'post',
 			data: { "phone": $('#childPhone').val() },
@@ -135,7 +138,8 @@ function childCheckPhone(){
 				console.log(data);
 				childPhoneConfirm = data;
 			}
-		})*/
+		})
+		
 	}else{
 		alert('휴대폰 번호를 다시 확인해주세요');
 	}
@@ -147,19 +151,19 @@ function certPhone() {
 
 	if (certNo == phoneConfirm) {
 		alert('인증되었습니다');
-		$('#phonConfirm').val('Y');
+		$('#phoneConfirm').val('Y');
 		$('#phone_number').css('display', 'none');
 	} else{
 		alert('인증번호가 일치하지 않습니다.');
 	}
 }
 
-function ChildCertPhone(){
+function childCertPhone(){
 	let certNo = $('#childPhoneCertNumber').val();
 	
 	if(certNo == childPhoneConfirm){
 		alert('인증 완료');
-		$('#childPhoneConfirm').val('Y');
+		$('#childConfirm').val('Y');
 		$('#child_phone_number #child_phone').css('display', 'none');
 	} else{
 		alert('인증번호가 일치하지 않습니다.');
@@ -177,17 +181,10 @@ function searchAddr(){
 			}else{
 				addr = data.jibunAddress;
 			}
-			console.log(addr);
-			$('#address').val(addr);
+			$('#addr').val(addr);
 			$('#detailAddr').focus();
         }
     }).open();
-}
-
-function searchChild(){
-	let childMail = $('#childMail').val();
-	
-	
 }
 
 $(function() {
@@ -202,42 +199,40 @@ $(function() {
 	});
 	
 	$('#signUpForm').on('submit', (event) => {
+		
 		console.log($('#birth').val());
 		
 		let confirmMail = $('#mailConfirm').val();
 		let confirmPhone = $('#phoneConfirm').val();
-		let childPhoneConfirm = $('#childPhoneConfirm').val();
+		let childPhoneConfirm = $('#childConfirm').val();
 		
 		let type = $('input[type=radio]:checked').val();
 		
-		if (confirmMail == 'Y' && confirmPhone == 'Y') {
-			if(type == 1 || childPhoneConfirm == 'Y'){
-				formData = {
-					'type' : type,
-					'mail' : $('#email_id').val() + '@' + $('#email_domain').val(),
-					'password' : $('#pwd').val(),
-					'name' : $('#name').val(),
-					'phone' : $('#phone').val(),
-					'birth' : $('#birth').val(),
-					'address' : $('#address').val() + ' ' + $('#detail_address').val(),
-					'childMail' : $('#childMail').val()
-				}
-				/*
-				var formData = new FormData();
-				formData.append('type', type);
-				formData.append('mail', $('#email_id').val() + '@' + $('#email_domain').val());
-				formData.append('password', $('#pwd').val());
-				formData.append('name', $('#name').val());
-				formData.append('phone', $('#phone').val());
-				formData.append('birth', $('#birth').val());
-				formData.append('address', $('#address').val() + ' ' + $('#detail_address').val());
-				*/
-			}
+		let dAddr = $('#detail_address').val();
+		if(typeof dAddr == "undefined"){
+			dAddr = ' ';
 		}
 		
-		alert('정보를 다시 입력하세요');
+		let addr = $('#addr').val() + ' ' + dAddr;
+		$('#address').val(addr);
+		let email = $('#email_id').val() + '@' + $('#email_domain').val();
+		$('#email').val(email);
 		
-		return false;
+		if(type == 2 && childPhoneConfirm != 'Y'){
+			
+			alert('자녀 인증');
+			
+			return false;
+		}
+		
+		if (confirmMail != 'Y' || confirmPhone != 'Y') {
+			
+			alert('인증을 완료해주세요');
+			
+			return false;
+			
+		}
+		
 	});
 	
 })
