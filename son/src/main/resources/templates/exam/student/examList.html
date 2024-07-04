@@ -8,7 +8,9 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <h4 style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">시험</h4>
+    <div id="examListHeader">
+        <h4>시험</h4>
+    </div>
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -38,9 +40,15 @@
     </div>
     <div class="mt-4">
         <form id="search-form" class="d-flex justify-content-center mb-3">
+            <select id="examListDropDown" class="form-select form-select-sm" aria-label="Small select example" style="width: 110px; font-weight: 800; text-align: center; margin-right: 5px">
+                <option value="">전체</option>
+                <option value="응시 완료">응시 완료</option>
+                <option value="미응시">미응시</option>
+            </select>
             <input type="text" id="search-title" placeholder="제목을 입력하세요." class="form-control me-2 col-3">
             <button type="submit" class="btn btn-primary" style="background-color: #28587E">검색</button>
         </form>
+
     </div>
 </div>
 </body>
