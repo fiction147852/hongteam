@@ -114,20 +114,20 @@
 
 
 
-	<select id="counImpTime" resultType="counselVO">
+	<select id="counImpTime" resultType="counselVO" parameterType="counselVO">
 		SELECT *
 			FROM(
 				SELECT time_code
 				FROM admission_counsel
-				WHERE reservation_date = TO_DATE('24/07/02', 'YY/MM/DD')
+				WHERE reservation_date = TO_DATE(#{reservationDate}, 'YY/MM/DD')
 			UNION
 				SELECT time_code
 				FROM counsel_impossibility
-				WHERE reservation_date = TO_DATE('24/07/02', 'YY/MM/DD')
+				WHERE reservation_date = TO_DATE(#{reservationDate}, 'YY/MM/DD')
 			MINUS
 				SELECT time_code
 				FROM admission_counsel
-				WHERE counsel_number = 1)
+				WHERE counsel_number = #{counselNumber})
 		ORDER BY time_code
 	</select>
 
@@ -173,14 +173,11 @@
 	<update id="counselUpdateInfo" parameterType="CounselVO">
 		UPDATE admission_counsel
 			SET 
-				parent_name = #{parentName},
-				student_name = #{studentName},
-				phone = #{phone},
 				time_code = #{timeCode},
 				reservation_date = #{reservationDate},
+				reservation_code = #{reservationCode},
 				content = #{content}
 		WHERE counsel_number = #{counselNumber}
-
 	</update>
 
 

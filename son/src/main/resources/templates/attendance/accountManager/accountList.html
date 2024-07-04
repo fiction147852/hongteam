@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/administrator_layout}"
+	layout:fragment="content">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>PolluxUI Admin</title>
+
+<!-- Include ConfigFragment -->
+<th:block th:replace="common/configs/default_config :: ConfigFragment"></th:block>
+</head>
+
+<body>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="table-responsive pt-3">
+					<table class="table table-striped project-orders-table">
+						<thead>
+							<tr>
+								<th>번호</th>
+								<th>이름</th>
+								<th>전화번호</th>
+								<th>이메일</th>
+								<th>역할</th>
+							</tr>
+						</thead>
+						<tbody>
+							<th:block th:each="counsel : ${counselList}">
+								<tr
+									th:onclick="|location.href='@{/admin/counselInfo(counselNumber=${counsel.counselNumber})}'|">
+									<td th:text="${}"></td>
+									<td th:text="${counsel.parentName}"></td>
+									<td th:text="${counsel.studentName}"></td>
+									<td th:text="${counsel.phone}"></td>
+									<td th:text="${counsel.reservationDate}"></td>
+								</tr>
+								<th:block>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+
+</html>
+

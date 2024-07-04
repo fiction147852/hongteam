@@ -16,16 +16,16 @@
                              ON test.test_number = participate.test_number
                <where>
                    test.lecture_number = #{lectureNumber}
-                   <if test="test_title != null AND test_title != ''">
-                       AND test_title LIKE '%' || #{participateTitle} || '%'
+                   <if test="testTitle != null and testTitle != ''">
+                       AND test_title LIKE '%' || #{testTitle} || '%'
                    </if>
                    <choose>
-                       <when test="participate_status.equals('응시 완료')">
+                       <when test="participateStatus != '' and participateStatus == '응시 완료'">
                            AND participate_status = '응시 완료'
                        </when>
-                       <otherwise>
+                       <when test="participateStatus != '' and participateStatus == '미응시'">
                            AND participate_status = '미응시'
-                       </otherwise>
+                       </when>
                    </choose>
                </where>
              )
@@ -40,18 +40,53 @@
              ON test.test_number = participate.test_number
         <where>
             test.lecture_number = #{lectureNumber}
-            <if test="test_title != null AND test_title != ''">
-                AND test_title LIKE '%' || #{participateTitle} || '%'
+            <if test="testTitle != null and testTitle != ''">
+                AND test_title LIKE '%' || #{testTitle} || '%'
             </if>
             <choose>
-                <when test="participate_status.equals('응시 완료')">
+                <when test="participateStatus != '전체' and participateStatus == '응시 완료'">
                     AND participate_status = '응시 완료'
                 </when>
-                <otherwise>
+                <when test="participateStatus != '' and participateStatus == '미응시'">
                     AND participate_status = '미응시'
-                </otherwise>
+                </when>
             </choose>
         </where>
     </select>
+
+    <!--  출제된 시험의 문제 조회 ( + 세부 과목 이름, 제한 시간(분))    -->
+    <select id="examInfo" resultType="ExamInfoVO">
+        SELECT de_sub_name_by_lecture(lecture_number) AS detail_subject_name
+            , (EXTRACT(DAY FROM limit_time) * 24 * 60) + (EXTRACT(HOUR FROM limit_time) * 60) + (EXTRACT(MINUTE FROM limit_time)) AS minute
+            , question.question_number
+            , text
+            , score
+            , attachment_file
+        FROM paper_content
+        JOIN question
+            ON paper_content.question_number = question.question_number
+        JOIN test
+            ON paper_content.paper_number = test.paper_number
+        WHERE test.test_number = #{testNumber}
+    </select>
+
+    <!-- 출제된 시험의 첨부파일  -->
+    <select id="examAttachmentFile" resultType="AttachmentFileVO">
+        SELECT original_file_name
+             , file_path
+        FROM attachment_file
+        WHERE question_number = #{questionNumber}
+    </select>
+
+    <select id="examQuestionInfo" resultType="QuestionOptionsVO">
+        SELECT option1 AS option_one
+             , option2 AS option_two
+             , option3 AS option_three
+             , option4 AS option_four
+             , option5 AS option_five
+        FROM question
+        WHERE question_number = #{questionNumber}
+    </select>
+
 
 </mapper>

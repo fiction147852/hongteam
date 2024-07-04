@@ -4,6 +4,8 @@ import com.son.app.attachment.AttachmentFileVO;
 import com.son.app.attendance.service.StudentAttendanceService;
 import com.son.app.attendance.service.StudentLectureInfoVO;
 import com.son.app.attendance.service.StudentScheduleDetailVO;
+import com.son.app.exam.service.ExamListVO;
+import com.son.app.exam.service.StudentExamService;
 import com.son.app.lecture.mapper.StudentLectureMapper;
 import com.son.app.lecture.service.LectureMaterialDetailVO;
 import com.son.app.lecture.service.LectureMaterialVO;
@@ -30,6 +32,9 @@ class SonApplicationTests {
 
 	@Autowired
 	StudentLectureService studentLectureService;
+
+	@Autowired
+	StudentExamService studentExamService;
 
 	@Test
 	public void pwdEncode() {
@@ -88,6 +93,14 @@ class SonApplicationTests {
 		LectureMaterialDetailVO lectureMaterialDetailVO = studentLectureService.lectureMaterialInfo(1);
 
 		System.out.println(lectureMaterialDetailVO);
+	}
+
+	@Test
+	@DisplayName("DH) 시험 목록 조회")
+	public void studentExamList() {
+		List<ExamListVO> examListVOList = studentExamService.examList(1, null, "전체", 1, 5);
+
+		System.out.println(examListVOList);
 	}
 
 }

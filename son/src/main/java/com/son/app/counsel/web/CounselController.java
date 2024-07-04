@@ -124,10 +124,10 @@ public class CounselController {
 		cvo.setCounselNumber(counselNumber);
 		// 해당 번호 정보 단건 조회
 		CounselVO findVO = counselService.counselInfo(cvo);
+		
 		model.addAttribute("counselInfo", findVO);
 		// 해당날짜 가능한 불가능한 시간 제외시킬 시간
-		List<CounselVO> impTime = counselService.counselImpTime();
-		model.addAttribute("counselImpTime", impTime);
+		List<CounselVO> impTime = counselService.counselImpTime(findVO);
 		List<Integer> impList = new ArrayList<>();
 		impTime.forEach(e->{
 			impList.add(Integer.parseInt(e.getTimeCode()));
@@ -159,7 +159,6 @@ public class CounselController {
 		model.addAttribute("timeList", list);
 		
 		// posTime 리스트에서 impTime에 포함된 시간들을 제외하는 코드
-
 		
 		System.out.println("무슨시간?" + posTime);
 		impList.forEach(e -> {
@@ -167,10 +166,27 @@ public class CounselController {
 				posTime.remove(posTime.indexOf(e));
 			}
 		});
-		System.out.println("빠진시간?" + posTime);
+		System.out.println("최종 가능 시간?" + posTime);
+		model.addAttribute("counselPosTime", posTime);
+		
 		return "counsel/counselUpdate";
 	}
+	
+//	// 최원호가함
+//	@ResponseBody
+//	@GetMapping("asdf/{today}")
+//	public List<Integer> getPosTime(@PathVariable Date today){
+//		List<Integer> list = null;
+//		return list;
+//	}
+	
+	// 상담 단건 수정 - 처리
+	@ResponseBody
+	@PostMapping("admin/counselUpdate")	//requestbody같은거 안쓸때는 fetch에서 그냥 데이터 보내기
+	public int counselUpdate(CounselVO counselVO) {
+		return counselService.counselUpdate(counselVO);
 
+	}
 	// 상담 등록 - 페이지
 	@GetMapping("counselInsert")
 	public String counsertInsert(Model model) {
