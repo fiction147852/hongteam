@@ -19,7 +19,7 @@
     </tr>
     <tr>
     	<td>
-		   	<input type="radio" name="type" value="1">
+		   	<input type="radio" name="type" value="1" checked>
 		   	<label> 학생 </label>
 		   	<input type="radio" name="type" value="2">
 		   	<label> 학부모 </label>
@@ -29,6 +29,7 @@
     	<td>
     		<input type="text" id="childMail" placeholder="자녀 이메일" class="text"/>
     		<input type="button" value="인증" class="btn2" onclick="childMailCheck()">
+    		<input type="hidden" id="studentNumber" name="studentNumber">
     	</td>
     </tr>
     <tr id="child_phone" style="display:none">
@@ -47,8 +48,8 @@
     <tr><td>아이디(이메일)</td></tr>
     <tr>
         <td>
-			<input type="text" id="email_id" class="text" title="이메일 아이디" placeholder="이메일" maxlength="18" /> @ 
-			<input type="text" id="email_domain" class="text" title="이메일 도메인" placeholder="이메일 도메인" maxlength="18"/> 
+			<input type="text" id="email_id" class="text" placeholder="이메일" maxlength="18" /> @ 
+			<input type="text" id="email_domain" class="text" placeholder="이메일 도메인" maxlength="18"/> 
 			<select class="select" title="이메일 도메인 주소 선택" onchange="setEmailDomain(this.value)">
 			    <option value="">-직접입력-</option>
 			    <option value="naver.com">naver.com</option>
@@ -61,6 +62,7 @@
 			</select>
 			<input type="button" value="인증" class="btn2" onclick="checkEmail()">
 			<input type="hidden" id="mailConfirm" style="display:none">
+			<input type="hidden" id="email" name="email">
         </td>
     </tr>
     
@@ -82,7 +84,7 @@
     <tr><td>휴대폰번호</td></tr>
     <tr>
     	<td>
-    		<input type="text" id="phone" class="text">
+    		<input type="text" id="phone" name="phone" class="text">
 			<input type="button" value="인증" class="btn2" onclick="checkPhone()">
 			<input type="hidden" id="phoneConfirm" style="display:none">
 		</td>
@@ -94,16 +96,19 @@
     	</td>
     </tr>
     <tr><td>생년월일</td></tr>
-    <tr><td><input type="date" id="birth" class="text"></td></tr>
+    <tr><td><input type="date" id="birth" name="birth" class="text"></td></tr>
     <tr><td>주소</td></tr>
     <tr>
     	<td>
-    		<input type="text" id="address" class="text2" readonly>
+    		<input type="text" id="addr" class="text2" readonly>
     		<input type="button" value="검색" class="btn2" onclick="searchAddr()">
     	</td>
     </tr>
     <tr>
-    	<td><input type="text" id="detailAddr" class="text2" placeholder="상세주소"></td>
+    	<td>
+    		<input type="text" id="detailAddr" class="text2" placeholder="상세주소">
+			<input type="hidden" id="address" name="address">
+    	</td>
     </tr>
     <tr><td><input type="submit" value="가입하기" class="btn"></td></tr>
     </table>

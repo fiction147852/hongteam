@@ -43,16 +43,11 @@ public class CertController {
 	
 	@ResponseBody
 	@PostMapping("/sec/childMailCheck")
-	public String childMailCheck(String mail) {
-		String result = "0";
+	public StudentVO childMailCheck(String mail) {
 		
 		StudentVO std = service.childMailCheck(mail);
 		
-		if(std != null && std.getParentNumber() == -1) {
-			result = std.getPhone();
-		}
-		
-		return result;
+		return std;
 	}
 	
 }
