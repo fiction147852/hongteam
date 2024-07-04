@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>PolluxUI Admin</title>
-     <style>
+    <style>
         .form-row {
             display: flex;
             flex-wrap: wrap;
@@ -47,51 +47,51 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="table-responsive">
-                    <form th:action="@{/admin/counselUpdate}" th:object="${counselInfo}" method="post">
+                <div class="card-body">
+                    <form th:action="@{/admin/counselUpdate}" th:object="${counselInfo}" method="post" id="counUp" name="counUp">
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="counselNumber">번호</label>
-                                <input type="text" th:field="*{counselNumber}" class="form-control" id="counselNumber" readonly>
+                                <input type="text" id="counselNumber" th:field="*{counselNumber}" class="form-control"  readonly>
                             </div>
                         </div>
-						<div class="form-row">
+                        <div class="form-row">
                             <div class="form-group">
                                 <label for="parentName">학부모</label>
-                                <input type="text" th:field="*{parentName}" class="form-control" id="parentName" placeholder="학부모 이름을 입력하세요" readonly>
+                                <input type="text" th:field="*{parentName}" class="form-control" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="studentName">학생</label>
-                                <input type="text" th:field="*{studentName}" class="form-control" id="studentName" placeholder="학생 이름을 입력하세요" readonly>
+                                <input type="text" th:field="*{studentName}" class="form-control"  readonly>
                             </div>
                             <div class="form-group">
                                 <label for="phone">전화번호</label>
-                                <input type="text" th:field="*{phone}" class="form-control" id="phone" placeholder="전화번호를 입력하세요" readonly>
+                                <input type="text" th:field="*{phone}" class="form-control" readonly>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="reservationDate">예약 일자</label>
-                                <input type="date" th:field="*{reservationDate}" class="form-control" id="reservationDate" placeholder="예약 일자를 입력하세요">
+                                <input type="date" th:field="*{reservationDate}" class="form-control">
                             </div>
-							<div class="form-group">
-							    <label for="timeCode">시간</label>
-							    <select th:field="*{timeCode}">
-							    	<option th:each=" time : ${counselImpTime}" th:text="${time.timeCode}" th:value="${time.timeCode}"></option>
-							    	
-							    </select>
-							</div>
+                            <div class="form-group">
+                                <label for="timeCode">시간</label>
+                                <select th:field="*{timeCode}" class="form-control" >
+                                    <option th:each="time : ${counselPosTime}" th:text="${time}" th:value="${time}"></option>
+                                </select>
+                            </div>
                             <div class="form-group">
                                 <label for="reservationCode">상태</label>
-                                <input type="text" th:field="*{reservationCode}" class="form-control" id="reservationCode" placeholder="상태를 입력하세요">
+                                <button type="button" class="btn btn-primary status-btn" id="statusBtn" th:text="${counselInfo.reservationCode}"></button>
+                                <input type="hidden" id="reservationCode" name="reservationCode" th:value="${counselInfo.reservationCode}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="content">내용</label>
                             <input type="text" th:field="*{content}" class="form-control" id="content" placeholder="내용을 입력하세요">
                         </div>
-                        <div class="form-group"> 
-                            <button type="submit" class="btn btn-primary">수정</button>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary" id="save">저장</button>
                             <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/admin/counselList}'|">목록</button>
                             <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/admin/counseldelete(counselId=${counselInfo.counselNumber})}'|">삭제</button>
                         </div>
@@ -104,12 +104,45 @@
 </body>
 
 <script>
-	counImpTime = /*[[counselImpTime]]*/[];
+	counImpTime = /*[[counselPosTime]]*/[];
 </script>
-<script th:inline="javascript">
+<script th:javascript>
 
+const statusBtn = document.getElementById('statusBtn');
+const reservationCode = document.getElementById('reservationCode');
+
+statusBtn.addEventListener('click', function(){
+    if (statusBtn.innerText == "대기") {
+        statusBtn.innerText = "확정";
+        reservationCode.value = "확정";
+    } else {
+        statusBtn.innerText = "대기";
+        reservationCode.value = "대기";
+    }
+});
+
+	function updateAjax(event){
+        fetch('counselUpdate', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+            body: $('#counUp').serialize()
+        })
+        .then(response => response.text())
+        .then(result => {
+            console.log(result)
+            let counselNumber = document.getElementById('counselNumber').value;
+
+            location.href = '/lms/admin/counselInfo?counselNumber=' + counselNumber;
+
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+	}
+	document.getElementById('save').addEventListener('click', function(){
+		updateAjax();
+	})
     
-
-
 </script>
+
 </html>
