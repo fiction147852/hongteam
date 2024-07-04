@@ -47,6 +47,6 @@ public interface CounselMapper {
 	// 해당 일간 가능한 시간대 조회 
 	public String counselDayPos(AdmissionCounselPossibilityVO admissionCounselPossibilityVO);
 
-	public List<CounselVO> counImpTime();
+	public List<CounselVO> counImpTime(CounselVO counselVO);
 	
 }

@@ -1,8 +1,6 @@
 package com.son.app.counsel.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,11 +38,9 @@ public class CounselServiceImpl implements CounselService {
 
 	// 수정
 	@Override
-	public Map<String, Object> counselUpdate(CounselVO counnselVO) {
-		Map<String, Object> map = new HashMap<>();
-
+	public int counselUpdate(CounselVO counnselVO) {
 		counselMapper.counselUpdateInfo(counnselVO);
-		return map;
+		return 0;
 	}
 
 	// 삭제
@@ -109,8 +105,8 @@ public class CounselServiceImpl implements CounselService {
 	}
 
 	@Override
-	public List<CounselVO> counselImpTime() {
-		return counselMapper.counImpTime();
+	public List<CounselVO> counselImpTime(CounselVO counselVO) {
+		return counselMapper.counImpTime(counselVO);
 	}
 
 }
