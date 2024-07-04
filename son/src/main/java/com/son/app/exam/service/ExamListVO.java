@@ -10,8 +10,8 @@ public class ExamListVO {
 
     private int rowNum;
     private Integer participateNumber;
-    private Integer total_score;
-    private String participate_status;
+    private Integer totalScore;
+    private String participateStatus; // 응시 여부
     private String testTitle;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
