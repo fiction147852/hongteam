@@ -21,7 +21,10 @@ import com.son.app.counsel.service.CounselImpossibilityVO;
 import com.son.app.counsel.service.CounselService;
 import com.son.app.counsel.service.CounselVO;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 public class CounselController {
 
 	@Autowired
@@ -123,9 +126,13 @@ public class CounselController {
 		CounselVO findVO = counselService.counselInfo(cvo);
 		model.addAttribute("counselInfo", findVO);
 		// 해당날짜 가능한 불가능한 시간 제외시킬 시간
-		List<CounselVO> timeVO = counselService.counselImpTime();
-		model.addAttribute("counselImpTime", timeVO);
-		
+		List<CounselVO> impTime = counselService.counselImpTime();
+		model.addAttribute("counselImpTime", impTime);
+		List<Integer> impList = new ArrayList<>();
+		impTime.forEach(e->{
+			impList.add(Integer.parseInt(e.getTimeCode()));
+		});
+		log.info(impList.toString());
 		// 해당날짜 가능한 시간
 		AdmissionCounselPossibilityVO vo = new AdmissionCounselPossibilityVO();
 		
@@ -143,18 +150,24 @@ public class CounselController {
 		int start = Integer.parseInt(T[0].trim());
 		int end = Integer.parseInt(T[1].trim());
 		
-		// 
+		// 가능한시간 list 만들기
 		List<Integer> posTime = new ArrayList<Integer>();
 
 		for(int i=start; i<=end; i++) {
-
 			posTime.add(i);
 		}
-		
 		model.addAttribute("timeList", list);
 		
-		System.out.println("무슨시간?" + posTime);
+		// posTime 리스트에서 impTime에 포함된 시간들을 제외하는 코드
+
 		
+		System.out.println("무슨시간?" + posTime);
+		impList.forEach(e -> {
+			if(posTime.indexOf(e) != -1){
+				posTime.remove(posTime.indexOf(e));
+			}
+		});
+		System.out.println("빠진시간?" + posTime);
 		return "counsel/counselUpdate";
 	}
 
