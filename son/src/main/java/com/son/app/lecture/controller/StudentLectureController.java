@@ -19,7 +19,7 @@ public class StudentLectureController {
     private StudentLectureService studentLectureService;
 
     @GetMapping("student/{lectureNumber}/lectureMaterials")
-    public String detailSubjecAttendancePage(@AuthenticationPrincipal CustomUserDetails principal, @PathVariable Integer lectureNumber, Model model) {
+    public String detailSubjecAttendancePage(@PathVariable Integer lectureNumber, Model model) {
         model.addAttribute("lectureNumber", lectureNumber);
 
         return "lecture/student/lectureMaterials";

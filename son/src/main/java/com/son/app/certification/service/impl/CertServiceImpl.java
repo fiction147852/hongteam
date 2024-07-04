@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.son.app.certification.mapper.CertMapper;
 import com.son.app.certification.service.CertService;
 import com.son.app.member.service.StudentVO;
+import com.son.app.security.service.MemberVO;
 
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
@@ -80,7 +81,7 @@ public class CertServiceImpl implements CertService {
 
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("to", phone); // 수신전화번호
-		params.put("from", phone);
+		params.put("from", "01067681316");
 		params.put("type", "SMS");
 		params.put("text", "[TEST] 인증번호는" + "[" + number + "]" + "입니다.");
 		params.put("app_version", "sonsonson");
@@ -106,6 +107,24 @@ public class CertServiceImpl implements CertService {
 	public StudentVO childMailCheck(String mail) {
 		
 		return mapper.childMailCheck(mail);
+	}
+
+	@Override
+	public int studentJoin(MemberVO mvo) {
+		
+		return mapper.studentJoin(mvo);
+	}
+	
+	@Override
+	public int parentJoin(MemberVO mvo) {
+		
+		return mapper.parentJoin(mvo);
+	}
+
+	@Override
+	public int setParentNo(int no) {
+		
+		return mapper.setParentNo(no);
 	}
 
 }

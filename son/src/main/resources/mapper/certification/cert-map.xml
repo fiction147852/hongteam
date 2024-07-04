@@ -11,9 +11,50 @@
 	</select>
 	
 	<select id="childMailCheck" resultType="StudentVO">
-		SELECT nvl(parent_number, -1) as parent_number, phone
+		SELECT nvl(parent_number, -1) as parent_number, phone, student_number
 		FROM student
 		WHERE email = #{mail}
 	</select>
+	
+	<insert id="studentJoin" parameterType="MemberVO">
+		INSERT INTO student (student_number, name, email, address, phone, password, birth)
+		VALUES(
+			NVL((SELECT /*+ INDEX_DESC(student XPK학생) */
+				student_number
+				FROM student
+				WHERE rownum = 1), 0) + 1,
+			#{name},
+			#{email},
+			#{address},
+			#{phone},
+			#{password},
+			TO_DATE(#{birth}, 'yyyy-MM--dd')
+		)
+	</insert>
+	
+	<insert id="parentJoin" parameterType="MemberVO">
+		INSERT INTO parent (parent_number, name, email, address, phone, password, birth)
+		VALUES(
+			NVL((SELECT /*+ INDEX_DESC(parent XPK학부모) */
+				parent_number
+				FROM parent
+				WHERE rownum = 1), 0) + 1,
+			#{name},
+			#{email},
+			#{address},
+			#{phone},
+			#{password},
+			TO_DATE(#{birth}, 'yyyy-MM--dd')
+		)
+	</insert>
+	
+	<update id="setParentNo">
+		UPDATE student
+		SET parent_number = (SELECT /*+ INDEX_DESC(parent XPK학부모) */
+				parent_number
+				FROM parent
+				WHERE rownum = 1)
+		WHERE student_number = #{no}
+	</update>
 	
 </mapper>
