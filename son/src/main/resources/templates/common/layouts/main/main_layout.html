@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>SON LMS</title>
+</head>
+
+<body>
+	<th:block th:insert="common/fragments/main/main_header :: mainHeaderFragment" />
+
+	<th:block layout:fragment="content" />
+</body>
+</html>
