@@ -7,6 +7,6 @@ public class AdmissionCounselPossibilityVO {
 	private Integer possibilityNumber;
 	private String weekdaysCode;
 	private String timeCode;
-	private String start;
-	private String end;
+	private String startTime;
+	private String endTime;
 }

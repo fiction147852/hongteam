@@ -50,10 +50,10 @@ public interface CounselMapper {
 	public List<CounselVO> counImpTime(CounselVO counselVO);
 	
 	// 해당 날짜 불가능한시간 뷰 리스트
-	public List<String> impTimeList(String reservationDate);
+	public List<Integer> impTimeList(String reservationDate);
 
 	// 해당 날짜 가능한 시간 뷰 리스트
-	public String counPosList(String today);
+	public AdmissionCounselPossibilityVO counPosList(String today);
 	
 	
 }

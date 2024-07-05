@@ -172,21 +172,29 @@ public class CounselController {
 
 	@ResponseBody
 	@PostMapping("admin/counselUpdateCal")
-	public List<String> getPosTime(String reservationDate, String today) {
+	public List<Integer> getPosTime(String reservationDate, String today) {
 		
 		// 불가능시간 리스트 불러오기
-		List<String> impTime = counselService.timeList(reservationDate);
+		List<Integer> impTime = counselService.timeList(reservationDate);
 		System.out.println("불가능시간" + impTime);
 		//가능한시간 리스트 불러오기
-		String posTimeDay = counselService.counselTimeList(today);
+		AdmissionCounselPossibilityVO posTimeDay = counselService.counselTimeList(today);
 		System.out.println("언제" + posTimeDay);
 		
+		int sTime = Integer.parseInt(posTimeDay.getStartTime());
+		int eTime = Integer.parseInt(posTimeDay.getEndTime());
 		
-//		for(let i=)
+		List<Integer> posTimes = new ArrayList<>();
+		for(int i=sTime; i <= eTime; i++) {
+			posTimes.add(i);
+		}
 		
-		List<String> posTimes = new ArrayList<>();
+		impTime.forEach(e -> {
+			if (posTimes.indexOf(e) != -1) {
+				posTimes.remove(posTimes.indexOf(e));
+			}
+		});
 		
-		//가능한 시간 거르기		
 		
 		
 		return posTimes;
