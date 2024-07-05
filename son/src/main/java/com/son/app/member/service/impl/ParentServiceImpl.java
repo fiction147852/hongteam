@@ -16,8 +16,8 @@ public class ParentServiceImpl implements ParentService{
 	
 	// 전체조회
 	@Override
-	public List<StudentVO> ParentInfoList() {
-		return parentmapper.childInfoAll();
+	public List<StudentVO> ParentInfoList(int studentNumber) {
+		return parentmapper.childInfoAll(studentNumber);
 	}
 
 	@Override

@@ -54,7 +54,9 @@
             </div> -->
 			<div class="grid grid-cols-12 p-6 border-b">
 				<div class="col-span-1 font-bold mb-2 align-self-center">답변 내용</div>
-				<div class="col-span-11 border-2"></div>
+				<div class="col-span-11 border-2">
+					<p th:text="${counselInfo.responseContent}"></p>
+				</div>
 			</div>
 		</div>
 		<div class="flex justify-end mt-4">

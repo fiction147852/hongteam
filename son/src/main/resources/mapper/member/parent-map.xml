@@ -4,7 +4,7 @@
 
     <!-- 학부모의 학생정보 전체조회 -->
     <select id="childInfoAll" resultType="StudentVO">
-        SELECT
+    SELECT
         student_number,
         name,
         email,
@@ -13,8 +13,8 @@
         password,
         parent_number,
         birth
-        FROM
-        student
+    FROM student
+    WHERE parent_number = #{parentNumber}
     </select>
 	<!-- 부모 번호로 자녀 정보 조회 -->
 	<select id="getStudentsByParentNumber" parameterType="int" resultType="StudentVO">
