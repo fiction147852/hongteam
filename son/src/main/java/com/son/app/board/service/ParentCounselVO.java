@@ -14,7 +14,7 @@ public class ParentCounselVO {
 	    private String content;
 	    @DateTimeFormat(pattern = "yyyy/MM/dd")
 	    private Date writeDate;
-	    private String responseStatus;
+	    private int responseStatus;
 	    private int lectureNumber;
 	    private String responseContent;
 	    private int parentNumber;
