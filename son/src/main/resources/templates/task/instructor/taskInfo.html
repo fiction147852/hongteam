@@ -9,6 +9,7 @@
 
 <!-- Include ConfigFragment -->
 <script src="https://cdn.tailwindcss.com"></script>
+<script th:inline="javascript">let lectureNumber = /* [[${lectureNumber}]] */ "";</script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 <style>
         #taskInfoBody {
@@ -52,47 +53,49 @@
 		</div>
     </div>
         <div class="btn-group float-end" role="group">
-        	<button type="button" class="btn btn-success mt-3" th:onclick="|location.href='@{/instructor/taskUpdate(taskNumber=${taskInfo.taskNumber})}'|">수정</button>
-			<button type="button" class="btn btn-secondary mt-3" th:onclick="|location.href='@{/instructor/taskList}'|">목록</button>
-			<button type="button" class="btn btn-danger mt-3" th:onclick="confirmDelete(this)" th:data-task-no="${taskInfo.taskNumber}">삭제</button>
+        	<button type="button" class="btn btn-success mt-3" th:onclick="|location.href='@{/instructor/{lectureNumber}/taskUpdate/{taskNumber}(lectureNumber=${lectureNumber},taskNumber=${taskInfo.taskNumber})}'|">수정</button>
+			<button type="button" class="btn btn-secondary mt-3" th:onclick="|location.href='@{/instructor/{lectureNumber}/taskList(lectureNumber=${taskInfo.lectureNumber})}'|">목록</button>
+			<button type="button" class="btn btn-danger mt-3" th:onclick="confirmDelete(this)" 
+													          th:data-task-no="${taskInfo.taskNumber}"
+													          th:data-lecture-no="${taskInfo.lectureNumber}">삭제</button>
         </div>
   	</div>
   	
   	<script>
 
-function confirmDelete(button) {
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: "btn btn-success m-1",
-            cancelButton: "btn btn-danger m-1",
-            actions: 'my-actions',
-            container: 'my-swal'
-        },
-        buttonsStyling: false
-    });
+  	function confirmDelete(button) {
+  	    const swalWithBootstrapButtons = Swal.mixin({
+  	        customClass: {
+  	            confirmButton: "btn btn-success m-1",
+  	            cancelButton: "btn btn-danger m-1",
+  	            actions: 'my-actions',
+  	            container: 'my-swal'
+  	        },
+  	        buttonsStyling: false
+  	    });
 
-    swalWithBootstrapButtons.fire({
-        title: "정말로 삭제하시겠습니까?",
-        text: "이 작업은 되돌릴 수 없습니다!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "네, 삭제합니다!",
-        cancelButtonText: "아니요, 취소합니다!"
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // 삭제 작업 수행
-            const taskNo = button.getAttribute('data-task-no');
-            location.href = `/lms/instructor/taskDelete?taskNo=${taskNo}`;
-            
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-            swalWithBootstrapButtons.fire({
-                title: "취소되었습니다",
-                text: "파일이 안전하게 보관되었습니다.",
-                icon: "error"
-            });
-        }
-    });
-}
+  	    swalWithBootstrapButtons.fire({
+  	        title: "정말로 삭제하시겠습니까?",
+  	        text: "이 작업은 되돌릴 수 없습니다!",
+  	        icon: "warning",
+  	        showCancelButton: true,
+  	        confirmButtonText: "네, 삭제합니다!",
+  	        cancelButtonText: "아니요, 취소합니다!"
+  	    }).then((result) => {
+  	        if (result.isConfirmed) {
+  	            // 삭제 작업 수행
+  	            const taskNo = button.getAttribute('data-task-no');
+  	            const lectureNo = button.getAttribute('data-lecture-no');
+  	            location.href = `/lms/instructor/${lectureNo}/taskDelete?taskNo=${taskNo}`;
+  	        } else if (result.dismiss === Swal.DismissReason.cancel) {
+  	            swalWithBootstrapButtons.fire({
+  	                title: "취소되었습니다",
+  	                text: "파일이 안전하게 보관되었습니다.",
+  	                icon: "error"
+  	            });
+  	        }
+  	    });
+  	}
 </script>
   
 </body>

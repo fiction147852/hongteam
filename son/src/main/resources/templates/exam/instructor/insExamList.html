@@ -19,20 +19,22 @@
 							<tr>
 								<th>번호</th>
 								<th>제목</th>
-								<th>게시 일자</th>
-								<th>제출 기한</th>
+								<th>출제일</th>
+								<th>시행일</th>
+								<th>제한시간</th>
 							</tr>
 						</thead>
 						<tbody>
-							<th:block th:each="tasks : ${taskList}">
+							<th:block th:each="exams : ${examList}">
 								<tr
-									th:onclick="|location.href='@{/instructor/{lectureNumber}/taskInfo(taskNumber=${tasks.taskNumber}, lectureNumber=${lectureNumber})}'|">
-									<td>[[ ${tasks.taskNumber} ]]</td>
-									<td>[[ ${tasks.title} ]]</td>
-									<td>[[ ${#dates.format(tasks.postDate, 'yyyy년 MM월 dd일')}
-										]]</td>
-									<td>[[ ${#dates.format(tasks.submitDeadline, 'yyyy년 MM월
+									th:onclick="|location.href='@{/instructor/{lectureNumber}/examInfo(examNumber=${exams.testNumber}, lectureNumber=${lectureNumber})}'|">
+									<td>[[ ${exams.testNumber} ]]</td>
+									<td>[[ ${exams.testTitle} ]]</td>
+									<td>[[ ${#dates.format(exams.examinationDate, 'yyyy년 MM월
 										dd일')} ]]</td>
+									<td>[[ ${#dates.format(exams.examDate, 'yyyy년 MM월 dd일')}
+										]]</td>
+									<td>[[ ${exams.limitTime} ]]분</td>
 								</tr>
 							</th:block>
 						</tbody>
@@ -40,22 +42,22 @@
 				</div>
 			</div>
 			<button type="button" class="btn btn-success mt-3 float-end"
-				th:onclick="|location.href='@{/instructor/{lectureNumber}/taskInsert(lectureNumber=${lectureNumber})}'|">작성</button>
+				th:onclick="|location.href='@{/instructor/{lectureNumber}/examInsert(lectureNumber=${lectureNumber})}'|">작성</button>
 		</div>
 		<div class="pagination-container">
 			<ul class="pagination d-flex justify-content-center">
 				<li th:if="${pageVO.prev}" class="page-item"><a
-					th:href="@{/instructor/{lectureNumber}/taskList(lectureNumber=${lectureNumber}, page=${pageVO.startPage - 1})}"
+					th:href="@{/instructor/{lectureNumber}/examList(lectureNumber=${lectureNumber}, page=${pageVO.startPage - 1})}"
 					class="page-link">&laquo;</a></li>
 				<li
 					th:each="pageNum : ${#numbers.sequence(pageVO.startPage, pageVO.endPage)}"
 					th:class="${pageNum == pageVO.page} ? 'page-item active' : 'page-item'">
 					<a
-					th:href="@{/instructor/{lectureNumber}/taskList(lectureNumber=${lectureNumber}, page=${pageNum})}"
+					th:href="@{/instructor/{lectureNumber}/examList(lectureNumber=${lectureNumber}, page=${pageNum})}"
 					th:text="${pageNum}" class="page-link"></a>
 				</li>
 				<li th:if="${pageVO.next}" class="page-item"><a
-					th:href="@{/instructor/{lectureNumber}/taskList(lectureNumber=${lectureNumber}, page=${pageVO.endPage + 1})}"
+					th:href="@{/instructor/{lectureNumber}/examList(lectureNumber=${lectureNumber}, page=${pageVO.endPage + 1})}"
 					class="page-link">&raquo;</a></li>
 			</ul>
 		</div>

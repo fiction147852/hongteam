@@ -14,7 +14,8 @@
        	  task_number,
        	  question_number,
        	  task_submit_number,
-       	  student_question_number
+       	  student_question_number,
+       	  file_path
     </sql>
 
 	<!-- 파일 정보 저장 -->
@@ -38,7 +39,8 @@
 				#{file.taskNumber},
 				#{file.questionNumber},
 				#{file.taskSubmitNumber},
-				#{file.studentQuestionNumber}
+				#{file.studentQuestionNumber},
+				#{file.filePath}
 			)
 		</foreach>
 		SELECT * FROM DUAL

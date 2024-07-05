@@ -18,11 +18,13 @@ public class FileRequest {
     private Integer questionNumber;
     private Integer taskSubmitNumber;
     private Integer studentQuestionNumber;
+    private String filePath;
 	
 	@Builder
-	public FileRequest(String originalFileName, String saveFileName, long fileSize) {
+	public FileRequest(String originalFileName, String saveFileName, String filePath, long fileSize) {
 		this.originalFileName = originalFileName;
 		this.saveFileName = saveFileName;
+		this.filePath = filePath;
 		this.fileSize = fileSize;
 	}
 
