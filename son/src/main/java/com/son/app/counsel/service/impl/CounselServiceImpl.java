@@ -111,13 +111,13 @@ public class CounselServiceImpl implements CounselService {
 
 	// 해당 날짜 불가능한시간 뷰리스트
 	@Override
-	public List<String> timeList(String reservationDate) {
+	public List<Integer> timeList(String reservationDate) {
 		return counselMapper.impTimeList(reservationDate);
 	}
 
 	// 해당 날짜 가능한 뷰 리스트
 	@Override
-	public String counselTimeList(String today) {
+	public AdmissionCounselPossibilityVO counselTimeList(String today) {
 		return counselMapper.counPosList(today);
 	}
 

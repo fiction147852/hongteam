@@ -109,13 +109,13 @@
 		)
 	</update>
 
-	<select id="impTimeList" resultType="counselVO">
-		SELECT * 
+	<select id="impTimeList" resultType="int">
+		SELECT time_code 
 		FROM impossible_time_list
 		WHERE reservation_date = TO_DATE(#{reservationDate}, 'yy/mm/dd')
 	</select>
 
-	<select id="counPosList" resultType="counselVO">
+	<select id="counPosList" resultType="AdmissionCounselPossibilityVO">
 		SELECT *
 		FROM possible_time_list
 		WHERE weekdays_code = #{weekdaysCode}
