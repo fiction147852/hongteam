@@ -1,0 +1,183 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+
+* {
+    font-family: "Noto Sans KR";
+}
+
+/* alert 창 */
+.exam__icon {
+    border-color: #19344C !important;
+    color: #19344C !important;
+}
+
+.exam__title {
+    font-weight: 800 !important;
+}
+
+.exam__text {
+    font-weight: 600 !important;
+}
+
+/* 모달 */
+.modal__exam-info .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #19344C;
+    padding: 16px 20px;
+}
+
+.modal__exam-info .modal-header .time {
+    font-size: 24px;
+    font-weight: 600;
+    color: white;
+}
+
+.modal__exam-info .modal-header .title {
+    font-size: 34px;
+    font-weight: 800;
+    color: white;
+}
+
+.modal__exam-info .modal-header #subjectModalButton {
+    font-size: 22px;
+    font-weight: 800;
+    padding: 16px 30px;
+    background-color: white;
+    color: black;
+}
+
+.modal__exam-info .modal-body {
+    padding: 30px;
+    height: 60vh; /* 모달 본문 높이 설정 */
+    overflow: hidden; /* 모달 자체의 스크롤 숨김 */
+}
+
+.modal__exam-info .modal-content {
+    border: none;
+}
+
+.modal__exam-info .swiper {
+    height: 100%; /* swiper 높이 설정 */
+}
+
+.modal__exam-info .swiper-wrapper {
+    height: 100%;
+}
+
+.modal__exam-info .swiper-slide {
+    height: 100%;
+    overflow-y: auto; /* 슬라이드 내부 스크롤 활성화 */
+}
+
+.modal__exam-info .swiper-content {
+    padding-left: 5rem !important;
+    overflow-y: auto; /* 스크롤 활성화 */
+}
+
+.modal__exam-info .modal-body .swiper-wrapper .question {
+    font-size: 28px;
+    font-weight: 500;
+    margin-bottom: 20px; /* 문제와 보기 간의 여백 */
+}
+
+.modal__exam-info .modal-body .swiper-wrapper .image {
+    text-align: center;
+    margin: 40px 0;
+}
+
+.modal__exam-info .modal-body .swiper-wrapper .image img {
+    width: 100%; /* 이미지 너비 조정 */
+    max-width: 500px; /* 최대 너비 설정 */
+}
+
+.modal__exam-info .swiper-pagination {
+    top: auto;
+    bottom: 10px;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.modal__exam-info .swiper-button-prev,
+.modal__exam-info .swiper-button-next {
+    color: #19344C;
+}
+
+.modal__exam-info .swiper-button-next:after,
+.modal__exam-info .swiper-button-prev:after {
+    font-size: 100px;
+}
+
+.modal__exam-info .swiper-content .options {
+    display: flex;
+    flex-direction: column; /* 옵션을 세로로 나열 */
+    gap: 10px; /* 옵션 간격 */
+}
+
+.modal__exam-info .swiper-content .option {
+    display: flex;
+    align-items: center;
+    font-size: 25px;
+    line-height: 10px;
+}
+
+.modal__exam-info .swiper-content .option label {
+    margin-right: 10px;
+    margin-bottom: 0;
+}
+
+.modal__exam-info .checkbox__label input[type="radio"] {
+    display: none;
+}
+
+.modal__exam-info .checkbox__label {
+    cursor: pointer;
+    font-size: 35px;
+    display: flex;
+    align-items: center;
+}
+
+.modal__exam-info .checkbox__label .checkmark {
+    display: inline-block;
+    width: 45px;
+    height: 45px;
+    font-weight: 800;
+    line-height: 41px;
+    text-align: center;
+    background-color: #F2F2F2;
+    border-radius: 50%;
+    font-size: 30px;
+}
+
+.modal__exam-info .checkbox__label input:checked ~ .checkmark {
+    background-color: #19344C;
+    color: white;
+}
+
+.modal__exam-info .subjective {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.modal__exam-info .subjective input {
+    width: 90%;
+    height: 100px;
+    font-size: 28px;
+    font-weight: 800;
+    text-align: center;
+    background-color: whitesmoke;
+    border: 1px solid #19344C;
+}
+
+/* 스타일 초기화 및 조정 */
+.page-item .page-link {
+    background-color: #27587E;
+    border-color: #27587E;
+    color: white;
+}
+
+.page-item.active .page-link {
+    background-color: #19344C;
+    border-color: #19344C;
+}
