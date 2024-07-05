@@ -18,6 +18,7 @@ public class QuestionVO {
 	private String option2;
 	private String option3;
 	private String option4;
+	private String option5;
 	private int instructorNumber;
 	private String instructorName;
 	private String explanation;

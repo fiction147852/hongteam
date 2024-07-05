@@ -1,29 +1,30 @@
 package com.son.app.task.controller;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.son.app.file.common.FileUtils;
 import com.son.app.file.service.FileRequest;
 import com.son.app.file.service.FileResponse;
 import com.son.app.file.service.FileService;
+import com.son.app.page.PageVO;
 import com.son.app.task.service.TaskService;
 import com.son.app.task.service.TaskVO;
 
@@ -41,64 +42,87 @@ public class TaskController {
 	FileUtils fileUtils;
 	
 	// 전체
-	@GetMapping("/instructor/taskList")
-	public String taskList(Model model) {
-		List<TaskVO> list = taskService.taskList();
-		model.addAttribute("taskList", list);
+	@GetMapping("/instructor/{lectureNumber}/taskList")
+	public String taskList(@PathVariable Integer lectureNumber, 
+					       @RequestParam(defaultValue = "1") int page, 
+					       Model model) {
+			PageVO pageVO = taskService.getPageInfo(lectureNumber, page);
+			List<TaskVO> taskList = taskService.taskList(lectureNumber, pageVO);
+			
+			model.addAttribute("taskList", taskList);
+			model.addAttribute("pageVO", pageVO);
+			model.addAttribute("lectureNumber", lectureNumber);
 		return "task/instructor/taskList";
 	}
 	
 	// 상세
-	@GetMapping("/instructor/taskInfo")
-	public String taskInfo(TaskVO taskVO, Model model) {
-		TaskVO findVO = taskService.taskInfo(taskVO);
-		
-		model.addAttribute("taskInfo", findVO);
-		log.info("taskInfo: {}", findVO);
-		return "task/instructor/taskInfo";
-	}
+	@GetMapping("/instructor/{lectureNumber}/taskInfo")
+	public String taskInfo(@PathVariable Integer lectureNumber, @RequestParam Integer taskNumber, Model model) {
+	    TaskVO taskInfo = taskService.taskInfo(taskNumber);
+
+	        model.addAttribute("taskInfo", taskInfo);
+	        model.addAttribute("lectureNumber", lectureNumber);
+	        return "task/instructor/taskInfo";
+	    }
+	
 	
 	// 등록 페이지
-	@GetMapping("/instructor/taskInsert")
-	public String taskInsertForm() {
-		return "task/instructor/taskInsert";
-		
+	@GetMapping("/instructor/{lectureNumber}/taskInsert")
+	public String taskInsertForm(@PathVariable Integer lectureNumber, Model model) {
+	    model.addAttribute("lectureNumber", lectureNumber);
+	    return "task/instructor/taskInsert";
 	}
 	
 	// 등록 처리페이지
-	@PostMapping("/instructor/taskInsert")
-	public String taskInsertProcess(TaskVO taskVO, @RequestParam("files") List<MultipartFile> multipartFiles) {
+	@PostMapping("/instructor/{lectureNumber}/taskInsert")
+	public String taskInsertProcess(@PathVariable Integer lectureNumber, TaskVO taskVO, @RequestParam("files") List<MultipartFile> multipartFiles) {
+	    taskVO.setLectureNumber(lectureNumber);
 	    // 태스크 저장
 	    int taskNumber = taskService.insertTask(taskVO);
 	    
 	    // 파일 업로드 및 저장
 	    if (multipartFiles != null && !multipartFiles.isEmpty()) {
+	    	System.out.println("Files received: " + multipartFiles.size());
 	        List<FileRequest> fileRequests = fileUtils.uploadFiles(multipartFiles);
+	        System.out.println("FileRequests created: " + fileRequests.size());
 	        fileService.saveFiles(null, null, taskNumber, null, null, null, fileRequests);
+	    } else {
+	    	System.out.println("No files received");
 	    }
 	    
-	    return "redirect:/instructor/taskList";
+	    return "redirect:/instructor/" + lectureNumber + "/taskList";
 	}
 	
 	// 수정 페이지
-	@GetMapping("/instructor/taskUpdate")
-	public String taskUpdateForm(TaskVO taskVO, Model model) {
-		TaskVO findVO = taskService.taskInfo(taskVO);
-		model.addAttribute("taskInfo", findVO);
-		return "task/instructor/taskUpdate";
+	@GetMapping("/instructor/{lectureNumber}/taskUpdate/{taskNumber}")
+	public String taskUpdateForm(@PathVariable Integer lectureNumber, @PathVariable Integer taskNumber, Model model) {
+	    TaskVO findVO = taskService.taskInfo(taskNumber);
+	    if (findVO != null && findVO.getLectureNumber() == lectureNumber) {
+	        model.addAttribute("taskInfo", findVO);
+	        model.addAttribute("lectureNumber", lectureNumber);
+	        return "task/instructor/taskUpdate";
+	    } else {
+	        return "redirect:/error";
+	    }
 	}
 	
 	// 수정 처리페이지
-	@PostMapping("/instructor/taskUpdate")
+	@PostMapping("/instructor/{lectureNumber}/taskUpdate/{taskNumber}")
 	@ResponseBody
-	public Map<String, Object> taskUpdateJSON(TaskVO taskVO,
-	        @RequestPart(value = "files", required = false) List<MultipartFile> multipartFiles,
-	        @RequestParam(value = "removeFileIdsStr", required = false) String removeFileIdsStr) {
+	public Map<String, Object> taskUpdateJSON(@PathVariable Integer lectureNumber, 
+	                                          @PathVariable Integer taskNumber,
+	                                          TaskVO taskVO,
+	                                          @RequestPart(value = "files", required = false) List<MultipartFile> multipartFiles,
+	                                          @RequestParam(value = "removeFileIdsStr", required = false) String removeFileIdsStr) {
 	    
 	    final Logger log = LoggerFactory.getLogger(ArrayList.class);
 	    Map<String, Object> result = new HashMap<>();
 	    
 	    try {
+	    	if (!(taskVO.getLectureNumber() == lectureNumber)) {
+	            throw new IllegalArgumentException("Invalid lecture number");
+	        }
+	    	
 	        ObjectMapper objectMapper = new ObjectMapper();
 	        List<Integer> removeFileIds = removeFileIdsStr != null ? 
 	            objectMapper.readValue(removeFileIdsStr, new TypeReference<List<Integer>>(){}) : 
@@ -139,9 +163,15 @@ public class TaskController {
 	
 	
 	// 삭제
-	@GetMapping("/instructor/taskDelete")
-	public String taskDelete(Integer taskNo) {
-		taskService.deleteTask(taskNo);
-		return "redirect:/instructor/taskList";
+	@GetMapping("/instructor/{lectureNumber}/taskDelete")
+	public String taskDelete(@PathVariable Integer lectureNumber, @RequestParam Integer taskNo) {
+	    TaskVO task = taskService.taskInfo(taskNo);
+	    if (task != null && task.getLectureNumber() == lectureNumber) {
+	        taskService.deleteTask(taskNo);
+	        return "redirect:/instructor/" + lectureNumber + "/taskList";
+	    } else {
+	        // 잘못된 접근 처리
+	        return "redirect:/error";
+	    }
 	}
 }

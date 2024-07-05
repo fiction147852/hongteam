@@ -2,15 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.son.app.task.mapper.TaskMapper">
 	<select id="selectTaskAll" resultType="TaskVO">
-		SELECT task_number,
-			   title,
-			   description,
-			   post_date,
-			   submit_deadline,
-			   lecture_number
-		FROM task
-		ORDER BY task_number
-	</select>
+        SELECT task_number,
+               title,
+               description,
+               post_date,
+               submit_deadline,
+               lecture_number
+        FROM (
+            SELECT ROW_NUMBER() OVER (ORDER BY task_number) AS rn,
+                   task_number,
+                   title,
+                   description,
+                   post_date,
+                   submit_deadline,
+                   lecture_number
+            FROM task
+            WHERE lecture_number = #{lectureNumber}
+        ) t
+        WHERE rn BETWEEN #{start} AND #{end}
+    </select>
+    
+    <select id="countTasks" resultType="int">
+        SELECT COUNT(*)
+        FROM task
+        WHERE lecture_number = #{lectureNumber}
+    </select>
 	
 	<select id="selectTaskInfo" resultMap="taskWithFilesResultMap">
 	    SELECT 

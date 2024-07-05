@@ -25,4 +25,6 @@ public class FileResponse {
     private Integer questionNumber;
     private Integer taskSubmitNumber;
     private Integer studentQuestionNumber;
+    
+    private String filePath;
 }

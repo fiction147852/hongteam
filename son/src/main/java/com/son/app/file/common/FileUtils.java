@@ -28,7 +28,25 @@ import com.son.app.file.service.FileResponse;
 public class FileUtils {
 	// uploadPath = 물리적으로 파일을 저장할 위치를 의미
 	// Paths.get( )을 이용하면 OS에 상관없이 디렉터리 경로를 구분
-	private final String uploadPath = Paths.get("D:", "Dev", "upload-files").toString();
+//	private final String uploadPath = Paths.get("D:", "Dev", "upload-files").toString();
+	private final String uploadPath = "C:/uploads";
+	
+	// 프로젝트 내 업로드 경로 설정
+//	private final String uploadPath = Paths.get("C:", "User", "admin", "git", "hongteam", "son", "src", "main", "resources","static", "uploads").toString();
+    
+    public FileUtils() {
+        createUploadDirectory();
+    }
+
+    private void createUploadDirectory() {
+        File directory = new File(uploadPath);
+        if (!directory.exists()) {
+            boolean created = directory.mkdirs();
+            if (!created) {
+                throw new RuntimeException("Failed to create upload directory");
+            }
+        }
+    }
 
 	/**
 	 * 다중 파일 업로드
@@ -68,28 +86,36 @@ public class FileUtils {
 		
 		// 저장할 파일명, 오늘 날짜, 파일 업로드 경로, 업로드할 파일 객체
 		String saveName = generateSaveFilename(multipartFile.getOriginalFilename());
-		String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd")).toString();
-		String uploadPath = getUploadPath(today) + File.separator + saveName;
-		File uploadFile = new File(uploadPath);
+        String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd")).toString();
+        String saveDir = getUploadPath(today);
+        String filePath = saveDir + File.separator + saveName;
+        File uploadFile = new File(filePath);
 		
+        System.out.println("Attempting to save file to: " + uploadFile.getAbsolutePath());
 		
 		// 파일은 uploadPath에 해당되는 경로에 생성
 		// MultipartFile의 transferTo()가 정상적으로 실행되면 파일 생성
 		
 		try {
 			multipartFile.transferTo(uploadFile);
+			System.out.println("File saved to: " + filePath);
+			System.out.println("File successfully saved to: " + uploadFile.getAbsolutePath());
 		} catch (IOException e) {
+			System.err.println("Failed to save file: " + e.getMessage());
+	        e.printStackTrace();
+
 			throw new RuntimeException(e);
 		}
 		
 		// 리턴하는 객체는 FileRequest 타입의 객체
 		// 해당 메서드가 리턴하는 객체에는 디스크에 생성된 파일 정보가 담김
 		
-		return FileRequest.builder()
-				.originalFileName(multipartFile.getOriginalFilename())
-				.saveFileName(saveName)
-				.fileSize(multipartFile.getSize())
-				.build();
+        return FileRequest.builder()
+                .originalFileName(multipartFile.getOriginalFilename())
+                .saveFileName(saveName)
+                .filePath(filePath.replace(uploadPath, ""))                
+                .fileSize(multipartFile.getSize())
+                .build();
 	}
 	/**
      * 저장 파일명 생성
@@ -129,7 +155,15 @@ public class FileUtils {
     // 당장은 기본 업로드 경로에 오늘 날짜(today)를 연결하는 용도
     
     private String getUploadPath(final String addPath) {
-    	return makeDirectories(uploadPath + File.separator + addPath);
+    	String path = uploadPath + File.separator + addPath;
+        File directory = new File(path);
+        if (!directory.exists()) {
+            boolean created = directory.mkdirs();
+            if (!created) {
+                throw new RuntimeException("Failed to create directory: " + path);
+            }
+        }
+        return directory.getPath();
     }
     
     /**
