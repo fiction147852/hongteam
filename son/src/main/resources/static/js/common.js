@@ -23,14 +23,20 @@ function getDateFormat(today, type = 2) {
 			'-' + ((today.getDate()) < 9 ? "0" + (today.getDate()) : (today.getDate()));
 		return dateFormat2;
 	} else if(type == 3) {
-
 		// 3번 포맷
 		let dateFormat3 = today.getFullYear() + '년 ' + (today.getMonth() + 1) + '월 '
 			+ today.getDate() + '일 ' + day[today.getDay()] + '요일'
 		return dateFormat3;
 	} else if (type == 4){
-		let dateFormat4 =day[today.getDay()] + '요일 '
+		let dateFormat4 = day[today.getDay()] + '요일'
 		return dateFormat4;
+	} else if(type == 5){
+		let dateFormat5 = today.getFullYear().substr(1,3) + '/' + (today.getMonth() + 1) + '/'
+			+ today.getDate() + '/'
+		return dateFormat5;
+	} else if(type ==6){
+		let dateFormat6 = today.getDay() + '요일 '
+		return dateFormat6;
 	}
-
+ 
 }

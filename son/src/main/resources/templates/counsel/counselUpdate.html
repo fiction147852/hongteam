@@ -140,37 +140,26 @@
 	document.getElementById('save').addEventListener('click', function(){
 		updateAjax();
 	})
-    
 	
 	function changeDate(){
-		fetch('counselUpdate/'+$('#reservationDate').val(),{
-			method: 'GET',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-			body: $('#reservationDate').serialize()
+		$.ajax({
+			type: 'POST',
+			url: '/lms/admin/counselUpdateCal',
+			data: {
+				reservationDate: $('#reservationDate').val()
+        		,today: getDateFormat(new Date($('#reservationDate').val()), 4)
+			},
+			success : function(response){
+				var timeSelect = document.getElementById('timeCode');
+				timeSelect.innerText = '';
+			},
+			 error: function(xhr, status, error) {
+		        // 요청 실패 시 실행할 코드
+		        console.error('Error:', error);
+		    }
 		})
-		.then(response => response.text())
-		.then(result =>{
-			const timeSelect = document.getElementById('timeCode');
-			timeSelect.innerText = '';
-			
-			// timecode 가져온거 넣기
-	        result.timeCodes.forEach(timeCode => {
-	            const option = document.createElement('option');
-	            option.value = timeCode;
-	            option.text = timeCode;
-	            timeSelect.add(option);
-	        });
-			
-		})
+		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
