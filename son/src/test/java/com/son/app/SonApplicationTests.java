@@ -4,6 +4,7 @@ import com.son.app.attachment.AttachmentFileVO;
 import com.son.app.attendance.service.StudentAttendanceService;
 import com.son.app.attendance.service.StudentLectureInfoVO;
 import com.son.app.attendance.service.StudentScheduleDetailVO;
+import com.son.app.exam.service.ExamInfoVO;
 import com.son.app.exam.service.ExamListVO;
 import com.son.app.exam.service.StudentExamService;
 import com.son.app.lecture.mapper.StudentLectureMapper;
@@ -101,6 +102,14 @@ class SonApplicationTests {
 		List<ExamListVO> examListVOList = studentExamService.examList(1, null, "전체", 1, 5);
 
 		System.out.println(examListVOList);
+	}
+
+	@Test
+	@DisplayName("DH) 시험 상세 정보")
+	public void studentExamInfo() {
+		List<ExamInfoVO> examInfoVOList = studentExamService.examInfo(1);
+
+		System.out.println(examInfoVOList);
 	}
 
 }

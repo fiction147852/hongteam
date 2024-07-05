@@ -1,6 +1,7 @@
 package com.son.app.exam.service.impl;
 
 import com.son.app.exam.mapper.StudentExamMapper;
+import com.son.app.exam.service.ExamInfoVO;
 import com.son.app.exam.service.ExamListVO;
 import com.son.app.exam.service.StudentExamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,10 @@ public class StudentExamServiceImpl implements StudentExamService {
     @Override
     public int examCount(Integer lectureNumber, String testTitle, String participateStatus) {
         return studentExamMapper.studentExamCount(lectureNumber, testTitle, participateStatus);
+    }
+
+    @Override
+    public List<ExamInfoVO> examInfo(Integer testNumber) {
+        return studentExamMapper.studentExamInfo(testNumber);
     }
 }

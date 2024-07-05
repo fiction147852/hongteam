@@ -7,11 +7,16 @@ import lombok.Data;
 public class ExamInfoVO {
 
     private String detailSubjectName;
-    private Integer minute;
+    private Integer limitTime;
 
     private Integer questionNumber;
+    private String questionTypeCode;
     private String text;
     private Integer score;
+    private String optionOne;
+    private String optionTwo;
+    private String optionThree;
+    private String optionFour;
+    private String optionFive;
     private AttachmentFileVO attachmentFileVO;
-    private QuestionOptionsVO questionOptionsVO;
 }
