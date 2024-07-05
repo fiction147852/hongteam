@@ -41,5 +41,12 @@ public interface CounselService {
 	public String getdayPos(AdmissionCounselPossibilityVO vo);
 
 	public List<CounselVO> counselImpTime(CounselVO counselVO);
+	
+	
+	// 해당 날짜 불가능한시간 뷰리스트
+	public List<String> timeList(String reservationDate);
+
+	// 해당 날짜 가능한 뷰 리스트
+	public String counselTimeList(String today);
 
 }

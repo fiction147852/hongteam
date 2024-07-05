@@ -2,8 +2,8 @@ package com.son.app.counsel.mapper;
 
 import java.util.List;
 
-import com.son.app.counsel.service.CounselImpossibilityVO;
 import com.son.app.counsel.service.AdmissionCounselPossibilityVO;
+import com.son.app.counsel.service.CounselImpossibilityVO;
 import com.son.app.counsel.service.CounselVO;
 
 public interface CounselMapper {
@@ -48,5 +48,12 @@ public interface CounselMapper {
 	public String counselDayPos(AdmissionCounselPossibilityVO admissionCounselPossibilityVO);
 
 	public List<CounselVO> counImpTime(CounselVO counselVO);
+	
+	// 해당 날짜 불가능한시간 뷰 리스트
+	public List<String> impTimeList(String reservationDate);
+
+	// 해당 날짜 가능한 시간 뷰 리스트
+	public String counPosList(String today);
+	
 	
 }
