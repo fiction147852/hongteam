@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.son.app.page.PageVO;
 import com.son.app.task.mapper.TaskMapper;
 import com.son.app.task.service.TaskService;
 import com.son.app.task.service.TaskVO;
@@ -17,15 +18,21 @@ public class TaskServiceImpl implements TaskService {
 	@Autowired
 	TaskMapper taskMapper;
 	
-	@Override
-	public List<TaskVO> taskList() {
-		return taskMapper.selectTaskAll();
-	}
+    public List<TaskVO> taskList(Integer lectureNumber, PageVO pageVO) {
+        int start = (pageVO.getPage() - 1) * pageVO.getPageSize() + 1;
+        int end = start + pageVO.getPageSize() - 1;
+        return taskMapper.selectTaskAll(lectureNumber, start, end);
+    }
+
+    public PageVO getPageInfo(Integer lectureNumber, int page) {
+        int totalItems = taskMapper.countTasks(lectureNumber);
+        return new PageVO(page, totalItems, 5, 5); // 10: pageSize, 5: pageGroupSize
+    }
 
 	@Override
-	public TaskVO taskInfo(TaskVO taskVO) {
-		return taskMapper.selectTaskInfo(taskVO);
-	}
+    public TaskVO taskInfo(Integer taskNumber) {
+        return taskMapper.selectTaskInfo(taskNumber);
+    }
 
 	@Override
 	public int insertTask(TaskVO taskVO) {
@@ -36,23 +43,25 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public Map<String, Object> updateTask(TaskVO taskVO) {
-		Map<String, Object> map = new HashMap<>();
-		boolean inSuccessed = false;
-		
-		int result = taskMapper.updateTaskInfo(taskVO);
-		
-		if(result == 1) {
-			inSuccessed = true;
-		}
-		
-		map.put("result", inSuccessed);
-		map.put("target", taskVO);
-		return map;
+	    Map<String, Object> map = new HashMap<>();
+	    boolean isSucceeded = false;
+
+	    TaskVO existingTask = taskMapper.selectTaskInfo(taskVO.getTaskNumber());
+	    if (existingTask != null && existingTask.getLectureNumber() == taskVO.getLectureNumber()) {
+	        int result = taskMapper.updateTaskInfo(taskVO);
+	        if (result == 1) {
+	            isSucceeded = true;
+	        }
+	    }
+
+	    map.put("result", isSucceeded);
+	    map.put("target", taskVO);
+	    return map;
 	}
 
 	@Override
-	public int deleteTask(int taskNo) {
-		return taskMapper.deleteTaskInfo(taskNo);
+	public boolean deleteTask(Integer taskNo) {
+	    return taskMapper.deleteTaskInfo(taskNo) > 0;
 	}
 
 }

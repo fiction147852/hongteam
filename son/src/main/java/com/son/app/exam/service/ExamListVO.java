@@ -9,6 +9,7 @@ import java.util.Date;
 public class ExamListVO {
 
     private int rowNum;
+    private Integer testNumber;
     private Integer participateNumber;
     private Integer totalScore;
     private String participateStatus; // 응시 여부

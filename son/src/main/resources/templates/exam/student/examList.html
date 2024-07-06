@@ -3,53 +3,73 @@
       layout:decorate="~{common/layouts/student/studentDetailSubject_layout}">
 <head>
     <link rel="stylesheet" th:href="@{/css/student/exam/examList.css}">
+    <link rel="stylesheet" th:href="@{/css/student/exam/modalAndSwiper.css}">
     <script th:inline="javascript">let lectureNumber = [[${lectureNumber}]];</script>
     <script th:src="@{/js/exam/student/exam.js}"></script>
+    <script th:src="@{/js/exam/student/examSwiper.js}"></script>
 </head>
 <body>
-<div layout:fragment="content">
-    <div id="examListHeader">
-        <h4>시험</h4>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="table-responsive pt-2" style="padding-top: 0 !important;">
-                    <table class="table table-striped project-orders-table">
-                        <thead class="custom-thead">
-                        <tr>
-                            <th>번호</th>
-                            <th>제목</th>
-                            <th>응시일</th>
-                            <th>응시 여부</th>
-                            <th>점수</th>
-                        </tr>
-                        </thead>
-                        <tbody id="lecture-materials-tbody" class="custom-tbody">
+    <div layout:fragment="content">
+        <div id="examListHeader">
+            <h4>시험</h4>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="table-responsive pt-2" style="padding-top: 0 !important;">
+                        <table class="table table-striped project-orders-table">
+                            <thead class="custom-thead">
+                            <tr>
+                                <th>번호</th>
+                                <th>제목</th>
+                                <th>응시일</th>
+                                <th>응시 여부</th>
+                                <th>점수</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tbody__exam-list">
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center" style="margin-top: 30px">
+            <nav aria-label="Page navigation">
+                <ul id="pagination" class="pagination"></ul>
+            </nav>
+        </div>
+        <div class="mt-4">
+            <form id="search-form" class="d-flex justify-content-center mb-3">
+                <select id="examListDropDown" class="form-select form-select-sm" aria-label="Small select example" style="width: 110px; font-weight: 800; text-align: center; margin-right: 5px">
+                    <option value="">전체</option>
+                    <option value="응시 완료">응시 완료</option>
+                    <option value="미응시">미응시</option>
+                </select>
+                <input type="text" id="search-title" placeholder="제목을 입력하세요." class="form-control me-2 col-3">
+                <button type="submit" class="btn btn-primary" style="background-color: #28587E">검색</button>
+            </form>
+        </div>
+
+        <div class="modal fade modal__exam-info" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- modal-dialog-centered 클래스를 추가 -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                    </div>
+                    <form id="examForm">
+                        <div class="modal-body">
+                            <div class="swiper">
+                                <div class="swiper-wrapper"></div>
+                                <div class="swiper-pagination"></div>
+                                <div class="swiper-button-prev"></div>
+                                <div class="swiper-button-next"></div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <div class="d-flex justify-content-center" style="margin-top: 30px">
-        <nav aria-label="Page navigation">
-            <ul id="pagination" class="pagination"></ul>
-        </nav>
-    </div>
-    <div class="mt-4">
-        <form id="search-form" class="d-flex justify-content-center mb-3">
-            <select id="examListDropDown" class="form-select form-select-sm" aria-label="Small select example" style="width: 110px; font-weight: 800; text-align: center; margin-right: 5px">
-                <option value="">전체</option>
-                <option value="응시 완료">응시 완료</option>
-                <option value="미응시">미응시</option>
-            </select>
-            <input type="text" id="search-title" placeholder="제목을 입력하세요." class="form-control me-2 col-3">
-            <button type="submit" class="btn btn-primary" style="background-color: #28587E">검색</button>
-        </form>
-
-    </div>
-</div>
 </body>
 </html>

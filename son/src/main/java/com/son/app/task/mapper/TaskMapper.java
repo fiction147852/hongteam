@@ -2,14 +2,19 @@ package com.son.app.task.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.son.app.task.service.TaskVO;
 
 public interface TaskMapper {
 	// 전체
-	public List<TaskVO> selectTaskAll();
+	List<TaskVO> selectTaskAll(@Param("lectureNumber") Integer lectureNumber, 
+					           @Param("start") int start, 
+					           @Param("end") int end);
+	int countTasks(@Param("lectureNumber") Integer lectureNumber);
 	
 	// 단건
-	public TaskVO selectTaskInfo(TaskVO taskVO);
+	public TaskVO selectTaskInfo(@Param("taskNumber") Integer taskNumber);
 	
 	// 등록
 	public int insertTaskInfo(TaskVO taskVO);

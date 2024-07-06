@@ -5,7 +5,6 @@
 		SELECT q.question_number,
 		       q.question_type_code,
 		       q.text,
-		       q.attachment_file,
 		       subject_name(q.subject_code) AS subject_name,
 		       detail_subject_name(q.detail_subject_code) AS detail_subject_name,
 		       q.difficulty_code,
@@ -14,6 +13,7 @@
 		       q.option2,
 		       q.option3,
 		       q.option4,
+		       q.option5,
 		       q.instructor_number,
 		       i.name AS instructor_name,
 		       q.explanation
@@ -26,7 +26,6 @@
 		SELECT question_number,
 			   question_type_code,
 			   text,
-			   attachment_file,
 			   subject_name(subject_code) AS subject_name,
 			   detail_subject_name(detail_subject_code) AS detail_subject_name,
 			   answer,
@@ -34,6 +33,7 @@
 			   option2,
 			   option3,
 			   option4,
+			   option5,
 			   instructor_number,
 			   explanation
 		FROM question
@@ -49,7 +49,6 @@
 					question_number,
 					question_type_code,
 					text,
-					attachment_file,
 					subject_code,
 					detail_subject_code,
 					difficulty_code,
@@ -66,7 +65,6 @@
 					#{questionNumber},
 					#{questionTypeCode},
 					#{text},
-					#{attachmentFile},
 					#{subjectCode},
 					#{detailSubjectCode},
 					#{difficultyCode},
@@ -86,7 +84,6 @@
 		SET
 			question_type_code = #{questionTypeCode},
 			text = #{text},
-			attachment_file = #{attachmentFile},
 			subject_code = #{subjectCode},
 			detail_subject_code = #{detailSubjectCode},
 			difficulty_code = #{difficultyCode},
@@ -95,6 +92,7 @@
 			option2 = #{option2},
 			option3 = #{option3},
 			option4 = #{option4},
+			option5 = #{option5},
 			explanation = #{explanation}
 		WHERE question_number = #{questionNumber}
 	</update>

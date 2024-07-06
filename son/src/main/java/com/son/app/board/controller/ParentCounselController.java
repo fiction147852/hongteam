@@ -92,7 +92,8 @@ public class ParentCounselController {
 	@GetMapping("parent/counselDelete")
 	public String ParentCounselDelete(Integer counselNumber) {
 		parentcounselService.deleteParentCounsel(counselNumber);
-		return "redirect:/parent/ParentCounselList";
+		
+		return "redirect:/parent/counselList";
 	}
 
 }

@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>학부모 상담 전체조회</title>
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
     <div class="row">
@@ -28,7 +29,7 @@
                                 <td th:text="${counsel.title}">제목</td>
                                 <td th:text="${#authentication.principal.member.name}">작성자</td>
                                 <td th:text="${#dates.format(counsel.writeDate, 'yyyy-MM-dd')}">작성일</td>
-                                <td th:text="${counsel.responseStatus}">답변상태</td>
+                                <td th:text="${counsel.responseStatus == 0 ? '답변 대기중' : '답변 완료'}">답변상태</td>
                             </tr>
                         </tbody>
                     </table>

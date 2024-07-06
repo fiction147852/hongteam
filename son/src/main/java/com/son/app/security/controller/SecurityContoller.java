@@ -63,6 +63,19 @@ public class SecurityContoller {
 		return "security/test";
 	}
 	
-//	@PostMapping("/lms/loginProcessing")
-//	public 
+	@GetMapping("/")
+	public String mainPage() {
+		return "main/index";
+	}
+	
+	@GetMapping("/admission")
+	public String admission() {
+		return "main/admission";
+	}
+	
+	@GetMapping("/lectures")
+	public String lectures() {
+		return "main/lectures";
+	}
+	
 }
