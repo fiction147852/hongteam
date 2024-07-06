@@ -10,6 +10,7 @@ import com.son.app.member.service.AdminMemberService;
 import com.son.app.security.service.MemberVO;
 
 @Service
+
 public class AdminMemberServiceImpl implements AdminMemberService{
 
 	@Autowired
@@ -21,8 +22,12 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 	}
 
 	@Override
-	public MemberVO memberInfo() {
-		return null;
+	public List<MemberVO> memberInfo(int idNumber, String auth) {
+		MemberVO vo = new MemberVO();
+		vo.setIdNumber(idNumber);
+		vo.setAuth(auth);
+		
+		return adminMemberMapper.selectMemberList(vo);
 	}
 	
 

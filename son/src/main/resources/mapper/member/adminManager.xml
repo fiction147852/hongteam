@@ -4,16 +4,27 @@
 
 
 	<!-- 이메일로 부모 번호 조회 -->
-	<select id="selectMemberList" parameterType="MemberVO" resultType="MemberVO">
-		SELECT  id_number, 
-				name, 
-				email,
-				name,
-				address,
-				phone,
-				password,
-				birth,
-				quth
-		FROM v_number		
+	<select id="memberSelectAll" resultType="MemberVO">
+			SELECT  id_number, 
+			        name, 
+			        email,
+			        phone,
+			        auth
+			FROM v_member	
 	</select>
+	
+	<select id="selectMemberList" parameterType="MemberVO" resultType="MemberVO">
+			SELECT id_number,
+				   name,
+				   email,
+				   address,
+			       phone,
+			       birth,
+				   auth
+			FROM v_member
+			WHERE id_number = #{idNumber} 
+			    AND auth = #{auth}
+	</select>
+
+
 </mapper>
