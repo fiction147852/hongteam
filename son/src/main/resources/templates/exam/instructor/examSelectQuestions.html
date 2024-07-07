@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/instructor_layout}"
+	layout:fragment="content">
+<script src="https://cdn.tailwindcss.com"></script>
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+	rel="stylesheet">
+<style>
+body {
+	font-family: 'Roboto', sans-serif;
+}
+</style>
+<head>
+
+<title>선택 시험 생성</title>
+
+</head>
+<body>
+	<div class="mx-auto bg-white p-8 rounded-lg shadow-lg mt-4">
+		<form
+			th:action="@{/instructor/{lectureNumber}/examCreate(lectureNumber=${lectureNumber})}"
+			method="post">
+			<input type="hidden" name="subjectCode" th:value="${subjectCode}" />
+			<div class="swiper">
+				<div class="swiper-wrapper mb-3">
+					<th:block th:each="qs : ${questions}">
+						<div class="swiper-slide">
+							<div class="card">
+								<div class="slide-content">
+									<div style="display: flex; justify-content: space-between;">
+										<h6 class="text-lg font-semibold mt-3 ml-3">
+											[[ ${qs.questionTypeCode} ]] <br> [[ ${qs.subjectName ?:
+											'미지정'} ]] <span class="text-sm">([[${qs.detailSubjectName}]])</span>
+											<br> <span class="text-sm">난이도:
+												[[${qs.difficultyCode}]]</span>
+										</h6>
+										<div>
+											<input type="checkbox" name="selectedQuestions"
+												th:value="${qs.questionNumber}"
+												onclick="limitSelection(this)" />
+										</div>
+									</div>
+									<div class="card-body bg-gray-100">
+										<h5 class="card-title text-center font-medium mb-2">출제자:
+											[[ ${qs.instructorName} ]]</h5>
+										<h6 class="card-subtitle">문제</h6>
+										<p class="card-text">[[ ${qs.text} ]]</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</th:block>
+				</div>
+				<div class="swiper-scrollbar"></div>
+			</div>
+			<button type="submit" class="btn btn-primary mt-3">시험 생성</button>
+		</form>
+		<script src="/lms/js/question/qlist-slider.js"></script>
+
+		<script>
+			function limitSelection(checkbox) {
+				var checkboxes = document
+						.getElementsByName('selectedQuestions');
+				var checkedCount = 0;
+				for (var i = 0; i < checkboxes.length; i++) {
+					if (checkboxes[i].checked) {
+						checkedCount++;
+					}
+				}
+				if (checkedCount > 20) {
+					checkbox.checked = false;
+					alert('최대 20개의 문제만 선택할 수 있습니다.');
+				}
+			}
+		</script>
+	</div>
+</body>
+</html>
+

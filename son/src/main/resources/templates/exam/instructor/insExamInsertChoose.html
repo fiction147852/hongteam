@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/instructor_layout}"
+	layout:fragment="content">
+<script src="https://cdn.tailwindcss.com"></script>
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+	rel="stylesheet">
+<style>
+body {
+	font-family: 'Roboto', sans-serif;
+}
+</style>
+<head>
+
+<title>시험 생성</title>
+
+</head>
+<body>
+	<form name="insertForm" th:action="@{/instructor/{lectureNumber}/examChoose(lectureNumber=${lectureNumber})}"
+			method="post">
+			<div class="card bg-white p-6 rounded-lg shadow-lg w-full max-w-xl mx-auto">
+				<div class="mb-4">
+					<label for="type" class="block text-gray-700 font-medium mb-2">생성유형선택</label>
+			        <select id="type" name="type" class="w-full p-2 border border-gray-300 rounded">
+			            <option value="">유형선택</option>
+			            <option value="manual">직접선택</option>
+			            <option value="auto">자동생성</option>
+			        </select>
+				</div>
+				<div class="mb-4">
+					<label for="subject" class="block text-gray-700 font-medium mb-2">과목</label>
+			        <select id="subject" name="subjectCode" class="w-full p-2 border border-gray-300 rounded">
+					    <option value="">과목선택</option>
+					    <option value="A001">수학</option>
+					    <option value="A002">영어</option>
+					    <option value="A003">국어</option>
+					</select>
+				</div>
+				<div class="flex justify-end space-x-2">
+					<button class="bg-blue-500 text-white px-4 py-2 rounded">확인</button>
+					<button class="bg-gray-300 text-gray-700 px-4 py-2 rounded">취소</button>
+				</div>
+			</div>
+		</form>
+</body>
+</html>
+
