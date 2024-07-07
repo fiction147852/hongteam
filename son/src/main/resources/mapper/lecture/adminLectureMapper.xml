@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.son.app.lecture.mapper.AdminLectureMapper">
+
+	<select id="adminLectureSelectAll" resultType="LectureVO">
+		SELECT lecture_number,       <!-- 강의 번호 -->
+			lecture_title,          <!-- 강의 제목 -->
+			lecture_description,    <!-- 강의 설명 -->
+			subject_code,           <!-- 과목 코드 (또는 과목 이름, 코드와 함께 표시) -->
+			lecture_cost,           <!-- 강의 비용 -->
+			lecture_start_date,     <!-- 강의 시작 날짜 -->
+			lecture_end_date,       <!-- 강의 종료 날짜 -->
+			capacity                <!-- 강의 수용 인원 -->
+		FROM lecture
+	</select>
+
+	<select id="adminLectureSelectInfo" resultType="LectureVO">
+		SELECT lecture_number,           <!-- 강의 번호 -->
+			lecture_title,              <!-- 강의 제목 -->
+			lecture_description,        <!-- 강의 설명 -->
+			subject_code,               <!-- 과목 코드 -->
+			detail_subject_code,        <!-- 세부 과목 코드 -->
+			lecture_cost,               <!-- 강의 비용 -->
+			lecture_level_code,         <!-- 강의 수준 코드 -->
+			weekdays_code,              <!-- 강의 요일 코드 -->
+			time_code,                  <!-- 강의 시간대 코드 -->
+			lecture_start_date,         <!-- 강의 시작 날짜 -->
+			lecture_end_date,           <!-- 강의 종료 날짜 -->
+			capacity,                   <!-- 강의 수용 인원 -->
+			instructor_number           <!-- 강사 번호 -->
+		FROM lecture
+		WHERE lecture_number = #{lectureNumber}
+	</select>
+
+
+</mapper>
