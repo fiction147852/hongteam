@@ -20,6 +20,6 @@ public class ExamVO {
     private Date examDate;
     
     private Integer paperNumber;
-    private Integer lectureNumbe;
+    private Integer lectureNumber;
     private String testTitle;
 }
