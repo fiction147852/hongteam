@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.son.app.lecture.mapper.InsLectureMapper;
 import com.son.app.lecture.service.InsLectureService;
-import com.son.app.lecture.service.LectureInstructorVO;
 import com.son.app.lecture.service.LectureVO;
 
 @Service

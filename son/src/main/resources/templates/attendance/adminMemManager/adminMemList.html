@@ -1,84 +1,113 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{common/layouts/administrator_layout}"
-    layout:fragment="content">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/administrator_layout}"
+	layout:fragment="content">
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>PolluxUI Admin</title>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>PolluxUI Admin</title>
 
-    <!-- Include ConfigFragment -->
-    <th:block th:replace="common/configs/default_config :: ConfigFragment"></th:block>
+<!-- Include ConfigFragment -->
+<th:block th:replace="common/configs/default_config :: ConfigFragment"></th:block>
 </head>
 
 <body>
-    <div class="row">
-        <div class="col-md-5">
-            <div class="card">
-                <div class="table-responsive pt-3">
-                    <table class="table table-striped project-orders-table">
-                        <thead>
-                            <tr>
-                                <th>번호</th>
-                                <th>이름</th>
-                                <th>전화번호</th>
-                                <th>역할</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <th:block th:each="member : ${memberList}">
-                                <tr th:onclick="infoClick([[${member.idNumber}]], [[${member.auth}]])">
-                                    <td th:text="${member.idNumber}"></td>
-                                    <td th:text="${member.name}"></td>
-                                    <td th:text="${member.phone}"></td>
-                                    <td th:text="${member.auth}"></td>
-                                </tr>
-                            </th:block>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-5">
-            <div class="card">
-                <div class="table-responsive pt-3">
-                    <table class="table table-striped project-orders-table">
-                        <tbody>
-                            <th:block th:each="member : ${memInfo}">
-                                <tr>
-                                    <td th:text="${member.idNumber}"></td>
-                                    <td th:text="${member.name}"></td>
-                                    <td th:text="${member.phone}"></td>
-                                    <td th:text="${member.email}"></td>
-                                    <td th:text="${member.address}"></td>
-                                    <td th:text="${member.auth}"></td>
-                                </tr>
-                            </th:block>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="row">
+		<div class="col-md-5">
+			<div class="card">
+				<div class="table-responsive pt-3">
+					<table class="table table-striped project-orders-table">
+						<thead>
+							<tr>
+								<th>번호</th>
+								<th>이름</th>
+								<th>전화번호</th>
+								<th>역할</th>
+							</tr>
+						</thead>
+						<tbody>
+							<th:block th:each="member : ${memberList}">
+								<tr
+									th:onclick="infoClick([[${member.idNumber}]], [[${member.auth}]])">
+									<td th:text="${member.idNumber}"></td>
+									<td th:text="${member.name}"></td>
+									<td th:text="${member.phone}"></td>
+									<td th:text="${member.auth}"></td>
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="card">
+				<div class="table-responsive pt-3">
+					<table class="table table-striped project-orders-table">
+						<h2>개인 정보 보기</h2>
+						<tr>
+							<th id="name-name">이름</th>
+							<td id="name"></td>
+						</tr>
+						<tr>
+							<th id="auth-name">신분</th>
+							<td id="auth"></td>
+						</tr>
+						<tr>
+							<th id="phone-name">전화번호</th>
+							<td id="phone"></td>
+						</tr>
+						<tr>
+							<th id="email-name">이메일</th>
+							<td id="email"></td>
+						</tr>
+						<tr>
+							<th id="address-name">주소</th>
+							<td id="address"></td>
+						</tr>
+						<tr>
+							<th id="birth-name">생일</th>
+							<td id="birth"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 <script th:inline="javascript">
-    function infoClick(idNumber, auth){
-        $.ajax({
-            type: 'GET',
-            url: '/lms/admin/adminMemInfo',
-            data: { idNumber: idNumber, auth: auth },
-            success: function(response) {
-                console.log(response);
-                
-                
-            },
-            error: function(xhr, status, error) {
-                console.error('Error fetching member info:', error);
-            }
-        });
-    }
+	function infoClick(idNumber, auth) {
+		$.ajax({
+			type : 'GET',
+			url : '/lms/admin/adminMemInfo',
+			data : {
+				idNumber : idNumber,
+				auth : auth
+			},
+			success : function(response) {
+				console.log("결과", response);
+// 				const name = document.getElementById('name');
+// 				name.innerText = response.name;
+				Object.keys(response).forEach((key, idx) => {
+					if (document.getElementById(key)){
+					document.getElementById(key).innerText = response[key];
+					}
+				});
+// 				response.address
+// 				response.auth
+// 				response.birth
+// 				response.email
+// 				response.name
+// 				response.phone
+
+			},
+			error : function(xhr, status, error) {
+				console.error('Error fetching member info:', error);
+			}
+		});
+	}
 </script>
 </html>

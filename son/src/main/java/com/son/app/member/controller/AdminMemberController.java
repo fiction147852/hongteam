@@ -30,10 +30,10 @@ public class AdminMemberController {
 	
 	@ResponseBody
 	@GetMapping("admin/adminMemInfo")
-	public List<MemberVO> accountInfo(int idNumber, String auth) {
+	public MemberVO accountInfo(int idNumber, String auth) {
 		log.info(idNumber+"");
 		log.info(auth);
-		List<MemberVO> memInfo = adminMemberService.memberInfo(idNumber, auth);  
+		MemberVO memInfo = adminMemberService.memberInfo(idNumber, auth);  
 		
 		return memInfo;
 	}
