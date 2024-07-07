@@ -6,6 +6,7 @@
     <select id="studentExamList" resultType="ExamListVO">
         SELECT *
         FROM ( SELECT ROW_NUMBER() OVER(ORDER BY test.test_number DESC) AS row_num
+                    , test.test_number
                     , participate_number
                     , participate_status
                     , total_score
@@ -54,14 +55,24 @@
         </where>
     </select>
 
+    <resultMap id="studentExamInfoMap" type="ExamInfoVO">
+        <id property="questionNumber" column="question_number"></id>
+        <association property="attachmentFileVO" javaType="AttachmentFileVO" column="question_number" select="examAttachmentFile" />
+    </resultMap>
+
     <!--  출제된 시험의 문제 조회 ( + 세부 과목 이름, 제한 시간(분))    -->
-    <select id="examInfo" resultType="ExamInfoVO">
+    <select id="studentExamInfo" resultMap="studentExamInfoMap">
         SELECT de_sub_name_by_lecture(lecture_number) AS detail_subject_name
-            , (EXTRACT(DAY FROM limit_time) * 24 * 60) + (EXTRACT(HOUR FROM limit_time) * 60) + (EXTRACT(MINUTE FROM limit_time)) AS minute
+            , limit_time
             , question.question_number
+            , question_type_code
             , text
             , score
-            , attachment_file
+            , option1 AS option_one
+            , option2 AS option_two
+            , option3 AS option_three
+            , option4 AS option_four
+            , option5 AS option_five
         FROM paper_content
         JOIN question
             ON paper_content.question_number = question.question_number
@@ -77,16 +88,4 @@
         FROM attachment_file
         WHERE question_number = #{questionNumber}
     </select>
-
-    <select id="examQuestionInfo" resultType="QuestionOptionsVO">
-        SELECT option1 AS option_one
-             , option2 AS option_two
-             , option3 AS option_three
-             , option4 AS option_four
-             , option5 AS option_five
-        FROM question
-        WHERE question_number = #{questionNumber}
-    </select>
-
-
 </mapper>

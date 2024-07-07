@@ -47,7 +47,6 @@
 		WHERE weekdays_code = #{weekdaysCode}
 	</update>
 
-
 	<!-- 일간 상담 조회 ====================== -->
 	<select id="counselDayTimeSelectAll"
 		resultType="AdmissioncounselPossibilityVO">
@@ -55,7 +54,6 @@
 		, time_code
 		FROM counsel_impossibility
 	</select>
-
 
 	<!-- 그날 불가능한 시간조회 -->
 	<select id="counselDayImpSelect" resultType="String"
@@ -73,7 +71,6 @@
 		FROM admission_counsel_possibility
 		WHERE
 		weekdays_code = #{weekdaysCode}
-
 	</select>
 
 	<!-- 일간 상담 설정 -->
@@ -112,6 +109,18 @@
 		)
 	</update>
 
+	<select id="impTimeList" resultType="int">
+		SELECT time_code 
+		FROM impossible_time_list
+		WHERE reservation_date = TO_DATE(#{reservationDate}, 'yy/mm/dd')
+	</select>
+
+	<select id="counPosList" resultType="AdmissionCounselPossibilityVO">
+		SELECT *
+		FROM possible_time_list
+		WHERE weekdays_code = #{weekdaysCode}
+	</select>
+
 
 
 	<select id="counImpTime" resultType="counselVO" parameterType="counselVO">
@@ -130,15 +139,6 @@
 				WHERE counsel_number = #{counselNumber})
 		ORDER BY time_code
 	</select>
-
-
-
-
-
-
-
-
-
 
 	<!-- 상담 일정 신청 -->
 	<select id="counselInsert" resultType="CounselVO">

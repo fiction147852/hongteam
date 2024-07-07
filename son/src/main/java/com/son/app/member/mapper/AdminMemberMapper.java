@@ -11,6 +11,8 @@ public interface AdminMemberMapper {
 
 	//상담일정 전체조회
 	public List<MemberVO> memberSelectAll();
+
+	public List<MemberVO> selectMemberList(MemberVO vo);
 	
 	
 }

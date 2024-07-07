@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-    swiperTwo = new Swiper('#eventModal .swiper', {
+    swiperTwo = new Swiper('.modal__lecture-info .swiper', {
         grabCursor: true,
         pagination: {
             el: '.swiper-pagination',
@@ -37,5 +37,4 @@ document.addEventListener('DOMContentLoaded', function () {
         },
 
     });
-
 });

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.son.app.attendance.mapper.ParentAttendanceMapper">
+
+    <resultMap id="AttendanceMap" type="ParentAttendanceVO">
+        <result property="studentNumber" column="studentNumber"/>
+        <result property="studentName" column="studentName"/>
+        <result property="attendanceDate" column="attendanceDate"/>
+        <result property="attendanceCode" column="attendanceCode"/>
+        <result property="remark" column="remark"/>
+        <result property="lectureNumber" column="lectureNumber"/>
+    </resultMap>
+    <select id="selectAttendanceByParentNumber" parameterType="int" resultMap="AttendanceMap">
+        SELECT
+            s.student_number,
+            s.name,
+            a.attendance_date,
+            a.attendance_code,
+            a.remark AS remark,
+            a.lecture_number
+        FROM
+            student s
+        JOIN
+            attendance a
+        ON
+            s.student_number = a.student_number
+        WHERE
+            s.parent_number = #{parentNumber}
+        ORDER BY
+            a.attendance_date DESC
+    </select>
+</mapper>

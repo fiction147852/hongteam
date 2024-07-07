@@ -1,5 +1,6 @@
 package com.son.app.exam.controller;
 
+import com.son.app.exam.service.ExamInfoVO;
 import com.son.app.exam.service.ExamListVO;
 import com.son.app.exam.service.StudentExamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,11 @@ public class StudentExamController {
         return studentExamService.examCount(lectureNumber, testTitle, participateStatus);
     }
 
+    @GetMapping("/student/{lectureNumber}/exam/{testNumber}")
+    @ResponseBody
+    public List<ExamInfoVO> selectExamInfo(@PathVariable int testNumber) {
+        return studentExamService.examInfo(testNumber);
+    }
 
 
 

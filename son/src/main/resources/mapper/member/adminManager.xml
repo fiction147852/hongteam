@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.son.app.member.mapper.AdminMemberMapper">
+
+
+	<!-- 이메일로 부모 번호 조회 -->
+	<select id="memberSelectAll" resultType="MemberVO">
+			SELECT  id_number, 
+			        name, 
+			        email,
+			        phone,
+			        auth
+			FROM v_member	
+	</select>
+	
+	<select id="selectMemberList" parameterType="MemberVO" resultType="MemberVO">
+			SELECT id_number,
+				   name,
+				   email,
+				   address,
+			       phone,
+			       birth,
+				   auth
+			FROM v_member
+			WHERE id_number = #{idNumber} 
+			    AND auth = #{auth}
+	</select>
+
+
+</mapper>

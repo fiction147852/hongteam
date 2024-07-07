@@ -63,21 +63,21 @@
 
 /* 모달 창 안에 있는 슬라이드 */
 
-#eventModal .swiper {
+.modal__lecture-info .swiper {
     height: 150px;
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
-#eventModal .swiper-slide .subject-info {
+.modal__lecture-info .swiper-slide .subject-info {
     justify-content: center;
     align-items: center;
 }
 
-#eventModal .swiper-slide h5 {
+.modal__lecture-info .swiper-slide h5 {
     font-weight: 600;
 }
 
-#eventModal swiper-pagination {
+.modal__lecture-info swiper-pagination {
     top : 100px;
 }
