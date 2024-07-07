@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/instructor_layout}"
+	layout:fragment="content">
+<script src="https://cdn.tailwindcss.com"></script>
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+	rel="stylesheet">
+<style>
+body {
+	font-family: 'Roboto', sans-serif;
+}
+</style>
+<head>
+
+<title>자동 시험 생성</title>
+
+</head>
+<body>
+	<div class="mx-auto bg-white p-8 rounded-lg shadow-lg mt-4">
+		<form
+			th:action="@{/instructor/{lectureNumber}/examAutoGenerate(lectureNumber=${lectureNumber})}"
+			method="post">
+			<input type="hidden" name="subjectCode" th:value="${subjectCode}" />
+			<div class="form-group">
+				<label for="testTitle">시험 제목</label> <input type="text"
+					class="form-control" id="testTitle" name="testTitle" required>
+			</div>
+			<div class="form-group">
+				<label for="examinationDate">출제일</label> <input type="date"
+					class="form-control" id="examinationDate" name="examinationDate"
+					required>
+			</div>
+			<div class="form-group">
+				<label for="examDate">시행일</label> <input type="date"
+					class="form-control" id="examDate" name="examDate" required>
+			</div>
+			<div class="form-group">
+				<label for="limitTime">제한 시간 (분)</label> <input type="number"
+					class="form-control" id="limitTime" name="limitTime" required>
+			</div>
+			<button type="submit" class="btn btn-primary">시험 생성</button>
+		</form>
+	</div>
+</body>
+</html>
+

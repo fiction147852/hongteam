@@ -29,5 +29,57 @@
 		FROM test
 		WHERE lecture_number = #{lectureNumber}
 	</select>
+	
+	<select id="selectQuestionsBySubject" resultType="QuestionVO">
+    SELECT q.question_number,
+           q.question_type_code,
+           q.text,
+           subject_name(q.subject_code) AS subject_name,
+           detail_subject_name(q.detail_subject_code) AS detail_subject_name,
+           q.difficulty_code,
+           q.answer,
+           q.option1,
+           q.option2,
+           q.option3,
+           q.option4,
+           q.option5,
+           q.instructor_number,
+           i.name AS instructor_name,
+           q.explanation
+    FROM question q
+    JOIN instructor i ON q.instructor_number = i.instructor_number
+    WHERE q.subject_code = #{subjectCode}
+    ORDER BY q.question_number
+	</select>
+
+	<select id="selectRandomQuestionsBySubjectAndDifficulty" resultType="QuestionVO">
+	    SELECT * FROM (
+	        SELECT q.question_number,
+	               q.question_type_code,
+	               q.text,
+	               subject_name(q.subject_code) AS subject_name,
+	               detail_subject_name(q.detail_subject_code) AS detail_subject_name,
+	               q.difficulty_code,
+	               q.answer,
+	               q.option1,
+	               q.option2,
+	               q.option3,
+	               q.option4,
+	               q.option5,
+	               q.instructor_number,
+	               i.name AS instructor_name,
+	               q.explanation
+	        FROM question q
+	        JOIN instructor i ON q.instructor_number = i.instructor_number
+	        WHERE q.subject_code = #{subjectCode}
+	          AND q.difficulty_code = #{difficulty}
+	        ORDER BY DBMS_RANDOM.VALUE
+	    )
+	    <![CDATA[
+	    WHERE ROWNUM <= #{count}
+	    ]]> 
+	</select>
+	
+	
 
 </mapper>
