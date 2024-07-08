@@ -66,7 +66,8 @@ public class PaperServiceImpl implements PaperService {
     @Override
     public int createPaper(List<Integer> questionNumbers, List<Integer> scores, String paperTitle, String producer) {
         PaperVO paper = new PaperVO();
-        // 기타 필요한 정보 설정
+        paper.setPaperTitle(paperTitle);
+        paper.setProducer(producer);
 
         int paperNumber = paperMapper.insertPaper(paper);
 

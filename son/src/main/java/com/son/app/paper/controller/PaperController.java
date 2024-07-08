@@ -134,6 +134,7 @@ public class PaperController {
                                   @RequestParam String paperTitle,
                                   @RequestParam String producer,
                                   Model model) {
+    	log.info("paperTitle: {}, producer: {}", paperTitle, producer);
         int totalScore = scores.stream().mapToInt(Integer::intValue).sum();
         if (totalScore > 100) {
             model.addAttribute("error", "총 배점은 100점을 초과할 수 없습니다.");
