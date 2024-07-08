@@ -1,0 +1,40 @@
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layouts/student/studentDetailSubject_layout}">
+<head>
+    <link th:href="@{/css/student/lectureMaterial/lectureMaterialInfo.css}" rel="stylesheet">
+    <script th:inline="javascript">
+        const lectureNumber = [[${session.studentLectureInfo.lectureNumber}]];
+        console.log([[${lectureMaterialDetailVO}]]);
+    </script>
+    <script th:src="@{/js/lecture/lectureMaterialInfo.js}"></script>
+</head>
+<body>
+    <div layout:fragment="content">
+        <h4 class="header-title">강의 자료</h4>
+        <div class="header-right">
+            <span>목록</span>
+        </div>
+        <table class="table-custom">
+            <tr>
+                <th>제목</th>
+                <td class="highlight">[[${lectureMaterialDetailVO.lectureMaterialVO.title}]]</td>
+                <th>작성일</th>
+                <td>[[${#dates.format(lectureMaterialDetailVO.lectureMaterialVO.registrationDate, 'yyyy-MM-dd')}]]</td>
+            </tr>
+            <tr style="height: 300px;">
+                <th>강의 내용</th>
+                <td colspan="3">[[${lectureMaterialDetailVO.lectureMaterialVO.content}]]</td>
+            </tr>
+            <tr>
+                <th>강의 자료 파일</th>
+                <td colspan="3">
+                    <th:block th:each="attachmentFile : ${lectureMaterialDetailVO.attachmentFileVOList}">
+                        <a href="#"><i class="fa-solid fa-file" style="margin-right: 10px"></i>[[${attachmentFile.originalFileName}]]</a>
+                    </th:block>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

@@ -26,5 +26,4 @@ public class AttachmentFileVO {
 
     // 0 or 1
     private Integer isDeleted;
-
 }
