@@ -4,6 +4,27 @@
 <mapper
 	namespace="com.son.app.exam.mapper.ParentExamMapper">
 
-
+    <select id="childExamList" resultType="ParentChildExamVO">
+        SELECT *
+        FROM ( SELECT ROW_NUMBER() OVER(ORDER BY test.test_number DESC) AS row_num
+                    , test.test_number
+                    , participate_number
+                    , participate_status
+                    , lecture_number
+                    , total_score
+                    , test_title
+                    , limit_time
+                    , exam_date
+               FROM participate
+                        JOIN test
+                             ON test.test_number = participate.test_number
+               <where>
+                   test.lecture_number IN ( select lecture_number 
+                   							from registration 
+                   							Where student_number = #{studentNumber})
+               </where>
+             )
+        WHERE row_num BETWEEN #{startRow} AND #{endRow}
+    </select>
 
 </mapper>

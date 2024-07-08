@@ -40,9 +40,13 @@ public class StudentLectureController {
     }
 
     @GetMapping("/student/{lectureNumber}/lectureMaterials/{lectureMaterialNumber}")
-    @ResponseBody
-    public LectureMaterialDetailVO lectureMaterialInfo(@PathVariable Integer lectureMaterialNumber) {
-        return studentLectureService.lectureMaterialInfo(lectureMaterialNumber);
+    public String lectureMaterialInfo(@PathVariable Integer lectureMaterialNumber, Model model) {
+        LectureMaterialDetailVO lectureMaterialDetailVO = studentLectureService.lectureMaterialInfo(lectureMaterialNumber);
+        model.addAttribute("lectureMaterialDetailVO", lectureMaterialDetailVO);
+
+        return "lecture/student/lectureMaterialInfo";
     }
+
+
 
 }

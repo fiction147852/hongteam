@@ -35,17 +35,24 @@ document.addEventListener('DOMContentLoaded', function () {
                     const tdTwo = document.createElement("td");
                     const tdThree = document.createElement("td");
                     const tdFour = document.createElement("td");
+                    const tdTwoA = document.createElement("a");
 
                     tbody.appendChild(tr);
                     tr.appendChild(tdOne);
                     tr.appendChild(tdTwo);
                     tr.appendChild(tdThree);
                     tr.appendChild(tdFour);
+                    tdTwo.appendChild(tdTwoA);
 
                     tdOne.innerText = material.rowNum;
                     tdTwo.innerText = material.title;
                     tdThree.innerText = material.registrationDate;
                     tdFour.innerText = material.views;
+
+                    tdTwo.style.cursor = "pointer";
+                    tdTwo.addEventListener("click", function() {
+                        window.location.href = `/lms/student/${material.lectureNumber}/lectureMaterials/${material.lectureMaterialNumber}`;
+                    });
                 })
                 // 페이지 네이션을 갱신하는 함수
                 loadPagination(page, title);
@@ -106,13 +113,13 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => {
                 console.error(error);
             });
-
-            document.querySelector('#search-form').addEventListener('submit', function(event) {
-                event.preventDefault();
-
-                const title = document.querySelector("#search-title").value;
-                loadLectureMaterials(1, title);
-            });
     }
     loadLectureMaterials(currentPage);
+
+    document.querySelector('#search-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const title = document.querySelector("#search-title").value;
+        loadLectureMaterials(1, title);
+    });
 });

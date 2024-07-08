@@ -8,6 +8,7 @@
              , task_number as "number"
              , de_sub_name_by_lecture(task.lecture_number) || ' 과제' as title
              , submit_deadline as "start"
+             , task.lecture_number
         FROM task
         JOIN registration
             ON registration.lecture_number = task.lecture_number
@@ -17,6 +18,7 @@
              , test_number
              , de_sub_name_by_lecture(test.lecture_number) || ' 시험' as title
              , exam_date
+             , test.lecture_number
         FROM test
         JOIN registration
             ON registration.lecture_number = test.lecture_number
@@ -51,6 +53,7 @@
              , post_date
              , submit_deadline as deadline_date
              , task_submit_code as status
+             , task.lecture_number
         FROM task_submit submit
         JOIN task
             ON task.task_number = submit.task_number
@@ -62,6 +65,7 @@
              , exam_date
              , exam_date
              , participate_status
+            , test.lecture_number
         FROM participate
         JOIN test
             ON test.test_number = participate.test_number

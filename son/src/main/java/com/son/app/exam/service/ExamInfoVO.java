@@ -13,6 +13,7 @@ public class ExamInfoVO {
     private String questionTypeCode;
     private String text;
     private Integer score;
+    private String realAnswer;
     private String optionOne;
     private String optionTwo;
     private String optionThree;
