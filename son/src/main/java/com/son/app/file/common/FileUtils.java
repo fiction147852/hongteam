@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
@@ -29,12 +32,16 @@ public class FileUtils {
 	// uploadPath = 물리적으로 파일을 저장할 위치를 의미
 	// Paths.get( )을 이용하면 OS에 상관없이 디렉터리 경로를 구분
 //	private final String uploadPath = Paths.get("D:", "Dev", "upload-files").toString();
-	private final String uploadPath = "C:/uploads";
+//	private final String uploadPath = "C:/uploads";
+	
+	@Value("${upload.path}")
+	private String uploadPath;
 	
 	// 프로젝트 내 업로드 경로 설정
 //	private final String uploadPath = Paths.get("C:", "User", "admin", "git", "hongteam", "son", "src", "main", "resources","static", "uploads").toString();
     
-    public FileUtils() {
+	@PostConstruct
+    public void init() {
         createUploadDirectory();
     }
 
