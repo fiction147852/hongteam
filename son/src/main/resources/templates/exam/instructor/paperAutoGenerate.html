@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/instructor_layout}"
+	layout:fragment="content">
+<script src="https://cdn.tailwindcss.com"></script>
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+	rel="stylesheet">
+<style>
+body {
+	font-family: 'Roboto', sans-serif;
+}
+.card-text {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+</style>
+<head>
+
+<title>자동 시험 생성</title>
+
+</head>
+<body>
+	<div class="mx-auto bg-white p-8 rounded-lg shadow-lg mt-4">
+		<div th:if="${warningMessage}" class="alert alert-warning"
+			role="alert" th:text="${warningMessage}"></div>
+		<form name="insertForm" th:action="@{paperAutoGenerate}" method="post">
+			<input type="hidden" name="subjectCode" th:value="${subjectCode}" />
+			<input type="text" name="paperTitle"
+				class="form-control mb-2 col-6 mx-auto" placeholder="시험지 제목을 입력하세요."
+				required /> <input type="text" name="producer"
+				th:value="'출제자: ' + ${instructorName}" class="form-control mb-2 col-2 float-end"
+				readonly />
+			<div class="swiper">
+				<div class="swiper-wrapper mb-3">
+					<th:block th:each="qs, status : ${generatedPaper}">
+						<div class="swiper-slide">
+							<div class="card">
+								<div class="slide-content">
+									<div style="display: flex; justify-content: space-between;">
+										<h6 class="text-lg font-semibold mt-3 ml-3">
+											[[ ${qs.questionTypeCode} ]] <br> [[ ${qs.subjectName ?:
+											'미지정'} ]] <span class="text-sm">([[${qs.detailSubjectName}]])</span>
+											<br> <span class="text-sm">난이도:
+												[[${qs.difficultyCode}]]</span>
+										</h6>
+										<div>
+											<input type="hidden" name="questionNumbers"
+												th:value="${qs.questionNumber}" /> <label>배점: </label> <input
+												type="number" name="scores" min="1" max="100" required
+												class="w-16 p-1 border border-gray-300 rounded mt-1 mr-1" />
+										</div>
+									</div>
+									<div class="card-body">
+									<div class="card-body bg-gray-100">
+									<h5 class="card-title text-center font-medium mb-2">출제자:
+										[[ ${qs.instructorName} ]]</h5>
+										<h6 class="card-subtitle">문제</h6>
+										<p class="card-text">[[ ${qs.text} ]]</p>
+									</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</th:block>
+				</div>
+				<div class="swiper-scrollbar"></div>
+			</div>
+			<div class="clearfix">
+				<button type="button" class="btn btn-danger mt-3 float-end"
+					th:onclick="|location.href='@{/instructor/paperList}'|">취소</button>
+				<button type="submit" class="btn btn-info mt-3 mr-2 float-end">시험지
+					생성</button>
+			</div>
+		</form>
+	</div>
+	<script src="/lms/js/question/qlist-slider.js"></script>
+</body>
+</html>
+

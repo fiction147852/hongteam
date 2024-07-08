@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class InstructorVO {
 	//교수자
-	private Integer InstructorNumber;
+	private Integer instructorNumber;
     private String name;
     private String email;
     private String address;

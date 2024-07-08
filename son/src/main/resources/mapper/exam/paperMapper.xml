@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.son.app.paper.mapper.PaperMapper">
+	<select id="selectPaperAll" resultType="PaperVO">
+		SELECT paper_number,
+			   paper_title,
+			   producer,
+			   production_date
+		FROM (
+			SELECT ROW_NUMBER() OVER (ORDER BY paper_number) AS rn,
+				   paper_number,
+				   paper_title,
+				   producer,
+				   production_date
+			FROM paper
+		) p
+		WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="countPaper" resultType="int">
+		SELECT COUNT(*)
+		FROM paper
+	</select>
+
+	<resultMap id="paperResultMap" type="PaperVO">
+	    <id property="paperNumber" column="paper_number"/>
+	    <result property="paperTitle" column="paper_title"/>
+	    <result property="producer" column="producer"/>
+	    <result property="productionDate" column="production_date"/>
+	    <collection property="questions" ofType="PaperQuestionVO">
+	        <id property="questionNumber" column="question_number"/>
+	        <result property="questionTypeCode" column="question_type_code"/>
+	        <result property="text" column="text"/>
+	        <result property="attachmentFile" column="attachment_file"/>
+	        <result property="subjectCode" column="subject_code"/>
+	        <result property="detailSubjectCode" column="detail_subject_code"/>
+	        <result property="subjectName" column="subject_name"/>
+	        <result property="detailSubjectName" column="detail_subject_name"/>
+	        <result property="difficultyCode" column="difficulty_code"/>
+	        <result property="answer" column="answer"/>
+	        <result property="option1" column="option1"/>
+	        <result property="option2" column="option2"/>
+	        <result property="option3" column="option3"/>
+	        <result property="option4" column="option4"/>
+	        <result property="option5" column="option5"/>
+	        <result property="instructorNumber" column="instructor_number"/>
+	        <result property="instructorName" column="instructor_name"/>
+	        <result property="explanation" column="explanation"/>
+	        <result property="score" column="score"/>
+	    </collection>
+	</resultMap>
+	
+	<select id="selectPaperInfo" resultMap="paperResultMap">
+	    SELECT p.paper_number,
+	           p.paper_title,
+	           p.producer,
+	           p.production_date,
+	           q.*,
+	           pc.score
+	    FROM paper p
+	    	JOIN paper_content pc 
+	    		ON p.paper_number = pc.paper_number
+	    	JOIN question q 
+	    		ON pc.question_number = q.question_number
+	    WHERE p.paper_number = #{paperNumber}
+	</select>
+	
+	<select id="selectQuestionsBySubject" resultType="QuestionVO">
+    SELECT q.question_number,
+           q.question_type_code,
+           q.text,
+           subject_name(q.subject_code) AS subject_name,
+           detail_subject_name(q.detail_subject_code) AS detail_subject_name,
+           q.difficulty_code,
+           q.answer,
+           q.option1,
+           q.option2,
+           q.option3,
+           q.option4,
+           q.option5,
+           q.instructor_number,
+           i.name AS instructor_name,
+           q.explanation
+    FROM question q
+    JOIN instructor i ON q.instructor_number = i.instructor_number
+    WHERE q.subject_code = #{subjectCode}
+    ORDER BY q.question_number
+  </select>
+
+  <select id="selectRandomQuestionsBySubjectAndDifficulty" resultType="QuestionVO">
+    SELECT * FROM (
+      SELECT q.question_number,
+             q.question_type_code,
+             q.text,
+             subject_name(q.subject_code) AS subject_name,
+             detail_subject_name(q.detail_subject_code) AS detail_subject_name,
+             q.difficulty_code,
+             q.answer,
+             q.option1,
+             q.option2,
+             q.option3,
+             q.option4,
+             q.option5,
+             q.instructor_number,
+             i.name AS instructor_name,
+             q.explanation
+      FROM question q
+      JOIN instructor i ON q.instructor_number = i.instructor_number
+      WHERE q.subject_code = #{subjectCode}
+      AND q.difficulty_code = #{difficulty}
+      ORDER BY DBMS_RANDOM.VALUE
+    )
+    <![CDATA[
+    WHERE ROWNUM <= #{count}
+    ]]>
+  </select>
+  
+  <insert id="insertPaper" parameterType="PaperVO">
+  <selectKey keyProperty="paperNumber" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(paper_number), 0) + 1 FROM paper
+	</selectKey>
+    INSERT INTO paper 
+    		(
+    		paper_number,
+    		paper_title,
+    		producer,
+    		production_date
+    		)
+    		
+    VALUES 
+    		(
+    		#{paperNumber},
+    		#{paperTitle},
+    		#{producer},
+    		SYSDATE
+    		)
+  </insert>
+
+  <insert id="insertPaperQuestion">
+    INSERT INTO paper_content 
+    	(
+    	paper_number, 
+    	question_number, 
+    	score
+    	)
+    VALUES 
+    	(
+    	#{paperNumber}, 
+    	#{questionNumber}, 
+    	#{score}
+    	)
+  </insert>
+
+</mapper>
