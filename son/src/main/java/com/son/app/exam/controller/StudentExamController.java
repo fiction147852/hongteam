@@ -2,15 +2,14 @@ package com.son.app.exam.controller;
 
 import com.son.app.exam.service.ExamInfoVO;
 import com.son.app.exam.service.ExamListVO;
+import com.son.app.exam.service.GradingResult;
 import com.son.app.exam.service.StudentExamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Iterator;
 import java.util.List;
 
 @Controller
@@ -47,7 +46,14 @@ public class StudentExamController {
         return studentExamService.examInfo(testNumber);
     }
 
-
+    @PostMapping("/student/{lectureNumber}/exam/{participateNumber}/insert")
+    @ResponseBody
+    public void autoGradeExam(@RequestBody List<GradingResult> gradingResultList, @PathVariable Integer participateNumber) {
+        for (GradingResult gradingResult : gradingResultList) {
+            studentExamService.autoGradeExam(gradingResult);
+        }
+        studentExamService.modifyParticipateStatus(participateNumber);
+    }
 
 
 

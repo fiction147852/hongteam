@@ -51,15 +51,17 @@ document.addEventListener('DOMContentLoaded', function () {
         // 이 세 가지 속성을 모두 담고 있는 매개변수를 전달받는다.
         eventClick: function (eventInfo) {
             const eventDate = eventInfo.event.start.getFullYear() + "-0" + (eventInfo.event.start.getMonth() + 1) + "-" + eventInfo.event.start.getDate();
+            const lectureNumber = eventInfo.event.extendedProps.lectureNumber;
 
             axios.get("student/scheduleDetail?deadlineDate=" + eventDate)
                 .then(response => {
                     const events = response.data;
+                    const filteredEvents = events.filter(event => event.lectureNumber === lectureNumber);
 
                     const swiperWrapperDiv = document.querySelector("#eventModal .swiper-wrapper");
                     swiperWrapperDiv.innerHTML = ''; // 슬라이드 초기화
 
-                    events.forEach(event => {
+                    filteredEvents.forEach(event => {
                         // 틀잡기.
                         const swiperSlideDiv = document.createElement("div");
                         const slideContentDiv = document.createElement("div");
@@ -118,6 +120,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
                         const modal = new bootstrap.Modal(document.getElementById('eventModal'));
                         modal.show();
+
+                        document.querySelector("#closeModalButton").addEventListener("click", function() {
+                            modal.hide();
+                        })
                     });
                 })
                 .catch(error => {
@@ -157,18 +163,13 @@ document.addEventListener('DOMContentLoaded', function () {
         // 날짜 셀이 렌더링된 후에 호출 (셀이 DOM 에 추가된 이후 실행)
         dayCellDidMount: function (date) {
             const day = date.date.getDay();
-
-            // if (day === 6) {
-            //
-            // } else if (day === 0) {
-            //
-            // }
         },
     });
 
     axios.get("student/schedule")
         .then(response => {
             const eventData = response.data;
+            console.log(eventData)
 
             // (날짜, 제목) 중복된 이벤트를 하나의 이벤트로 결합하기 위해 객체 정의
             const groupedEvents = {};
