@@ -21,10 +21,10 @@
                        AND test_title LIKE '%' || #{testTitle} || '%'
                    </if>
                    <choose>
-                       <when test="participateStatus != '' and participateStatus == '응시 완료'">
+                       <when test="participateStatus == '응시 완료'">
                            AND participate_status = '응시 완료'
                        </when>
-                       <when test="participateStatus != '' and participateStatus == '미응시'">
+                       <when test="participateStatus == '미응시'">
                            AND participate_status = '미응시'
                        </when>
                    </choose>
@@ -68,6 +68,7 @@
             , question_type_code
             , text
             , score
+            , answer as real_answer
             , option1 AS option_one
             , option2 AS option_two
             , option3 AS option_three
@@ -88,4 +89,39 @@
         FROM attachment_file
         WHERE question_number = #{questionNumber}
     </select>
+
+    <!-- 시험 제출 후 데이터베이스에 저장    -->
+    <insert id="getExamResults" parameterType="GradingResult">
+            INSERT INTO grading_result (grading_result_number
+                , participate_number
+                , question_number
+                , answer
+                , answer_status
+            ) VALUES (grade_result_seq.NEXTVAL
+                , #{participateNumber}
+                , #{questionNumber}
+                , #{studentAnswer}
+                , CASE
+                    WHEN #{studentAnswer} = (
+                        SELECT answer
+                        FROM question
+                        WHERE question_number = #{questionNumber}
+                    ) THEN 'O'
+                    ELSE 'X'
+                  END
+            )
+    </insert>
+
+    <update id="modifyParticipateStatus">
+        UPDATE participate
+        SET participate_status = '응시 완료'
+          , total_score =
+            (SELECT DISTINCT NVL(SUM(paper_content.score), 0) AS total_score
+             FROM grading_result
+                      JOIN paper_content
+                           ON grading_result.question_number = paper_content.question_number
+             WHERE grading_result.participate_number = #{participateNumber} AND grading_result.answer_status = 'O'
+            )
+        WHERE participate_number = #{participateNumber}
+    </update>
 </mapper>

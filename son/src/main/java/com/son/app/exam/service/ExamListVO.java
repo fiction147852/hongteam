@@ -15,6 +15,7 @@ public class ExamListVO {
     private String participateStatus; // 응시 여부
     private String testTitle;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+9")
     private Date examDate;
 }

@@ -6,6 +6,7 @@ import com.son.app.attendance.service.StudentLectureInfoVO;
 import com.son.app.attendance.service.StudentScheduleDetailVO;
 import com.son.app.exam.service.ExamInfoVO;
 import com.son.app.exam.service.ExamListVO;
+import com.son.app.exam.service.GradingResult;
 import com.son.app.exam.service.StudentExamService;
 import com.son.app.lecture.mapper.StudentLectureMapper;
 import com.son.app.lecture.service.LectureMaterialDetailVO;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -43,6 +45,12 @@ class SonApplicationTests {
 		
 		System.out.println(passwordEncoder.encode(pw));
 		System.out.println(studentAttendanceService);
+	}
+
+	@Test
+	@DisplayName("DH) 특정 학생의 전체 스케줄 조회")
+	public void scheduleAllList() {
+		studentAttendanceService.scheduleList(1);
 	}
 
 	@Test
@@ -110,6 +118,24 @@ class SonApplicationTests {
 		List<ExamInfoVO> examInfoVOList = studentExamService.examInfo(1);
 
 		System.out.println(examInfoVOList);
+	}
+
+	@Test
+	@DisplayName("DH) GRADING_RESULT 테이블에 데이터 삽입")
+	public void insertData() {
+		GradingResult gradingResult = new GradingResult();
+		gradingResult.setParticipateNumber(2);
+		gradingResult.setQuestionNumber(13);
+		gradingResult.setStudentAnswer("4");
+
+
+		studentExamService.autoGradeExam(gradingResult);
+	}
+
+	@Test
+	@DisplayName("DH) 시험 성적 구하기")
+	public void examScore() {
+		studentExamService.modifyParticipateStatus(2);
 	}
 
 }

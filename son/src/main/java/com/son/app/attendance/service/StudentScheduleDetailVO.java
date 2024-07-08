@@ -9,6 +9,7 @@ import lombok.Data;
 @Data
 public class StudentScheduleDetailVO {
     private Integer studentNumber;
+    private Integer lectureNumber;
 
     private String type ;
     private String title;
