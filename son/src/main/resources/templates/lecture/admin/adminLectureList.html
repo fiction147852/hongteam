@@ -172,130 +172,154 @@
 	//======================================================================
 	// 등록 버튼 생성
 	//======================================================================
-		
 	const subList = /*[[${lecSublist}]]*/[];
-	const subDeList = /*[[${lecSubDeList}]]*/[];
-	let selectedValue ="";
-	function insertClick(){
+    const subDeList = /*[[${lecSubDeList}]]*/[];
+    let selectedValue = "";
+    
 
-        const tableCell = document.querySelectorAll('#lectureInfoTable td');
-        tableCell.forEach(cell => {
-            const currentValue = cell.innerText;
-            const cellId = cell.getAttribute('id');
-            
-            const input = document.createElement('input');
+        function insertClick() {
+   			console.log(subDeList[0]);
+            // 강의 번호
+            const lectureNumberCell = document.getElementById('lectureNumber');
+            if (lectureNumberCell) {
+                lectureNumberCell.innerHTML = '<input type="text" id="lectureNumber-input" name="lectureNumber" />';
+            }
 
-            if (cellId === 'subjectCode') {		//과목코드
+            // 강의 제목
+            const lectureTitleCell = document.getElementById('lectureTitle');
+            if (lectureTitleCell) {
+                lectureTitleCell.innerHTML = '<input type="text" id="lectureTitle-input" name="lectureTitle" />';
+            }
+
+            // 강의 설명
+            const lectureDescriptionCell = document.getElementById('lectureDescription');
+            if (lectureDescriptionCell) {
+                lectureDescriptionCell.innerHTML = '<input type="text" id="lectureDescription-input" name="lectureDescription" />';
+            }
+
+            // 강의 비용
+            const lectureCostCell = document.getElementById('lectureCost');
+            if (lectureCostCell) {
+                lectureCostCell.innerHTML = '<input type="text" id="lectureCost-input" name="lectureCost" />';
+            }
+
+            // 과목 코드
+            const subjectCodeCell = document.getElementById('subjectCode');
+            if (subjectCodeCell) {
                 const select = document.createElement('select');
-                
-                // subList 배열을 이용해 옵션을 동적으로 생성
                 subList.forEach(subject => {
                     const option = document.createElement('option');
                     option.text = subject.subjectName;
                     option.value = subject.subjectCode;
                     select.add(option);
                 });
-                
-                cell.append(select);
-
-                // 기본 선택값 설정
-                select.value = currentValue;
-                
-                // 기존 요소를 select로 대체
-                cell.innerHTML = '';
-                cell.appendChild(select);
+                subjectCodeCell.innerHTML = '';
+                subjectCodeCell.appendChild(select);
 
                 select.addEventListener('change', function() {
                     selectedValue = select.value; // 선택된 값 가져오기
                     console.log('Selected value:', selectedValue);
-
-                });
-            } else if (cellId === 'detailSubjectCode') { // 세부 과목번호
-                const detailSubjectCodeValue = $('#detailSubjectCode').val();
-
-                const select = document.createElement('select'); 
-        		console.log(subDeList[0].subjectCode);
-        		
-                subDeList.forEach(subDetail => { 
-                    const option = document.createElement('option'); 
-
-                    if (selectedValue == subDetail.subjectCode) { 
-                        option.text = subDetail.detailSubjectName; 
-                        option.value = subDetail.detailSubjectCode; 
+                    
+                    // 세부 과목 코드
+                    const detailSubjectCodeCell = document.getElementById('detailSubjectCode');
+                    if (detailSubjectCodeCell) {
+                        const select = document.createElement('select');
+                        subDeList.forEach(subDetail => {
+                            const option = document.createElement('option');
+                            if (selectedValue == subDetail.subjectCode) {
+                                option.text = subDetail.detailSubjectName;
+                                option.value = subDetail.detailSubjectCode;
+                            }
+                            select.add(option);
+                        });
+                        detailSubjectCodeCell.innerHTML = '';
+                        detailSubjectCodeCell.appendChild(select);
                     }
-
-                    select.add(option); 
                 });
-
-                cell.innerHTML = ''; 
-                cell.appendChild(select); 
-                
-            } else if (cellId === 'lectureLevelCode') {
-	           	const select = document.createElement('select');
-	            const option1 = document.createElement('option');
-	            option1.text = 'option';
-	            select.add(option1);
-	
-	            // 기본 선택값 설정
-	            select.value = currentValue;
-	
-	            // 기존 요소를 select로 대체
-	            cell.innerHTML = '';
-	            cell.appendChild(select);
-            } else if (cellId === 'weekdaysCode') {
-	            const select = document.createElement('select');
-	            const option1 = document.createElement('option');
-	            option1.text = 'option';
-	            select.add(option1);
-	
-	            // 기본 선택값 설정
-	            select.value = currentValue;
-	
-	            // 기존 요소를 select로 대체
-	            cell.innerHTML = '';
-	            cell.appendChild(select);
-            } else if (cellId === 'timeCode') {    
-	            const select = document.createElement('select');
-	            const option1 = document.createElement('option');
-	            option1.text = 'option';
-	            select.add(option1);
-	
-	            // 기본 선택값 설정
-	            select.value = currentValue;
-	
-	            // 기존 요소를 select로 대체
-	            cell.innerHTML = '';
-	            cell.appendChild(select);
-            } else if (cellId === 'lectureStartDate' || cellId === 'lectureEndDate') {
-                // 날짜 입력 상자 생성
-                input.setAttribute('type', 'date');
-                input.setAttribute('value', ''); 
-                
-                // 기존 요소를 input으로 대체
-                cell.innerHTML = ''; 
-                cell.appendChild(input); 
-                
-            } else {
-                // 나머지는 기본 text 입력 상자
-                input.setAttribute('type', 'text');
-                input.setAttribute('value', ''); 
-                
-                // 기존 요소를 input으로 대체
-                cell.innerHTML = ''; 
-                cell.appendChild(input); 
             }
-        });
 
-        // 등록 저장 버튼 만들기
-        const upBtn = document.createElement('button');
-        upBtn.textContent = '등록';
-        upBtn.classList.add('btn', 'btn-primary', 'mt-3'); 
-        
-        const headDiv = document.getElementById('head');
-        headDiv.innerHTML = '';
-        headDiv.appendChild(upBtn);
-    }
+
+
+            // 수용 인원
+            const capacityCell = document.getElementById('capacity');
+            if (capacityCell) {
+                capacityCell.innerHTML = '<input type="text" id="capacity-input" name="capacity" />';
+            }
+
+            // 강의 레벨 코드
+            const lectureLevelCodeCell = document.getElementById('lectureLevelCode');
+            if (lectureLevelCodeCell) {
+                const select = document.createElement('select');
+                const option1 = document.createElement('option');
+                option1.text = 'option';
+                select.add(option1);
+                lectureLevelCodeCell.innerHTML = '';
+                lectureLevelCodeCell.appendChild(select);
+            }
+
+           	let day = ['월요일','화요일','수요일', '목요일', '금요일'];
+            // 강의 요일 코드
+            const weekdaysCodeCell = document.getElementById('weekdaysCode');
+            if (weekdaysCodeCell) {
+                weekdaysCodeCell.innerHTML = '';
+            	day.forEach(day =>{
+	                const input = document.createElement('input');
+	                input.type = 'checkbox';
+	                input.value = day;
 	
+	                const label = document.createElement('label');
+	                label.appendChild(input);
+	                label.appendChild(document.createTextNode(day));
+	
+	                weekdaysCodeCell.appendChild(label);
+            	})
+            }
+
+            // 강의 시간 코드
+            const timeCodeCell = document.getElementById('timeCode');
+			if (timeCodeCell) {
+			    const select = document.createElement('select');
+			    
+			    // timeCodeCell의 내용 초기화
+			    timeCodeCell.innerHTML = '';
+			
+			    for (let i = 10; i <= 22; i++) {
+			        const option = document.createElement('option');
+			        option.text = i + ', ' + (i + 1); // 시간 범위 설정
+			        select.appendChild(option); // select 요소에 option 추가
+			    }
+			
+			    timeCodeCell.appendChild(select); // timeCodeCell에 select 요소 추가
+			}
+
+            // 강의 시작 날짜
+            const lectureStartDateCell = document.getElementById('lectureStartDate');
+            if (lectureStartDateCell) {
+                lectureStartDateCell.innerHTML = '<input type="date" id="lectureStartDate-input" name="lectureStartDate" />';
+            }
+
+            // 강의 종료 날짜
+            const lectureEndDateCell = document.getElementById('lectureEndDate');
+            if (lectureEndDateCell) {
+                lectureEndDateCell.innerHTML = '<input type="date" id="lectureEndDate-input" name="lectureEndDate" />';
+            }
+
+            // 강사 번호
+            const instructorNumberCell = document.getElementById('instructorNumber');
+            if (instructorNumberCell) {
+                instructorNumberCell.innerHTML = '<input type="text" id="instructorNumber-input" name="instructorNumber" />';
+            }
+
+            // 등록 저장 버튼 만들기
+            const upBtn = document.createElement('button');
+            upBtn.textContent = '등록';
+            upBtn.classList.add('btn', 'btn-primary', 'mt-3');
+
+            const headDiv = document.getElementById('head');
+            headDiv.innerHTML = '';
+            headDiv.appendChild(upBtn);
+        }
+
 	//======================================================================
 	// 수정폼으로 변경 버튼
 	//======================================================================
@@ -344,4 +368,3 @@
 
 
 </html>
-
