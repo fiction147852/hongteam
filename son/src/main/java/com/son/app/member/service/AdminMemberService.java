@@ -10,5 +10,5 @@ public interface AdminMemberService {
 	public List<MemberVO> memberList();
 	
 	// 계정 단건 조회
-	public List<MemberVO> memberInfo(int idNumber, String auth);
+	public MemberVO memberInfo(int idNumber, String auth);
 }

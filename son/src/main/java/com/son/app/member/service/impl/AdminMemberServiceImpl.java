@@ -22,7 +22,7 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 	}
 
 	@Override
-	public List<MemberVO> memberInfo(int idNumber, String auth) {
+	public MemberVO memberInfo(int idNumber, String auth) {
 		MemberVO vo = new MemberVO();
 		vo.setIdNumber(idNumber);
 		vo.setAuth(auth);

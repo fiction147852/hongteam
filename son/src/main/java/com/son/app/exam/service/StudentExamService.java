@@ -12,4 +12,8 @@ public interface StudentExamService {
 
     // 시험 상세 정보
     public List<ExamInfoVO> examInfo(@Param("testNumber") Integer testNumber);
+
+    // 시험 결과
+    public void autoGradeExam(GradingResult gradingResultList);
+    public int modifyParticipateStatus(Integer participateNumber);
 }
