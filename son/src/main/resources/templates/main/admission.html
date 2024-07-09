@@ -1,15 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/layouts/main/main_layout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/main/main_layout}">
 <head>
 <meta charset="UTF-8">
-<title>DONGHAN SON</title><link rel="stylesheet" th:href="@{/css/security/main.css}"/>
+<title>DONGHAN SON</title>
 </head>
 
 <body>
-	<div layout:fragment="content">
-		
+	<div layout:fragment="content" style="margin-top: 50px;">
+		<form method="post" th:action="@{/loginProcess}">
+			<table>
+				<tr style="text-align:center;">
+					<td colspan="2"><h2>상담신청</h2></td>
+				</tr>
+				<tr>
+					<td>
+						<label>전화번호</label>
+						<input id="phone" type="text">
+					</td>
+					<td>
+						<input class="btn2" type="button" value="인증">
+					</td>
+				</tr>
+			</table>
+		</form>
 	</div>
 </body>
 </html>

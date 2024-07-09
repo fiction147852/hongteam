@@ -11,18 +11,28 @@
 body {
 	font-family: 'Roboto', sans-serif;
 }
+.card-text {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
 </style>
 <head>
 
-<title>선택 시험 생성</title>
+<title>선택 시험지 생성</title>
 
 </head>
 <body>
 	<div class="mx-auto bg-white p-8 rounded-lg shadow-lg mt-4">
-		<form
-			th:action="@{/instructor/{lectureNumber}/examCreate(lectureNumber=${lectureNumber})}"
+		<form name="insertForm"
+			th:action="@{paperSelectQuestions}"
 			method="post">
 			<input type="hidden" name="subjectCode" th:value="${subjectCode}" />
+			<input type="hidden" name="lectureNumber" th:value="${lectureNumber}" />
+			<input type="text" name="paperTitle" class="form-control mb-2 col-6 mx-auto" placeholder="시험지 제목을 입력하세요." required/>
+			<input type="text" name="producer" th:value="'제작자: ' + ${instructorName}" class="form-control mb-2 col-2 float-end" readonly/>
 			<div class="swiper">
 				<div class="swiper-wrapper mb-3">
 					<th:block th:each="qs : ${questions}">
@@ -37,26 +47,37 @@ body {
 												[[${qs.difficultyCode}]]</span>
 										</h6>
 										<div>
-											<input type="checkbox" name="selectedQuestions"
+											<input type="hidden" name="questionNumbers"
+												th:value="${qs.questionNumber}" /> <label>배점: </label> <input
+												type="number" name="scores" min="1" max="100" required
+												class="w-16 p-1 border border-gray-300 rounded mt-1 mr-1" />
+												<br><label>선택: </label>
+											<input class="mr-1" type="checkbox" name="selectedQuestions"
 												th:value="${qs.questionNumber}"
 												onclick="limitSelection(this)" />
 										</div>
 									</div>
+									<div class="card-body">
 									<div class="card-body bg-gray-100">
 										<h5 class="card-title text-center font-medium mb-2">출제자:
 											[[ ${qs.instructorName} ]]</h5>
 										<h6 class="card-subtitle">문제</h6>
 										<p class="card-text">[[ ${qs.text} ]]</p>
 									</div>
+									</div>
 								</div>
 							</div>
 						</div>
 					</th:block>
+						<div class="swiper-scrollbar"></div>
 				</div>
-				<div class="swiper-scrollbar"></div>
 			</div>
-			<button type="submit" class="btn btn-primary mt-3">시험 생성</button>
+			<div class="clearfix">
+			<button type="button" class="btn btn-danger mt-3 float-end" th:onclick="|location.href='@{/instructor/paperList}'|">취소</button>
+			<button type="submit" class="btn btn-info mt-3 mr-2 float-end">시험 생성</button>
+			</div>
 		</form>
+	</div>
 		<script src="/lms/js/question/qlist-slider.js"></script>
 
 		<script>
@@ -75,7 +96,6 @@ body {
 				}
 			}
 		</script>
-	</div>
 </body>
 </html>
 

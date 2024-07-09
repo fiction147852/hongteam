@@ -14,11 +14,11 @@ body {
 </style>
 <head>
 
-<title>시험 생성</title>
+<title>시험지 생성</title>
 
 </head>
 <body>
-	<form name="insertForm" th:action="@{/instructor/{lectureNumber}/examChoose(lectureNumber=${lectureNumber})}"
+	<form name="insertForm" th:action="@{/instructor/paperChoose}"
 			method="post">
 			<div class="card bg-white p-6 rounded-lg shadow-lg w-full max-w-xl mx-auto">
 				<div class="mb-4">
@@ -40,7 +40,7 @@ body {
 				</div>
 				<div class="flex justify-end space-x-2">
 					<button class="bg-blue-500 text-white px-4 py-2 rounded">확인</button>
-					<button class="bg-gray-300 text-gray-700 px-4 py-2 rounded">취소</button>
+					<button class="bg-gray-300 text-gray-700 px-4 py-2 rounded" th:onclick="|location.href='@{/instructor/paperList}'|">취소</button>
 				</div>
 			</div>
 		</form>

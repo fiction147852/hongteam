@@ -53,7 +53,7 @@ public class InstructorExamController {
 	    } else if ("auto".equals(type)) {
 	        return "redirect:/instructor/" + lectureNumber + "/examAutoGenerate?subjectCode=" + subjectCode;
 	    } else {
-	        return "redirect:/instructor/" + lectureNumber + "/examInsert";
+	        return "redirect:/instructor/" + lectureNumber + "/examChoose";
 	    }
 	}
 	

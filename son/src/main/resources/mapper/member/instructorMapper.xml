@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.son.app.member.mapper.InstructorMapper">
+	<select id="findByUsername" resultType="InstructorVO">
+        SELECT instructor_number,
+        	   name,
+        	   email,
+        	   address,
+        	   phone,
+        	   subject_code,
+        	   password,
+        	   final_education 
+        FROM instructor 
+        WHERE name = #{name}
+    </select>
+
+</mapper>
