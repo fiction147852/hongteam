@@ -11,8 +11,8 @@ public interface AdminLectureService {
 
 	public List<LectureSubjectDetailVO> adminLectureSubjectDetailList();
 
-	public LectureVO adminLectureInsert(LectureVO lectureVO);
+	public int adminLectureInsert(LectureVO lectureVO);
 
-	public LectureStudentVO adminLectureStudInfo(Integer lectureNumber);
+	public List<LectureStudentVO> adminLectureStudInfo(Integer lectureNumber);
 
 }
