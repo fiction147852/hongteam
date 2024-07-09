@@ -14,7 +14,7 @@
 		</a>
 			<div class="collapse" id="ui-basic">
 				<ul class="nav flex-column sub-menu">
-					<li class="nav-item" th:each="child : ${parent}"><a
+					<li class="nav-item" th:each="child : ${session.parent}"><a
 						class="nav-link" th:href="@{'/parent/' + ${child.studentNumber}}">[[${child.name}]]</a>
 					</li>
 				</ul>

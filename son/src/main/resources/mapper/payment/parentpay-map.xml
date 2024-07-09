@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.son.app.payment.mapper.ParentPayMapper">
 
-    <!-- 학부모의 학생정보 전체조회 -->
-    <select id="ParentPayInfoAll" resultType="PaymentVO">
+    <!-- 학부모의 학생 결제할 강의 전체조회 -->
+    <select id="lecturePayList" resultType="ParentPayVO">
 
     </select>
 

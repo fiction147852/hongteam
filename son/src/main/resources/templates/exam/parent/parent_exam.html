@@ -6,39 +6,43 @@
 <head>
     <link rel="stylesheet" th:href="@{/css/student/exam/examList.css}">
     <link rel="stylesheet" th:href="@{/css/student/exam/modalAndSwiper.css}">
-    <script th:inline="javascript">let studentNumber = [[${studentNumber}]];</script>
-    <script th:src="@{/js/exam/parent/childexam.js}"></script>
 </head>
 <body>
     <div layout:fragment="content">
         <div id="examListHeader">
             <h4>시험</h4>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="table-responsive pt-2"
-                         style="padding-top: 0 !important;">
-                        <table class="table table-striped project-orders-table">
-                            <thead class="custom-thead">
-                                <tr>
-                                    <th>번호</th>
-                                    <th>시험명</th>
-                                    <th>응시일</th>
-                                    <th>제한 시간</th>
-                                    <th>점수</th>
-                                    <th>응시 여부</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tbody__exam-list">
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="d-flex justify-content-center" style="margin-top: 30px;">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="table-responsive pt-2"
+						style="padding-top: 0 !important;">
+						<table class="table table-striped project-orders-table">
+							<thead class="custom-thead">
+								<tr>
+									<th>번호</th>
+									<th>시험명</th>
+									<th>응시일</th>
+									<th>점수</th>
+									<th>응시 여부</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="examInfo : ${exam}">
+									<td th:text="${examInfoStat.index + 1}"></td>
+									<td th:text="${examInfo.testTitle}"></td>
+									<td th:text="${examInfo.examDate}"></td>
+									<td th:text="${examInfo.totalScore == null ? 'X' :
+										examInfo.totalScore}"></td>
+									<td><span th:text="${examInfo.participateStatus}"></span></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="d-flex justify-content-center" style="margin-top: 30px;">
             <nav aria-label="Page navigation">
                 <ul id="pagination" class="pagination"></ul>
             </nav>
