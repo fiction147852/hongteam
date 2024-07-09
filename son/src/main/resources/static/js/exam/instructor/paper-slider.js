@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	// 슬라이드의 동작과 설정을 제어할 수 있는 Swiper 객체
 	const swiper = new Swiper('.swiper', {
-
+		
 		// 슬라이드 화면에 마우스 커서를 올렸을 때 손 모양 커서로 변경할지 여부를 설정하는 속성
 		grabCursor: true,
 

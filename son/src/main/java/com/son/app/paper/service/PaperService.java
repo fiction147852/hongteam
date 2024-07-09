@@ -14,4 +14,8 @@ public interface PaperService {
 	List<QuestionVO> getQuestionsBySubject(String subjectCode);
     List<QuestionVO> generatePaperBySubject(String subjectCode);
     int createPaper(List<Integer> questionNumbers, List<Integer> scores, String paperTitle, String producer);
+    
+    void deletePaper(int paperNumber);
+    
+    public PaperVO getPaperByNumber(int paperNumber);
 }

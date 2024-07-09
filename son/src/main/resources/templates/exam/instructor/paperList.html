@@ -61,5 +61,23 @@
 	</div>
 </body>
 
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    document.addEventListener('DOMContentLoaded', function() {
+        var message = /*[[${message}]]*/ null;
+        var alertType = /*[[${alertType}]]*/ null;
+        
+        if (message) {
+            Swal.fire({
+                title: alertType === 'success' ? '성공' : '오류',
+                text: message,
+                icon: alertType,
+                confirmButtonText: '확인'
+            });
+        }
+    });
+    /*]]>*/
+</script>
+
 </html>
 

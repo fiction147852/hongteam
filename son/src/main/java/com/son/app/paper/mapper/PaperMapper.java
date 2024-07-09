@@ -2,6 +2,7 @@ package com.son.app.paper.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 
 import com.son.app.paper.service.PaperVO;
@@ -25,6 +26,7 @@ public interface PaperMapper {
 														    );
     
     // 시험지 정보 삽입
+    @Options(useGeneratedKeys = true, keyProperty = "paperNumber")
     int insertPaper(PaperVO paperVO);
     
     // 시험지-문제 연결 정보 삽입
@@ -33,4 +35,7 @@ public interface PaperMapper {
 					        @Param("questionNumber") int questionNumber,
 					        @Param("score") int score
 					    );
+    
+    void deletePaperContent(int paperNumber);
+    void deletePaper(int paperNumber);
 }
