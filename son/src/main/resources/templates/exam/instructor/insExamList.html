@@ -19,9 +19,8 @@
 							<tr>
 								<th>번호</th>
 								<th>제목</th>
-								<th>출제일</th>
-								<th>시행일</th>
 								<th>제한시간</th>
+								<th>시행일</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -30,11 +29,10 @@
 									th:onclick="|location.href='@{/instructor/{lectureNumber}/examInfo(examNumber=${exams.testNumber}, lectureNumber=${lectureNumber})}'|">
 									<td>[[ ${exams.testNumber} ]]</td>
 									<td>[[ ${exams.testTitle} ]]</td>
-									<td>[[ ${#dates.format(exams.examinationDate, 'yyyy년 MM월
-										dd일')} ]]</td>
+									
+									<td>[[ ${exams.limitTime} ]]분</td>
 									<td>[[ ${#dates.format(exams.examDate, 'yyyy년 MM월 dd일')}
 										]]</td>
-									<td>[[ ${exams.limitTime} ]]분</td>
 								</tr>
 							</th:block>
 						</tbody>

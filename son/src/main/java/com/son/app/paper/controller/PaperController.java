@@ -1,17 +1,19 @@
 package com.son.app.paper.controller;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.son.app.member.service.InstructorService;
 import com.son.app.member.service.InstructorVO;
@@ -26,12 +28,15 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class PaperController {
-	private static final Logger logger = LoggerFactory.getLogger(PaperController.class);
 	@Autowired
 	PaperService paperService;
 	
 	@Autowired
 	InstructorService instructorService;
+	
+	private static final Logger logger = LoggerFactory.getLogger(PaperController.class);
+	String encodedErrorMessageforScore = URLEncoder.encode("총 배점은 정확히 100점이어야 합니다.", StandardCharsets.UTF_8);
+	String encodedErrorMessageforTitle = URLEncoder.encode("시험지 제목을 입력해주세요.", StandardCharsets.UTF_8);
 	
 	@GetMapping("instructor/paperList")
 	public String paperList(@RequestParam(defaultValue = "1") int page,
@@ -95,11 +100,15 @@ public class PaperController {
             model.addAttribute("error", "최대 20개의 문제만 선택할 수 있습니다.");
             return "redirect:paperSelectQuestions?subjectCode=" + subjectCode;
         }
+        
+        if (paperTitle == null || paperTitle.trim().isEmpty()) {
+            return "redirect:paperSelectQuestions?subjectCode=" + subjectCode + "&error=" + encodedErrorMessageforTitle;
+        }
 
         int totalScore = scores.stream().mapToInt(Integer::intValue).sum();
-        if (totalScore > 100) {
-            model.addAttribute("error", "총 배점은 100점을 초과할 수 없습니다.");
-            return "redirect:paperSelectQuestions?subjectCode=" + subjectCode;
+        if (totalScore != 100) {
+            model.addAttribute("error", "총 배점은 정확히 100점이어야 합니다.");
+            return "redirect:paperSelectQuestions?subjectCode=" + subjectCode + "&error=" + encodedErrorMessageforScore;
         }
 
         int paperId = paperService.createPaper(selectedQuestions, scores, paperTitle, producer);
@@ -135,15 +144,32 @@ public class PaperController {
                                   @RequestParam String producer,
                                   Model model) {
     	log.info("paperTitle: {}, producer: {}", paperTitle, producer);
-        int totalScore = scores.stream().mapToInt(Integer::intValue).sum();
-        if (totalScore > 100) {
-            model.addAttribute("error", "총 배점은 100점을 초과할 수 없습니다.");
-            return "redirect:autoGenerate?subjectCode=" + subjectCode;
+    	// paperTitle이 비어있는지 검사
+        if (paperTitle == null || paperTitle.trim().isEmpty()) {
+            return "redirect:paperAutoGenerate?subjectCode=" + subjectCode + "&error=" + encodedErrorMessageforTitle;
         }
+        
+        int totalScore = scores.stream().mapToInt(Integer::intValue).sum();
+        if (totalScore != 100) {
+            model.addAttribute("error", "총 배점은 정확히 100점이어야 합니다.");
+            return "redirect:paperAutoGenerate?subjectCode=" + subjectCode + "&error=" + encodedErrorMessageforScore;
+        }	
 
         int paperId = paperService.createPaper(questionNumbers, scores, paperTitle, producer);
 
         return "redirect:paperList";
     }
 	
+    @PostMapping("/instructor/deletePaper")
+    public String deletePaper(@RequestParam int paperNumber, RedirectAttributes redirectAttributes) {
+        try {
+            paperService.deletePaper(paperNumber);
+            redirectAttributes.addFlashAttribute("alertType", "success");
+            redirectAttributes.addFlashAttribute("message", "시험지가 성공적으로 삭제되었습니다.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("alertType", "error");
+            redirectAttributes.addFlashAttribute("message", "시험지 삭제 중 오류가 발생했습니다.");
+        }
+        return "redirect:/instructor/paperList";
+    }
 }

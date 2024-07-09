@@ -4,18 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.son.app.page.PageVO;
+import com.son.app.paper.controller.PaperController;
 import com.son.app.paper.mapper.PaperMapper;
 import com.son.app.paper.service.PaperService;
 import com.son.app.paper.service.PaperVO;
 import com.son.app.question.service.QuestionVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class PaperServiceImpl implements PaperService {
-	
+	private static final Logger logger = LoggerFactory.getLogger(PaperController.class);
 	@Autowired
 	PaperMapper paperMapper;
 
@@ -69,12 +76,27 @@ public class PaperServiceImpl implements PaperService {
         paper.setPaperTitle(paperTitle);
         paper.setProducer(producer);
 
-        int paperNumber = paperMapper.insertPaper(paper);
+        paperMapper.insertPaper(paper);
+        int paperNumber = paper.getPaperNumber();
+        logger.info("Created paper with number: {}", paperNumber);
 
         for (int i = 0; i < questionNumbers.size(); i++) {
+        	logger.info("Inserting question {} with score {} for paper {}", questionNumbers.get(i), scores.get(i), paperNumber);
             paperMapper.insertPaperQuestion(paperNumber, questionNumbers.get(i), scores.get(i));
         }
 
         return paperNumber;
+    }
+    
+    @Override
+    @Transactional
+    public void deletePaper(int paperNumber) {
+        paperMapper.deletePaperContent(paperNumber);
+        paperMapper.deletePaper(paperNumber);
+    }
+    
+    @Override
+    public PaperVO getPaperByNumber(int paperNumber) {
+        return paperInfo(paperNumber);  // 기존의 paperInfo 메소드를 활용
     }
 }

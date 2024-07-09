@@ -32,7 +32,7 @@ body {
 			<input type="hidden" name="subjectCode" th:value="${subjectCode}" />
 			<input type="hidden" name="lectureNumber" th:value="${lectureNumber}" />
 			<input type="text" name="paperTitle" class="form-control mb-2 col-6 mx-auto" placeholder="시험지 제목을 입력하세요." required/>
-			<input type="text" name="producer" th:value="'제작자: ' + ${instructorName}" class="form-control mb-2 col-2 float-end" readonly/>
+			<input type="text" name="producer" th:value="${instructorName}" class="form-control mb-2 col-2 float-end" readonly/>
 			<div class="swiper">
 				<div class="swiper-wrapper mb-3">
 					<th:block th:each="qs : ${questions}">
@@ -49,7 +49,7 @@ body {
 										<div>
 											<input type="hidden" name="questionNumbers"
 												th:value="${qs.questionNumber}" /> <label>배점: </label> <input
-												type="number" name="scores" min="1" max="100" required
+												type="number" name="scores" min="1" max="100"
 												class="w-16 p-1 border border-gray-300 rounded mt-1 mr-1" />
 												<br><label>선택: </label>
 											<input class="mr-1" type="checkbox" name="selectedQuestions"
@@ -79,8 +79,8 @@ body {
 		</form>
 	</div>
 		<script src="/lms/js/question/qlist-slider.js"></script>
-
-		<script>
+		<script th:inline="javascript">
+		/*<![CDATA[*/
 			function limitSelection(checkbox) {
 				var checkboxes = document
 						.getElementsByName('selectedQuestions');
@@ -95,6 +95,18 @@ body {
 					alert('최대 20개의 문제만 선택할 수 있습니다.');
 				}
 			}
+			
+		    document.addEventListener('DOMContentLoaded', function() {
+		        var errorMessage = new URLSearchParams(window.location.search).get('error');
+		        if (errorMessage) {
+		            Swal.fire({
+		                icon: 'error',
+		                title: '오류',
+		                text: decodeURIComponent(errorMessage)
+		            });
+		        }
+		    });
+		    /*]]>*/
 		</script>
 </body>
 </html>

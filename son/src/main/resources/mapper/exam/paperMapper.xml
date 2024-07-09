@@ -115,9 +115,9 @@
     ]]>
   </select>
   
-  <insert id="insertPaper" parameterType="PaperVO">
+  <insert id="insertPaper" parameterType="PaperVO" useGeneratedKeys="true" keyProperty="paperNumber">
   <selectKey keyProperty="paperNumber" resultType="int" order="BEFORE">
-			SELECT NVL(MAX(paper_number), 0) + 1 FROM paper
+			SELECT paper_num_seq.NEXTVAL FROM DUAL
 	</selectKey>
     INSERT INTO paper 
     		(
@@ -150,5 +150,17 @@
     	#{score}
     	)
   </insert>
+  
+  <delete id="deletePaperContent">
+    DELETE 
+    FROM paper_content 
+    WHERE paper_number = #{paperNumber}
+  </delete>
+
+  <delete id="deletePaper">
+    DELETE 
+    FROM paper 
+    WHERE paper_number = #{paperNumber}
+  </delete>
 
 </mapper>

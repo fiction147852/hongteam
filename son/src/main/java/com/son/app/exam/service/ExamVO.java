@@ -16,7 +16,8 @@ public class ExamVO {
     private Date examinationDate;
     private Integer limitTime; //Duration 사용시 핸들러나 컨버터를 구현
     
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
+    @JsonFormat(pattern = "yyyy/MM/dd")
     private Date examDate;
     
     private Integer paperNumber;

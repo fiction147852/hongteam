@@ -33,7 +33,7 @@ body {
 			<input type="text" name="paperTitle"
 				class="form-control mb-2 col-6 mx-auto" placeholder="시험지 제목을 입력하세요."
 				required /> <input type="text" name="producer"
-				th:value="'출제자: ' + ${instructorName}" class="form-control mb-2 col-2 float-end"
+				th:value="${instructorName}" class="form-control mb-2 col-2 float-end"
 				readonly />
 			<div class="swiper">
 				<div class="swiper-wrapper mb-3">
@@ -79,6 +79,20 @@ body {
 		</form>
 	</div>
 	<script src="/lms/js/question/qlist-slider.js"></script>
+	<script th:inline="javascript">
+    /*<![CDATA[*/
+    document.addEventListener('DOMContentLoaded', function() {
+        var errorMessage = new URLSearchParams(window.location.search).get('error');
+        if (errorMessage) {
+            Swal.fire({
+                icon: 'error',
+                title: '오류',
+                text: decodeURIComponent(errorMessage)
+            });
+        }
+    });
+    /*]]>*/
+</script>
 </body>
 </html>
 
