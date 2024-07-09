@@ -37,7 +37,7 @@
 		WHERE lecture_number = #{lectureNumber}
 	</select>
 	
-	<insert id="adminLectureInsertInfo" parameterType="LectureVO">
+	<insert id="adminLectureInsertInfo" parameterType="lectureVO">
 		INSERT INTO lecture
 		(
 		    lecture_number,      
@@ -94,6 +94,6 @@
 		        , phone
 		        , birth
 		FROM lecture_student
-		WHERE lecture_number = #{lectureNumber};
+		WHERE lecture_number = #{lectureNumber}
 	</select>
 </mapper>

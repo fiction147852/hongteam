@@ -29,7 +29,7 @@ public class AdminLectureServiceImpl implements AdminLectureService {
 	}
 
 	@Override
-	public LectureVO adminLectureInsert(LectureVO lectureVO) {
+	public int adminLectureInsert(LectureVO lectureVO) {
 		return adminLectureMapper.adminLectureInsertInfo(lectureVO);
 	}
 
@@ -44,7 +44,7 @@ public class AdminLectureServiceImpl implements AdminLectureService {
 	}
 
 	@Override
-	public LectureStudentVO adminLectureStudInfo(Integer lectureNumber) {
+	public List<LectureStudentVO> adminLectureStudInfo(Integer lectureNumber) {
 		return adminLectureMapper.adminLectureStudentList(lectureNumber);
 	}
 

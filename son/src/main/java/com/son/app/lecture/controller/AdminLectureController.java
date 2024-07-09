@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.son.app.lecture.service.AdminLectureService;
@@ -45,10 +46,10 @@ public class AdminLectureController {
 	
 	@ResponseBody
 	@PostMapping("admin/adminLectureInsert")
-	public LectureVO adminLectureInsert(LectureVO lectureVO) {
-		LectureVO adminLecInsert = adminLectureService.adminLectureInsert(lectureVO);
+	public int adminLectureInsert(@RequestBody LectureVO lectureVO) {
+		adminLectureService.adminLectureInsert(lectureVO);
 		
-		return adminLecInsert;
+		return 1;
 	}
 	
 //	@GetMapping("admin/adminLectureSubjectList")
@@ -60,8 +61,8 @@ public class AdminLectureController {
 	
 	@ResponseBody
 	@GetMapping("admin/adminLectureStudentList")
-	public LectureStudentVO adminLectureStudentList(Integer lectureNumber) {
-		LectureStudentVO lecStuList = adminLectureService.adminLectureStudInfo(lectureNumber);
+	public List<LectureStudentVO> adminLectureStudentList(Integer lectureNumber) {
+		List<LectureStudentVO> lecStuList = adminLectureService.adminLectureStudInfo(lectureNumber);
 		return lecStuList;
 	}
 	

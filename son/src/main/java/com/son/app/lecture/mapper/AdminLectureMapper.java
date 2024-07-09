@@ -12,11 +12,11 @@ public interface AdminLectureMapper {
 	
 	public LectureVO adminLectureSelectInfo(Integer lectureNumber);
 
-	public LectureVO adminLectureInsertInfo(LectureVO lectureVO);
+	public int adminLectureInsertInfo(LectureVO lectureVO);
 
 	public List<LectureSubjectVO> adminLectureSubjectList();
 
 	public List<LectureSubjectDetailVO> adminLectureSubjectDetailList();
 
-	public LectureStudentVO adminLectureStudentList(Integer lectureNumber);
+	public List<LectureStudentVO> adminLectureStudentList(Integer lectureNumber);
 }

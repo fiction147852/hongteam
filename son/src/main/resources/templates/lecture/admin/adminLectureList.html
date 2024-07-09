@@ -65,40 +65,49 @@
 	</div>
 
 	<!-- 강의 정보 모달 창 -->
-	<div class="modal fade" id="lectureInfoModal" tabindex="-1"
-		aria-labelledby="lectureInfoModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="lectureInfoModalLabel">학생 명단</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th>학생 번호</th>
-								<th>이름</th>
-								<th>이메일</th>
-								<th>전화번호</th>
-								<th>생년월일</th>
-							</tr>
-						</thead>
-						<tbody>
-
-
-
-						</tbody>
-					</table>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">닫기</button>
-				</div>
-			</div>
-		</div>
-	</div>
+	<div class="modal fade" id="lectureInfoModal" tabindex="-1" aria-labelledby="lectureInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="lectureInfoModalLabel">학생 명단</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-10">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>학생 번호</th>
+                                    <th>이름</th>
+                                    <th>이메일</th>
+                                    <th>전화번호</th>
+                                    <th>생년월일</th>
+                                </tr>
+                            </thead>
+                            <tbody id="">
+                            	
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                            <label for="searchId" class="form-label">학생 번호 검색</label>
+                            <input type="text" class="form-control" id="searchId">
+                        </div>
+                        <div class="mb-3">
+                            <label for="searchName" class="form-label">이름</label>
+                            <input type="text" class="form-control" id="searchName" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 	<!-- 강의 등록 모달 창 -->
 	<div class="modal fade" id="lectureRegisterModal" tabindex="-1"
@@ -227,8 +236,6 @@ const lecStuList = /*[[${lecStuList}]]*/"";
 			}
 	    })
 	}
-
-
 
 	function infoClick(lectureNumber) {
 	    console.log(lectureNumber);
@@ -389,10 +396,10 @@ const lecStuList = /*[[${lecStuList}]]*/"";
 		        // AJAX 요청
 		        $.ajax({
 		            type: 'post',
-		            url: 'adminLectureInsert', // 데이터를 주고받을 파일 주소 입력
+		            url: 'adminLectureInsert', 
 		            data: JSON.stringify(param),
 		            contentType: 'application/json; charset=utf-8',
-		            dataType: 'json', // JSON 형식으로 받기
+		            dataType: 'json', 
 		            success: function(result){
 		                console.log('서버 응답:', result);
 		                // 성공 시 모달 창 닫기 또는 추가 작업 수행
