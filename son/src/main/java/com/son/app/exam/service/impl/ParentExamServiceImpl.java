@@ -17,8 +17,8 @@ public class ParentExamServiceImpl implements ParentExamService{
     private ParentExamMapper parentExamMapper;
 
     @Override
-    public List<ParentChildExamVO> childexamList(Integer lectureNumber, String testTitle, String participateStatus , int startRow, int endRow) {
-        return parentExamMapper.childExamList(lectureNumber, testTitle, participateStatus, startRow, endRow);
+    public List<ParentChildExamVO> childexamList(Integer studentNumber, Integer lectureNumber) {
+		return parentExamMapper.childExamList(studentNumber, lectureNumber);
     }
 
     @Override

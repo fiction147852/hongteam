@@ -13,8 +13,7 @@ import com.son.app.exam.service.ParentChildExamVO;
 public interface ParentExamMapper {
 
     // 시험 목록
-	public List<ParentChildExamVO> childExamList(Integer studentNumber, String testTitle, String participateStatus,
-			int startRow, int endRow);
+	public List<ParentChildExamVO> childExamList(Integer studentNumber, Integer lectureNumber);
 	
     public int studentExamCount(@Param("lectureNumber") Integer lectureNumber, @Param("testTitle") String testTitle, @Param("participateStatus") String participateStatus);
 

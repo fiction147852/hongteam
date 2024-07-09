@@ -26,20 +26,19 @@ public class ParentExamController {
 	ParentExamService parentExamService;
 
 	
-    @GetMapping("parent/{studentNumber}/exam")
-    public String childexamListPage(@PathVariable Integer studentNumber, Model model) {
-        model.addAttribute("studentNumber", studentNumber);
-
+	/*
+	 * @GetMapping("parent/{studentNumber}/exam") public String
+	 * childexamListPage(@PathVariable Integer studentNumber, Model model) {
+	 * model.addAttribute("studentNumber", studentNumber);
+	 * 
+	 * return "exam/parent/parent_exam"; }
+	 */
+	
+    @GetMapping("parent/{studentNumber}/{lectureNumber}/exam")
+    public String childexamList(@PathVariable Integer studentNumber,@PathVariable Integer lectureNumber, Model model) {
+    	List<ParentChildExamVO> list = parentExamService.childexamList(studentNumber, lectureNumber);
+    	model.addAttribute("exam", list);
         return "exam/parent/parent_exam";
-    }
-
-    @GetMapping("parent/{studentNumber}/exam/list")
-    @ResponseBody
-    public List<ParentChildExamVO> childexamList(@PathVariable Integer studentNumber, @RequestParam(required = false) String testTitle, @RequestParam(required = false) String participateStatus, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "5") int pageSize) {
-        int startRow = (page - 1) * pageSize + 1;
-        int endRow = page * 5;
-
-        return parentExamService.childexamList(studentNumber, testTitle, participateStatus, startRow, endRow);
     }
 
     @GetMapping("/parent/{studentNumber}/exam/count")

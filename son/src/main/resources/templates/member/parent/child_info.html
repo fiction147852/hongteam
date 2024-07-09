@@ -1,0 +1,16 @@
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/child_layout}"
+	layout:fragment="Content">
+<head>
+    <link rel="stylesheet" th:href="@{/css/student/calendar.css}"/>
+    <script th:src="@{/js/member/childcalendar.js}"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <div id="calendar">
+    </div>
+</div>
+</body>
+</html>
+
