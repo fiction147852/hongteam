@@ -15,7 +15,7 @@
 	</select>
 
 	<select id="adminLectureSelectInfo" resultType="LectureVO">
-		SELECT lecture_number,          <!-- 강의 번호 -->
+		SELECT lecture_number,           <!-- 강의 번호 -->
 			lecture_title,              <!-- 강의 제목 -->
 			lecture_description,        <!-- 강의 설명 -->
 			subject_code,               <!-- 과목 코드 -->
@@ -30,54 +30,6 @@
 			instructor_number           <!-- 강사 번호 -->
 		FROM lecture
 		WHERE lecture_number = #{lectureNumber}
-	</select>
-	
-	<insert id="adminLectureInsertInfo" parameterType="LectureVO">
-		INSERT INTO lecture
-		(
-		    lecture_number,      
-		    lecture_title,           
-		    lecture_description,     
-		    subject_code,            
-		    detail_subject_code,     
-		    lecture_cost,            
-		    lecture_level_code,     
-		    weekdays_code,           
-		    time_code,               
-		    lecture_start_date,     
-		    lecture_end_date,        
-		    capacity,                
-		    instructor_number        
-		)
-		VALUES
-		(
-		    lecture_number = #{lectureNumber},         
-		    lecture_title = #{lectureTitle},           
-		    lecture_description = #{lectureDescription},     
-		    subject_code = #{subjectCode},            
-		    detail_subject_code = #{detailSubjectCode},     
-		    lecture_cost = #{lectureCost},            
-		    lecture_level_code = #{lectureLevelCode},      
-		    weekdays_code = #{weekdaysCode},           
-		    time_code = #{timeCode},              
-		    lecture_start_date = #{lectureStartDate},     
-		    lecture_end_date = #{lectureEndDate},        
-		    capacity = #{capacity},               
-		    instructor_number = #{instructorNumber}   
-		);
-	</insert>
-	
-	<select id="adminLectureSubjectList" resultType="LectureSubjectVO">
-		SELECT subject_name,
-    		   subject_code
-		FROM subject
-	</select>
-	
-	<select id="adminLectureSubjectDetailList" resultType="LectureSubjectDetailVO">
-		SELECT detail_subject_name,
-    		   detail_subject_code,
-    		   subject_code
-		FROM detail_subject
 	</select>
 
 
