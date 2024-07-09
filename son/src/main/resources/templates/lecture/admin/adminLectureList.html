@@ -6,29 +6,12 @@
 <head>
 
 <title>강의 목록</title>
-<style>
-#head {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
 
-#insBtn {
-	float: left;
-}
-#upBtn {
-	float: left;
-}
-
-#lectureInfoTable td input[type="text"] {
-	width: 100%; /* 입력 필드를 셀에 꽉 채우기 */
-}
-</style>
 </head>
 
 <body>
 	<div class="row">
-		<div class="col-md-7">
+		<div class="col-md-6">
 			<div class="card">
 				<div class="table-responsive pt-3">
 					<table class="table table-striped project-orders-table">
@@ -46,14 +29,12 @@
 						</thead>
 						<tbody>
 							<th:block th:each="lecs : ${adminLecList}">
-								<tr
-									th:onclick="infoClick(lectureNumber=[[${lecs.lectureNumber}]])">
+								<tr th:onclick="infoClick(lectureNumber=[[${lecs.lectureNumber}]])">
 									<td th:text="${lecs.lectureNumber}">
 									<td th:text="${lecs.lectureTitle}">
 									<td th:text="${lecs.lectureDescription}">
 									<td th:text="${lecs.subjectCode}">
 									<td th:text="${lecs.lectureCost}">
-									
 									<td
 										th:text="${#dates.format(lecs.lectureStartDate, 'yyyy-MM-dd')}">
 									<td
@@ -65,70 +46,67 @@
 					</table>
 				</div>
 			</div>
-			<button type="button" class="btn btn-primary mt-3 float-end"
-				th:onclick="insertClick()" id="insBtn">강의 등록</button>
+			<button type="button" class="btn btn-primary mt-3 float-end" 
+					th:onclick="insertClick()">강의 등록</button>
 		</div>
-		<div class="col-md-5">
+		<div class="col-md-6">
 			<div class="card">
 				<div class="table-responsive pt-3">
-						<h2>강의 정보</h2>
-					<div id="head">
-					
-					</div>
-					<table id="lectureInfoTable" class="table">
-						<tr>
-							<th id="lectureNumber-name">강의 번호</th>
-							<td id="lectureNumber"></td>
-						</tr>
-						<tr>
-							<th id="lectureTitle-name">강의 제목</th>
-							<td id="lectureTitle"></td>
-						</tr>
-						<tr>
-							<th id="lectureDescription-name">강의 설명</th>
-							<td id="lectureDescription"></td>
-						</tr>
-						<tr>
-							<th id="lectureCost-name">강의 비용</th>
-							<td id="lectureCost"></td>
-						</tr>
-						<tr>
-							<th id="subjectCode-name">과목 코드</th>
-							<td id="subjectCode"></td>
-						</tr>
-						<tr>
-							<th id="detailSubjectCode-name">세부 과목 코드</th>
-							<td id="detailSubjectCode"></td>
-						</tr>
-						<tr>
-							<th id="capacity-name">수용 인원</th>
-							<td id="capacity"></td>
-						</tr>
-						<tr>
-							<th id="lectureLevelCode-name">강의 레벨 코드</th>
-							<td id="lectureLevelCode"></td>
-						</tr>
-						<tr>
-							<th id="weekdaysCode-name">강의 요일 코드</th>
-							<td id="weekdaysCode"></td>
-						</tr>
-						<tr>
-							<th id="timeCode-name">강의 시간 코드</th>
-							<td id="timeCode"></td>
-						</tr>
-						<tr>
-							<th id="lectureStartDate-name">강의 시작 날짜</th>
-							<td id="lectureStartDate"></td>
-						</tr>
-						<tr>
-							<th id="lectureEndDate-name">강의 종료 날짜</th>
-							<td id="lectureEndDate"></td>
-						</tr>
-						<tr>
-							<th id="instructorNumber-name">강사 번호</th>
-							<td id="instructorNumber"></td>
-						</tr>
-					</table>
+						<table id="lectureInfoTable" class="table">
+						<h2>강의정보</h2>
+							<tr>
+								<th id="lectureNumber-name">강의 번호</th>
+								<td id="lectureNumber"></td>
+							</tr>
+							<tr>
+								<th id="lectureTitle-name">강의 제목</th>
+								<td id="lectureTitle"></td>
+							</tr>
+							<tr>
+								<th id="lectureDescription-name">강의 설명</th>
+								<td id="lectureDescription"></td>
+							</tr>
+							<tr>
+								<th id="lectureCost-name">강의 비용</th>
+								<td id="lectureCost"></td>
+							</tr>
+							<tr>
+								<th id="subjectCode-name">과목 코드</th>
+								<td id="subjectCode"></td>
+							</tr>
+							<tr>
+								<th id="detailSubjectCode-name">세부 과목 코드</th>
+								<td id="detailSubjectCode"></td>
+							</tr>
+							<tr>
+								<th id="capacity-name">수용 인원</th>
+								<td id="capacity"></td>
+							</tr>
+							<tr>
+								<th id="lectureLevelCode-name">강의 레벨 코드</th>
+								<td id="lectureLevelCode"></td>
+							</tr>
+							<tr>
+								<th id="weekdaysCode-name">강의 요일 코드</th>
+								<td id="weekdaysCode"></td>
+							</tr>
+							<tr>
+								<th id="timeCode-name">강의 시간 코드</th>
+								<td id="timeCode"></td>
+							</tr>
+							<tr>
+								<th id="lectureStartDate-name">강의 시작 날짜</th>
+								<td id="lectureStartDate"></td>
+							</tr>
+							<tr>
+								<th id="lectureEndDate-name">강의 종료 날짜</th>
+								<td id="lectureEndDate"></td>
+							</tr>
+							<tr>
+								<th id="instructorNumber-name">강사 번호</th>
+								<td id="instructorNumber"></td>
+							</tr>
+						</table>
 				</div>
 			</div>
 		</div>
@@ -146,199 +124,21 @@
 	    	success :function(response){
 			    console.log(lectureNumber);
 			    Object.keys(response).forEach((key, idx) => {
-			    	//값 하나씩 비교해서넣기
 					if (document.getElementById(key)){
-						document.getElementById(key).innerText = response[key];
+					document.getElementById(key).innerText = response[key];
 					}
-					
-			    	//날짜포맷인경우 바꿔주기
-					if (key === 'lectureStartDate' || key === 'lectureEndDate') {
-                        //let date = new Date(response[key]);
-                        let formattedDate = response[key].split('T')[0]; // 'yyyy-MM-dd' 형식으로 포맷
-                        document.getElementById(key).innerText = formattedDate;
-                    }
 				});
-			    var updateBtn = `	<button id="insBtn"  onclick="updateClick()"
-							class="btn btn-primary mt-3 float-end">수정</button>`
-			    const head = document.querySelector("#head");
-			    head.innerHTML =  updateBtn;
 	    	},
 			error : function(xhr, status, error) {
 				console.error('Error fetching member info:', error);
 			}
+	    	
+	    	
 	    })
 	}
-	
-	//======================================================================
-	// 등록 버튼 생성
-	//======================================================================
-		
-	const subList = /*[[${lecSublist}]]*/[];
-	const subDeList = /*[[${lecSubDeList}]]*/[];
-	let selectedValue ="";
+
 	function insertClick(){
-
-        const tableCell = document.querySelectorAll('#lectureInfoTable td');
-        tableCell.forEach(cell => {
-            const currentValue = cell.innerText;
-            const cellId = cell.getAttribute('id');
-            
-            const input = document.createElement('input');
-
-            if (cellId === 'subjectCode') {		//과목코드
-                const select = document.createElement('select');
-                
-                // subList 배열을 이용해 옵션을 동적으로 생성
-                subList.forEach(subject => {
-                    const option = document.createElement('option');
-                    option.text = subject.subjectName;
-                    option.value = subject.subjectCode;
-                    select.add(option);
-                });
-                
-                cell.append(select);
-
-                // 기본 선택값 설정
-                select.value = currentValue;
-                
-                // 기존 요소를 select로 대체
-                cell.innerHTML = '';
-                cell.appendChild(select);
-
-                select.addEventListener('change', function() {
-                    selectedValue = select.value; // 선택된 값 가져오기
-                    console.log('Selected value:', selectedValue);
-
-                });
-            } else if (cellId === 'detailSubjectCode') { // 세부 과목번호
-                const detailSubjectCodeValue = $('#detailSubjectCode').val();
-
-                const select = document.createElement('select'); 
-        		console.log(subDeList[0].subjectCode);
-        		
-                subDeList.forEach(subDetail => { 
-                    const option = document.createElement('option'); 
-
-                    if (selectedValue == subDetail.subjectCode) { 
-                        option.text = subDetail.detailSubjectName; 
-                        option.value = subDetail.detailSubjectCode; 
-                    }
-
-                    select.add(option); 
-                });
-
-                cell.innerHTML = ''; 
-                cell.appendChild(select); 
-                
-            } else if (cellId === 'lectureLevelCode') {
-	           	const select = document.createElement('select');
-	            const option1 = document.createElement('option');
-	            option1.text = 'option';
-	            select.add(option1);
-	
-	            // 기본 선택값 설정
-	            select.value = currentValue;
-	
-	            // 기존 요소를 select로 대체
-	            cell.innerHTML = '';
-	            cell.appendChild(select);
-            } else if (cellId === 'weekdaysCode') {
-	            const select = document.createElement('select');
-	            const option1 = document.createElement('option');
-	            option1.text = 'option';
-	            select.add(option1);
-	
-	            // 기본 선택값 설정
-	            select.value = currentValue;
-	
-	            // 기존 요소를 select로 대체
-	            cell.innerHTML = '';
-	            cell.appendChild(select);
-            } else if (cellId === 'timeCode') {    
-	            const select = document.createElement('select');
-	            const option1 = document.createElement('option');
-	            option1.text = 'option';
-	            select.add(option1);
-	
-	            // 기본 선택값 설정
-	            select.value = currentValue;
-	
-	            // 기존 요소를 select로 대체
-	            cell.innerHTML = '';
-	            cell.appendChild(select);
-            } else if (cellId === 'lectureStartDate' || cellId === 'lectureEndDate') {
-                // 날짜 입력 상자 생성
-                input.setAttribute('type', 'date');
-                input.setAttribute('value', ''); 
-                
-                // 기존 요소를 input으로 대체
-                cell.innerHTML = ''; 
-                cell.appendChild(input); 
-                
-            } else {
-                // 나머지는 기본 text 입력 상자
-                input.setAttribute('type', 'text');
-                input.setAttribute('value', ''); 
-                
-                // 기존 요소를 input으로 대체
-                cell.innerHTML = ''; 
-                cell.appendChild(input); 
-            }
-        });
-
-        // 등록 저장 버튼 만들기
-        const upBtn = document.createElement('button');
-        upBtn.textContent = '등록';
-        upBtn.classList.add('btn', 'btn-primary', 'mt-3'); 
-        
-        const headDiv = document.getElementById('head');
-        headDiv.innerHTML = '';
-        headDiv.appendChild(upBtn);
-    }
-	
-	//======================================================================
-	// 수정폼으로 변경 버튼
-	//======================================================================
-
-	function updateClick(){
-		const tableCell = document.querySelectorAll('#lectureInfoTable td');
 		
-		tableCell.forEach(cell => {
-	        const currentValue = cell.innerText;
-	        const input = document.createElement('input');
-	        input.setAttribute('type', 'text');
-	        input.setAttribute('value', currentValue.trim()); 
-	        
-	        // 기존 요소를 input으로 대체
-	        cell.innerHTML = ''; 
-	        cell.appendChild(input); 
-	    });
-		// 등록 저장 버튼 만들기
-		const saveBtn = document.createElement('button');
-		saveBtn.textContent = '저장';
-		saveBtn.onclick = saveBtnClick;
-			
-
-		saveBtn.classList.add('btn', 'btn-primary', 'mt-3'); 
-	    
-	    const headDiv = document.getElementById('head');
-	    headDiv.innerHTML = '';
-	    headDiv.appendChild(saveBtn);
-    }
-	//======================================================================
-	//수정 처리 버튼
-	//======================================================================
-	function saveBtnClick(){
-	    $.ajax({
-	    	type : 'GET',
-	    	url : 'adminLectureInsert',
-	    	data : {},
-	    	success :function(response){
-	    	},
-			error : function(xhr, status, error) {
-				console.error('Error fetching member info:', error);
-			}
-	    })
 	}
 </script>
 
