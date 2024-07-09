@@ -11,110 +11,225 @@
 
 <body>
 	<div class="row">
-		<div class="col-md-6">
+		<div class="col-md-12">
 			<div class="card">
 				<div class="table-responsive pt-3">
+					<button type="button" class="btn btn-primary"
+						data-bs-toggle="modal" data-bs-target="#lectureRegisterModal">강의
+						등록</button>
 					<table class="table table-striped project-orders-table">
 						<thead>
 							<tr>
 								<th>강의 번호</th>
 								<th>강의 제목</th>
-								<th>설명</th>
-								<th>과목 코드</th>
-								<th>비용</th>
-								<th>시작일</th>
-								<th>종료일</th>
-								<th>수용 인원</th>
+								<th>강의 설명</th>
+								<th>강의 비용</th>
+								<th>과목</th>
+								<th>세부 과목</th>
+								<th>정원</th>
+								<th>강의 수준</th>
+								<th>요일</th>
+								<th>시간</th>
+								<th>강의 시작 일자</th>
+								<th>강의 종료 일자</th>
+								<th>교수자 번호</th>
 							</tr>
 						</thead>
 						<tbody>
 							<th:block th:each="lecs : ${adminLecList}">
-								<tr
-									th:onclick="infoClick(lectureNumber=[[${lecs.lectureNumber}]])">
-									<td th:text="${lecs.lectureNumber}">
-									<td th:text="${lecs.lectureTitle}">
-									<td th:text="${lecs.lectureDescription}">
-									<td th:text="${lecs.subjectCode}">
-									<td th:text="${lecs.lectureCost}">
+								<tr th:data-id="${lecs.lectureNumber}" data-bs-toggle="modal"
+									th:onclick="'lecInfo(\'' + ${lecs.lectureNumber} + '\')'"
+									data-bs-target="#lectureInfoModal">
+									<td th:text="${lecs.lectureNumber}"></td>
+									<td th:text="${lecs.lectureTitle}"></td>
+									<td th:text="${lecs.lectureDescription}"></td>
+									<td th:text="${lecs.lectureCost}"></td>
+									<td th:text="${lecs.subjectCode}"></td>
+									<td th:text="${lecs.detailSubjectCode}"></td>
+									<td th:text="${lecs.capacity}"></td>
+									<td th:text="${lecs.lectureLevelCode}"></td>
+									<td th:text="${lecs.weekdaysCode}"></td>
+									<td th:text="${lecs.timeCode}"></td>
 									<td
-										th:text="${#dates.format(lecs.lectureStartDate, 'yyyy-MM-dd')}">
+										th:text="${#dates.format(lecs.lectureStartDate, 'yyyy-MM-dd')}"></td>
 									<td
-										th:text="${#dates.format(lecs.lectureEndDate, 'yyyy-MM-dd')}">
-									<td th:text="${lecs.capacity}">
+										th:text="${#dates.format(lecs.lectureEndDate, 'yyyy-MM-dd')}"></td>
+									<td th:text="${lecs.instructorNumber}"></td>
 								</tr>
 							</th:block>
 						</tbody>
 					</table>
 				</div>
 			</div>
-			<button type="button" class="btn btn-primary mt-3 float-end"
-				th:onclick="insertClick()">강의 등록</button>
 		</div>
-		<div class="col-md-6">
-			<div class="card">
-				<div class="table-responsive pt-3">
-					<table id="lectureInfoTable" class="table">
-						<h2>강의정보</h2>
-						<tr>
-							<th id="lectureNumber-name">강의 번호</th>
-							<td id="lectureNumber"></td>
-						</tr>
-						<tr>
-							<th id="lectureTitle-name">강의 제목</th>
-							<td id="lectureTitle"></td>
-						</tr>
-						<tr>
-							<th id="lectureDescription-name">강의 설명</th>
-							<td id="lectureDescription"></td>
-						</tr>
-						<tr>
-							<th id="lectureCost-name">강의 비용</th>
-							<td id="lectureCost"></td>
-						</tr>
-						<tr>
-							<th id="subjectCode-name">과목 코드</th>
-							<td id="subjectCode"></td>
-						</tr>
-						<tr>
-							<th id="detailSubjectCode-name">세부 과목 코드</th>
-							<td id="detailSubjectCode"></td>
-						</tr>
-						<tr>
-							<th id="capacity-name">수용 인원</th>
-							<td id="capacity"></td>
-						</tr>
-						<tr>
-							<th id="lectureLevelCode-name">강의 레벨 코드</th>
-							<td id="lectureLevelCode"></td>
-						</tr>
-						<tr>
-							<th id="weekdaysCode-name">강의 요일 코드</th>
-							<td id="weekdaysCode"></td>
-						</tr>
-						<tr>
-							<th id="timeCode-name">강의 시간 코드</th>
-							<td id="timeCode"></td>
-						</tr>
-						<tr>
-							<th id="lectureStartDate-name">강의 시작 날짜</th>
-							<td id="lectureStartDate"></td>
-						</tr>
-						<tr>
-							<th id="lectureEndDate-name">강의 종료 날짜</th>
-							<td id="lectureEndDate"></td>
-						</tr>
-						<tr>
-							<th id="instructorNumber-name">강사 번호</th>
-							<td id="instructorNumber"></td>
-						</tr>
+	</div>
+
+	<!-- 강의 정보 모달 창 -->
+	<div class="modal fade" id="lectureInfoModal" tabindex="-1"
+		aria-labelledby="lectureInfoModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="lectureInfoModalLabel">학생 명단</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>학생 번호</th>
+								<th>이름</th>
+								<th>이메일</th>
+								<th>전화번호</th>
+								<th>생년월일</th>
+							</tr>
+						</thead>
+						<tbody>
+
+
+
+						</tbody>
 					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">닫기</button>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<!-- 강의 등록 모달 창 -->
+	<div class="modal fade" id="lectureRegisterModal" tabindex="-1"
+		aria-labelledby="lectureRegisterModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="lectureRegisterModalLabel">강의 등록</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form id="lectureRegisterForm">
+						<!-- 강의 번호 -->
+						<div class="mb-3">
+							<label for="lectureNumber" class="form-label">강의 번호</label> <input
+								type="text" class="form-control" id="lectureNumber"
+								name="lectureNumber" required>
+						</div>
+						<!-- 강의 제목 -->
+						<div class="mb-3">
+							<label for="lectureTitle" class="form-label">강의 제목</label> <input
+								type="text" class="form-control" id="lectureTitle"
+								name="lectureTitle" required>
+						</div>
+
+						<!-- 강의 내용 -->
+						<div class="mb-3">
+							<label for="lectureDescription" class="form-label">강의 설명</label>
+							<textarea class="form-control" id="lectureDescription"
+								name="lectureDescription" required></textarea>
+						</div>
+						<!-- 과목 코드 -->
+						<div class="mb-3">
+							<label for="subjectCode" class="form-label">과목 코드</label> <select
+								class="form-select" id="subjectCode" name="subjectCode" required></select>
+						</div>
+						<!-- 세부 과목 코드 -->
+						<div class="mb-3">
+							<label for="detailSubjectCode" class="form-label">세부 과목
+								코드</label> <select class="form-select" id="detailSubjectCode"
+								name="detailSubjectCode" required></select>
+						</div>
+						<!-- 강의 레벨 코드 -->
+						<div class="mb-3">
+							<label for="lectureLevelCode" class="form-label">강의 레벨 코드</label>
+							<select class="form-select" id="lectureLevelCode"
+								name="lectureLevelCode" required>
+								<option value="">강의 레벨 코드를 선택하세요</option>
+								<option value="심화반">심화반</option>
+								<option value="기본반">기본반</option>
+							</select>
+						</div>
+						<!-- 요일 코드 -->
+						<div class="mb-3">
+							<label class="form-label">요일 코드</label><br>
+							<div id="weekdaysCode"></div>
+						</div>
+						<!-- 시간 코드 -->
+						<div class="mb-3">
+							<label for="timeCode" class="form-label">시간 코드</label> <select
+								class="form-select" id="timeCode" name="timeCode" required></select>
+						</div>
+						<!-- 강의 비용 -->
+						<div class="mb-3">
+							<label for="lectureCost" class="form-label">강의 비용</label> <input
+								type="text" class="form-control" id="lectureCost"
+								name="lectureCost" required>
+						</div>
+						<!-- 수용 인원 -->
+						<div class="mb-3">
+							<label for="capacity" class="form-label">수용 인원</label> <input
+								type="text" class="form-control" id="capacity" name="capacity"
+								required>
+						</div>
+						<!-- 강의 시작 날짜 -->
+						<div class="mb-3">
+							<label for="lectureStartDate" class="form-label">강의 시작 날짜</label>
+							<input type="date" class="form-control" id="lectureStartDate"
+								name="lectureStartDate" required>
+						</div>
+						<!-- 강의 종료 날짜 -->
+						<div class="mb-3">
+							<label for="lectureEndDate" class="form-label">강의 종료 날짜</label> <input
+								type="date" class="form-control" id="lectureEndDate"
+								name="lectureEndDate" required>
+						</div>
+						<!-- 강사 번호 -->
+						<div class="mb-3">
+							<label for="instructorNumber" class="form-label">강사 번호</label> <input
+								type="text" class="form-control" id="instructorNumber"
+								name="instructorNumber" required>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">닫기</button>
+					<button type="submit" class="btn btn-primary" id="insertLecBtn"
+						form="lectureRegisterForm">등록</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
 </body>
 
 <script th:inline="javascript">
+const lecStuList = /*[[${lecStuList}]]*/"";
+
+
+	//해당 데이터
+	function lecInfo(lectureNumber) {
+		$.ajax({
+	    	type : 'GET',
+	    	url : 'adminLectureStudentList',
+	    	data : {lectureNumber : lectureNumber},
+	    	success :function(response){
+			    console.log(lectureNumber);
+	    	},
+			error : function(xhr, status, error) {
+				console.error('Error fetching member info:', error);
+			}
+	    })
+	}
+
+
+
 	function infoClick(lectureNumber) {
 	    console.log(lectureNumber);
 	    
@@ -137,8 +252,6 @@
 	    	
 	    })
 	}
-
-	
 	//======================================================================
 	// 등록 버튼 생성
 	//======================================================================
@@ -146,148 +259,153 @@
     const subDeList = /*[[${lecSubDeList}]]*/[];
     let selectedValue = "";
 
-        function insertClick() {
    			console.log(subDeList[0]);
-            // 강의 번호
-            const lectureNumberCell = document.getElementById('lectureNumber');
-            if (lectureNumberCell) {
-                lectureNumberCell.innerHTML = '<input type="text" id="lectureNumber-input" name="lectureNumber" />';
-            }
+   			console.log(subDeList[0].subjectCode);
 
-            // 강의 제목
-            const lectureTitleCell = document.getElementById('lectureTitle');
-            if (lectureTitleCell) {
-                lectureTitleCell.innerHTML = '<input type="text" id="lectureTitle-input" name="lectureTitle" />';
-            }
 
-            // 강의 설명
-            const lectureDescriptionCell = document.getElementById('lectureDescription');
-            if (lectureDescriptionCell) {
-                lectureDescriptionCell.innerHTML = '<input type="text" id="lectureDescription-input" name="lectureDescription" />';
-            }
-
-            // 강의 비용
-            const lectureCostCell = document.getElementById('lectureCost');
-            if (lectureCostCell) {
-                lectureCostCell.innerHTML = '<input type="text" id="lectureCost-input" name="lectureCost" />';
-            }
-
+   			
+   			
             // 과목 코드
-            const subjectCodeCell = document.getElementById('subjectCode');
-            if (subjectCodeCell) {
-                const select = document.createElement('select');
-                subList.forEach(subject => {
-                    const option = document.createElement('option');
-                    option.text = subject.subjectName;
-                    option.value = subject.subjectCode;
-                    select.add(option);
-                });
-                subjectCodeCell.innerHTML = '';
-                subjectCodeCell.appendChild(select);
-
-                select.addEventListener('change', function() {
-                    selectedValue = select.value; // 선택된 값 가져오기
-                    console.log('Selected value:', selectedValue);
-                    
-                    // 세부 과목 코드
-                    const detailSubjectCodeCell = document.getElementById('detailSubjectCode');
-                    if (detailSubjectCodeCell) {
-                        const select = document.createElement('select');
-                        subDeList.forEach(subDetail => {
-                            const option = document.createElement('option');
-                            if (selectedValue == subDetail.subjectCode) {
-                                option.text = subDetail.detailSubjectName;
-                                option.value = subDetail.detailSubjectCode;
-                            }
-                            select.add(option);
-                        });
-                        detailSubjectCodeCell.innerHTML = '';
-                        detailSubjectCodeCell.appendChild(select);
-                    }
-                });
-            }
-
-
-
-            // 수용 인원
-            const capacityCell = document.getElementById('capacity');
-            if (capacityCell) {
-                capacityCell.innerHTML = '<input type="text" id="capacity-input" name="capacity" />';
-            }
-
-            // 강의 레벨 코드
-            const lectureLevelCodeCell = document.getElementById('lectureLevelCode');
-            if (lectureLevelCodeCell) {
-                const select = document.createElement('select');
-                const option1 = document.createElement('option');
-                option1.text = 'option';
-                select.add(option1);
-                lectureLevelCodeCell.innerHTML = '';
-                lectureLevelCodeCell.appendChild(select);
-            }
-
-           	let day = ['월요일','화요일','수요일', '목요일', '금요일'];
-            // 강의 요일 코드
-            const weekdaysCodeCell = document.getElementById('weekdaysCode');
-            if (weekdaysCodeCell) {
-                weekdaysCodeCell.innerHTML = '';
-            	day.forEach(day =>{
-	                const input = document.createElement('input');
-	                input.type = 'checkbox';
-	                input.value = day;
-	
-	                const label = document.createElement('label');
-	                label.appendChild(input);
-	                label.appendChild(document.createTextNode(day));
-	
-	                weekdaysCodeCell.appendChild(label);
-            	})
-            }
-
-            // 강의 시간 코드
-            const timeCodeCell = document.getElementById('timeCode');
-			if (timeCodeCell) {
-			    const select = document.createElement('select');
-			    
-			    // timeCodeCell의 내용 초기화
-			    timeCodeCell.innerHTML = '';
+            // 과목 코드
+			if (subjectCode) {
+			    const subjectCodeCell = document.getElementById('subjectCode');
+			    const detailSubjectCodeCell = document.getElementById('detailSubjectCode');
+			    subjectCodeCell.innerHTML = ''; // 기존의 내용 초기화
 			
-			    for (let i = 10; i <= 22; i++) {
+			    subList.forEach(subject => {
 			        const option = document.createElement('option');
-			        option.text = i + ', ' + (i + 1); // 시간 범위 설정
-			        select.appendChild(option); // select 요소에 option 추가
-			    }
+			        option.text = subject.subjectName;
+			        option.value = subject.subjectCode;
+			        subjectCodeCell.appendChild(option); // 과목 코드 select에 option 추가
+			    });
 			
-			    timeCodeCell.appendChild(select); // timeCodeCell에 select 요소 추가
+			    subjectCodeCell.addEventListener('change', function() {
+			        const selectedValue = subjectCodeCell.value; // 선택된 과목 코드 값 가져오기
+			
+			        // 세부 과목 코드 select 초기화
+			        detailSubjectCodeCell.innerHTML = '';
+			
+			        // 선택된 과목 코드에 해당하는 세부 과목 코드 option 추가
+			        subDeList.forEach(subDetail => {
+			            if (selectedValue === subDetail.subjectCode) {
+			                const option = document.createElement('option');
+			                option.text = subDetail.detailSubjectName;
+			                option.value = subDetail.detailSubjectCode;
+			                detailSubjectCodeCell.appendChild(option);
+			            }
+			        });
+			    });
 			}
 
-            // 강의 시작 날짜
-            const lectureStartDateCell = document.getElementById('lectureStartDate');
-            if (lectureStartDateCell) {
-                lectureStartDateCell.innerHTML = '<input type="date" id="lectureStartDate-input" name="lectureStartDate" />';
-            }
+			
 
-            // 강의 종료 날짜
-            const lectureEndDateCell = document.getElementById('lectureEndDate');
-            if (lectureEndDateCell) {
-                lectureEndDateCell.innerHTML = '<input type="date" id="lectureEndDate-input" name="lectureEndDate" />';
-            }
 
-            // 강사 번호
-            const instructorNumberCell = document.getElementById('instructorNumber');
-            if (instructorNumberCell) {
-                instructorNumberCell.innerHTML = '<input type="text" id="instructorNumber-input" name="instructorNumber" />';
-            }
 
-            // 등록 저장 버튼 만들기
-            const upBtn = document.createElement('button');
-            upBtn.textContent = '등록';
-            upBtn.classList.add('btn', 'btn-primary', 'mt-3');
+            // 강의 레벨 코드
+//             const lectureLevelCodeCell = document.getElementById('lectureLevelCode');
+//             if (lectureLevelCodeCell) {
+//                 const select = document.createElement('select');
+//                 const option1 = document.createElement('option');
+//                 option1.text = '심화반';
+//                 select.add(option1);
+//                 lectureLevelCodeCell.innerHTML = '';
+//                 lectureLevelCodeCell.appendChild(select);
+//             }
 
-            const headDiv = document.getElementById('head');
-            headDiv.innerHTML = '';
-            headDiv.appendChild(upBtn);
-        }
+           	let days = ['월요일','화요일','수요일', '목요일', '금요일'];
+            // 강의 요일 코드
+            const weekdaysCodeCell = document.getElementById('weekdaysCode');
+            weekdaysCodeCell.innerHTML = '';
+           	days.forEach(day =>{
+                const input = document.createElement('input');
+                input.type = 'checkbox';
+                input.value = day;
+
+                const label = document.createElement('label');
+                label.innerText = day;
+
+                weekdaysCodeCell.appendChild(label);
+                weekdaysCodeCell.appendChild(input);
+           	})
+           	console.log("days : ",days);
+           	
+
+            // 강의 시간 코드
+		    const timeCodeSelect = document.getElementById('timeCode');
+		    
+		    if (timeCodeSelect) {
+		        timeCodeSelect.innerHTML = '';
+		        
+		        for (let i = 15; i <= 22; i++) {
+		            const option = document.createElement('option');
+		            option.value = i;
+		            option.textContent = `${i},${i + 1}`;
+		            timeCodeSelect.appendChild(option);
+		        }
+		    }
+			
+		    
+		    const insertLecBtn = document.getElementById('insertLecBtn');
+		    insertLecBtn.addEventListener('click', function(event){
+		        event.preventDefault(); // 기본 폼 제출 동작 방지
+
+		        // 입력 필드 값 가져오기
+		        const lectureNumber = document.getElementById('lectureNumber').value;
+		        const lectureTitle = document.getElementById('lectureTitle').value;
+		        const lectureDescription = document.getElementById('lectureDescription').value;
+		        const subjectCode = document.getElementById('subjectCode').value;
+		        const detailSubjectCode = document.getElementById('detailSubjectCode').value;
+		        const lectureLevelCode = document.getElementById('lectureLevelCode').value;
+		        const timeCode = document.getElementById('timeCode').value;
+		        const lectureCost = document.getElementById('lectureCost').value;
+		        const capacity = document.getElementById('capacity').value;
+		        const lectureStartDate = document.getElementById('lectureStartDate').value;
+		        const lectureEndDate = document.getElementById('lectureEndDate').value;
+		        const instructorNumber = document.getElementById('instructorNumber').value;
+		        
+		        // 요일 코드 가져오기 (여러 개일 경우 배열로 저장)
+		        const weekdaysCodeElements = document.querySelectorAll('#weekdaysCode input[type="checkbox"]:checked');
+				const weekdaysCode = Array.from(weekdaysCodeElements).map(checkbox => checkbox.value).join(',');
+
+		        // 데이터 객체 생성
+		        const param = {
+		            lectureNumber: lectureNumber,
+		            lectureTitle: lectureTitle,
+		            lectureDescription: lectureDescription,
+		            subjectCode: subjectCode,
+		            detailSubjectCode: detailSubjectCode,
+		            lectureLevelCode: lectureLevelCode,
+		            timeCode: timeCode,
+		            lectureCost: lectureCost,
+		            capacity: capacity,
+		            lectureStartDate: lectureStartDate,
+		            lectureEndDate: lectureEndDate,
+		            instructorNumber: instructorNumber,
+		            weekdaysCode: weekdaysCode
+		        };
+
+		        console.log(param);
+
+		        // AJAX 요청
+		        $.ajax({
+		            type: 'post',
+		            url: 'adminLectureInsert', // 데이터를 주고받을 파일 주소 입력
+		            data: JSON.stringify(param),
+		            contentType: 'application/json; charset=utf-8',
+		            dataType: 'json', // JSON 형식으로 받기
+		            success: function(result){
+		                console.log('서버 응답:', result);
+		                // 성공 시 모달 창 닫기 또는 추가 작업 수행
+		                $('#lectureRegisterModal').modal('hide');
+		                // 폼 초기화
+		                document.getElementById('lectureRegisterForm').reset();
+		            },
+		            error: function(){
+		                console.error('서버 요청 실패');
+		            }
+		        });
+		    });
+
         
 
 	//======================================================================
@@ -298,6 +416,10 @@
 		const tableCell = document.querySelectorAll('#lectureInfoTable td');
 		
 	}
+	
+	
+	
+
 </script>
 
 

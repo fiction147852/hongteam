@@ -101,11 +101,12 @@ body {
 <body>
 	<!-- 	<div class="container"> -->
 	<div id="calendar"></div>
-	<!-- 		<button type="button" class="btn btn-primary" data-bs-toggle="modal" -->
-	<!-- 			data-bs-target="#weekTime">기본 상담 시간 설정</button> -->
-	<!-- 		<button type="button" class="btn btn-primary" data-bs-toggle="modal" -->
-	<!-- 			data-bs-target="#dayTime">상담 일정 조정</button> -->
-	<!-- 	</div> -->
+		<div>
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+				data-bs-target="#weekTime">기본 상담 시간 설정</button>
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+				data-bs-target="#dayTime">상담 일정 조정</button>
+		</div>
 
 	<!-- 주간 상담 가능 시간 설정 모달창 -->
 	<div class="modal" id="weekTime" tabindex="-1"
@@ -295,7 +296,7 @@ body {
 		
 		$.ajax({
 			type: 'post',
-			url: 'counselDayTime', // 데이터를 주고받을 파일 주소 입력
+			url: 'adminLectureInsert', // 데이터를 주고받을 파일 주소 입력
 			data: JSON.stringify(param),
 			contentType: 'application/json; charset=utf-8',
 			dataType: 'json', // JSON 형식으로 받기
