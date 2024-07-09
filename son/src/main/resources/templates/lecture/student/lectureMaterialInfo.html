@@ -26,12 +26,16 @@
                 <th>강의 내용</th>
                 <td colspan="3">[[${lectureMaterialDetailVO.lectureMaterialVO.content}]]</td>
             </tr>
-            <tr>
+            <tr th:if="${not #lists.isEmpty(lectureMaterialDetailVO.attachmentFileVOList)}">
                 <th>강의 자료 파일</th>
                 <td colspan="3">
-                    <th:block th:each="attachmentFile : ${lectureMaterialDetailVO.attachmentFileVOList}">
-                        <a href="#"><i class="fa-solid fa-file" style="margin-right: 10px"></i>[[${attachmentFile.originalFileName}]]</a>
-                    </th:block>
+                    <div class="attachment-cards">
+                        <th:block th:each="attachmentFile : ${lectureMaterialDetailVO.attachmentFileVOList}">
+                            <div class="card">
+                                <a th:href="@{/student/{lectureNumber}/lectureMaterials/{lectureMaterialNumber}/download(lectureNumber=${lectureMaterialDetailVO.lectureMaterialVO.lectureNumber}, lectureMaterialNumber=${attachmentFile.lectureMaterialNumber}, originalFileName=${attachmentFile.originalFileName}, saveFileName=${attachmentFile.saveFileName})}"><i class="fa-solid fa-file"></i>[[${attachmentFile.originalFileName}]]</a>
+                            </div>
+                        </th:block>
+                    </div>
                 </td>
             </tr>
         </table>
