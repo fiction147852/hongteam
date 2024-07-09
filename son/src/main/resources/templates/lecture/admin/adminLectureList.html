@@ -85,7 +85,7 @@
                                     <th>생년월일</th>
                                 </tr>
                             </thead>
-                            <tbody id="">
+                            <tbody id="lectureStudentList">
                             	 
                             </tbody>
                         </table>
@@ -219,10 +219,41 @@
 </body>
 
 <script th:inline="javascript">
-const lecStuList = /*[[${lecStuList}]]*/"";
+const lecStuList = /*[[${lecStuList}]]*/[];
+
+	
 
 
-	//해당 데이터
+
+// 	function infoClick(lectureNumber) {
+// 	    console.log(lectureNumber);
+	    
+// 	    $.ajax({
+// 	    	type : 'GET',
+// 	    	url : 'adminLectureInfo',
+// 	    	data : {lectureNumber : lectureNumber},
+// 	    	success :function(response){
+// 			    console.log(lectureNumber);
+// 			    Object.keys(response).forEach((key, idx) => {
+// 					if (document.getElementById(key)){
+// 					document.getElementById(key).innerText = response[key];
+// 					}
+// 				});
+// 	    	},
+// 			error : function(xhr, status, error) {
+// 				console.error('Error fetching member info:', error);
+// 			}
+	    	
+	    	
+// 	    })
+// 	}
+	//======================================================================
+	// 강의 별 학생 리스트 불러오기
+	//======================================================================
+
+	//======================================================================
+	// 등록 버튼 생성
+	//======================================================================
 	function lecInfo(lectureNumber) {
 		$.ajax({
 	    	type : 'GET',
@@ -236,29 +267,22 @@ const lecStuList = /*[[${lecStuList}]]*/"";
 			}
 	    })
 	}
+	
+	const lecStLi = document.getElementById('lectureStudentList');
+	console.log(lecStuList);
+	let tableHTML = '';
+	lecStuList.forEach(student => {
+	  tableHTML += '<tr>';
+	  tableHTML += `<td>${student.student_number}</td>`;
+	  tableHTML += `<td>${student.name}</td>`;
+	  tableHTML += `<td>${student.email}</td>`;
+	  tableHTML += `<td>${student.phone}</td>`;
+	  tableHTML += `<td>${student.birth}</td>`;
+	  tableHTML += '</tr>';
+	});
 
-	function infoClick(lectureNumber) {
-	    console.log(lectureNumber);
-	    
-	    $.ajax({
-	    	type : 'GET',
-	    	url : 'adminLectureInfo',
-	    	data : {lectureNumber : lectureNumber},
-	    	success :function(response){
-			    console.log(lectureNumber);
-			    Object.keys(response).forEach((key, idx) => {
-					if (document.getElementById(key)){
-					document.getElementById(key).innerText = response[key];
-					}
-				});
-	    	},
-			error : function(xhr, status, error) {
-				console.error('Error fetching member info:', error);
-			}
-	    	
-	    	
-	    })
-	}
+	lecStLi.innerHTML = tableHTML;
+	
 	//======================================================================
 	// 등록 버튼 생성
 	//======================================================================
