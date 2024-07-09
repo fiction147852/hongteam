@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.son.app.task.mapper.StudentTaskMapper">
+    <!-- 시험 목록에서 한 페이지에 최대 5개의 게시글 표시  -->
+    <select id="studentTaskList" resultType="TaskListVO">
+        SELECT *
+        FROM (SELECT ROW_NUMBER() OVER(ORDER BY task.task_number DESC) AS row_num
+                , task.task_number
+                , title
+                , post_date
+                , submit_deadline
+                , task_submit_code AS task_submit_status
+                , feedback_code AS feedback_status
+                , feedback
+              FROM task_submit
+              JOIN task
+                  ON task.task_number = task_submit.task_number
+              <where>
+                  lecture_number = #{lectureNumber}
+                  <if test="title != null and title != ''">
+                      AND title LIKE '%' || #{title} || '%'
+                  </if>
+                  <choose>
+                      <when test="taskSubmitStatus == '제출 완료'">
+                          AND task_submit_code = '제출 완료'
+                      </when>
+                      <when test="taskSubmitStatus == '미제출'">
+                          AND task_submit_code = '미제출'
+                      </when>
+                  </choose>
+              </where>
+              )
+        WHERE row_num BETWEEN #{startRow} AND #{endRow}
+    </select>
+
+    <!-- 과제 목록에 출력되는 행의 개수 -->
+    <select id="studentTaskCount" resultType="int">
+        SELECT COUNT(*)
+        FROM task_submit
+        JOIN task
+            ON task.task_number = task_submit.task_number
+        <where>
+            lecture_number = #{lectureNumber}
+            <if test="title != null and title != ''">
+                AND title LIKE '%' || #{title} || '%'
+            </if>
+            <choose>
+                <when test="taskSubmitStatus == '제출 완료'">
+                    AND task_submit_code = '제출 완료'
+                </when>
+                <when test="taskSubmitStatus == '미제출'">
+                    AND task_submit_code = '미제출'
+                </when>
+            </choose>
+        </where>
+    </select>
+
+</mapper>
+
+
+
+
+
+
+
+
+

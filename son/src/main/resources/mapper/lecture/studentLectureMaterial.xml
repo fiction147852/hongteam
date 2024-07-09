@@ -40,6 +40,7 @@
     <!-- 특정 강의 자료에 대한 상세 정보    -->
     <select id="lectureMaterialInfo">
         SELECT lecture_material_number
+             , lecture_number
              , title
              , registration_date
              , content

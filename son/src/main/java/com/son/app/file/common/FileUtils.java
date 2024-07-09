@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.son.app.file.service.FileRequest;
 import com.son.app.file.service.FileResponse;
+
+import javax.annotation.PostConstruct;
+
 /*
  	@Bean은 개발자가 컨트롤 할 수 없는 외부 라이브러리를 빈으로 등록할 때 사용
  	@Component는 개발자가 직접 정의한 클래스를 빈으로 등록할 때 사용
@@ -29,15 +33,19 @@ public class FileUtils {
 	// uploadPath = 물리적으로 파일을 저장할 위치를 의미
 	// Paths.get( )을 이용하면 OS에 상관없이 디렉터리 경로를 구분
 //	private final String uploadPath = Paths.get("D:", "Dev", "upload-files").toString();
-	private final String uploadPath = "C:/uploads";
+//	private final String uploadPath = "C:/uploads";
+
 	
 	// 프로젝트 내 업로드 경로 설정
 //	private final String uploadPath = Paths.get("C:", "User", "admin", "git", "hongteam", "son", "src", "main", "resources","static", "uploads").toString();
-    
-    public FileUtils() {
-        createUploadDirectory();
+
+    private final String uploadPath;
+
+    public FileUtils(@Value("${upload.path}") String uploadPath) {
+        this.uploadPath = uploadPath;
     }
 
+    @PostConstruct
     private void createUploadDirectory() {
         File directory = new File(uploadPath);
         if (!directory.exists()) {
