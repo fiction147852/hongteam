@@ -1,0 +1,52 @@
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layouts/student/studentDetailSubject_layout}">
+<head>
+    <link rel="stylesheet" th:href="@{/css/student/task/taskList.css}">
+    <script th:inline="javascript">let lectureNumber = [[${lectureNumber}]];</script>
+    <script th:src="@{/js/task/taskList.js}"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <h4 style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">과제 자료</h4>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="table-responsive pt-2" style="padding-top: 0 !important;">
+                    <table class="table table-striped project-orders-table">
+                        <thead class="custom-thead">
+                        <tr>
+                            <th>번호</th>
+                            <th>제목</th>
+                            <th>제출 기간</th>
+                            <th>제출 상태</th>
+                            <th>피드백</th>
+                        </tr>
+                        </thead>
+                        <tbody id="task-tbody" class="custom-tbody">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center" style="margin-top: 30px">
+        <nav aria-label="Page navigation">
+            <ul id="pagination" class="pagination"></ul>
+        </nav>
+    </div>
+    <div class="mt-4">
+        <form id="search-form" class="d-flex justify-content-center mb-3">
+            <select id="taskStatusDropDown" class="form-select form-select-sm" aria-label="Small select example" style="width: 110px; font-weight: 800; text-align: center; margin-right: 5px">
+                <option value="">전체</option>
+                <option value="제출 완료">제출 완료</option>
+                <option value="미제출">미제출</option>
+            </select>
+            <input type="text" id="search-title" placeholder="제목을 입력하세요." class="form-control me-2 col-3">
+            <button type="submit" class="btn btn-primary" style="background-color: #28587E">검색</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -2,9 +2,9 @@ package com.son.app.payment.mapper;
 
 import java.util.List;
 
-import com.son.app.payment.service.PaymentVO;
+import com.son.app.payment.service.ParentPayVO;
 
 public interface ParentPayMapper {
-	//학부모 자녀의 강의정보조회
-	public List<PaymentVO> ParentPayInfoAll();
+	// 지불강의 리스트
+	public List<ParentPayVO> lecturePayList();
 }

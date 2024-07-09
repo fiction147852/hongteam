@@ -7,14 +7,14 @@ import org.springframework.stereotype.Service;
 
 import com.son.app.payment.mapper.ParentPayMapper;
 import com.son.app.payment.service.ParentPayService;
-import com.son.app.payment.service.PaymentVO;
+import com.son.app.payment.service.ParentPayVO;
 @Service
 public class ParentPayServiceImpl implements ParentPayService{
 	@Autowired
 	ParentPayMapper parentpaymapper;
 
 	@Override
-	public List<PaymentVO> ParentPayList() {
-		return parentpaymapper.ParentPayInfoAll();
+	public List<ParentPayVO> LecturePayList() {
+		return parentpaymapper.lecturePayList();
 	}	
 }

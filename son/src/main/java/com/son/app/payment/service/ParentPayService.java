@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface ParentPayService {
 	//전체조회
-	public List<PaymentVO> ParentPayList();
+	public List<ParentPayVO> LecturePayList();
 }

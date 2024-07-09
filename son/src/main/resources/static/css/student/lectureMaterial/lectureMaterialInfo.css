@@ -8,7 +8,7 @@
     text-align: left;
 }
 .table-custom th {
-    width: 10vw;
+    width: 180px;
     background-color:#27587E;
     color: white;
     text-align: center;
@@ -23,8 +23,7 @@
 }
 
 .table-custom tr:first-child td:last-of-type {
-    width: 15vw;
-    text-align: center;
+    width: 40vw;
 }
 
 .table-custom tr:last-child {
@@ -51,6 +50,7 @@
     background-color: #27587E;
     color: black;
     text-align: center;
+    width: 50vw;
 }
 
 .table-custom tr:last-child td a {
@@ -58,4 +58,30 @@
     color: inherit;
     text-decoration: none;
     font-weight: 400;
+}
+
+.attachment-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.card {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    padding: 10px;
+    width: 200px;
+    text-align: center;
+    border-radius: 8px;
+}
+.card a {
+    text-decoration: none;
+    color: #000;
+    font-weight: 500;
+}
+.card a:hover {
+    text-decoration: underline;
+}
+
+.card i {
+    margin-right: 10px;
 }

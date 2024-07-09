@@ -63,7 +63,7 @@
 
 .modal__exam-info .modal-body {
     padding: 30px;
-    height: 30vh; /* 모달 본문 높이 설정 */
+    height: 400px; /* 모달 본문 높이 설정 */
     overflow: hidden; /* 모달 자체의 스크롤 숨김 */
 }
 

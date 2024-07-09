@@ -1,11 +1,23 @@
 package com.son.app.counsel.web;
 
 import org.springframework.stereotype.Controller;
-
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-@Slf4j
 public class MainCounselController {
 	
+	@GetMapping("/")
+	public String mainPage() {
+		return "main/index";
+	}
+	
+	@GetMapping("/admission")
+	public String admission() {
+		return "main/admission";
+	}
+	
+	@GetMapping("/lectures")
+	public String lectures() {
+		return "main/lectures";
+	}
 }
