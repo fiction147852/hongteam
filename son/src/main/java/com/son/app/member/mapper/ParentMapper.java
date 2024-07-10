@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.son.app.member.service.ParentVO;
 import com.son.app.member.service.StudentVO;
 
 public interface ParentMapper  {
@@ -14,4 +15,8 @@ public interface ParentMapper  {
 	public List<StudentVO> getStudentsByParentNumber(@Param("parentNumber")int parentNumber);
 
 	public int getParentNumberByEmail(@Param("email") String email);
+
+	public List<ParentVO> mypageInfo(int parentNumber);
+
+	public int saves(ParentVO parent);
 }
