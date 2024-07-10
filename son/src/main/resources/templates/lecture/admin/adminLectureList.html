@@ -254,6 +254,8 @@
 	// 학생 검색 하기
 	//======================================================================
 
+		
+		// 학생 정보 담아서 추가하기
 	let stuInsInfo = {};
 	
 	
@@ -271,10 +273,11 @@
 	            const name = document.getElementById('searchName');
 	            
 	            console.log('최종 응답' , lectureNumber)
+	            
+	            //학생 이메일 추가하기 
 	            stuInsInfo = response
-// 	            stuInsInfo.lecture_number = lecNum;
+	            
 	            name.value = response.name;
-// 	            console.log('최종 응답' , stuInsInfo)
 	        },
 	        error: function(xhr, status, error) {
 	            console.error('서버 요청 실패:', error);
@@ -287,7 +290,9 @@
 	// 학생 추가하기
 	//======================================================================
 	document.getElementById('lecAddBtn').addEventListener('click', function() {
-	    const searchEmail = document.getElementById('searchEmail').value;
+// 	    const searchEmail = document.getElementById('searchEmail').value;
+	    
+	    stuInsInfo.lectureNumber = selectedLectureNumber;
 	
 	    $.ajax({
 	        type: 'POST',
@@ -296,6 +301,7 @@
             contentType: 'application/json; charset=utf-8',
 	        success: function(response) {
 	            console.log('추가할 학생:', response);
+	            
 	        },
 	        error: function(xhr, status, error) {
 	            console.error('서버 요청 실패:', error);
@@ -309,45 +315,45 @@
 	
 	let lecStuList = [];
 	
+	// 학생이메일 검색해서 추가하기의 강의번호
+	let selectedLectureNumber = null;
 	
 	function lecInfo(lectureNumber) {
-		$.ajax({
-	    	type : 'GET',
-	    	url : 'adminLectureStudentList',
-	    	data : {lectureNumber : lectureNumber},
-	    	success :function(lecStuResponse){
-			    console.log(lecStuResponse , '결과');
-			    lecStuList = lecStuResponse;
-				const lecStLi = document.getElementById('lectureStudentList');
-				console.log('결과', lecStuList);
-				let tableHTML = '';
-				lecStuList.forEach(student => {
-				  tableHTML += '<tr>';
-				  tableHTML += `<td>${student.studentNumber}</td>`;
-				  tableHTML += `<td>${student.name}</td>`;
-				  tableHTML += `<td>${student.email}</td>`;
-				  tableHTML += `<td>${student.phone}</td>`;
-				  tableHTML += `<td>${student.birth}</td>`;
-				  tableHTML += '</tr>';
-				});
+	    $.ajax({
+	        type: 'GET',
+	        url: 'adminLectureStudentList',
+	        data: { lectureNumber: lectureNumber },
+	        success: function(lecStuResponse) {
+	            console.log(lecStuResponse, '결과');
+	            lecStuList = lecStuResponse;
 
-				lecStLi.innerHTML = tableHTML;
-			    document.getElementById('selectedLectureNumber').textContent = lectureNumber;
+	            // 학생 리스트에 lectureNumber 추가
+	            lecStuList.forEach(student => {
+	                student.lectureNumber = lectureNumber;
+	            });
 
-			    
-			         // lectureNumber를 객체에 추가
-			         lecStuList.lectureNumber = lectureNumber;
-			         
-			         // lectureNumber를 selectedLectureNumber 스팬 요소에 추가
-			         document.getElementById('selectedLectureNumber').textContent = lectureNumber;
-			     
-	    	},
-			error : function(xhr, status, error) {
-				console.error('Error fetching member info:', error);
-			}
-	    })
+	            const lecStLi = document.getElementById('lectureStudentList');
+	            console.log('결과', lecStuList);
+	            let tableHTML = '';
+
+	            lecStuList.forEach(student => {
+	                tableHTML += '<tr>';
+	                tableHTML += `<td>${student.studentNumber}</td>`;
+	                tableHTML += `<td>${student.name}</td>`;
+	                tableHTML += `<td>${student.email}</td>`;
+	                tableHTML += `<td>${student.phone}</td>`;
+	                tableHTML += `<td>${student.birth}</td>`;
+	                tableHTML += '</tr>';
+	            });
+
+	            lecStLi.innerHTML = tableHTML;
+	            selectedLectureNumber = lectureNumber; // 전역 변수에 저장
+	        },
+	        error: function(xhr, status, error) {
+	            console.error('Error fetching member info:', error);
+	        }
+	    });
 	}
-	console.log(lecStuList, '결과2');
 	
 
 
