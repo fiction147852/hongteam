@@ -15,6 +15,7 @@ import com.son.app.lecture.service.LectureStudentVO;
 import com.son.app.lecture.service.LectureSubjectDetailVO;
 import com.son.app.lecture.service.LectureSubjectVO;
 import com.son.app.lecture.service.LectureVO;
+import com.son.app.lecture.service.RegistrationVO;
 
 @Controller
 public class AdminLectureController {
@@ -22,6 +23,7 @@ public class AdminLectureController {
 	@Autowired
 	AdminLectureService adminLectureService;
 	
+	//강의 리스트 및 세부사항 리스트 조회
 	@GetMapping("admin/adminlectureList")
 	public String adminLectureList(Model model) {
 		List<LectureVO> lecList = adminLectureService.adminLectureList();
@@ -36,6 +38,7 @@ public class AdminLectureController {
 		return "lecture/admin/adminLectureList";
 	}
 	
+	// 강의별 세부정보
 	@ResponseBody
 	@GetMapping("admin/adminLectureInfo")
 	public LectureVO adminLectureInfo(Integer lectureNumber) {
@@ -44,7 +47,7 @@ public class AdminLectureController {
 		return adminLecInfo;
 	}
 	
-	@ResponseBody
+	//강의 등록하기
 	@PostMapping("admin/adminLectureInsert")
 	public int adminLectureInsert(@RequestBody LectureVO lectureVO) {
 		adminLectureService.adminLectureInsert(lectureVO);
@@ -59,6 +62,7 @@ public class AdminLectureController {
 //		return lecSublist;
 //	}
 	
+	//강의 별 학생 리스트
 	@ResponseBody
 	@GetMapping("admin/adminLectureStudentList")
 	public List<LectureStudentVO> adminLectureStudentList(Integer lectureNumber) {
@@ -66,4 +70,22 @@ public class AdminLectureController {
 		return lecStuList;
 	}
 	
+	// 이메일 검색해서 학생 찾기
+	@ResponseBody
+	@GetMapping("admin/adminLectureStudentSearch")
+	public LectureStudentVO adminLectureStudentSearch(String email) {
+		LectureStudentVO stuName = adminLectureService.adminLectureStudEmail(email);
+		System.out.println(stuName + "이름");
+		return stuName;
+	}
+	
+	@PostMapping("admin/adminLectureStudentInsert")
+	public int  adminLectureStudentInsert(@RequestBody RegistrationVO registrationVO){
+		
+		adminLectureService.adminLectureStudNumInsert(registrationVO);
+			
+		
+		
+		return 1;
+	}
 }

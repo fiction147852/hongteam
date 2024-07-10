@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.son.app.lecture.mapper.AdminLectureMapper">
 
+    <!-- 강의 내용 전체 조회 -->
 	<select id="adminLectureSelectAll" resultType="LectureVO">
 		SELECT lecture_number,          <!-- 강의 번호 -->
 			lecture_title,              <!-- 강의 제목 -->
@@ -19,6 +20,7 @@
 		FROM lecture
 	</select>
 
+<!-- 	특정 강의 정보 불러오기 -->
 	<select id="adminLectureSelectInfo" resultType="LectureVO">
 		SELECT lecture_number,          <!-- 강의 번호 -->
 			lecture_title,              <!-- 강의 제목 -->
@@ -37,6 +39,7 @@
 		WHERE lecture_number = #{lectureNumber}
 	</select>
 	
+<!-- 	강의 등록 -->
 	<insert id="adminLectureInsertInfo" parameterType="lectureVO">
 		INSERT INTO lecture
 		(
@@ -78,6 +81,7 @@
 		FROM subject
 	</select>
 	
+<!-- 	드롭다운 세부과목 보기 -->
 	<select id="adminLectureSubjectDetailList" resultType="LectureSubjectDetailVO">
 		SELECT detail_subject_name,
     		   detail_subject_code,
@@ -86,7 +90,7 @@
 	</select>
 
 
-
+<!-- 	해당 강의 수강 학생 조회 -->
 	<select id="adminLectureStudentList" resultType="LectureStudentVO">
 		SELECT student_number
 		        , name
@@ -96,4 +100,42 @@
 		FROM lecture_student
 		WHERE lecture_number = #{lectureNumber}
 	</select>
+	
+<!-- 	이메일로 학생찾기 -->
+	<select id="adminLectureStudentEmail" parameterType="String" resultType="LectureStudentVO">
+		SELECT student_number, 
+			name, 
+			email, 
+			phone, 
+			birth 
+		FROM student
+		WHERE email = #{email}
+	</select>
+	
+<!-- 	학생찾아서 강의리스트에 등록 -->
+<!-- 	<insert id="adminLectureStudentInsert" parameterType="LectureStudentVO" > -->
+<!-- 	INSERT INTO lecture_student  -->
+<!-- 		(student_number,  -->
+<!-- 		name, -->
+<!-- 		email, -->
+<!-- 		phone, -->
+<!-- 		birth) -->
+<!-- 	VALUES -->
+<!-- 		(#{studentNumber}, -->
+<!-- 		#{name}, -->
+<!-- 		#{email}, -->
+<!-- 		#{phone}, -->
+<!-- 		#{birth}) -->
+<!-- 	</insert> -->
+
+	<insert id="adminLectureStudentInsert" parameterType="RegistrationVO" >
+	INSERT INTO registration 
+		(registration_number, 
+		lecture_number,
+		student_number)
+	VALUES
+		(#{registrationNumber},
+		#{lectureNumber},
+		#{studentNumber})
+	</insert>
 </mapper>

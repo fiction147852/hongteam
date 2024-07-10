@@ -69,7 +69,9 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="lectureInfoModalLabel">학생 명단</h5>
+                <h5 class="modal-title" id="lectureInfoModalLabel">학생 명단 - 강의 번호 :  
+                <span id="selectedLectureNumber"></span>
+                </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -91,14 +93,16 @@
                         </table>
                     </div>
                     <div class="col-md-2">
-                        <div class="mb-3">
-                            <label for="searchId" class="form-label">학생 번호 검색</label>
-                            <input type="text" class="form-control" id="searchId">
+                       <div class="mb-3">
+                            <label for="searchName" class="form-label">학생 이메일 검색</label>
+                            <input type="text" class="form-control" id="searchEmail" >
                         </div>
                         <div class="mb-3">
-                            <label for="searchName" class="form-label">이름</label>
+                            <label for="searchId" class="form-label">학생 이름 확인</label>
                             <input type="text" class="form-control" id="searchName" readonly>
                         </div>
+                        <button type="button" class="btn btn-secondary" id="searchBtn">검색</button>
+                        <button type="button" class="btn btn-secondary" id="lecAddBtn">추가</button>
                     </div>
                 </div>
             </div>
@@ -219,7 +223,6 @@
 </body>
 
 <script th:inline="javascript">
-const lecStuList = /*[[${lecStuList}]]*/[];
 
 	
 
@@ -247,41 +250,106 @@ const lecStuList = /*[[${lecStuList}]]*/[];
 	    	
 // 	    })
 // 	}
+
+
+	//======================================================================
+	// 학생 검색 하기
+	//======================================================================
+
+	let stuInsInfo = {};
+	
+	
+	const lecNum = selectedLectureNumber.innerHTML;
+	
+	document.getElementById('searchBtn').addEventListener('click', function() {
+	    const searchEmail = document.getElementById('searchEmail').value;
+	
+	    $.ajax({
+	        type: 'GET',
+	        url: 'adminLectureStudentSearch',  
+	        data: {
+	            email: searchEmail
+	        },
+	        success: function(response) {
+	            console.log('서버 응답:', response.name);
+	            const name = document.getElementById('searchName');
+	            
+	            console.log('최종 응답' , lectureNumber)
+	            stuInsInfo = response
+// 	            stuInsInfo.lecture_number = lecNum;
+	            name.value = response.name;
+// 	            console.log('최종 응답' , stuInsInfo)
+	        },
+	        error: function(xhr, status, error) {
+	            console.error('서버 요청 실패:', error);
+	        }
+	    });
+	});
+		
+	
+	//======================================================================
+	// 학생 추가하기
+	//======================================================================
+	document.getElementById('lecAddBtn').addEventListener('click', function() {
+	    const searchEmail = document.getElementById('searchEmail').value;
+	
+	    $.ajax({
+	        type: 'POST',
+	        url: 'adminLectureStudentInsert',  
+	        data: JSON.stringify(stuInsInfo),
+            contentType: 'application/json; charset=utf-8',
+	        success: function(response) {
+	            console.log('추가할 학생:', response);
+	        },
+	        error: function(xhr, status, error) {
+	            console.error('서버 요청 실패:', error);
+	        }
+	    });
+	});
+		
 	//======================================================================
 	// 강의 별 학생 리스트 불러오기
 	//======================================================================
-
-	//======================================================================
-	// 등록 버튼 생성
-	//======================================================================
+	
+	let lecStuList = [];
+	//해당 강의 번호 저장 
+	let selLecNum = document.getElementById('selectedLectureNumber');
+	let thisLecNum = selLecNum.textContent;
+	
 	function lecInfo(lectureNumber) {
 		$.ajax({
 	    	type : 'GET',
 	    	url : 'adminLectureStudentList',
 	    	data : {lectureNumber : lectureNumber},
-	    	success :function(response){
-			    console.log(lectureNumber);
+	    	success :function(lecStuResponse){
+			    console.log(lecStuResponse , '결과');
+			    lecStuList = lecStuResponse;
+				const lecStLi = document.getElementById('lectureStudentList');
+				console.log('결과', lecStuList);
+				let tableHTML = '';
+				lecStuList.forEach(student => {
+				  tableHTML += '<tr>';
+				  tableHTML += `<td>${student.studentNumber}</td>`;
+				  tableHTML += `<td>${student.name}</td>`;
+				  tableHTML += `<td>${student.email}</td>`;
+				  tableHTML += `<td>${student.phone}</td>`;
+				  tableHTML += `<td>${student.birth}</td>`;
+				  tableHTML += '</tr>';
+				});
+
+				lecStLi.innerHTML = tableHTML;
+			    document.getElementById('selectedLectureNumber').textContent = lectureNumber;
+
 	    	},
 			error : function(xhr, status, error) {
 				console.error('Error fetching member info:', error);
 			}
 	    })
 	}
+	console.log(lecStuList, '결과2');
 	
-	const lecStLi = document.getElementById('lectureStudentList');
-	console.log(lecStuList);
-	let tableHTML = '';
-	lecStuList.forEach(student => {
-	  tableHTML += '<tr>';
-	  tableHTML += `<td>${student.student_number}</td>`;
-	  tableHTML += `<td>${student.name}</td>`;
-	  tableHTML += `<td>${student.email}</td>`;
-	  tableHTML += `<td>${student.phone}</td>`;
-	  tableHTML += `<td>${student.birth}</td>`;
-	  tableHTML += '</tr>';
-	});
 
-	lecStLi.innerHTML = tableHTML;
+
 	
 	//======================================================================
 	// 등록 버튼 생성
@@ -370,7 +438,7 @@ const lecStuList = /*[[${lecStuList}]]*/[];
 		        for (let i = 15; i <= 22; i++) {
 		            const option = document.createElement('option');
 		            option.value = i;
-		            option.textContent = `${i},${i + 1}`;
+		            option.textContent = `${i}~${i + 1}`;
 		            timeCodeSelect.appendChild(option);
 		        }
 		    }

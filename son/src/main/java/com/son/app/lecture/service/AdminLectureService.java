@@ -15,4 +15,10 @@ public interface AdminLectureService {
 
 	public List<LectureStudentVO> adminLectureStudInfo(Integer lectureNumber);
 
+	public LectureStudentVO adminLectureStudEmail(String email);
+
+	public int adminLectureStudInsert(LectureStudentVO lectureStudentVO);
+
+	public int adminLectureStudNumInsert(RegistrationVO registrationVO);
+
 }

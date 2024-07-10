@@ -8,9 +8,8 @@ public class LectureStudentVO {
     private Integer studentNumber;
     private String name;
     private String email;
-//    private String address;
+    private String address;
     private String phone;
     private int parentNumber;
     private String birth;
-	
 }
