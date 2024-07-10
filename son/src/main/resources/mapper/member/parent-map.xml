@@ -25,4 +25,15 @@
 	<select id="getParentNumberByEmail" parameterType="string" resultType="int">
 		SELECT parent_number FROM parent WHERE email = #{email}
 	</select>
+	
+	<select id="mypageInfo" resultType="ParentVO"> 
+	SELECT parent_number,
+		name,
+		email,
+		address,
+		phone,
+		birth
+	FROM parent
+	WHERE parent_number = #{parentNumber}
+	</select>
 </mapper>

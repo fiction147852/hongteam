@@ -14,14 +14,15 @@ public class ParentPayVO {
     private Date approvalDate;
     private String receiveStatus;
     private String paymentType;
+    private Integer studentNumber;
+    private String studentName;
     
     // 부모
     private Integer parentNumber;
     
+    
     // 강의
     private Integer lectureNumber;
-    private String lectureName;
+    private String lectureTitle;
     private int lectureCost;
-    private Date lectureStartDate;
-    private Date lectureEndDate;
 }
