@@ -55,6 +55,30 @@
         </where>
     </select>
 
+    <resultMap id="studentTaskInfoMap" type="TaskListVO">
+        <id property="taskNumber" column="task_number"></id>
+        <collection property="attachmentFileVOList" ofType="AttachmentFileVO" javaType="ArrayList" column="task_number" select="studentTaskAttachmentFile"></collection>
+    </resultMap>
+
+    <!-- 과제 상세 정보  -->
+    <select id="studentTaskInfo" resultMap="studentTaskInfoMap">
+        SELECT task_number
+             , title
+             , post_date
+             , submit_deadline
+             , description
+             , lecture_number
+        FROM task
+        WHERE task_number = #{taskNumber}
+    </select>
+
+    <!-- 특정 과제의 첨부파일    -->
+    <select id="studentTaskAttachmentFile" resultType="AttachmentFileVO">
+        SELECT *
+        FROM attachment_file
+        WHERE task_number = #{taskNumber}
+    </select>
+
 </mapper>
 
 

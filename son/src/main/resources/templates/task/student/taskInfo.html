@@ -1,0 +1,68 @@
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layouts/student/studentDetailSubject_layout}">
+<head>
+    <link th:href="@{/css/student/task/tasklInfo.css}" rel="stylesheet">
+    <script th:inline="javascript">
+        const lectureNumber = [[${taskListVO.lectureNumber}]];
+    </script>
+    <script>
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+    </script>
+    <script th:src="@{/js/task/taskInfo.js}"></script>
+</head>
+<body>
+    <div layout:fragment="content">
+        <h4 class="header-title">과제 제출</h4>
+        <div class="header-right">
+            <span>목록</span>
+        </div>
+        <table class="table-custom">
+            <tr>
+                <th>제목</th>
+                <td class="highlight">[[${taskListVO.title}]]</td>
+                <th>제출 기한</th>
+                <td>[[${#dates.format(taskListVO.postDate, 'yyyy-MM-dd')}]] ~ [[${#dates.format(taskListVO.submitDeadline, 'yyyy-MM-dd')}]]</td>
+            </tr>
+            <tr style="height: 100px;">
+                <th>강의 내용</th>
+                <td colspan="3">[[${taskListVO.description}]]</td>
+            </tr>
+            <tr th:if="${not #lists.isEmpty(taskListVO.attachmentFileVOList)}">
+                <th>과제 파일</th>
+                <td colspan="3">
+                    <div class="attachment-cards">
+                        <th:block th:each="attachmentFile : ${taskListVO.attachmentFileVOList}">
+                            <div class="card">
+                                <a th:href="@{/student/{lectureNumber}/task/{taskNumber}/download(lectureNumber=${taskListVO.lectureNumber}, taskNumber=${attachmentFile.taskNumber}, originalFileName=${attachmentFile.originalFileName}, saveFileName=${attachmentFile.saveFileName})}"><i class="fa-solid fa-file"></i>[[${attachmentFile.originalFileName}]]</a>
+                            </div>
+                        </th:block>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="file-input-container">
+            <input type="file" id="file-input" class="file-input" multiple>
+            <label for="file-input" class="file-input-label">파일 선택</label>
+        </div>
+        <table class="table-custom two-table">
+            <thead>
+                <tr style="height: 60px">
+                    <th>파일명</th>
+                    <th>파일 유형</th>
+                    <th>파일 크기</th>
+                    <th>삭제</th>
+                </tr>
+            </thead>
+            <tbody id="submitted-files">
+            <!-- 제출 파일 목록이 여기에 동적으로 추가됩니다 -->
+            </tbody>
+        </table>
+
+        <div class="submit-button-container">
+            <button class="btn-submit">제출</button>
+        </div>
+    </div>
+</body>
+</html>
