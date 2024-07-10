@@ -17,9 +17,9 @@ public class LectureVO {
     private String lectureLevelCode;
     private String weekdaysCode;
     private String timeCode;
-    @DateTimeFormat(pattern = "yyyy/MM/dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date lectureStartDate;
-    @DateTimeFormat(pattern = "yyyy/MM/dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date lectureEndDate;
     private Integer instructorNumber;
 }

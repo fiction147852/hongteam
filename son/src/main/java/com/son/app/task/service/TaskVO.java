@@ -17,11 +17,11 @@ public class TaskVO {
 	private String title;		// 제목
 	private String description; // 설명   
 	
-	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date postDate;		// 게시 일자
 	
-	@DateTimeFormat(pattern = "yyyy/MM/dd")
-	@JsonFormat(pattern = "yyyy/MM/dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date submitDeadline;// 제출 기한
 	private int lectureNumber;	// 강의 번호
 	
