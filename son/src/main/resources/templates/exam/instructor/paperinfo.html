@@ -36,7 +36,6 @@
     </div>
     <div class="grid grid-cols-2 gap-4">
         <div th:each="question, questionStat : ${paperInfo.questions}" class="card max-w-md">
-            <div class="slide-content">
                 <div style="display: flex; justify-content: space-between;">
                     <h6 class="text-lg font-semibold mt-3 ml-3" th:text="${questionStat.count + '번 문제'}"></h6>
                 </div>
@@ -49,7 +48,6 @@
                 </div>
             </div>
         </div>
-    </div>
     <div class="clearfix">
         <div class="btn-group mt-2 float-end">
         	<button type="button" class="btn btn-primary" th:onclick="|location.href='@{/instructor/createExam(paperNumber=${paperInfo.paperNumber})}'|">출제</button>

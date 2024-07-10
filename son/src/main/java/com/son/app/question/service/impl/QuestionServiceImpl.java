@@ -55,6 +55,15 @@ public class QuestionServiceImpl implements QuestionService{
 	public int deleteQuestion(int questionNo) {
 		return questionMapper.deleteQuestionInfo(questionNo);
 	}
+	
+	
+	@Override
+	public List<QuestionVO> searchQuestions(String searchType, String searchKeyword) {
+	    Map<String, String> params = new HashMap<>();
+	    params.put("searchType", searchType);
+	    params.put("searchKeyword", searchKeyword);
+	    return questionMapper.searchQuestions(params);
+	}
 
 	
 //	 @Override

@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.son.app.exam.mapper.InstructorExamMapper;
 import com.son.app.exam.service.ExamVO;
+import com.son.app.exam.service.GradingResult;
 import com.son.app.exam.service.InstructorExamService;
 import com.son.app.lecture.service.InsLectureService;
 import com.son.app.lecture.service.LectureVO;
@@ -31,6 +33,9 @@ public class InstructorExamController {
 	@Autowired
 	InsLectureService lectureService;
 	
+	@Autowired
+	InstructorExamMapper examMapper;
+	
 	@GetMapping("instructor/{lectureNumber}/examList")
 	public String examList(@PathVariable Integer lectureNumber,
 						   @RequestParam(defaultValue = "1") int page,
@@ -42,8 +47,42 @@ public class InstructorExamController {
 		model.addAttribute("pageVO", pageVO);
 		model.addAttribute("lectureNumber", lectureNumber);
 		return "exam/instructor/insExamList";
-		
 	}
+	
+    @GetMapping("instructor/{lectureNumber}/exam/{testNumber}/completedStudents")
+    public String completedStudentList(@PathVariable Integer lectureNumber,
+                                       @PathVariable Integer testNumber,
+                                       @RequestParam(defaultValue = "1") int page,
+                                       Model model) {
+        PageVO pageVO = instructorExamService.getCompletedStudentPageInfo(testNumber, page);
+        List<ExamVO> completedStudents = instructorExamService.getCompletedStudentList(testNumber, pageVO);
+
+        model.addAttribute("completedStudents", completedStudents);
+        model.addAttribute("pageVO", pageVO);
+        model.addAttribute("lectureNumber", lectureNumber);
+        model.addAttribute("testNumber", testNumber);
+        return "exam/instructor/insCompletedStudentList";
+    }
+    
+    @GetMapping("instructor/{lectureNumber}/exam/{testNumber}/studentResult")
+    public String viewStudentExamResult(@PathVariable Integer lectureNumber,
+                                        @PathVariable Integer testNumber,
+                                        @RequestParam Integer participateNumber,
+                                        Model model) {
+        List<GradingResult> results = examMapper.getStudentExamResults(participateNumber);
+        
+        if (!results.isEmpty()) {
+            GradingResult firstResult = results.get(0);
+            model.addAttribute("paperTitle", firstResult.getPaperTitle());
+            model.addAttribute("producer", firstResult.getProducer());
+            model.addAttribute("studentName", firstResult.getStudentName());
+        }
+        model.addAttribute("results", results);
+        model.addAttribute("lectureNumber", lectureNumber);
+        model.addAttribute("testNumber", testNumber);
+        model.addAttribute("participateNumber", participateNumber);
+        return "exam/instructor/examResult";
+    }
 	
 	@GetMapping("instructor/createExam")
 	public String showCreateExamForm(@RequestParam Integer paperNumber, Model model) {

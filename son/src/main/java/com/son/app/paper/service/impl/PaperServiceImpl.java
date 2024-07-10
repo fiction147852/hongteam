@@ -17,9 +17,6 @@ import com.son.app.paper.service.PaperService;
 import com.son.app.paper.service.PaperVO;
 import com.son.app.question.service.QuestionVO;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Service
 public class PaperServiceImpl implements PaperService {
 	private static final Logger logger = LoggerFactory.getLogger(PaperController.class);
@@ -28,8 +25,8 @@ public class PaperServiceImpl implements PaperService {
 
 	@Override
 	public List<PaperVO> paperList(PageVO pageVO) {
-		int start = (pageVO.getPage() - 1 ) * pageVO.getPageSize() + 1;
-		int end = start + pageVO.getPageSize() - 1;
+		int start = Math.max(0, (pageVO.getPage() - 1) * pageVO.getPageSize());
+		int end = start + pageVO.getPageSize();
 		return paperMapper.selectPaperAll(start, end);
 	}
 	

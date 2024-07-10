@@ -18,9 +18,9 @@ public class InstructorExamServiceImpl implements InstructorExamService {
 	
 	@Override
 	public List<ExamVO> examList(Integer lectureNumber, PageVO pageVO) {
-		int start = (pageVO.getPage() - 1 ) * pageVO.getPageSize() + 1;
-		int end = start + pageVO.getPageSize() - 1;
-		return instructorExamMapper.selectExamAll(lectureNumber, start, end);
+	    int start = Math.max(0, (pageVO.getPage() - 1) * pageVO.getPageSize());
+	    int end = start + pageVO.getPageSize();
+	    return instructorExamMapper.selectExamAll(lectureNumber, start + 1, end);
 	}
 
 	@Override
@@ -32,5 +32,18 @@ public class InstructorExamServiceImpl implements InstructorExamService {
 	@Override
     public void createExam(ExamVO exam) {
         instructorExamMapper.insertExam(exam);
+    }
+
+    @Override
+    public List<ExamVO> getCompletedStudentList(Integer testNumber, PageVO pageVO) {
+        int start = Math.max(0, (pageVO.getPage() - 1) * pageVO.getPageSize());
+        int end = start + pageVO.getPageSize();
+        return instructorExamMapper.selectCompletedStudents(testNumber, start, end);
+    }
+
+    @Override
+    public PageVO getCompletedStudentPageInfo(Integer testNumber, int page) {
+        int totalItems = instructorExamMapper.countCompletedStudents(testNumber);
+        return new PageVO(page, totalItems, 5, 5);
     }
 }

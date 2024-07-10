@@ -27,11 +27,11 @@ body {
 </head>
 
 <body>
-	<div id="container">
+	<div id="container" th:fragment="questionListFragment">
 		<div class="swiper">
 			<div class="swiper-wrapper mb-3">
 				<th:block th:each="qs : ${questionList}">
-					<div class="swiper-slide">
+					<div class="swiper-slide" th:data-subject="${qs.subjectName}">
 						<div class="card">
 							<div class="slide-content">
 								<div style="display: flex; justify-content: space-between;">
@@ -94,13 +94,14 @@ body {
 			</div>
 		</div>
 		<div class="mt-4">
-			<form class="d-flex justify-content-center mb-3">
-				<select class="form-select me-2 col-1">
-					<option>출제자</option>
-					<option>문제유형</option>
-				</select> <input type="text" placeholder="검색어를 입력하세요."
-					class="form-control me-2 col-3">
-				<button type="submit" class="btn btn-info">검색</button>
+			<form id="searchForm" class="d-flex justify-content-center mb-3">
+			    <select class="form-select me-2 col-1" name="searchType" id="searchType">
+			        <option value="출제자">출제자</option>
+			        <option value="문제유형">문제유형</option>
+			    </select>
+			    <input type="text" placeholder="검색어를 입력하세요." name="searchKeyword" id="searchKeyword"
+			           class="form-control me-2 col-3">
+			    <button type="submit" class="btn btn-info">검색</button>
 			</form>
 		</div>
 		<div>
@@ -112,6 +113,33 @@ body {
 
 <script src="/lms/js/question/qlist-slider.js"></script>
 <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const searchForm = document.getElementById('searchForm');
+    const container = document.getElementById('container');
+
+    searchForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const searchType = document.getElementById('searchType').value;
+        const searchKeyword = document.getElementById('searchKeyword').value;
+
+        axios.get('/lms/instructor/search', {
+            params: {
+                searchType: searchType,
+                searchKeyword: searchKeyword
+            }
+        })
+        .then(response => {
+            // 서버로부터 받은 HTML을 container에 삽입
+            container.innerHTML = response.data;
+
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+
+});
 
 function confirmDelete(button) {
     const swalWithBootstrapButtons = Swal.mixin({

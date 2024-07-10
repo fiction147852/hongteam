@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.son.app.question.service.QuestionService;
@@ -110,4 +111,14 @@ public class QuestionController {
 		questionService.deleteQuestion(questionNo);
 		return "redirect:/instructor/questionList";
 		}
+	
+	@GetMapping("/lms/instructor/search")
+	public String searchQuestions(@RequestParam String searchType,
+	                              @RequestParam String searchKeyword,
+	                              Model model) {
+	    List<QuestionVO> searchResults = questionService.searchQuestions(searchType, searchKeyword);
+	    model.addAttribute("questionList", searchResults);
+	    
+	    return "question/instructor/qlist";
+	}
 }

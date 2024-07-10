@@ -40,6 +40,35 @@
 		WHERE question_number = #{questionNumber}
 	</select>
 	
+	<select id="searchQuestions" parameterType="map" resultType="QuestionVO">
+	    SELECT q.question_number,
+	           q.question_type_code,
+	           q.text,
+	           subject_name(q.subject_code) AS subject_name,
+	           detail_subject_name(q.detail_subject_code) AS detail_subject_name,
+	           q.difficulty_code,
+	           q.answer,
+	           q.option1,
+	           q.option2,
+	           q.option3,
+	           q.option4,
+	           q.option5,
+	           q.instructor_number,
+	           i.name AS instructor_name,
+	           q.explanation
+	    FROM question q
+	    JOIN instructor i 
+	    	ON q.instructor_number = i.instructor_number
+	    WHERE 1=1
+	    <if test="searchType == '출제자'">
+	        AND i.name LIKE '%' || #{searchKeyword} || '%'
+	    </if>
+	    <if test="searchType == '문제유형'">
+	        AND q.question_type_code LIKE '%' || #{searchKeyword} || '%'
+	    </if>
+	    ORDER BY q.question_number
+	</select>
+	
 	<insert id="insertQuestionInfo" parameterType="QuestionVO">
 		<selectKey keyProperty="questionNumber" resultType="int" order="BEFORE">
 			SELECT NVL(MAX(question_number), 0) + 1 FROM question

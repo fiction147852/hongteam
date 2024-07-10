@@ -19,8 +19,8 @@ public class TaskServiceImpl implements TaskService {
 	TaskMapper taskMapper;
 	
     public List<TaskVO> taskList(Integer lectureNumber, PageVO pageVO) {
-        int start = (pageVO.getPage() - 1) * pageVO.getPageSize() + 1;
-        int end = start + pageVO.getPageSize() - 1;
+        int start = Math.max(0, (pageVO.getPage() - 1) * pageVO.getPageSize());
+        int end = start + pageVO.getPageSize();
         return taskMapper.selectTaskAll(lectureNumber, start, end);
     }
 
