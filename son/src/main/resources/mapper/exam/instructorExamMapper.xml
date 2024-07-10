@@ -2,26 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.son.app.exam.mapper.InstructorExamMapper">
 	<select id="selectExamAll" resultType="ExamVO">
-		SELECT test_number,
-			   examination_date,
-			   limit_time,
-			   exam_date,
-			   paper_number,
-			   lecture_number,
-			   test_title
-		FROM (
-			SELECT ROW_NUMBER() OVER (ORDER BY test_number) AS rn,
-				   test_number,
-				   examination_date,
-				   limit_time,
-				   exam_date,
-				   paper_number,
-				   lecture_number,
-				   test_title
-			FROM test
-			WHERE lecture_number = #{lectureNumber}
-		) t
-		WHERE rn BETWEEN #{start} AND #{end}
+	    SELECT t.test_number,
+	           t.examination_date,
+	           t.limit_time,
+	           t.exam_date,
+	           t.paper_number,
+	           t.lecture_number,
+	           t.test_title,
+	           (SELECT COUNT(DISTINCT p.student_number)
+	            FROM participate p
+	            WHERE p.test_number = t.test_number
+	            AND p.participate_status = '응시 완료') AS completedCount
+	    FROM (
+	        SELECT ROW_NUMBER() OVER (ORDER BY test_number) AS rn,
+	               test_number,
+	               examination_date,
+	               limit_time,
+	               exam_date,
+	               paper_number,
+	               lecture_number,
+	               test_title
+	        FROM test
+	        WHERE lecture_number = #{lectureNumber}
+	    ) t
+	    WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 	
 	<select id="countExams" resultType="int">
@@ -51,6 +55,84 @@
     		#{lectureNumber}, 
     		#{testTitle})
 	</insert>
+	
+	<select id="countCompletedStudentsforExamList" resultType="int">
+	    SELECT COUNT(DISTINCT p.student_number)
+	    FROM participate p
+	    JOIN test t 
+	    	ON p.test_number = t.test_number
+	    WHERE t.test_number = #{testNumber}
+	    	AND p.participate_status = '응시 완료'
+	</select>
+	
+	<select id="selectCompletedStudents" resultType="ExamVO">
+	    SELECT *
+	    FROM (
+	        SELECT ROW_NUMBER() OVER (ORDER BY p.participate_number) AS rn,
+	               t.test_number,
+	               t.test_title,
+	               p.student_number,
+	               s.name AS student_name,
+	               p.participate_number,
+	               p.total_score,
+	               p.feedback,
+	               p.participate_status
+	        FROM test t
+	        JOIN participate p 
+	        	ON t.test_number = p.test_number
+	        JOIN student s 
+	        	ON p.student_number = s.student_number
+	        WHERE t.test_number = #{testNumber}
+	        AND p.participate_status = '응시 완료'
+	    )
+	    WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="countCompletedStudents" resultType="int">
+	    SELECT COUNT(*)
+	    FROM participate
+	    WHERE test_number = #{testNumber}
+	    AND participate_status = '응시 완료'
+	</select>
+	
+	<select id="getStudentExamResults" resultType="GradingResult">
+		WITH participate_paper AS (
+		    SELECT p.participate_number, pap.paper_number 
+		    FROM participate p
+		    JOIN paper pap ON p.test_number = pap.paper_number
+		)
+		SELECT
+		    gr.grading_result_number,
+		    gr.participate_number,
+		    gr.question_number,
+		    gr.answer AS studentAnswer,
+		    gr.answer_status AS answerStatus,
+		    q.answer AS correctAnswer,
+		    q.text AS questionText,
+		    pc.score,
+		    p.producer,
+		    p.paper_title,
+		    s.name AS studentName
+		FROM
+		    grading_result gr
+		JOIN
+		    question q ON gr.question_number = q.question_number
+		LEFT JOIN
+		    participate_paper pp ON gr.participate_number = pp.participate_number
+		LEFT JOIN
+		    paper_content pc ON gr.question_number = pc.question_number
+		                    AND pc.paper_number = pp.paper_number
+		LEFT JOIN
+		    paper p ON pc.paper_number = p.paper_number
+		JOIN
+		    participate part ON gr.participate_number = part.participate_number
+		JOIN
+		    student s ON part.student_number = s.student_number
+		WHERE
+		    gr.participate_number = #{participateNumber}
+		ORDER BY
+		    gr.question_number
+	</select>
 	
 
 </mapper>

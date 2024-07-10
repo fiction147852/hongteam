@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/instructor_layout}"
+	layout:fragment="content">
+<head>
+
+<title>시험 목록</title>
+
+</head>
+
+<body>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="table-responsive pt-3">
+					<table class="table table-hover text-center project-orders-table">
+						<thead>
+							<tr>
+								<th>번호</th>
+								<th>응시자</th>
+								<th>점수</th>
+								<th>시험지 확인</th>
+								<th>피드백 작성</th>
+								<th>피드백 현황</th>
+							</tr>
+						</thead>
+						<tbody>
+							<th:block th:each="cs : ${completedStudents}" >
+								<tr>
+									<td>[[${cs.participateNumber}]]</td>
+									<td>[[${cs.studentName}]]</td>
+									<td>[[${cs.totalScore}]]점</td>
+									<td><button class="btn btn-link btn-sm" th:onclick="|location.href='@{/instructor/{lectureNumber}/exam/{testNumber}/studentResult(lectureNumber=${lectureNumber}, testNumber=${testNumber}, participateNumber=${cs.participateNumber})}'|">확인</button></td>
+									<td><button class="btn btn-link btn-sm">작성</button></td>
+									<td>[[${cs.feedback}]]</td>
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="pagination-container mt-3">
+			<ul class="pagination d-flex justify-content-center">
+				<li th:if="${pageVO.prev}" class="page-item"><a
+					th:href="@{/instructor/{lectureNumber}/exam/{testNumber}/completedStudents(lectureNumber=${lectureNumber}, testNumber=${testNumber}, page=${pageVO.startPage - 1})}"
+					class="page-link">&laquo;</a></li>
+				<li
+					th:each="pageNum : ${#numbers.sequence(pageVO.startPage, pageVO.endPage)}"
+					th:class="${pageNum == pageVO.page} ? 'page-item active' : 'page-item'">
+					<a
+					th:href="@{/instructor/{lectureNumber}/exam/{testNumber}/completedStudents(lectureNumber=${lectureNumber}, testNumber=${testNumber}, page=${pageNum})}"
+					th:text="${pageNum}" class="page-link"></a>
+				</li>
+				<li th:if="${pageVO.next}" class="page-item"><a
+					th:href="@{/instructor/{lectureNumber}/exam/{testNumber}/completedStudents(lectureNumber=${lectureNumber}, testNumber=${testNumber}, page=${pageVO.endPage + 1})}"
+					class="page-link">&raquo;</a></li>
+			</ul>
+		</div>
+	</div>
+</body>
+
+</html>
+

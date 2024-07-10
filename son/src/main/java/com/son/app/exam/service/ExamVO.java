@@ -23,4 +23,17 @@ public class ExamVO {
     private Integer paperNumber;
     private Integer lectureNumber;
     private String testTitle;
+    
+    // 응시완료자
+    private Integer studentNumber;
+    private String studentName;
+    private Integer participateNumber;
+    private String participateStatus;
+    private Integer totalScore;
+    private String feedback;
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
+    private Date participateDate;
+    
+    private Integer completedCount;
+    
 }

@@ -14,6 +14,8 @@ public interface QuestionService {
 	
 	public int deleteQuestion (int questionNo);
 	
+	List<QuestionVO> searchQuestions(String searchType, String searchKeyword);
+	
 	/*
 	 * List<Map<String, String>> getAllSubjects(); List<Map<String, String>>
 	 * getDetailSubjects(String subjectCode);
