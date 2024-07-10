@@ -334,13 +334,13 @@
 				lecStLi.innerHTML = tableHTML;
 			    document.getElementById('selectedLectureNumber').textContent = lectureNumber;
 
-				 function lecInfo(lectureNumber) {
+				 
 			         // lectureNumber를 객체에 추가
 			         lecStuList.lectureNumber = lectureNumber;
 			         
 			         // lectureNumber를 selectedLectureNumber 스팬 요소에 추가
 			         document.getElementById('selectedLectureNumber').textContent = lectureNumber;
-			     }
+			     
 	    	},
 			error : function(xhr, status, error) {
 				console.error('Error fetching member info:', error);
