@@ -11,6 +11,7 @@ import com.son.app.lecture.service.LectureStudentVO;
 import com.son.app.lecture.service.LectureSubjectDetailVO;
 import com.son.app.lecture.service.LectureSubjectVO;
 import com.son.app.lecture.service.LectureVO;
+import com.son.app.lecture.service.RegistrationVO;
 
 @Service
 public class AdminLectureServiceImpl implements AdminLectureService {
@@ -46,6 +47,21 @@ public class AdminLectureServiceImpl implements AdminLectureService {
 	@Override
 	public List<LectureStudentVO> adminLectureStudInfo(Integer lectureNumber) {
 		return adminLectureMapper.adminLectureStudentList(lectureNumber);
+	}
+
+	@Override
+	public LectureStudentVO adminLectureStudEmail(String email) {
+		return adminLectureMapper.adminLectureStudentEmail(email);
+	}
+
+	@Override
+	public int adminLectureStudInsert(LectureStudentVO lectureStudentVO) {
+		return adminLectureMapper.adminLectureStudentInsert(lectureStudentVO);
+	}
+
+	@Override
+	public int adminLectureStudNumInsert(RegistrationVO registrationVO) {
+		return adminLectureMapper.adminLectureStudNumInsert(registrationVO);
 	}
 
 }

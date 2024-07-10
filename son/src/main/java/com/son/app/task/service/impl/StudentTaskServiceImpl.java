@@ -24,4 +24,9 @@ public class StudentTaskServiceImpl implements StudentTaskService {
     public int taskCount(Integer lectureNumber, String title, String taskSubmitStatus) {
         return studentTaskMapper.studentTaskCount(lectureNumber, title, taskSubmitStatus);
     }
+
+    @Override
+    public TaskListVO taskInfo(Integer taskNumber) {
+        return studentTaskMapper.studentTaskInfo(taskNumber);
+    }
 }

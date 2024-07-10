@@ -1,13 +1,17 @@
 package com.son.app.task.service;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.son.app.attachment.AttachmentFileVO;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class TaskListVO {
     private int rowNum;
+    private Integer lectureNumber;
+    private Integer taskSubmitNumber;
     private Integer taskNumber;
     private String title;
     private String description;
@@ -19,4 +23,6 @@ public class TaskListVO {
     private Date postDate;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date submitDeadline;
+
+    private List<AttachmentFileVO> attachmentFileVOList;
 }
