@@ -14,7 +14,7 @@ public class ParentPayServiceImpl implements ParentPayService{
 	ParentPayMapper parentpaymapper;
 
 	@Override
-	public List<ParentPayVO> LecturePayList() {
-		return parentpaymapper.lecturePayList();
+	public List<ParentPayVO> LecturePayList(Integer parentNumber) {
+		return parentpaymapper.lecturePayList(parentNumber);
 	}	
 }

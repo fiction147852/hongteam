@@ -9,4 +9,8 @@ public interface ParentService {
     public List<StudentVO> getStudentsByParentNumber(int parentNumber);
 
     public int getParentNumberByEmail(String email);
+
+	public List<ParentVO> mypageInfo(int parentNumber);
+
+	public int save(ParentVO parent);
 }
