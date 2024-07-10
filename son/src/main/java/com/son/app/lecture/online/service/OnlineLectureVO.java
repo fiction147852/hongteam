@@ -13,7 +13,7 @@ public class OnlineLectureVO {
 	private String description;
 	private String lectureUrl;
 	
-	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date postDate;
 	private int views;
 	private int lectureNumber;

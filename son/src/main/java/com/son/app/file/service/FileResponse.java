@@ -14,9 +14,9 @@ public class FileResponse {
 	private long fileSize;
 	private boolean isDeleted;
 	
-	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDateTime createdDate;
-	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDateTime deletedDate;
 	
     private Integer lectureMaterialNumber;
