@@ -130,12 +130,15 @@
 
 	<insert id="adminLectureStudentInsert" parameterType="RegistrationVO" >
 	INSERT INTO registration 
-		(registration_number, 
-		lecture_number,
-		student_number)
+	    (registration_number, 
+	    lecture_number, 
+	    student_number)
 	VALUES
-		(#{registrationNumber},
-		#{lectureNumber},
-		#{studentNumber})
+	    (
+	    NVL((SELECT MAX(registration_number) + 1
+	         FROM registration), 1), 
+	    #{lectureNumber},
+	    #{studentNumber}
+	    );
 	</insert>
 </mapper>
