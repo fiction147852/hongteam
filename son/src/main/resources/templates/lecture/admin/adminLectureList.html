@@ -25,7 +25,7 @@
 								<th>강의 설명</th>
 								<th>강의 비용</th>
 								<th>과목</th>
-								<th>세부 과목</th>
+<!-- 								<th>세부 과목</th> -->
 								<th>정원</th>
 								<th>강의 수준</th>
 								<th>요일</th>
@@ -37,25 +37,22 @@
 						</thead>
 						<tbody>
 							<th:block th:each="lecs : ${adminLecList}">
-								<tr th:data-id="${lecs.lectureNumber}" data-bs-toggle="modal"
-									th:onclick="'lecInfo(\'' + ${lecs.lectureNumber} + '\')'"
-									data-bs-target="#lectureInfoModal">
-									<td th:text="${lecs.lectureNumber}"></td>
-									<td th:text="${lecs.lectureTitle}"></td>
-									<td th:text="${lecs.lectureDescription}"></td>
-									<td th:text="${lecs.lectureCost}"></td>
-									<td th:text="${lecs.subjectCode}"></td>
-									<td th:text="${lecs.detailSubjectCode}"></td>
-									<td th:text="${lecs.capacity}"></td>
-									<td th:text="${lecs.lectureLevelCode}"></td>
-									<td th:text="${lecs.weekdaysCode}"></td>
-									<td th:text="${lecs.timeCode}"></td>
-									<td
-										th:text="${#dates.format(lecs.lectureStartDate, 'yyyy-MM-dd')}"></td>
-									<td
-										th:text="${#dates.format(lecs.lectureEndDate, 'yyyy-MM-dd')}"></td>
-									<td th:text="${lecs.instructorNumber}"></td>
-								</tr>
+							    <tr th:data-id="${lecs.lectureNumber}" data-bs-toggle="modal"
+							        th:onclick="'lecInfo(\'' + ${lecs.lectureNumber} + '\')'"
+							        data-bs-target="#lectureInfoModal">
+							        <td th:text="${lecs.lectureNumber}"></td>
+							        <td th:text="${lecs.lectureTitle}"></td>
+							        <td th:text="${lecs.lectureDescription}"></td>
+							        <td th:text="${lecs.lectureCost}"></td>
+							        <td th:text="${lecs.subjectCode + '(' + lecs.detailSubjectCode + ')'}"></td>
+							        <td th:text="${lecs.capacity}"></td>
+							        <td th:text="${lecs.lectureLevelCode}"></td>
+							        <td th:text="${lecs.weekdaysCode}"></td>
+							        <td th:text="${lecs.timeCode}"></td>
+							        <td th:text="${#dates.format(lecs.lectureStartDate, 'yyyy-MM-dd')}"></td>
+							        <td th:text="${#dates.format(lecs.lectureEndDate, 'yyyy-MM-dd')}"></td>
+							        <td th:text="${lecs.instructorNumber}"></td>
+							    </tr>
 							</th:block>
 						</tbody>
 					</table>
@@ -97,11 +94,11 @@
                             <label for="searchName" class="form-label">학생 이메일 검색</label>
                             <input type="text" class="form-control" id="searchEmail" >
                         </div>
+                        <button type="button" class="btn btn-secondary" id="searchBtn">검색</button>
                         <div class="mb-3">
                             <label for="searchId" class="form-label">학생 이름 확인</label>
                             <input type="text" class="form-control" id="searchName" readonly>
                         </div>
-                        <button type="button" class="btn btn-secondary" id="searchBtn">검색</button>
                         <button type="button" class="btn btn-secondary" id="lecAddBtn">추가</button>
                     </div>
                 </div>
@@ -146,8 +143,9 @@
 						</div>
 						<!-- 과목 코드 -->
 						<div class="mb-3">
-							<label for="subjectCode" class="form-label">과목 코드</label> <select
-								class="form-select" id="subjectCode" name="subjectCode" required></select>
+							<label for="subjectCode" class="form-label">과목 코드</label> 
+							<select	class="form-select" id="subjectCode" name="subjectCode" required></select>
+							
 						</div>
 						<!-- 세부 과목 코드 -->
 						<div class="mb-3">
@@ -259,8 +257,6 @@
 	let stuInsInfo = {};
 	
 	
-	const lecNum = selectedLectureNumber.innerHTML;
-	
 	document.getElementById('searchBtn').addEventListener('click', function() {
 	    const searchEmail = document.getElementById('searchEmail').value;
 	
@@ -312,9 +308,7 @@
 	//======================================================================
 	
 	let lecStuList = [];
-	//해당 강의 번호 저장 
-	let selLecNum = document.getElementById('selectedLectureNumber');
-	let thisLecNum = selLecNum.textContent;
+	
 	
 	function lecInfo(lectureNumber) {
 		$.ajax({
@@ -340,6 +334,13 @@
 				lecStLi.innerHTML = tableHTML;
 			    document.getElementById('selectedLectureNumber').textContent = lectureNumber;
 
+				 function lecInfo(lectureNumber) {
+			         // lectureNumber를 객체에 추가
+			         lecStuList.lectureNumber = lectureNumber;
+			         
+			         // lectureNumber를 selectedLectureNumber 스팬 요소에 추가
+			         document.getElementById('selectedLectureNumber').textContent = lectureNumber;
+			     }
 	    	},
 			error : function(xhr, status, error) {
 				console.error('Error fetching member info:', error);
@@ -437,7 +438,7 @@
 		        
 		        for (let i = 15; i <= 22; i++) {
 		            const option = document.createElement('option');
-		            option.value = i;
+		            option.value = `${i},${i + 1}`;
 		            option.textContent = `${i}~${i + 1}`;
 		            timeCodeSelect.appendChild(option);
 		        }
