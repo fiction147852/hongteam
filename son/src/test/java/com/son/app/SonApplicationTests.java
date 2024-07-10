@@ -12,6 +12,8 @@ import com.son.app.lecture.mapper.StudentLectureMapper;
 import com.son.app.lecture.service.LectureMaterialDetailVO;
 import com.son.app.lecture.service.LectureMaterialVO;
 import com.son.app.lecture.service.StudentLectureService;
+import com.son.app.task.service.StudentTaskService;
+import com.son.app.task.service.TaskListVO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,9 @@ class SonApplicationTests {
 
 	@Autowired
 	StudentExamService studentExamService;
+
+	@Autowired
+	StudentTaskService studentTaskService;
 
 	@Test
 	public void pwdEncode() {
@@ -136,6 +141,14 @@ class SonApplicationTests {
 	@DisplayName("DH) 시험 성적 구하기")
 	public void examScore() {
 		studentExamService.modifyParticipateStatus(2);
+	}
+
+	@Test
+	@DisplayName("DH) 과제 상서 정보")
+	public void taskInfo() {
+		TaskListVO taskListVO = studentTaskService.taskInfo(2);
+
+		System.out.println(taskListVO);
 	}
 
 }

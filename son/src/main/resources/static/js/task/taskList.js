@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 강의 자료 목록 조회
     const loadTaskList = (page, title, taskSubmitStatus) => {
-
         const params = {
             page: page,
             pageSize: pageSize,
@@ -23,24 +22,31 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => {
                 const tasks = response.data;
 
+                console.log(tasks);
+
                 const tbody = document.querySelector('#task-tbody');
                 tbody.innerHTML = "";
 
                 tasks.forEach(task => {
+                    const feedbackIcon = task.feedbackStatus === '피드백 미완료' ? '<i class="fas fa-times"></i>' : `<i class="fa-regular fa-comment-dots feedback-icon" tabindex="0" role="button" data-bs-toggle="popover" data-bs-placement="left" data-bs-custom-class="custom-popover" data-bs-content="${escapeHtml(task.feedback || '')}"></i>`;
                     const tr =  document.createElement("tr");
-                    tr.innerHTML = `
-                                           <td>${task.rowNum}</td>
-                                           <td style="cursor: pointer;"><a>${task.title}</a></td>
-                                           <td>${task.postDate} ~ ${task.submitDeadline}</td>
-                                           <td>${task.taskSubmitStatus}</td>
-                                           <td>${task.feedbackStatus}</td>
-                                       `;
-
+                    tr.innerHTML = `<td>${task.rowNum}</td>
+                                    <td style="cursor: pointer;"><a>${task.title}</a></td>
+                                    <td>${task.postDate} ~ ${task.submitDeadline}</td>
+                                    <td>${task.taskSubmitStatus}</td>
+                                    <td>${feedbackIcon}</td>`;
                     tbody.appendChild(tr);
-                    // tdTwo.addEventListener("click", function() {
-                    //     window.location.href = `/lms/student/${material.lectureNumber}/lectureMaterials/${material.lectureMaterialNumber}`;
-                    // });
+
+                    const titleTd = tr.querySelector("td:nth-child(2) a");
+                    titleTd.addEventListener("click", (event) => {
+                        window.location.href = `/lms/student/${lectureNumber}/task/${task.taskNumber}`;
+                    });
+
+
                 })
+                // Popover 초기화
+                initPopovers();
+
                 // 페이지 네이션을 갱신하는 함수
                 loadPagination(page, title, taskSubmitStatus);
             })
@@ -115,4 +121,50 @@ document.addEventListener('DOMContentLoaded', function () {
         const taskTitle = document.querySelector("#search-title").value;
         loadTaskList(1, taskTitle, taskSubmitStatus);
     });
+
+
+    // 팝오버 관련
+    function escapeHtml(unsafe) {
+        if (unsafe == null) return '';
+        return unsafe
+            .toString()
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    function initPopovers() {
+        const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+        popoverTriggerList.forEach(function (popoverTriggerEl) {
+            const feedback = popoverTriggerEl.getAttribute('data-bs-content');
+            new bootstrap.Popover(popoverTriggerEl, {
+                trigger: 'click',
+                html: true,
+                template: '<div class="popover custom-popover" role="tooltip">' +
+                                '<div class="popover-body"></div>' +
+                           '</div>',
+                content: function() {
+                    return `<div class="popover-header">
+                                <span></span>
+                                <span>피드백</span>
+                                <span class="popover-close-button" style="cursor: pointer">X</span>
+                            </div>
+                            <div class="popover-contentBody">
+                                <div class="popover-content">${feedback}</div>
+                            </div>`;
+                }
+            });
+        });
+    }
+
+    function closePopover(button) {
+        const popoverElement = button.closest('.popover');
+        const popoverTrigger = document.querySelector('[aria-describedby="' + popoverElement.id + '"]');
+        const popover = bootstrap.Popover.getInstance(popoverTrigger);
+        if (popover) {
+            popover.hide();
+        }
+    }
 });
