@@ -128,7 +128,7 @@
 <!-- 		#{birth}) -->
 <!-- 	</insert> -->
 
-	<insert id="adminLectureStudentInsert" parameterType="RegistrationVO" >
+	<insert id="adminLectureStudNumInsert" parameterType="RegistrationVO" >
 	INSERT INTO registration 
 	    (registration_number, 
 	    lecture_number, 
@@ -139,6 +139,6 @@
 	         FROM registration), 1), 
 	    #{lectureNumber},
 	    #{studentNumber}
-	    );
+	    )
 	</insert>
 </mapper>
