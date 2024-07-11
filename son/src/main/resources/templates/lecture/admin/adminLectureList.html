@@ -123,11 +123,11 @@
 				<div class="modal-body">
 					<form id="lectureRegisterForm">
 						<!-- 강의 번호 -->
-						<div class="mb-3">
-							<label for="lectureNumber" class="form-label">강의 번호</label> <input
-								type="text" class="form-control" id="lectureNumber"
-								name="lectureNumber" required>
-						</div>
+<!-- 						<div class="mb-3"> -->
+<!-- 							<label for="lectureNumber" class="form-label">강의 번호</label> <input -->
+<!-- 								type="text" class="form-control" id="lectureNumber" -->
+<!-- 								name="lectureNumber" required> -->
+<!-- 						</div> -->
 						<!-- 강의 제목 -->
 						<div class="mb-3">
 							<label for="lectureTitle" class="form-label">강의 제목</label> <input
@@ -269,14 +269,11 @@
 	            email: searchEmail
 	        },
 	        success: function(response) {
-	            console.log('서버 응답:', response.name);
 	            const name = document.getElementById('searchName');
-	            
 	            console.log('최종 응답' , lectureNumber)
 	            
 	            //학생 이메일 추가하기 
 	            stuInsInfo = response
-	            
 	            name.value = response.name;
 	        },
 	        error: function(xhr, status, error) {
@@ -301,6 +298,10 @@
             contentType: 'application/json; charset=utf-8',
 	        success: function(response) {
 	            console.log('추가할 학생:', response);
+	            
+	            searchName.value = '';
+	            searchEmail.value = '';
+	            
 	            
 	        },
 	        error: function(xhr, status, error) {
