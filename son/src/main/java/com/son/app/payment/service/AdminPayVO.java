@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class ParentPayVO {    
+public class AdminPayVO {    
 	
 	// 결제 charge
     private Integer chargeNumber;
@@ -14,15 +14,14 @@ public class ParentPayVO {
     private Date approvalDate;
     private String receiveStatus;
     private String paymentType;
-    private Integer studentNumber;
-    private String studentName;
     
     // 부모
     private Integer parentNumber;
     
-    
     // 강의
     private Integer lectureNumber;
-    private String lectureTitle;
+    private String lectureName;
     private int lectureCost;
+    private Date lectureStartDate;
+    private Date lectureEndDate;
 }

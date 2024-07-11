@@ -2,9 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.son.app.payment.mapper.ParentPayMapper">
 
-    <!-- 학부모의 학생 결제할 강의 전체조회 -->
-    <select id="lecturePayList" resultType="ParentPayVO">
-
-    </select>
+	<!-- 학부모의 학생 결제할 강의 전체조회 -->
+	<select id="lecturePayList" resultType="ParentPayVO">
+		SELECT lecture_title, lecture_cost, std_name(c.student_number) as
+		student_name, c.*
+		FROM charge c
+		JOIN lecture l
+		ON c.lecture_number = l.lecture_number
+		WHERE student_number in (SELECT student_number
+								FROM student
+								WHERE parent_number = #{parentNumber})
+	</select>
 
 </mapper>

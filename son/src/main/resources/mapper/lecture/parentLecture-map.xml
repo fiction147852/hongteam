@@ -26,4 +26,13 @@
         JOIN
             instructor i ON l.instructor_number = i.instructor_number
     </select>
+
+	<select id="ChildLectureList" resultType="ChildlectureVO">
+		SELECT r.registration_number, r.lecture_number, r.student_number, s.name AS
+		student_name, l.lecture_title
+		FROM registration r
+		JOIN student s ON r.student_number = s.student_number
+		JOIN lecture l ON r.lecture_number = l.lecture_number
+		WHERE r.student_number = #{studentName};
+	</select>
 </mapper>

@@ -26,14 +26,17 @@ public class AdminLectureController {
 	//강의 리스트 및 세부사항 리스트 조회
 	@GetMapping("admin/adminlectureList")
 	public String adminLectureList(Model model) {
-		List<LectureVO> lecList = adminLectureService.adminLectureList();
-		model.addAttribute("adminLecList", lecList);
-		
 		List<LectureSubjectVO> lecSublist = adminLectureService.adminLectureSubjectList();
 		model.addAttribute("lecSublist", lecSublist);
 		
 		List<LectureSubjectDetailVO> lecSubDeList = adminLectureService.adminLectureSubjectDetailList();
 		model.addAttribute("lecSubDeList", lecSubDeList);
+		
+		List<LectureVO> lecList = adminLectureService.adminLectureList();
+		model.addAttribute("adminLecList", lecList);
+//		System.out.println("서브" + lecSublist);
+//		System.out.println("서브디테일" + lecSubDeList);
+//		System.out.println("그냥" + lecList);
 		
 		return "lecture/admin/adminLectureList";
 	}
@@ -79,12 +82,11 @@ public class AdminLectureController {
 		return stuName;
 	}
 	
+	//학생 추가하기
+	@ResponseBody
 	@PostMapping("admin/adminLectureStudentInsert")
 	public int  adminLectureStudentInsert(@RequestBody RegistrationVO registrationVO){
-		
 		adminLectureService.adminLectureStudNumInsert(registrationVO);
-			
-		
 		
 		return 1;
 	}
