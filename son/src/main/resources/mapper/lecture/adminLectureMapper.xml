@@ -129,16 +129,38 @@
 <!-- 	</insert> -->
 
 	<insert id="adminLectureStudNumInsert" parameterType="RegistrationVO" >
-	INSERT INTO registration 
-	    (registration_number, 
-	    lecture_number, 
-	    student_number)
-	VALUES
-	    (
-	    NVL((SELECT MAX(registration_number) + 1
-	         FROM registration), 1), 
-	    #{lectureNumber},
-	    #{studentNumber}
-	    )
-	</insert>
+        INSERT INTO lecture
+        (
+            lecture_number,
+            lecture_title,
+            lecture_description,
+            subject_code,
+            detail_subject_code,
+            lecture_cost,
+            lecture_level_code,
+            weekdays_code,
+            time_code,
+            lecture_start_date,
+            lecture_end_date,
+            capacity,
+            instructor_number
+        )
+        VALUES
+        (
+            COALESCE((SELECT MAX(lecture_number) + 1 FROM lecture), 1),
+            #{lectureNumber},
+            #{lectureTitle},
+            #{lectureDescription},
+            #{subjectCode},
+            #{detailSubjectCode},
+            #{lectureCost},
+            #{lectureLevelCode},
+            #{weekdaysCode},
+            #{timeCode},
+            #{lectureStartDate},
+            #{lectureEndDate},
+            #{capacity},
+            #{instructorNumber}
+        )
+    </insert>
 </mapper>
