@@ -254,8 +254,7 @@
 	// 학생 검색 하기
 	//======================================================================
 
-		
-		// 학생 정보 담아서 추가하기
+	// 학생 정보 담아서 추가하기
 	let stuInsInfo = {};
 	
 	
@@ -270,11 +269,12 @@
 	        },
 	        success: function(response) {
 	            const name = document.getElementById('searchName');
-	            console.log('최종 응답' , lectureNumber)
-	            
+	            console.log('이름 ', response);
 	            //학생 이메일 추가하기 
 	            stuInsInfo = response
 	            name.value = response.name;
+	            
+	            
 	        },
 	        error: function(xhr, status, error) {
 	            console.error('서버 요청 실패:', error);
@@ -378,7 +378,7 @@
 			    const subjectCodeCell = document.getElementById('subjectCode');
 			    const detailSubjectCodeCell = document.getElementById('detailSubjectCode');
 			    subjectCodeCell.innerHTML = ''; // 기존의 내용 초기화
-			
+				
 			    subList.forEach(subject => {
 			        const option = document.createElement('option');
 			        option.text = subject.subjectName;
@@ -457,7 +457,6 @@
 		        event.preventDefault(); // 기본 폼 제출 동작 방지
 
 		        // 입력 필드 값 가져오기
-		        const lectureNumber = document.getElementById('lectureNumber').value;
 		        const lectureTitle = document.getElementById('lectureTitle').value;
 		        const lectureDescription = document.getElementById('lectureDescription').value;
 		        const subjectCode = document.getElementById('subjectCode').value;
@@ -476,7 +475,6 @@
 
 		        // 데이터 객체 생성
 		        const param = {
-		            lectureNumber: lectureNumber,
 		            lectureTitle: lectureTitle,
 		            lectureDescription: lectureDescription,
 		            subjectCode: subjectCode,
