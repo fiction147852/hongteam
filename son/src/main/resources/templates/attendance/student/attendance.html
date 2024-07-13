@@ -18,7 +18,7 @@
                         <div class="subject-info">
                             <div class="info-item"><i class="fas fa-book"></i>[[${lecture.subjectName}]] </div>
                             <div class="info-item"><i class="fas fa-user"></i> [[${lecture.name}]] 교수</div>
-                            <div class="info-item"><i class="fas fa-calendar-alt"></i>[[${lecture.weekday}]] [[${#strings.arraySplit(lecture.time, ',')[0]}]] : 00 ~ [[${#strings.arraySplit(lecture.time, ',')[1]}]] : 00</div>
+                            <div class="info-item"><i class="fas fa-calendar-alt"></i>[[${lecture.weekday}]] [[${lecture.time}]] : 00 ~ [[${lecture.time + 1}]] : 00</div>
                             <div class="info-item"><i class="fas fa-clock"></i> [[${#dates.format(lecture.begin, 'yyyy-MM-dd')}]] ~ [[${#dates.format(lecture.finish, 'yyyy-MM-dd')}]]</div>
                         </div>
                     </div>

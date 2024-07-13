@@ -15,6 +15,8 @@ document.addEventListener("DOMContentLoaded", function () {
     let testTitle = '';
     let participateStatus = '';
 
+    let submissionStatus = false;
+
     // 시간 포맷 함수
     function formatTime(minutes, seconds) {
         const formattedMinutes = String(minutes).padStart(2, '0');
@@ -135,6 +137,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                                 }).then(() => {
                                                     clearInterval(countDownId);
 
+                                                    submissionStatus = true;
+
                                                     // 객관식
                                                     document.querySelectorAll(".options input:checked").forEach(input => {
                                                         const index = gradingResult.findIndex(element => element.questionNumber === parseInt(input.name));
@@ -182,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                                 }).then(result => {
                                                     if (result.isConfirmed) {
                                                         clearInterval(countDownId);
-
+                                                        submissionStatus = true;
                                                         // 객관식
                                                         document.querySelectorAll(".options input:checked").forEach(input => {
                                                             const index = gradingResult.findIndex(element => element.questionNumber === parseInt(input.name));
@@ -289,6 +293,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                             window.addEventListener('beforeunload', function (event) {
                                                 clearInterval(countDownId);
 
+                                                if(submissionStatus) {
+                                                    return;
+                                                }
                                                 // 객관식
                                                 document.querySelectorAll(".options input:checked").forEach(input => {
                                                     const index = gradingResult.findIndex(element => element.questionNumber === parseInt(input.name));
