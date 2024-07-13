@@ -79,6 +79,38 @@
         WHERE task_number = #{taskNumber}
     </select>
 
+
+    <!-- 과제 제출 상태   -->
+    <update id="studentTaskStatus">
+        UPDATE task_submit
+        SET task_submit_code = '제출 완료'
+        WHERE task_number = #{taskNumber}
+    </update>
+
+    <!-- 업로드 할 파일 정보 저장    -->
+    <insert id="studentTaskUploadFile" parameterType="AttachmentFileVO">
+        <selectKey keyProperty="attachmentFileNumber" resultType="Integer" order="BEFORE">
+            SELECT NVL(MAX(attachment_file_number) + 1, 1)
+            FROM attachment_file
+        </selectKey>
+
+        INSERT INTO attachment_file(attachment_file_number
+                        , task_submit_number
+                        , original_file_name
+                        , save_file_name
+                        , file_size
+        )VALUES (#{attachmentFileNumber}
+           , (SELECT task_submit_number
+              FROM task_submit
+              WHERE task_number = #{taskNumber}
+             )
+           , #{originalFileName}
+           , #{saveFileName}
+           ,#{fileSize}
+        )
+    </insert>
+
+
 </mapper>
 
 

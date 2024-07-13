@@ -1,5 +1,6 @@
 package com.son.app.task.mapper;
 
+import com.son.app.attachment.AttachmentFileVO;
 import com.son.app.task.service.TaskListVO;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,4 +13,9 @@ public interface StudentTaskMapper {
 
     // 과제 상세 정보
     public TaskListVO studentTaskInfo(Integer taskNumber);
+
+    // 첨부 파일 저장
+    public int studentTaskUploadFile(AttachmentFileVO attachmentFileVO);
+    // 과제 제출 상태 변경
+    public int studentTaskStatus(Integer taskNumber);
 }

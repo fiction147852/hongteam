@@ -41,6 +41,10 @@ document.addEventListener("DOMContentLoaded", function() {
         window.location.href = `/lms/student/${lectureNumber}/task`;
     });
 
+    document.querySelector(".btn-submit").addEventListener("click", function(event) {
+        document.getElementById('taskForm').submit();
+    });
+
     // 함수 단위 함수
     function formatFileSize(bytes) {
         const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
