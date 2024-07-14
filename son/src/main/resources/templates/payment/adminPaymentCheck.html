@@ -5,7 +5,7 @@
 	layout:fragment="content">
 <head>
 
-<title>강의 목록</title>
+<title>결제</title>
 
 
 
@@ -13,23 +13,88 @@
 </head>
 
 <body>
-	
-	
-	
-	
-	
+		<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="table-responsive pt-3">
+					<table id="paymentListTable" class="table table-striped">
+						<thead>
+							<tr>
+								<th>결제 번호</th>
+								<th>결제 상태</th>
+								<th>요청 일자</th>
+								<th>강의 번호</th>
+								<th>승인 일자</th>
+								<th>수납 여부</th>
+								<th>납부 유형</th>
+								<th>학생 번호</th>
+								<th>등록 현황</th>
+							</tr>
+						</thead>
+						<tbody>
+						    <tr th:each="pay : ${payList}" th:data-id="${pay.chargeNumber}">
+						        <td th:text="${pay.chargeNumber}"></td>
+						        <td th:text="${pay.chargeCode}" th:id="'chargeCode_' + ${pay.chargeNumber}"></td>
+						        <td th:text="${#dates.format(pay.requestDate, 'yyyy-MM-dd')}"></td>
+						        <td th:text="${pay.lectureNumber}"></td>
+						        <td th:text="${#dates.format(pay.approvalDate, 'yyyy-MM-dd')}"></td>
+						        <td th:text="${pay.receiveStatus}"></td>
+						        <td th:text="${pay.paymentType}"></td>
+						        <td th:text="${pay.studentNumber}"></td>
+						        <td>
+		                            <button type="button" class="btn btn-primary receive-btn"
+		                                    th:text="${pay.registrationStatus}"
+		                                    th:attr="data-studentNumber=${pay.studentNumber}, data-lectureNumber=${pay.lectureNumber}, data-chargeNumber=${pay.chargeNumber}"
+		                                    th:disabled="${pay.chargeCode == '결제대기' or pay.registrationStatus == '등록완료'}"
+		                                    th:classappend="${pay.registrationStatus == '등록완료'} ? 'btn-success' : ''"
+		                                    onclick="updateRegistrationStatus(this)"
+		                            ></button>
+		                        </td>
+						    </tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </body>
 
 <script th:inline="javascript">
+    function updateRegistrationStatus(button) {
+        var studentNumber = button.getAttribute('data-studentNumber');
+        var lectureNumber = button.getAttribute('data-lectureNumber');
+        var chargeNumber = button.closest('tr').getAttribute('data-id');
+        var confirmation = confirm('등록을 완료하시겠습니까?');
 
-	
-	
-	
+        if (confirmation) {
+            var requestData = {
+                studentNumber: studentNumber,
+                lectureNumber: lectureNumber,
+                registrationStatus: '등록완료',
+                chargeNumber: chargeNumber
+            };
 
-
+            $.ajax({
+                url: 'adminPayInsertStudent',
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(requestData),
+                success: function (response) {
+                    alert('등록 상태가 성공적으로 업데이트되었습니다.');
+                    button.textContent = '등록완료';
+                    button.classList.add('btn-success'); // 버튼 스타일 변경
+                    button.disabled = true;
+                },
+                error: function (error) {
+                    alert('등록 상태 업데이트에 실패했습니다.');
+                    console.error('Error:', error);
+                }
+            });
+        }
+    }
+</script>
+<script>
 
 </script>
-
-
 </html>
