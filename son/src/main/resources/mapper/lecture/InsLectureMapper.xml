@@ -18,5 +18,11 @@
 		FROM lecture
 		ORDER BY lecture_number		   
 	</select>
+	
+	<select id="getStudentNumbersByLecture" resultType="int">
+	    SELECT student_number
+	    FROM registration
+	    WHERE lecture_number = #{lectureNumber}
+	</select>
 
 </mapper>

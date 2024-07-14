@@ -55,4 +55,9 @@ public class InsLectureServiceImpl implements InsLectureService {
 	public int deleteLecture(int lectureNo) {
 		return lectureMapper.deleteLetureInfo(lectureNo);
 	}
+	
+	@Override
+	public List<Integer> getStudentNumbersByLecture(Integer lectureNumber) {
+		return lectureMapper.getStudentNumbersByLecture(lectureNumber);
+	}
 }

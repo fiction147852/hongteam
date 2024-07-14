@@ -56,6 +56,25 @@
     		#{testTitle})
 	</insert>
 	
+	<insert id="insertExamParticipation" parameterType="ExamVO">
+	    <selectKey keyProperty="participateNumber" resultType="int" order="BEFORE">
+	        SELECT NVL(MAX(participate_number), 0) + 1 FROM participate
+	    </selectKey>
+	    INSERT INTO participate (
+	        participate_number, 
+	        test_number, 
+	        student_number, 
+	        participate_status, 
+	        total_score
+	    ) VALUES (
+	        #{participateNumber},
+	        #{testNumber},
+	        #{studentNumber},
+	        '미응시',
+	        0
+	    )
+	</insert>
+	
 	<select id="countCompletedStudentsforExamList" resultType="int">
 	    SELECT COUNT(DISTINCT p.student_number)
 	    FROM participate p

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.son.app.exam.mapper.InstructorExamMapper;
 import com.son.app.exam.service.ExamVO;
@@ -45,5 +46,18 @@ public class InstructorExamServiceImpl implements InstructorExamService {
     public PageVO getCompletedStudentPageInfo(Integer testNumber, int page) {
         int totalItems = instructorExamMapper.countCompletedStudents(testNumber);
         return new PageVO(page, totalItems, 5, 5);
+    }
+    
+    @Override
+    @Transactional
+    public void createExamWithParticipation(ExamVO exam, List<Integer> studentNumbers) {
+        instructorExamMapper.insertExam(exam);
+        
+        for (Integer studentNumber : studentNumbers) {
+            ExamVO participationExam = new ExamVO();
+            participationExam.setTestNumber(exam.getTestNumber());
+            participationExam.setStudentNumber(studentNumber);
+            instructorExamMapper.insertExamParticipation(participationExam);
+        }
     }
 }

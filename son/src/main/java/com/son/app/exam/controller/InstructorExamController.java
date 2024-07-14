@@ -99,7 +99,16 @@ public class InstructorExamController {
 	
 	@PostMapping("instructor/createExam")
 	public String createExam(@ModelAttribute ExamVO exam) {
-	    instructorExamService.createExam(exam);
+	    // 해당 강의를 수강하는 학생들의 목록을 가져옵니다.
+	    List<Integer> studentNumbers = lectureService.getStudentNumbersByLecture(exam.getLectureNumber());
+	    
+	    if (studentNumbers.isEmpty()) {
+	        // 수강 신청한 학생이 없는 경우 처리
+	        return "redirect:/instructor/" + exam.getLectureNumber() + "/examList?message=noRegisteredStudents";
+	    }
+	    
+	    instructorExamService.createExamWithParticipation(exam, studentNumbers);
+
 	    return "redirect:/instructor/" + exam.getLectureNumber() + "/examList";
 	}
 	

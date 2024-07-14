@@ -20,7 +20,7 @@ public interface InstructorExamMapper {
 	
 	List<GradingResult> getStudentExamResults(@Param("participateNumber") Integer participateNumber);
 
-
+	void insertExamParticipation(ExamVO exam);
 	
 	void insertExam(ExamVO exam);
 }
