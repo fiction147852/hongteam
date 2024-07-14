@@ -12,6 +12,7 @@ import com.son.app.lecture.service.LectureSubjectDetailVO;
 import com.son.app.lecture.service.LectureSubjectVO;
 import com.son.app.lecture.service.LectureVO;
 import com.son.app.lecture.service.RegistrationVO;
+import com.son.app.member.service.InstructorVO;
 
 @Service
 public class AdminLectureServiceImpl implements AdminLectureService {
@@ -62,6 +63,12 @@ public class AdminLectureServiceImpl implements AdminLectureService {
 	@Override
 	public int adminLectureStudNumInsert(RegistrationVO registrationVO) {
 		return adminLectureMapper.adminLectureStudNumInsert(registrationVO);
+	}
+
+	// 강사 정보 드롭 리스트 불러오기
+	@Override
+	public List<InstructorVO> adminInstructorList() {
+		return adminLectureMapper.adminInstructorSelectAll();
 	}
 
 }
