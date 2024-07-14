@@ -14,4 +14,6 @@ public interface InstructorExamService {
 	PageVO getCompletedStudentPageInfo(@Param("testNumber") Integer testNumber, int page);
 	
 	void createExam(ExamVO exam);
+	
+	void createExamWithParticipation(ExamVO exam, List<Integer> studentNumbers);
 }
