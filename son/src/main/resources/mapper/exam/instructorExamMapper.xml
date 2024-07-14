@@ -35,25 +35,28 @@
 	</select>
 	
 	<insert id="insertExam" parameterType="ExamVO">
-    INSERT INTO test 
-    	(
-    		test_number, 
-    		examination_date, 
-    		limit_time, 
-    		exam_date, 
-    		paper_number, 
-    		lecture_number, 
-    		test_title
-    	)
-	    VALUES 
+	    <selectKey keyProperty="testNumber" resultType="int" order="BEFORE">
+	        SELECT test_seq.NEXTVAL FROM DUAL
+	    </selectKey>
+	    INSERT INTO test
 	    (
-    		test_seq.NEXTVAL, 
-    		SYSDATE, 
-    		#{limitTime},
-    		#{examDate}, 
-    		#{paperNumber}, 
-    		#{lectureNumber}, 
-    		#{testTitle})
+	    test_number,
+	    examination_date,
+	    limit_time,
+	    exam_date,
+	    paper_number,
+	    lecture_number,
+	    test_title
+	    )
+	    VALUES
+	    (
+	    #{testNumber},
+	    SYSDATE,
+	    #{limitTime},
+	    #{examDate},
+	    #{paperNumber},
+	    #{lectureNumber},
+	    #{testTitle})
 	</insert>
 	
 	<insert id="insertExamParticipation" parameterType="ExamVO">

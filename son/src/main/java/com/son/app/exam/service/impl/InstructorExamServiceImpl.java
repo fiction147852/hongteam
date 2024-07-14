@@ -52,7 +52,7 @@ public class InstructorExamServiceImpl implements InstructorExamService {
     @Transactional
     public void createExamWithParticipation(ExamVO exam, List<Integer> studentNumbers) {
         instructorExamMapper.insertExam(exam);
-        
+
         for (Integer studentNumber : studentNumbers) {
             ExamVO participationExam = new ExamVO();
             participationExam.setTestNumber(exam.getTestNumber());
