@@ -41,9 +41,19 @@
 
     </style>
     <!-- Include ConfigFragment -->
+    
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+<!--   <link rel="stylesheet" href="/resources/demos/style.css"> -->
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+  <script>
+
+  </script>
 </head>
 
 <body>
+    <h4 style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">상담 신청 조회</h4>
+
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -72,7 +82,7 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="reservationDate">예약 일자</label>
-                                <input type="date" onchange="changeDate()" id="reservationDate"th:field="*{reservationDate}" class="form-control">
+                                <input type="text" onchange="changeDate()" id="reservationDate"th:field="*{reservationDate}" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label for="timeCode">시간</label>
@@ -80,20 +90,23 @@
                                     <option th:each="time : ${counselPosTime}" th:text="${time}" th:value="${time}"></option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="reservationCode">상태</label>
-                                <button type="button" class="btn btn-primary status-btn" id="statusBtn" th:text="${counselInfo.reservationCode}"></button>
-                                <input type="hidden" id="reservationCode" name="reservationCode" th:value="${counselInfo.reservationCode}">
-                            </div>
+                           <div class="form-group">
+							    <label for="reservationCode">상태</label>
+							    <select id="reservationCode" name="reservationCode" class="form-control">
+							        <option th:selected="${counselInfo.reservationCode == '대기'}" value="대기">대기</option>
+							        <option th:selected="${counselInfo.reservationCode == '확정'}" value="확정">확정</option>
+							    </select>
+							</div>
+
                         </div>
                         <div class="form-group">
                             <label for="content">내용</label>
                             <input type="text" th:field="*{content}" class="form-control" id="content" placeholder="내용을 입력하세요">
                         </div>
                         <div class="form-group">
-                            <button type="button" class="btn btn-primary" id="save">저장</button>
-                            <button type="button" id="goBack" class="btn btn-secondary">뒤로</button>
-                            <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/admin/counseldelete(counselId=${counselInfo.counselNumber})}'|">삭제</button>
+                            <button type="button" class="btn btn-primary" style="background-color: #28587E" id="save">저장</button>
+                            <button type="button" id="goBack" class="btn btn-secondary" style="background-color: #28587E">뒤로</button>
+<!--                             <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/admin/counseldelete(counselId=${counselInfo.counselNumber})}'|">삭제</button> -->
                         </div>
                     </form>
                 </div>
@@ -107,18 +120,17 @@
 	counImpTime = /*[[counselPosTime]]*/[];
 </script>
 <script th:javascript>
+
+$("#reservationDate").datepicker({ 
+    minDate: 0, // 오늘 이후의 날짜만 선택 가능
+    maxDate: "+1M +10D", // 최대 1개월 10일 이후까지 선택 가능
+    dateFormat: "yy-mm-dd", 
+});
+
+
 	const statusBtn = document.getElementById('statusBtn');
 	const reservationCode = document.getElementById('reservationCode');
 
-	statusBtn.addEventListener('click', function(){
-	    if (statusBtn.innerText == "대기") {
-	        statusBtn.innerText = "확정";
-	        reservationCode.value = "확정";
-	    } else {
-	        statusBtn.innerText = "대기";
-	        reservationCode.value = "대기";
-	    }
-	});
 
 	function updateAjax(event){
         fetch('counselUpdate', {

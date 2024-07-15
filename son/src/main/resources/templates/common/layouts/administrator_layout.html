@@ -4,15 +4,26 @@
 <head>
 <meta charset="UTF-8">
 <th:block th:replace="common/configs/default_config :: ConfigFragment"></th:block>
+
+<style>
+
+</style>
 </head>
 <body>
 	<div th:replace="common/fragments/administrator_nav :: administratorNavFragment"></div>
-	<div class="container-fluid page-body-wrapper" style="padding-top: 88px">
-		<div th:insert="common/fragments/administrator_sidebar :: administratorSidebarFragment"></div>
-		<div class="main-panel">
+    <div class="container-fluid page-body-wrapper" style="padding-top: 88px;">
+    <th:block th:replace="common/fragments/administrator_sidebar :: administratorSidebarFragment"></th:block>
+        <div class="main-panel">
             <div class="content-wrapper">
-				<th:block layout:fragment="content"></th:block>
-					<!-- base:js -->
+
+                <th:block layout:fragment="content">
+
+                </th:block>
+            </div>
+        </div>
+    </div>
+	
+	
 	<script src="/lms/vendors/js/vendor.bundle.base.js"></script>
 	<!-- endinject -->
 	<!-- Plugin js for this page-->
@@ -30,8 +41,5 @@
 	<script src="/lms/js/common.js"></script>
 	
 	
-			</div>
-		</div>
-	</div>
 </body>
 </html>
