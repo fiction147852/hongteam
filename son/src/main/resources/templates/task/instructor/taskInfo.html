@@ -55,10 +55,8 @@
         <div class="btn-group float-end" role="group">
         	<button type="button" class="btn btn-success mt-3" th:onclick="|location.href='@{/instructor/{lectureNumber}/taskUpdate/{taskNumber}(lectureNumber=${lectureNumber},taskNumber=${taskInfo.taskNumber})}'|">수정</button>
 			<button type="button" class="btn btn-secondary mt-3" th:onclick="|location.href='@{/instructor/{lectureNumber}/taskList(lectureNumber=${taskInfo.lectureNumber})}'|">목록</button>
-			<button type="button" class="btn btn-danger mt-3" th:onclick="confirmDelete(this)" 
-													          th:data-task-no="${taskInfo.taskNumber}"
-													          th:data-lecture-no="${taskInfo.lectureNumber}">삭제</button>
-			<button type="button" class="btn btn-info mt-3" th:onclick="|location.href='@{/instructor/{lectureNumber}/task/{taskNumber}/submittedStudents(lectureNumber=${lectureNumber},taskNumber=${taskInfo.taskNumber})}'|">제출상태</button>
+			<button type="button" class="btn btn-danger mt-3" th:onclick="confirmDelete(this)" th:data-task-no="${taskInfo.taskNumber}" th:data-lecture-no="${taskInfo.lectureNumber}">삭제</button>
+      <button type="button" class="btn btn-info mt-3" th:onclick="|location.href='@{/instructor/{lectureNumber}/task/{taskNumber}/submittedStudents(lectureNumber=${lectureNumber},taskNumber=${taskInfo.taskNumber})}'|">제출상태</button>
         </div>
   	</div>
   	
