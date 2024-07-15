@@ -96,7 +96,7 @@
 		        locale: 'ko',        // 언어 설정
 		        dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
 				headerToolbar : {
-					left : 'prevYear,prev,next,nextYear today,myCustomButton'/*myCustomButton1*/,
+					left : 'prev,today,next myCustomButton'/*myCustomButton1*/,
 					center : 'title',
 					right: 'dayGridMonth,timeGridWeek,timeGridDay'
 				},

@@ -6,18 +6,36 @@
 <head>
 
 <title>결제</title>
+<style>
+.btn-primary.disabled,
+.btn-primary:disabled {
+    background-color: #844fc1;
+    border-color: #844fc1;
+}
 
+.btn-primary,
+.btn-primary:hover {
+    box-shadow: 0 2px 2px 0 #28587E, 0 3px 1px -2px #28587E, 0 1px 5px 0 #28587E;
+}
 
+.btn.disabled,
+.btn:disabled,
+fieldset:disabled .btn {
+    background-color: var(--bs-btn-disabled-bg);
+    border-color: var(--bs-btn-disabled-border-color);
+}
 
-
+</style>
 </head>
 
 <body>
+    <h4 style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">결제 현황 리스트</h4>
+
 		<div class="row">
 		<div class="col-md-12">
 			<div class="card">
 				<div class="table-responsive pt-3">
-					<table id="paymentListTable" class="table table-striped">
+					<table id="paymentListTable" class="table table-striped" style="text-align: center;">
 						<thead>
 							<tr>
 								<th>결제 번호</th>
@@ -42,7 +60,7 @@
 						        <td th:text="${pay.paymentType}"></td>
 						        <td th:text="${pay.studentNumber}"></td>
 						        <td>
-		                            <button type="button" class="btn btn-primary receive-btn"
+		                            <button type="button" class="btn btn-primary" style="background-color: #28587E"
 		                                    th:text="${pay.registrationStatus}"
 		                                    th:attr="data-studentNumber=${pay.studentNumber}, data-lectureNumber=${pay.lectureNumber}, data-chargeNumber=${pay.chargeNumber}"
 		                                    th:disabled="${pay.chargeCode == '결제대기' or pay.registrationStatus == '등록완료'}"
