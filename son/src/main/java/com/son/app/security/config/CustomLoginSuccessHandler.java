@@ -25,7 +25,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 		}else if(auth.equals("[ROLE_INSTRUCTOR]")) {
 			url += "/instructor";
 		}else if(auth.equals("[ROLE_ADMIN]")) {
-			url += "/admin";
+			url += "/admin/counselCalendar";
 		}
 		
 //		System.out.println("ssssssssssssssssssssssssssssssssssssss" + url);

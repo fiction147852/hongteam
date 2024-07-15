@@ -44,10 +44,7 @@
 <th:block th:replace="common/configs/default_config :: ConfigFragment"></th:block>
 <style>
 body {
-	margin: 40px 10px;
 	padding: 0;
-	font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-	font-size: 14px;
 }
 
 .container {
@@ -60,9 +57,13 @@ body {
 	max-width: 100%;
 }
 
-.change{
-	background-color: red;
+.change {
+    background-color: #7cb7be; /* 기본 배경색 설정 */
+    border: none; /* 테두리 제거 */
+    outline: none; /* 포커스 시 테두리 제거 */
+    cursor: pointer; /* 마우스 포인터를 포인터로 변경 */
 }
+
 
 .table-responsive {
 	margin-left: 10%;
@@ -83,30 +84,39 @@ body {
 .form-select {
     width: 100px;
     padding: 10px;
-    border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
     appearance: none; /* 기본 드롭다운 화살표 제거 */
     background-color: white;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="none" stroke="%23333" stroke-width=".5" d="M2 0L0 2h4zM2 5L0 3h4z"/></svg>');
     background-repeat: no-repeat;
     background-position: right 10px center;
     background-size: 10px;
     cursor: pointer;
     margin-right: 10px;
 }
+
+#counselDayTime {
+    border-spacing: 10px; /* 열 사이 간격 설정 */
+    width: 100%; /* 테이블 전체 너비 설정 */
+    margin-bottom: 20px; /* 하단 여백 추가 */
+}
+
+#counselDayTime th,
+#counselDayTime td {
+    padding: 8px; /* 셀 안 여백(padding) 설정 */
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+}
+
+
+
+
+
 </style>
 </head>
 
 <body>
 	<!-- 	<div class="container"> -->
 	<div id="calendar"></div>
-		<div>
-			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-				data-bs-target="#weekTime">기본 상담 시간 설정</button>
-			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-				data-bs-target="#dayTime">상담 일정 조정</button>
-		</div>
 	<!-- 주간 상담 가능 시간 설정 모달창 -->
 	<div class="modal" id="weekTime" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -119,14 +129,14 @@ body {
 							<div id="counselWeekTime"></div>
 						</div>
 					</div>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
+					<button type="button" style="background-color: #28587E" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">Close</button>
+						data-bs-dismiss="modal" style="background-color: #28587E">닫기</button>
 					<button type="button" id="weekBtn" class="btn btn-primary"
-						data-bs-dismiss="modal">저장</button>
+						data-bs-dismiss="modal" style="background-color: #28587E">저장</button>
 				</div>
 			</div>
 		</div>
@@ -139,7 +149,7 @@ body {
 				<div class="modal-header">
 					<div id="schedule-settings">
 						<div class="table-responsive pt-3">
-							<h2 id="modalDate"></h2>
+							<h4 id="modalDate"></h4>
 							<input type="hidden" id="modalDateParam">
 							<div id="counselDayTime"></div>
 						</div>
@@ -147,11 +157,10 @@ body {
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<div class="modal-body">...</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
+					<button type="button" style="background-color: #28587E" class="btn btn-secondary"
 						data-bs-dismiss="modal">취소</button>
-					<button type="button" id="dayBtn" class="btn btn-primary"
+					<button type="button" style="background-color: #28587E" id="dayBtn" class="btn btn-primary"
 						data-bs-dismiss="modal">저장</button>
 				</div>
 			</div>
@@ -225,50 +234,59 @@ body {
 		timeStrToArray(ajax_data).forEach((time, i) => {
 		    const row = document.createElement('tr');
 		    
-		    // 시간 셀 추가
-		    const timeCell = document.createElement('td');
+		    // 첫 번째 열 (시간을 담는 td)
+		    const timeCell1 = document.createElement('td');
+		    
+		    // 시간 텍스트를 감싸는 span 엘리먼트 생성
+		    const timeSpan = document.createElement('span');
+		    timeSpan.textContent = time;
+		    
+		    // 시간 셀에 시간 텍스트 추가
+		    timeCell1.appendChild(timeSpan);
+		    
+		    // 두 번째 열 (버튼을 담는 td)
+		    const timeCell2 = document.createElement('td');
 		    
 		    // 타임 버튼 생성
 		    let timeCheck = document.createElement('input');
-		    timeCheck.type = 'button'; // input 요소의 타입을 checkbox로 설정
+		    timeCheck.type = 'button';
 		    
+		    // 초기 버튼 상태 설정
 		    if (!unable.includes(time)){
-		    	timeCheck.value = '가능';
+		        timeCheck.value = '가능';
 		    } else {
-		    	timeCheck.value = '불가능';
+		        timeCheck.value = '불가능';
 		    }
 		    
-		    // timeCheck.onclick = 'impossible'
-		    timeCheck.id = `time${i}`; // id 설정 (옵션)
+		    timeCheck.id = `time${i}`;
 		    timeCheck.addEventListener('click', function(ev){
-		    	timeCheck.classList.toggle('change');
-				if(timeCheck.value == "가능"){
-					timeCheck.value="불가능";
-					console.log(timeCheck.parentNode.innerText.substr(0,2));
-				} else if (timeCheck.value == "불가능"){
-					timeCheck.value="가능";
-				}
-			});
-		    
-		    // 예약 시간 때이면 disable 처리
+		        timeCheck.classList.toggle('change');
+		        if (timeCheck.value == "가능"){
+		            timeCheck.value = "불가능";
+		            console.log(timeSpan.innerText); // 시간 텍스트 출력
+		        } else if (timeCheck.value == "불가능"){
+		            timeCheck.value = "가능";
+		        }
+		    });
+    
+		    // 예약 시간이면 disable 처리
 		    if (!resolveTimes.includes(time)){
-		    	timeCheck.disabled = false;
+		        timeCheck.disabled = false;
 		    } else {
-		    	timeCheck.disabled = true;
+		        timeCheck.disabled = true;
 		    }
 		    
-		    // 시간 셀에 시간 텍스트 추가
-		    timeCell.textContent = time;
+		    // 시간 셀에 버튼 추가
+		    timeCell2.appendChild(timeCheck);
 		    
-		    // 체크박스를 시간 셀에 추가
-		    timeCell.appendChild(timeCheck);
+		    // 행에 첫 번째 열과 두 번째 열 추가
+		    row.appendChild(timeCell1);
+		    row.appendChild(timeCell2);
 		    
-		    // 시간 셀을 행에 추가
-		    row.appendChild(timeCell);
-		    
-		    // 행을 테이블에 추가
+		    // 테이블에 행 추가
 		    table.appendChild(row);
 		});
+
 
 	    // 기존 내용 초기화 후 테이블을 컨테이너에 추가
 	    dayContainer.innerHTML = '';
@@ -280,32 +298,39 @@ body {
 	// 일간 일정 설정 저장 버튼 핸들러
 	-------------------*/
 	const dayBtn = document.getElementById('dayBtn');
-	dayBtn.addEventListener('click', ()=>{
-		
-		let param =[];
-		
-		let modalDateValue = $('#modalDateParam').val();
-		let selectTable = $('#counselDayTime');
-		let selectInputs = selectTable.find('.change');
-		
-		selectInputs.each((idx, ele) => {
-				param.push({ reservationDate : modalDateValue, timeCode : $(ele).parent().text()});
-		})
-		
-		$.ajax({
-			type: 'post',
-			url: 'adminLectureInsert', // 데이터를 주고받을 파일 주소 입력
-			data: JSON.stringify(param),
-			contentType: 'application/json; charset=utf-8',
-			dataType: 'json', // JSON 형식으로 받기
-			success: function(result){
-				console.log('서버 응답:', result);
-			},
-			error: function(){  
-				console.error('서버 요청 실패');
-			}
-		});
+	dayBtn.addEventListener('click', () => {
+	    let param = [];
+	    
+	    // 모달에서 선택한 날짜 가져오기
+	    let modalDateValue = $('#modalDateParam').val();
+	    
+	    // 변경된 버튼들 찾기
+	    let selectInputs = $('#counselDayTime').find('.change');
+	    
+	    // 각 버튼의 클릭 이벤트 처리
+	    selectInputs.each((idx, ele) => {
+	        let timeText = $(ele).parent().siblings().first().find('span').text(); // 시간 텍스트 가져오기
+	        let status = $(ele).val(); // 버튼의 현재 상태('가능' 또는 '불가능')
+	        
+	        param.push({ reservationDate: modalDateValue, timeCode: timeText, status: status });
+	    });
+	    
+	    // param 배열을 JSON 형식으로 변환하여 서버에 전송
+	    $.ajax({
+	        type: 'post',
+	        url: 'counselDayTime', // 데이터를 주고받을 파일 주소 입력
+	        data: JSON.stringify(param),
+	        contentType: 'application/json; charset=utf-8',
+	        dataType: 'json', // JSON 형식으로 받기
+	        success: function(result){
+	            console.log('서버 응답:', result);
+	        },
+	        error: function(){  
+	            console.error('서버 요청 실패');
+	        }
+	    });
 	});
+
 	
 	
 	// ===================================================================================
@@ -346,12 +371,39 @@ body {
 			opt += `</select>`;
 			dayTimeSetting.innerHTML = opt;
 			container.appendChild(dayTimeSetting);
+			
+			// start 시간과 end 시간의 상호 검증
+	        const startSelect = dayTimeSetting.querySelector(`#start${idx}`);
+	        const endSelect = dayTimeSetting.querySelector(`#end${idx}`);
+
+	        startSelect.addEventListener('change', function() {
+	            const startValue = parseInt(this.value);
+	            const endValue = parseInt(endSelect.value);
+
+	            // 시작 시간이 마감 시간보다 늦으면 alert
+	            if (startValue > endValue) {
+	                alert('시작 시간은 마감 시간보다 늦을 수 없습니다.');
+	                this.value = endValue; // 이전 값으로 되돌립니다.
+	            }
+	        });
+
+	        endSelect.addEventListener('change', function() {
+	            const startValue = parseInt(startSelect.value);
+	            const endValue = parseInt(this.value);
+
+	            // 마감 시간이 시작 시간보다 빠르면 alert
+	            if (endValue < startValue) {
+	                alert('마감 시간은 시작 시간보다 빠를 수 없습니다.');
+	                this.value = startValue; // 이전 값으로 되돌립니다.
+	            }
+	        });
 		});
 	} 
 		
 	/*------------------
 	// 주간 일정 설정 저장 버튼 핸들러
 	-------------------*/	
+	
 	const weekBtn = document.getElementById('weekBtn');
 	weekBtn.addEventListener('click', ()=>{
 		const days = ['월요일', '화요일', '수요일', '목요일', '금요일'];

@@ -14,6 +14,31 @@
 		FROM admission_counsel
 	</select>
 
+    <select id="getCounselList" resultType="CounselVO" parameterType="map">
+    SELECT counsel_number,
+           parent_name,
+           student_name,
+           phone,
+           time_code,
+           reservation_date,
+           reservation_code
+    FROM admission_counsel
+    <where>
+        <if test="parentName != null and parentName != ''">
+            AND parent_name LIKE CONCAT('%', #{parentName}, '%')
+        </if>
+        <if test="studentName != null and studentName != ''">
+            AND student_name LIKE CONCAT('%', #{studentName}, '%')
+        </if>
+        <if test="phone != null and phone != ''">
+            AND phone LIKE CONCAT('%', #{phone}, '%')
+        </if>
+    </where>
+    ORDER BY reservation_date DESC
+</select>
+
+
+
 	<!-- 상담 일정 단건 조회 -->
 	<select id="counselSelectInfo" resultType="CounselVO">
 		SELECT counsel_number
