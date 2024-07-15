@@ -28,7 +28,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 tbody.innerHTML = "";
 
                 tasks.forEach(task => {
-                    const feedbackIcon = task.feedbackStatus === '피드백 미완료' ? '<i class="fas fa-times"></i>' : `<i class="fa-regular fa-comment-dots feedback-icon" tabindex="0" role="button" data-bs-toggle="popover" data-bs-placement="left" data-bs-custom-class="custom-popover" data-bs-content="${escapeHtml(task.feedback || '')}"></i>`;
+                    const feedbackIcon = task.feedbackStatus === '피드백 미완료' ? '<i class="fas fa-times"></i>' : `<i class="fa-regular fa-comment-dots feedback-icon" tabindex="0" role="button" data-bs-toggle="popover" data-bs-placement="left" data-bs-custom-class="custom-popover" data-bs-content="${escapeHtml(task.feedback)}"></i>
+`;
                     const tr =  document.createElement("tr");
                     tr.innerHTML = `<td>${task.rowNum}</td>
                                     <td style="cursor: pointer;"><a>${task.title}</a></td>
@@ -41,8 +42,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     titleTd.addEventListener("click", (event) => {
                         window.location.href = `/lms/student/${lectureNumber}/task/${task.taskNumber}`;
                     });
-
-
                 })
                 // Popover 초기화
                 initPopovers();
@@ -122,7 +121,6 @@ document.addEventListener('DOMContentLoaded', function () {
         loadTaskList(1, taskTitle, taskSubmitStatus);
     });
 
-
     // 팝오버 관련
     function escapeHtml(unsafe) {
         if (unsafe == null) return '';
@@ -139,17 +137,16 @@ document.addEventListener('DOMContentLoaded', function () {
         const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
         popoverTriggerList.forEach(function (popoverTriggerEl) {
             const feedback = popoverTriggerEl.getAttribute('data-bs-content');
-            new bootstrap.Popover(popoverTriggerEl, {
-                trigger: 'click',
+
+            const popover = new bootstrap.Popover(popoverTriggerEl, {
+                trigger: 'focus click',
                 html: true,
                 template: '<div class="popover custom-popover" role="tooltip">' +
-                                '<div class="popover-body"></div>' +
-                           '</div>',
-                content: function() {
+                            '<div class="popover-body"></div>' +
+                          '</div>',
+                content: function () {
                     return `<div class="popover-header">
-                                <span></span>
-                                <span>피드백</span>
-                                <span class="popover-close-button" style="cursor: pointer">X</span>
+                                <span>피드백</span>           
                             </div>
                             <div class="popover-contentBody">
                                 <div class="popover-content">${feedback}</div>
@@ -157,14 +154,5 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
         });
-    }
-
-    function closePopover(button) {
-        const popoverElement = button.closest('.popover');
-        const popoverTrigger = document.querySelector('[aria-describedby="' + popoverElement.id + '"]');
-        const popover = bootstrap.Popover.getInstance(popoverTrigger);
-        if (popover) {
-            popover.hide();
-        }
     }
 });

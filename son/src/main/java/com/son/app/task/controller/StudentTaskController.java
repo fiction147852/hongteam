@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriUtils;
 
 import java.net.MalformedURLException;
@@ -64,5 +66,19 @@ public class StudentTaskController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
                 .body(urlResource);
+    }
+
+    @PostMapping("student/{lectureNumber}/task/{taskNumber}")
+    public String filesUpload(@RequestPart("files")List<MultipartFile> multipartFileList, @PathVariable Integer taskNumber, @PathVariable Integer lectureNumber) {
+        studentTaskService.uploadFiles(multipartFileList, taskNumber);
+
+        return "redirect:/student/" + lectureNumber + "/task/" + taskNumber +"/update";
+    }
+
+    // 과제 수정 페이지로 이동
+    @GetMapping("student/{lectureNumber}/task/{taskNumber}/update")
+    public ResponseEntity<String> taskUpdatePage() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body("성공!!");
     }
 }

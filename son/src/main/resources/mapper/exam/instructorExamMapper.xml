@@ -35,25 +35,47 @@
 	</select>
 	
 	<insert id="insertExam" parameterType="ExamVO">
-    INSERT INTO test 
-    	(
-    		test_number, 
-    		examination_date, 
-    		limit_time, 
-    		exam_date, 
-    		paper_number, 
-    		lecture_number, 
-    		test_title
-    	)
-	    VALUES 
+	    <selectKey keyProperty="testNumber" resultType="int" order="BEFORE">
+	        SELECT test_seq.NEXTVAL FROM DUAL
+	    </selectKey>
+	    INSERT INTO test
 	    (
-    		test_seq.NEXTVAL, 
-    		SYSDATE, 
-    		#{limitTime},
-    		#{examDate}, 
-    		#{paperNumber}, 
-    		#{lectureNumber}, 
-    		#{testTitle})
+	    test_number,
+	    examination_date,
+	    limit_time,
+	    exam_date,
+	    paper_number,
+	    lecture_number,
+	    test_title
+	    )
+	    VALUES
+	    (
+	    #{testNumber},
+	    SYSDATE,
+	    #{limitTime},
+	    #{examDate},
+	    #{paperNumber},
+	    #{lectureNumber},
+	    #{testTitle})
+	</insert>
+	
+	<insert id="insertExamParticipation" parameterType="ExamVO">
+	    <selectKey keyProperty="participateNumber" resultType="int" order="BEFORE">
+	        SELECT NVL(MAX(participate_number), 0) + 1 FROM participate
+	    </selectKey>
+	    INSERT INTO participate (
+	        participate_number, 
+	        test_number, 
+	        student_number, 
+	        participate_status, 
+	        total_score
+	    ) VALUES (
+	        #{participateNumber},
+	        #{testNumber},
+	        #{studentNumber},
+	        '미응시',
+	        0
+	    )
 	</insert>
 	
 	<select id="countCompletedStudentsforExamList" resultType="int">

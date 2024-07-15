@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.son.app.exam.mapper.InstructorExamMapper;
 import com.son.app.exam.service.ExamVO;
@@ -98,8 +99,17 @@ public class InstructorExamController {
 	}
 	
 	@PostMapping("instructor/createExam")
-	public String createExam(@ModelAttribute ExamVO exam) {
-	    instructorExamService.createExam(exam);
+	public String createExam(@ModelAttribute ExamVO exam, RedirectAttributes redirectAttributes) {
+	    // 해당 강의를 수강하는 학생들의 목록을 가져옵니다.
+	    List<Integer> studentNumbers = lectureService.getStudentNumbersByLecture(exam.getLectureNumber());
+	    
+	    if (studentNumbers.isEmpty()) {
+	        redirectAttributes.addFlashAttribute("swalMessage", "강의중인 학생이 없습니다.");
+	        return "redirect:/instructor/createExam?paperNumber=" + exam.getPaperNumber();
+	    }
+	    
+	    instructorExamService.createExamWithParticipation(exam, studentNumbers);
+
 	    return "redirect:/instructor/" + exam.getLectureNumber() + "/examList";
 	}
 	

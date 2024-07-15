@@ -19,6 +19,8 @@
     max-width: 300px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    margin-left: 35px;
+    top: 16px !important;
 }
 
 .custom-popover .popover-body {
@@ -29,25 +31,12 @@
     background-color: #27587E;
     color: white;
     padding: 10px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 .custom-popover .popover-content {
     padding: 10px;
-}
-
-.custom-popover .close-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 0;
-    line-height: 1;
 }
 
 .popover-body {
@@ -56,22 +45,21 @@
 
 .custom-popover .popover-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-}
-
-.popover .close-btn {
-    cursor: pointer;
-    border: none;
-    background: transparent;
-}
-
-.popover-contentBody {
-    overflow-y: auto;
 }
 
 .popover-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    word-break: break-word;
+    text-align: center;
+
+}
+
+.popover-contentBody {
+    color: #00000080;
+}
+
+
+.feedback-icon {
+    cursor: pointer;
 }

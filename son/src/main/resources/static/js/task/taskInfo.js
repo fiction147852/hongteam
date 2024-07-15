@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
         Array.from(files).forEach(file => {
             if (!uploadedFiles.has(file.name)) {
                 uploadedFiles.add(file.name);
+                console.log(uploadedFiles);
                 const tr = document.createElement("tr");
                 tr.style.height = "30px";
 
@@ -16,13 +17,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
                 tr.innerHTML += `<td>${file.name.split(".")[0]}</td>
-                             <td>${fileType}</td>
-                             <td>${formatFileSize(file.size)}</td>
-                             <td>
-                                 <span class="delete-btn" style="cursor: pointer">X</span>
-                             </td>`;
+                                 <td>${fileType}</td>
+                                 <td>${formatFileSize(file.size)}</td>
+                                 <td>
+                                     <span class="delete-btn" style="cursor: pointer">X</span>
+                                 </td>`;
 
                 tr.querySelector(".delete-btn").addEventListener("click", function (event) {
+                    const deleteFileName = this.closest("tr").querySelector("td:nth-of-type(1)").innerText;
+                    const deleteFileType = this.closest("tr").querySelector("td:nth-of-type(2)").innerText;
+
+                    uploadedFiles.delete(`${deleteFileName}.${deleteFileType}`);
+                    console.log(uploadedFiles);
                     event.currentTarget.closest("tr").remove();
                 });
 
@@ -33,6 +39,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.querySelector(".header-right span").addEventListener("click", function () {
         window.location.href = `/lms/student/${lectureNumber}/task`;
+    });
+
+    document.querySelector(".btn-submit").addEventListener("click", function(event) {
+        document.getElementById('taskForm').submit();
     });
 
     // 함수 단위 함수
