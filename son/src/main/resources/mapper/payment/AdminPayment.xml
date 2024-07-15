@@ -1,7 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.son.app.payment.mapper.AdminPayMapper">
 
 
+	<select id="lecturePaySelectAll" resultType="AdminPayVO">
+		SELECT charge_number,
+		       charge_code,
+		       request_date,
+		       lecture_number,
+		       approval_date,
+		       receive_status,
+		       payment_type,
+		       student_number,
+		       registration_status
+		FROM charge
+	</select>
 
+	<!-- 강의에 학생 등록하기 -->
+	<insert id="payLectureInsertStudent" parameterType="registrationVO">
+    <selectKey keyProperty="registrationNumber" resultType="int" order="BEFORE">
+        SELECT NVL(MAX(registration_number) + 1, 1) AS registrationNumber FROM registration
+    </selectKey>
+		INSERT INTO registration 
+			(registration_number,
+			 lecture_number,
+			 student_number)
+		VALUES 
+			(#{registrationNumber}, 
+			 #{lectureNumber},
+			 #{studentNumber})
+	</insert>
+	
+	<!-- 등록 현황 없데이트 -->
+	<update id="payLectureUpdateStatus">
+		UPDATE charge
+			SET registration_status = #{registrationStatus}
+		WHERE charge_number = #{chargeNumber}
+	</update>
 </mapper>
