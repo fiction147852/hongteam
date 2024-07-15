@@ -89,6 +89,31 @@
 				
 	</insert>
 	
+	<insert id="insertTaskSubmit" parameterType="TaskVO">
+	    <selectKey keyProperty="taskSubmitNumber" resultType="int" order="BEFORE">
+	        SELECT NVL(MAX(task_submit_number), 0) + 1 FROM task_submit
+	    </selectKey>
+	    INSERT INTO task_submit (
+	        task_submit_number,
+	        student_number,
+	        task_number,
+	        task_submit_code,
+	        feedback_code
+	    ) VALUES (
+	        #{taskSubmitNumber},
+	        #{studentNumber},
+	        #{taskNumber},
+	        '미제출',
+	        '피드백 미완료'
+	    )
+	</insert>
+	
+	<select id="getStudentNumbersByLecture" resultType="int">
+	    SELECT student_number
+	    FROM registration
+	    WHERE lecture_number = #{lectureNumber}
+	</select>
+	
 
 	<update id="updateTaskInfo">
 		UPDATE task

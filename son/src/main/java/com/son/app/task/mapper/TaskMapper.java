@@ -26,6 +26,8 @@ public interface TaskMapper {
 	
 	// 등록
 	public int insertTaskInfo(TaskVO taskVO);
+    void insertTaskSubmit(TaskVO taskVO);
+    List<Integer> getStudentNumbersByLecture(int lectureNumber);
 	
 	// 수정
 	public int updateTaskInfo(TaskVO taskVO);
