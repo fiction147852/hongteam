@@ -108,19 +108,19 @@ public class TaskController {
 	@PostMapping("/instructor/{lectureNumber}/taskInsert")
 	public String taskInsertProcess(@PathVariable Integer lectureNumber, TaskVO taskVO, @RequestParam("files") List<MultipartFile> multipartFiles) {
 	    taskVO.setLectureNumber(lectureNumber);
-	    // 태스크 저장
-	    int taskNumber = taskService.insertTask(taskVO);
-	    
+	    // 과제 및 과제 제출 정보 저장
+	    taskService.insertTaskWithSubmissions(taskVO);
+
 	    // 파일 업로드 및 저장
 	    if (multipartFiles != null && !multipartFiles.isEmpty()) {
-	    	System.out.println("Files received: " + multipartFiles.size());
+	        System.out.println("Files received: " + multipartFiles.size());
 	        List<FileRequest> fileRequests = fileUtils.uploadFiles(multipartFiles);
 	        System.out.println("FileRequests created: " + fileRequests.size());
-	        fileService.saveFiles(null, null, taskNumber, null, null, null, fileRequests);
+	        fileService.saveFiles(null, null, taskVO.getTaskNumber(), null, null, null, fileRequests);
 	    } else {
-	    	System.out.println("No files received");
+	        System.out.println("No files received");
 	    }
-	    
+
 	    return "redirect:/instructor/" + lectureNumber + "/taskList";
 	}
 	

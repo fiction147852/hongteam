@@ -19,6 +19,7 @@ public interface TaskService {
 	public TaskVO taskInfo(Integer taskNumber);
 	
 	public int insertTask(TaskVO taskVO);
+    void insertTaskWithSubmissions(TaskVO taskVO);
 	
 	public Map<String, Object> updateTask(TaskVO taskVO);
 	
