@@ -7,6 +7,7 @@ import com.son.app.lecture.service.LectureSubjectDetailVO;
 import com.son.app.lecture.service.LectureSubjectVO;
 import com.son.app.lecture.service.LectureVO;
 import com.son.app.lecture.service.RegistrationVO;
+import com.son.app.member.service.InstructorVO;
 
 public interface AdminLectureMapper {
 	public List<LectureVO> adminLectureSelectAll();
@@ -26,4 +27,7 @@ public interface AdminLectureMapper {
 	public int adminLectureStudentInsert(LectureStudentVO lectureStudentVO);
 
 	public int adminLectureStudNumInsert(RegistrationVO registrationVO);
+
+	// 강사 정보 드롭 리스트 불러오기
+	public List<InstructorVO> adminInstructorSelectAll();
 }

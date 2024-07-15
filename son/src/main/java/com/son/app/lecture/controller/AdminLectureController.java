@@ -16,8 +16,10 @@ import com.son.app.lecture.service.LectureSubjectDetailVO;
 import com.son.app.lecture.service.LectureSubjectVO;
 import com.son.app.lecture.service.LectureVO;
 import com.son.app.lecture.service.RegistrationVO;
+import com.son.app.member.service.InstructorVO;
 
 @Controller
+@lombok.extern.slf4j.Slf4j
 public class AdminLectureController {
 	
 	@Autowired
@@ -37,6 +39,9 @@ public class AdminLectureController {
 //		System.out.println("서브" + lecSublist);
 //		System.out.println("서브디테일" + lecSubDeList);
 //		System.out.println("그냥" + lecList);
+		List<InstructorVO> instructorVO = adminLectureService.adminInstructorList();
+		model.addAttribute("adminInstruList", instructorVO);
+
 		
 		return "lecture/admin/adminLectureList";
 	}
@@ -52,10 +57,12 @@ public class AdminLectureController {
 	
 	//강의 등록하기
 	@PostMapping("admin/adminLectureInsert")
-	public int adminLectureInsert(@RequestBody LectureVO lectureVO) {
-		adminLectureService.adminLectureInsert(lectureVO);
-		
-		return 1;
+	@ResponseBody
+	public LectureVO adminLectureInsert(@RequestBody LectureVO lectureVO) {
+		log.info("BEFORE : " + lectureVO.toString());
+		int result = adminLectureService.adminLectureInsert(lectureVO);
+		log.info("AFTER : " + lectureVO.toString());
+		return lectureVO;
 	}
 	
 //	@GetMapping("admin/adminLectureSubjectList")
@@ -85,9 +92,11 @@ public class AdminLectureController {
 	//학생 추가하기
 	@ResponseBody
 	@PostMapping("admin/adminLectureStudentInsert")
-	public int  adminLectureStudentInsert(@RequestBody RegistrationVO registrationVO){
+	public int adminLectureStudentInsert(@RequestBody RegistrationVO registrationVO){
 		adminLectureService.adminLectureStudNumInsert(registrationVO);
 		
 		return 1;
 	}
+	
+	
 }

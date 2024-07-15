@@ -2,6 +2,8 @@ package com.son.app.lecture.service;
 
 import java.util.List;
 
+import com.son.app.member.service.InstructorVO;
+
 public interface AdminLectureService {
 	public List<LectureVO> adminLectureList();
 	
@@ -20,5 +22,8 @@ public interface AdminLectureService {
 	public int adminLectureStudInsert(LectureStudentVO lectureStudentVO);
 
 	public int adminLectureStudNumInsert(RegistrationVO registrationVO);
+
+	// 강사 정보 드롭 리스트 불러오기
+	public List<InstructorVO> adminInstructorList();
 
 }
