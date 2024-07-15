@@ -63,6 +63,15 @@
     cursor: pointer;
 }
 
-.page-item {
-    font-weight: 500;
+.pagination .page-item .page-link {
+    background-color: #27587E;
+    border-color: #27587E;
+    font-weight: 600;
+    color: white;
+}
+
+.pagination .page-item.active .page-link, .pagination .page-item:hover .page-link, .pagination .page-item:focus .page-link, .pagination .page-item:active .page-link {
+    background-color: white;
+    border-color: white;
+    color: black;
 }
