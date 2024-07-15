@@ -17,7 +17,9 @@ public class AdminPayVO {
     
     // 부모
     private Integer parentNumber;
-    
+    // 학생
+    private Integer studentNumber;
+    private String registrationStatus;
     // 강의
     private Integer lectureNumber;
     private String lectureName;

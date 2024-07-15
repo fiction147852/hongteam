@@ -13,4 +13,6 @@ public interface InsLectureService {
 	public Map<String, Object> updateLecture(LectureVO lectureVO);
 	
 	public int deleteLecture (int lectureNo);
+	
+	List<Integer> getStudentNumbersByLecture(Integer lectureNumber);
 }

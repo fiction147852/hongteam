@@ -24419,8 +24419,7 @@ div.tagsinput span.tag a {
 }
 
 .navbar .navbar-brand-wrapper .navbar-brand-inner-wrapper {
-  margin-right: 1.3rem;
-  margin-left: 1.3rem;
+  text-align: center;
 }
 
 .navbar .navbar-brand-wrapper .navbar-brand-inner-wrapper .navbar-brand {
@@ -24480,7 +24479,7 @@ div.tagsinput span.tag a {
 
 @media (max-width: 991px) {
   .navbar .navbar-menu-wrapper {
-    width: calc(100% - 55px);
+    width: calc(100% - 80px);
     padding-left: 15px;
     padding-right: 15px;
   }
@@ -25064,7 +25063,8 @@ div.tagsinput span.tag a {
     flex-direction: row;
   }
   .navbar .navbar-brand-wrapper {
-    width: 55px;
+    width: 80px;
+    padding: 0 10px;
   }
   .navbar .navbar-brand-wrapper .navbar-brand.brand-logo {
     display: none;
@@ -25082,7 +25082,8 @@ div.tagsinput span.tag a {
 
 @media (max-width: 480px) {
   .navbar .navbar-brand-wrapper {
-    width: 55px;
+    width: 80px;
+    padding: 0 10px;
   }
   .navbar .navbar-brand-wrapper .brand-logo-mini {
     padding-top: 0px;
@@ -25316,12 +25317,19 @@ div.tagsinput span.tag a {
     text-align: left;
     width: 66%;
   }
+
+  .sidebar-icon-only .navbar .navbar-brand-wrapper .navbar-brand-inner-wrapper > span {
+    display: none !important;
+  }
 }
 
 @media (min-width: 992px) {
   .sidebar-icon-only .navbar .navbar-brand-wrapper {
     width: calc(70px + 0.5rem);
   }
+
+
+
   .sidebar-icon-only .navbar .navbar-brand-wrapper .brand-logo {
     display: none;
   }

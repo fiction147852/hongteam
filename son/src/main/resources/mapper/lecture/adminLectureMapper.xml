@@ -7,8 +7,8 @@
 		SELECT lecture_number,          <!-- 강의 번호 -->
 			lecture_title,              <!-- 강의 제목 -->
 			lecture_description,        <!-- 강의 설명 -->
-			subject_code,               <!-- 과목 코드 -->
-			detail_subject_code,        <!-- 세부 과목 코드 -->
+			subject_name(subject_code) subject_code,               <!-- 과목 코드 -->
+			detail_subject_name(detail_subject_code) detail_subject_code,        <!-- 세부 과목 코드 -->
 			lecture_cost,               <!-- 강의 비용 -->
 			lecture_level_code,         <!-- 강의 수준 코드 -->
 			weekdays_code,              <!-- 강의 요일 코드 -->
@@ -25,8 +25,8 @@
 		SELECT lecture_number,          <!-- 강의 번호 -->
 			lecture_title,              <!-- 강의 제목 -->
 			lecture_description,        <!-- 강의 설명 -->
-			subject_code,               <!-- 과목 코드 -->
-			detail_subject_code,        <!-- 세부 과목 코드 -->
+			subject_name(subject_code) subject_code,               <!-- 과목 코드 -->
+			detail_subject_name(detail_subject_code) detail_subject_code,        <!-- 세부 과목 코드 -->
 			lecture_cost,               <!-- 강의 비용 -->
 			lecture_level_code,         <!-- 강의 수준 코드 -->
 			weekdays_code,              <!-- 강의 요일 코드 -->
@@ -40,40 +40,44 @@
 	</select>
 	
 <!-- 	강의 등록 -->
-	<insert id="adminLectureInsertInfo" parameterType="lectureVO">
-		INSERT INTO lecture
-		(
-		    lecture_number,      
-		    lecture_title,           
-		    lecture_description,     
-		    subject_code,            
-		    detail_subject_code,     
-		    lecture_cost,            
-		    lecture_level_code,     
-		    weekdays_code,           
-		    time_code,               
-		    lecture_start_date,     
-		    lecture_end_date,        
-		    capacity,                
-		    instructor_number        
-		)
-		VALUES
-		(
-		    #{lectureNumber},         
-		    #{lectureTitle},           
-		    #{lectureDescription},     
-		   	#{subjectCode},            
-		    #{detailSubjectCode},     
-		    #{lectureCost},            
-		    #{lectureLevelCode},      
-		    #{weekdaysCode},           
-		    #{timeCode},              
-		    #{lectureStartDate},     
-		    #{lectureEndDate},        
-		    #{capacity},               
-		    #{instructorNumber}   
-		)
+		<insert id="adminLectureInsertInfo" parameterType="lectureVO">
+	    <selectKey keyProperty="lectureNumber" resultType="Integer" order="BEFORE">
+	        SELECT NVL(MAX(lecture_number) + 1, 1) lecture_number FROM lecture
+	    </selectKey>
+	    INSERT INTO lecture
+	    (
+	        lecture_number,      
+	        lecture_title,           
+	        lecture_description,     
+	        subject_code,            
+	        detail_subject_code,     
+	        lecture_cost,            
+	        lecture_level_code,     
+	        weekdays_code,           
+	        time_code,               
+	        lecture_start_date,     
+	        lecture_end_date,        
+	        capacity,                
+	        instructor_number        
+	    )
+	    VALUES
+	    (
+	        #{lectureNumber},         
+	        #{lectureTitle},           
+	        #{lectureDescription},     
+	        #{subjectCode},            
+	        #{detailSubjectCode},     
+	        #{lectureCost},            
+	        #{lectureLevelCode},      
+	        #{weekdaysCode},           
+	        #{timeCode},              
+	        #{lectureStartDate},     
+	        #{lectureEndDate},        
+	        #{capacity},               
+	        #{instructorNumber}   
+	    )
 	</insert>
+
 	
 	<select id="adminLectureSubjectList" resultType="LectureSubjectVO">
 		SELECT subject_name,
@@ -128,39 +132,27 @@
 <!-- 		#{birth}) -->
 <!-- 	</insert> -->
 
-	<insert id="adminLectureStudNumInsert" parameterType="RegistrationVO" >
-        INSERT INTO lecture
-        (
-            lecture_number,
-            lecture_title,
-            lecture_description,
-            subject_code,
-            detail_subject_code,
-            lecture_cost,
-            lecture_level_code,
-            weekdays_code,
-            time_code,
-            lecture_start_date,
-            lecture_end_date,
-            capacity,
-            instructor_number
-        )
-        VALUES
-        (
-            COALESCE((SELECT MAX(lecture_number) + 1 FROM lecture), 1),
-            #{lectureNumber},
-            #{lectureTitle},
-            #{lectureDescription},
-            #{subjectCode},
-            #{detailSubjectCode},
-            #{lectureCost},
-            #{lectureLevelCode},
-            #{weekdaysCode},
-            #{timeCode},
-            #{lectureStartDate},
-            #{lectureEndDate},
-            #{capacity},
-            #{instructorNumber}
-        )
-    </insert>
+	<insert id="adminLectureStudNumInsert" parameterType="RegistrationVO" useGeneratedKeys="true" keyProperty="registrationNumber">
+    <selectKey keyProperty="registrationNumber" resultType="int" order="BEFORE">
+        SELECT NVL(MAX(registration_number) + 1, 1) AS registrationNumber FROM registration
+    </selectKey>
+	    INSERT INTO registration 
+	        (registration_number, 
+	        lecture_number, 
+	        student_number)
+	    VALUES
+	        (
+	        #{registrationNumber}, 
+	        #{lectureNumber}, 
+	        #{studentNumber}
+	        )
+	</insert>
+
+	<select id="adminInstructorSelectAll" resultType="InstructorVO">
+	    SELECT name,
+	           instructor_number,
+			   subject_name(subject_code) subject_code               <!-- 과목 코드 -->
+	    FROM instructor
+	</select>
+
 </mapper>

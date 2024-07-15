@@ -110,6 +110,22 @@
         )
     </insert>
 
+    <!-- 제출한 파일 조회  -->
+    <select id="studentTaskSubjectFile" resultType="AttachmentFileVO">
+        SELECT *
+        FROM attachment_file
+        WHERE task_submit_number = (SELECT task_submit_number
+                                    FROM task_submit
+                                    WHERE task_number = #{taskNumber})
+    </select>
+
+    <!-- 제출한 파일 삭제 -->
+    <delete id="studentSubmissionFileDelete">
+        DELETE attachment_file
+        WHERE task_submit_number = (SELECT task_submit_number
+                                    FROM task_submit
+                                    WHERE task_number = #{taskNumber})
+    </delete>
 
 </mapper>
 
