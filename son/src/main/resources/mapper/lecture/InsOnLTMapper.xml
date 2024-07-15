@@ -2,19 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.son.app.lecture.online.mapper.InsOnlineLectureMapper">
 	<select id="selectOnlineLectureAll" resultType="OnlineLectureVO">
-	SELECT ol.online_lecture_number,
-           ol.title,
-           ol.description,
-           ol.lecture_url,
-           ol.post_date,
-           ol.views,
-           i.name AS instructorName
-    FROM online_lecture ol
-        JOIN lecture l 
-            ON ol.lecture_number = l.lecture_number
-        JOIN instructor i
-            ON l.instructor_number = i.instructor_number
+	    SELECT *
+	    FROM (
+	        SELECT 
+	            ROW_NUMBER() OVER (ORDER BY ol.online_lecture_number) AS rn,
+	            ol.online_lecture_number,
+	            ol.title,
+	            ol.description,
+	            ol.lecture_url,
+	            ol.post_date,
+	            ol.views,
+	            i.name AS instructorName
+	        FROM online_lecture ol
+	        JOIN lecture l ON ol.lecture_number = l.lecture_number
+	        JOIN instructor i ON l.instructor_number = i.instructor_number
+	        WHERE ol.lecture_number = #{lectureNumber}
+	    ) t
+	    WHERE rn BETWEEN #{start} AND #{end}
 	</select>
+	
+	<select id="countOnlineLecs" resultType="int">
+		SELECT COUNT(*)
+		FROM online_lecture
+		WHERE lecture_number = #{lectureNumber}
+	</select>
+	
 	<select id="selectLectureInfo" resultType="OnlineLectureVO">
 	SELECT ol.online_lecture_number,
            ol.title,

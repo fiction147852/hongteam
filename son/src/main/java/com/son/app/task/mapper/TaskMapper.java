@@ -13,8 +13,16 @@ public interface TaskMapper {
 					           @Param("end") int end);
 	int countTasks(@Param("lectureNumber") Integer lectureNumber);
 	
+	List<TaskVO> selectSubmittedStudents(@Param("taskNumber") Integer taskNumber,
+							             @Param("lectureNumber") Integer lectureNumber,
+							             @Param("start") int start,
+							             @Param("end") int end);
+	int countSubmittedStudents(@Param("taskNumber") Integer taskNumber);
+	
 	// 단건
 	public TaskVO selectTaskInfo(@Param("taskNumber") Integer taskNumber);
+	
+	public TaskVO selectSubmittedInfo(@Param("taskSubmitNumber") Integer taskSubmitNumber);
 	
 	// 등록
 	public int insertTaskInfo(TaskVO taskVO);

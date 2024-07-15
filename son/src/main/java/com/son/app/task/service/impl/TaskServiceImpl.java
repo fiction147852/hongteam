@@ -26,7 +26,7 @@ public class TaskServiceImpl implements TaskService {
 
     public PageVO getPageInfo(Integer lectureNumber, int page) {
         int totalItems = taskMapper.countTasks(lectureNumber);
-        return new PageVO(page, totalItems, 5, 5); // 10: pageSize, 5: pageGroupSize
+        return new PageVO(page, totalItems, 5, 5);
     }
 
 	@Override
@@ -63,5 +63,19 @@ public class TaskServiceImpl implements TaskService {
 	public boolean deleteTask(Integer taskNo) {
 	    return taskMapper.deleteTaskInfo(taskNo) > 0;
 	}
+
+	@Override
+	public List<TaskVO> getSubmittedStudentsList(Integer taskNumber, Integer lectureNumber, PageVO pageVO) {
+	    int start = Math.max(0, (pageVO.getPage() - 1) * pageVO.getPageSize());
+	    int end = start + pageVO.getPageSize();
+	    return taskMapper.selectSubmittedStudents(taskNumber, lectureNumber, start, end);
+	}
+
+	@Override
+	public PageVO getSubmittedStudentPageInfo(Integer taskNumber, int page) {
+		int totalItems = taskMapper.countSubmittedStudents(taskNumber);
+		return new PageVO(page, totalItems, 10, 5);
+	}
+
 
 }

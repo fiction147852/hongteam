@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/instructorDetailSubject_layout}"
+	layout:fragment="content">
+<head>
+
+<title>제출된 과제 목록</title>
+
+</head>
+
+<body>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="table-responsive pt-3">
+					<table class="table table-hover text-center project-orders-table">
+						<thead>
+							<tr>
+								<th>번호</th>
+								<th>제출자</th>
+								<th>과제명</th>
+								<th>게시 일자</th>
+								<th>제출 기한</th>
+								<th>제출상태</th>
+								<th>피드백상태</th>
+							</tr>
+						</thead>
+						<tbody>
+							<th:block th:each="ss : ${submittedStudents}">
+								<tr
+									th:onclick="|location.href='@{/instructor/{lectureNumber}/task/{taskNumber}/submittedInfo(taskSubmitNumber=${ss.taskSubmitNumber}, taskNumber=${taskNumber}, lectureNumber=${lectureNumber})}'|">
+									<td>[[ ${ss.taskNumber} ]]</td>
+									<td>[[ ${ss.studentName} ]]</td>
+									<td>[[ ${ss.title} ]]</td>
+									<td>[[ ${#dates.format(ss.postDate, 'yyyy년 MM월 dd일')}
+										]]</td>
+									<td>[[ ${#dates.format(ss.submitDeadline, 'yyyy년 MM월
+										dd일')} ]]</td>
+									<td>[[ ${ss.taskSubmitStatus} ]]</td>
+									<td>[[ ${ss.feedbackStatus} ]]</td>
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<button type="button" class="btn btn-secondary mt-3 float-end"
+				th:onclick="|location.href='@{/instructor/{lectureNumber}/taskInfo(taskNumber=${taskNumber}, lectureNumber=${lectureNumber})}'|">목록</button>
+		</div>
+		<div class="pagination-container">
+			<ul class="pagination d-flex justify-content-center">
+				<li th:if="${pageVO.prev}" class="page-item"><a
+					th:href="@{/instructor/{lectureNumber}/taskList(lectureNumber=${lectureNumber}, page=${pageVO.startPage - 1})}"
+					class="page-link">&laquo;</a></li>
+				<li
+					th:each="pageNum : ${#numbers.sequence(pageVO.startPage, pageVO.endPage)}"
+					th:class="${pageNum == pageVO.page} ? 'page-item active' : 'page-item'">
+					<a
+					th:href="@{/instructor/{lectureNumber}/taskList(lectureNumber=${lectureNumber}, page=${pageNum})}"
+					th:text="${pageNum}" class="page-link"></a>
+				</li>
+				<li th:if="${pageVO.next}" class="page-item"><a
+					th:href="@{/instructor/{lectureNumber}/taskList(lectureNumber=${lectureNumber}, page=${pageVO.endPage + 1})}"
+					class="page-link">&raquo;</a></li>
+			</ul>
+		</div>
+	</div>
+</body>
+
+</html>
+

@@ -25,6 +25,12 @@ public class TaskVO {
 	private Date submitDeadline;// 제출 기한
 	private int lectureNumber;	// 강의 번호
 	
+	private Integer studentNumber;
+    private String taskSubmitStatus;
+    private String feedbackStatus;
+    private String feedback;
+    private Integer taskSubmitNumber;
+    private String studentName;
 	
 	private List<FileRequest> fileList;
 	private List<Integer> removeFileIds;

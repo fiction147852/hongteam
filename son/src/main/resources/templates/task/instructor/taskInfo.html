@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{common/layouts/instructor_layout}"
+	layout:decorate="~{common/layouts/instructorDetailSubject_layout}"
 	layout:fragment="content">
 <head>
 
@@ -33,7 +33,7 @@
             <div class="col-span-1 font-bold">제출기한</div>
             <div class="col-span-1  border-gray-300" th:text="${#dates.format(taskInfo.submitDeadline, 'yyyy년 MM월 dd일')}"></div>
         </div>
-        <div class="grid grid-cols-4 p-6 border-b">
+        <div class="grid grid-cols-4 gap-4 p-6">
             <div class="col-span-1 font-bold mb-2">내용</div>
             <div class="col-span-1  border-gray-300" th:text="${taskInfo.description}">
 			</div>
@@ -56,6 +56,7 @@
         	<button type="button" class="btn btn-success mt-3" th:onclick="|location.href='@{/instructor/{lectureNumber}/taskUpdate/{taskNumber}(lectureNumber=${lectureNumber},taskNumber=${taskInfo.taskNumber})}'|">수정</button>
 			<button type="button" class="btn btn-secondary mt-3" th:onclick="|location.href='@{/instructor/{lectureNumber}/taskList(lectureNumber=${taskInfo.lectureNumber})}'|">목록</button>
 			<button type="button" class="btn btn-danger mt-3" th:onclick="confirmDelete(this)" th:data-task-no="${taskInfo.taskNumber}" th:data-lecture-no="${taskInfo.lectureNumber}">삭제</button>
+      <button type="button" class="btn btn-info mt-3" th:onclick="|location.href='@{/instructor/{lectureNumber}/task/{taskNumber}/submittedStudents(lectureNumber=${lectureNumber},taskNumber=${taskInfo.taskNumber})}'|">제출상태</button>
         </div>
   	</div>
   	

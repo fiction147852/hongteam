@@ -1,7 +1,10 @@
 package com.son.app.file.controller;
 
+import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -9,12 +12,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriUtils;
 
 import com.son.app.file.common.FileUtils;
 import com.son.app.file.service.FileResponse;
@@ -63,5 +70,33 @@ public class FileRestController {
             throw new RuntimeException("filename encoding failed : " + file.getOriginalFileName());
         }
     }
+	
+	@GetMapping("instructor/{lectureNumber}/task/{taskNumber}/submittedInfo/download")
+	@ResponseBody
+	public ResponseEntity<Resource> submittedTaskDownload(
+												        @PathVariable Integer lectureNumber,
+												        @PathVariable Integer taskNumber,
+												        @RequestParam Integer taskSubmitNumber,
+												        @RequestParam String originalFileName,
+												        @RequestParam String saveFileName) throws MalformedURLException, FileNotFoundException {
+
+	    // 파일 경로를 구성합니다. 필요에 따라 경로를 조정하세요.
+	    String filePath = "C:/uploads/" + taskSubmitNumber + "/" + saveFileName;
+	    
+	    UrlResource urlResource = new UrlResource("file:" + filePath);
+
+	    // 파일이 존재하는지 확인합니다.
+	    if (!urlResource.exists()) {
+	        throw new FileNotFoundException("File not found: " + originalFileName);
+	    }
+
+	    String encodedOriginalFileName = UriUtils.encode(originalFileName, StandardCharsets.UTF_8);
+	    String contentDisposition = "attachment; filename=\"" + encodedOriginalFileName + "\"";
+
+	    return ResponseEntity.ok()
+	            .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
+	            .body(urlResource);
+	}
+	
 	
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{common/layouts/instructor_layout}"
+	layout:decorate="~{common/layouts/instructorDetailSubject_layout}"
 	layout:fragment="content">
 <script src="https://cdn.tailwindcss.com"></script>
 <link
@@ -44,7 +44,7 @@ body {
 		</div>
 		<div>
 			<button type="button" class="btn btn-secondary float-end mt-3"
-				th:onclick="|location.href='@{/instructor/onlineLTList}'|">목록</button>
+				th:onclick="|location.href='@{/instructor/{lectureNumber}/onlineLTList(lectureNumber=${lectureNumber})}'|">목록</button>
 		</div>
 	</div>
 	

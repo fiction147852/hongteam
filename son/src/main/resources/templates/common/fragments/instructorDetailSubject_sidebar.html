@@ -1,0 +1,38 @@
+<html xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <script src=""></script>
+    </head>
+    <body>
+        <nav class="sidebar sidebar-offcanvas" id="sidebar" th:fragment="instructorDetailSubjectSidebarFragment" style="margin-bottom: 28.992px">
+            <ul class="nav">
+                <li class="nav-item">
+                    <h6 style="text-align: center; margin-top: 10px">[[${session.instructorLectureInfo.detailSubjectName}]]</h6>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/instructor}">
+                        <i class="fa-solid fa-house-chimney menu-icon" style="margin-right: 14px"></i>
+                        <span class="menu-title">홈으로</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/instructor/{lectureNumber}/examList(lectureNumber= ${session.instructorLectureInfo.lectureNumber})}">
+                        <i class="fa-solid fa-pen-to-square menu-icon" style="margin-right: 14px"></i>
+                        <span class="menu-title">시험 목록</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/instructor/{lectureNumber}/taskList(lectureNumber= ${session.instructorLectureInfo.lectureNumber})}">
+                        <i class="fa-solid fa-folder-open menu-icon" style="margin-right: 14px"></i>
+                        <span class="menu-title">과제 목록</span>
+                    </a>
+                </li>
+                 <li class="nav-item">
+                    <a class="nav-link" th:href="@{/instructor/{lectureNumber}/onlineLTList(lectureNumber= ${session.instructorLectureInfo.lectureNumber})}">
+                        <i class="fa-solid fa-desktop menu-icon" style="margin-right: 14px"></i>
+                        <span class="menu-title">인터넷 강의</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </body>
+</html>

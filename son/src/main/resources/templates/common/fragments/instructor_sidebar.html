@@ -4,8 +4,8 @@
 
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
 	<ul class="nav">
-		<li class="nav-item"><a class="nav-link" href="/lms/instructor"> <i
-				class="typcn typcn-device-desktop menu-icon"></i> <span
+		<li class="nav-item"><a class="nav-link" href="/lms/instructor">
+				<i class="typcn typcn-device-desktop menu-icon"></i> <span
 				class="menu-title">일정표</span>
 		</a></li>
 		<li class="nav-item"><a class="nav-link" data-toggle="collapse"
@@ -15,10 +15,9 @@
 		</a>
 			<div class="collapse" id="ui-basic">
 				<ul class="nav flex-column sub-menu">
-					<li class="nav-item"><a class="nav-link"
-						href="pages/ui-features/buttons.html">수학 A기초반</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="pages/ui-features/dropdowns.html">수학 B기초반</a></li>
+					<li class="nav-item" th:each="lecture : ${lectureList}">
+					    <a class="nav-link" th:href="@{'/instructor/' + ${lecture.lectureNumber}}">[[${lecture.detailSubjectName}]]</a>
+					</li>
 				</ul>
 			</div></li>
 		<li class="nav-item"><a class="nav-link" data-toggle="collapse"

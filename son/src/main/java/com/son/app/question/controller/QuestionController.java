@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.son.app.lecture.service.InsLectureService;
+import com.son.app.lecture.service.LectureVO;
 import com.son.app.question.service.QuestionService;
 import com.son.app.question.service.QuestionVO;
 
@@ -21,10 +23,15 @@ public class QuestionController {
 	@Autowired
 	QuestionService questionService;
 	
+	@Autowired
+	InsLectureService lectureService;
 	// 전체
 	@GetMapping("/instructor/questionList")
 	public String questionList(Model model) {
 		List<QuestionVO> list = questionService.questionList();
+		List<LectureVO> lecturelist = lectureService.lectureList();
+		
+		model.addAttribute("lectureList", lecturelist);
 		model.addAttribute("questionList", list);
 		return "question/instructor/qlist";
 	}

@@ -104,4 +104,89 @@
 		DELETE FROM task
 		WHERE task_number = #{taskNumber}
 	</delete>
+	
+	<select id="selectSubmittedStudents" resultType="TaskVO">
+		  	SELECT 
+			    t.rn,
+			    t.task_number,
+			    t.title,
+			    t.post_date,
+			    t.submit_deadline,
+			    ts.task_submit_code AS taskSubmitStatus,
+			    ts.feedback_code AS feedbackStatus,
+			    ts.task_submit_number,
+			    s.name AS studentName
+			FROM 
+			    (
+			        SELECT 
+			            ROW_NUMBER() OVER (ORDER BY task_number) AS rn,
+			            task_number, 
+			            title, 
+			            post_date, 
+			            submit_deadline, 
+			            lecture_number
+			        FROM 
+			            task 
+			        WHERE 
+			            lecture_number = #{lectureNumber}
+			    ) t
+			JOIN task_submit ts ON t.task_number = ts.task_number
+			JOIN registration r ON ts.student_number = r.student_number AND t.lecture_number = r.lecture_number
+			JOIN student s ON r.student_number = s.student_number
+			WHERE 
+			    t.rn BETWEEN #{start} AND #{end}
+			    AND t.task_number = #{taskNumber}
+			ORDER BY 
+			    t.rn, s.student_number
+	</select>
+	
+	<select id="countSubmittedStudents" resultType="int">
+		SELECT COUNT(*)
+		FROM task_submit
+		WHERE task_number = #{taskNumber}
+	</select>
+	
+	<select id="selectSubmittedInfo" resultMap="submittedTaskWithFilesResultMap">
+	    SELECT 
+	        ts.task_submit_number,
+	        ts.task_number,
+	        ts.feedback,
+	        ts.feedback_code AS feedbackStatus,
+	        s.name AS studentName,
+	        t.post_date,
+	        t.submit_deadline,
+	        t.title,
+	        f.attachment_file_number,
+	        f.original_file_name,
+	        f.save_file_name,
+	        f.file_size,
+	        f.is_deleted
+	    FROM task_submit ts
+	    JOIN task t ON ts.task_number = t.task_number
+	    JOIN registration r ON ts.student_number = r.student_number AND t.lecture_number = r.lecture_number
+	    JOIN student s ON r.student_number = s.student_number
+	    LEFT OUTER JOIN attachment_file f ON ts.task_submit_number = f.task_submit_number
+	    WHERE ts.task_submit_number = #{taskSubmitNumber}
+	</select>
+	
+	<resultMap id="submittedTaskWithFilesResultMap" type="TaskVO">
+	    <id property="taskSubmitNumber" column="task_submit_number"/>
+	    <result property="taskNumber" column="task_number"/>
+	    <result property="feedback" column="feedback"/>
+	    <result property="feedbackStatus" column="feedback_code"/>
+	    <result property="studentName" column="student_name"/>
+	    <result property="title" column="title"/>
+	    <result property="postDate" column="post_date"/>
+	    <result property="submitDeadline" column="submit_deadline"/>
+	    
+	    <collection property="fileList" ofType="FileRequest" javaType="list">
+	        <id property="attachmentFileNumber" column="attachment_file_number"/>
+	        <result property="originalFileName" column="original_file_name"/>
+	        <result property="saveFileName" column="save_file_name"/>
+	        <result property="fileSize" column="file_size"/>
+	        <result property="isDeleted" column="is_deleted"/>
+	    </collection>
+	</resultMap>
+	
+				
 </mapper>

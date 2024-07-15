@@ -25,6 +25,7 @@ import com.son.app.file.service.FileRequest;
 import com.son.app.file.service.FileResponse;
 import com.son.app.file.service.FileService;
 import com.son.app.page.PageVO;
+import com.son.app.task.mapper.TaskMapper;
 import com.son.app.task.service.TaskService;
 import com.son.app.task.service.TaskVO;
 
@@ -36,6 +37,8 @@ public class TaskController {
 	
 	@Autowired
 	TaskService taskService;
+	@Autowired
+	TaskMapper taskMapper;
 	@Autowired
 	FileService fileService;
 	@Autowired
@@ -65,6 +68,34 @@ public class TaskController {
 	        return "task/instructor/taskInfo";
 	    }
 	
+	@GetMapping("/instructor/{lectureNumber}/task/{taskNumber}/submittedStudents")
+	public String submittedStudentList(@PathVariable Integer lectureNumber,
+									   @PathVariable Integer taskNumber,
+									   @RequestParam(defaultValue = "1") int page,
+									   Model model) {
+		PageVO pageVO = taskService.getSubmittedStudentPageInfo(taskNumber, page);
+		List<TaskVO> submittedStudents = taskService.getSubmittedStudentsList(taskNumber, lectureNumber, pageVO);
+		
+		model.addAttribute("submittedStudents", submittedStudents);
+		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("lectureNumber", lectureNumber);
+		model.addAttribute("taskNumber", taskNumber);
+		return "task/instructor/submittedList";
+	}
+	
+	@GetMapping("instructor/{lectureNumber}/task/{taskNumber}/submittedInfo")
+	public String submittedStudentInfo(@PathVariable Integer lectureNumber,
+									   @PathVariable Integer taskNumber,
+									   @RequestParam Integer taskSubmitNumber,
+									   Model model) {
+		TaskVO submittedInfo = taskMapper.selectSubmittedInfo(taskSubmitNumber);
+		
+		model.addAttribute("submittedInfo", submittedInfo);
+		model.addAttribute("lectureNumber", lectureNumber);
+		model.addAttribute("taskNumber", taskNumber);
+		model.addAttribute("taskSubmitNumber", taskSubmitNumber);
+		return "task/instructor/submittedInfo";
+	}
 	
 	// 등록 페이지
 	@GetMapping("/instructor/{lectureNumber}/taskInsert")
