@@ -52,7 +52,6 @@
 .popover-content {
     word-break: break-word;
     text-align: center;
-
 }
 
 .popover-contentBody {
@@ -62,4 +61,8 @@
 
 .feedback-icon {
     cursor: pointer;
+}
+
+.page-item {
+    font-weight: 500;
 }

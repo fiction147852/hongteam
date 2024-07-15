@@ -11,44 +11,32 @@
                 <hr/>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/student/{lectureNumber}(lectureNumber= ${session.studentLectureInfo.lectureNumber})}">
-                        <i class="fa-solid fa-calendar-check menu-icon" style="margin-right: 14px"></i>
-                        <span class="menu-title">출석표</span>
+                        <i class="fa-solid fa-calendar-check menu-icon"></i>
+                        <span class="menu-title" style="margin-left: 5px">출석표</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{'/student/' + ${session.studentLectureInfo.lectureNumber} + '/lectureMaterials'}">
-                        <i class="fas fa-book menu-icon" style="margin-right: 14px"></i>
-                        <span class="menu-title">강의 자료</span>
+                        <i class="fas fa-book menu-icon"></i>
+                        <span class="menu-title" style="margin-left: 5px">강의 자료</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/student/{lectureNumber}/task(lectureNumber=${session.studentLectureInfo.lectureNumber})}">
-                        <i class="fa-solid fa-folder-open menu-icon" style="margin-right: 10px"></i>
+                        <i class="fa-solid fa-folder-open menu-icon"></i>
                         <span class="menu-title">과제 조회</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
-                        <i class="fa-solid fa-circle-question menu-icon"></i>
-                        <span class="menu-title">학습 QnA</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="collapse" th:href="@{/student}" aria-expanded="false" aria-controls="form-elements">
-                        <i class="fa-solid fa-desktop menu-icon" style="margin-right: 10px"></i>
-                        <span class="menu-title">인터넷 강의</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{'/student/' + ${session.studentLectureInfo.lectureNumber} + '/exam'}">
                         <i class="fa-solid fa-pen-to-square menu-icon"></i>
-                        <span class="menu-title">시험</span>
+                        <span class="menu-title" style="margin-left: 3px">시험</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/student}">
-                        <i class="fa-solid fa-house-chimney menu-icon" style="margin-right: 10px"></i>
-                        <span class="menu-title">홈</span>
+                        <i class="fa-solid fa-house-chimney menu-icon"></i>
+                        <span class="menu-title" >홈</span>
                     </a>
                 </li>
             </ul>

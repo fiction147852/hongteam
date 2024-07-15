@@ -1,3 +1,7 @@
+tbody {
+    background-color: black;
+}
+
 .table-custom {
     width: 100%;
     border-collapse: collapse;
@@ -53,7 +57,7 @@
     width: 50vw;
 }
 
-.table-custom tr:last-child td a {
+.one-table tr:last-child td a {
     display: block;
     color: inherit;
     text-decoration: none;
@@ -65,6 +69,7 @@
     flex-wrap: wrap;
     gap: 10px;
 }
+
 .card {
     background-color: #f8f9fa;
     border: 1px solid #dee2e6;
@@ -108,6 +113,17 @@
     margin-top: 20px;
 }
 
+.btn-modify {
+    background-color: #27587E;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
 .submit-button-container {
     text-align: right;
 }
@@ -134,4 +150,37 @@
     border-radius: 5px;
     font-size: 16px;
     margin-bottom: 0;
+}
+
+.two-table tbody tr td:last-of-type {
+    width: 100px !important;
+}
+
+
+/* alert 창 */
+.task__icon {
+    border-color: #28587E !important;
+    color: #28587E !important;
+}
+
+.task__icon {
+    border-color: #28587E !important;
+    color: #28587E !important;
+}
+.task__icon .swal2-x-mark-line-left,
+.task__icon .swal2-x-mark-line-right {
+    background-color: #28587E !important;
+}
+
+.task__title {
+    font-weight: 800 !important;
+}
+
+.task__text {
+    font-weight: 600 !important;
+}
+
+.task__confirm-button {
+    background-color: #28587E;
+    padding: 10px 30px;
 }

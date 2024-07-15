@@ -21,7 +21,7 @@ public class StudentTaskServiceImpl implements StudentTaskService {
     @Autowired
     private StudentTaskMapper studentTaskMapper;
 
-    private String uploadPath = "/Users/sondonghan/Documents/uploads/";
+    private String uploadPath = "/Users/sondonghan/Documents/uploads/taskSubmit/";
 
     @Override
     public List<TaskListVO> taskList(Integer lectureNumber, String title, String taskSubmitStatus, int startRow, int endRow) {
@@ -39,23 +39,56 @@ public class StudentTaskServiceImpl implements StudentTaskService {
     }
 
     @Override
+    public List<AttachmentFileVO> taskSubjectFile(Integer taskNumber) {
+        return studentTaskMapper.studentTaskSubjectFile(taskNumber);
+    }
+
+    @Override
+    public int removeSubmissionFile(Integer taskNumber, Integer lectureNumber) {
+        List<AttachmentFileVO> attachmentFileVOList = studentTaskMapper.studentTaskSubjectFile(taskNumber);
+
+        for (AttachmentFileVO attachmentFileVO : attachmentFileVOList) {
+            String fullPath = getFullPath(attachmentFileVO.getSaveFileName(), lectureNumber);
+            File existingFile = new File(fullPath);
+
+            existingFile.delete();
+        }
+        return studentTaskMapper.studentSubmissionFileDelete(taskNumber);
+    }
+
+    @Override
     @Transactional
-    public void uploadFiles(List<MultipartFile> files, Integer taskNumber) {
+    public void uploadFiles(List<MultipartFile> files, Integer taskNumber, Integer lectureNumber) {
         for (MultipartFile file : files) {
             String originalFilename = file.getOriginalFilename();
             String saveFileName = createSaveFileName(originalFilename);
 
+            // 지정된 경로에 대한 File 객체 생성 후 반환
+            File fileDirectory = new File(getFullPath(saveFileName, lectureNumber));
+
+            // 파일 명을 제외한 모든 경로에 대한 File 객체 반환
+            File parentDirectory = fileDirectory.getParentFile();
+
+            // 파일을 저장하려는 경로에서 파일명을 제외한 모든 상위 디렉토리를 확인하고, 해당 경로 상의 디렉토리들 중 존재하지 않는 것이 있다면 필요한 모든 디렉토리를 생성
+            if(!parentDirectory.exists()) {
+                parentDirectory.mkdirs();
+            }
+
             try {
-                // 파일 객체가 가리키는 경로에 실제 파일로 저장한다.
-                file.transferTo(new File(getFullPath(saveFileName)));
-                Long fileSize = file.getSize();
+                // 파일 데이터를 지정된 경로에 실제 파일로 저장한다.
+                if(file != null && file.getSize() > 0) {
+                    file.transferTo(fileDirectory);
+                    Long fileSize = file.getSize();
 
-                AttachmentFileVO attachmentFileVO = new AttachmentFileVO();
-                attachmentFileVO.setOriginalFileName(originalFilename);
-                attachmentFileVO.setSaveFileName(saveFileName);
-                attachmentFileVO.setTaskNumber(taskNumber);
+                    AttachmentFileVO attachmentFileVO = new AttachmentFileVO();
+                    attachmentFileVO.setOriginalFileName(originalFilename);
+                    attachmentFileVO.setSaveFileName(saveFileName);
+                    attachmentFileVO.setTaskNumber(taskNumber);
+                    attachmentFileVO.setFileSize(fileSize);
 
-                studentTaskMapper.studentTaskUploadFile(attachmentFileVO);
+                    studentTaskMapper.studentTaskUploadFile(attachmentFileVO);
+                }
+
             }
             catch (IOException ioException) {
                 ioException.printStackTrace();
@@ -78,7 +111,7 @@ public class StudentTaskServiceImpl implements StudentTaskService {
         return originalFilename.substring(extensionPosition + 1);
     }
 
-    private String getFullPath(String filename) {
-        return uploadPath + filename;
+    private String getFullPath(String filename, Integer lectureNumber) {
+        return uploadPath + lectureNumber + "/" + filename;
     }
 }

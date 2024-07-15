@@ -70,7 +70,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 tbody.innerHTML = '';
 
                 examList.forEach(examInfo => {
-                    tbody.innerHTML = `<tr>
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
                                           <td>${examInfo.rowNum}</td>
                                           <td>${examInfo.testTitle}</td>
                                           <td>${examInfo.examDate}</td>
@@ -78,8 +79,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                               <span>${examInfo.participateStatus}</span>
                                           </td>
                                           <td>${examInfo.totalScore == null ? 'X' : examInfo.totalScore}</td>
-                                       </tr>`;
-
+                                       `;
+                    tbody.appendChild(row);
 
                     if(examInfo.participateStatus === "미응시" && examInfo.examDate === today) {
                         const participateStatusTag = tbody.querySelector("tr td:nth-child(4) span");
