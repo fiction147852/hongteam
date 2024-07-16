@@ -39,24 +39,25 @@
 	        SELECT test_seq.NEXTVAL FROM DUAL
 	    </selectKey>
 	    INSERT INTO test
-	    (
-	    test_number,
-	    examination_date,
-	    limit_time,
-	    exam_date,
-	    paper_number,
-	    lecture_number,
-	    test_title
-	    )
+		    (
+		    test_number,
+		    examination_date,
+		    limit_time,
+		    exam_date,
+		    paper_number,
+		    lecture_number,
+		    test_title
+		    )
 	    VALUES
-	    (
-	    #{testNumber},
-	    SYSDATE,
-	    #{limitTime},
-	    #{examDate},
-	    #{paperNumber},
-	    #{lectureNumber},
-	    #{testTitle})
+		    (
+		    #{testNumber},
+		    SYSDATE,
+		    #{limitTime},
+		    #{examDate},
+		    #{paperNumber},
+		    #{lectureNumber},
+		    #{testTitle}
+		    )
 	</insert>
 	
 	<insert id="insertExamParticipation" parameterType="ExamVO">
@@ -67,25 +68,14 @@
 	        participate_number, 
 	        test_number, 
 	        student_number, 
-	        participate_status, 
-	        total_score
+	        participate_status
 	    ) VALUES (
 	        #{participateNumber},
 	        #{testNumber},
 	        #{studentNumber},
-	        '미응시',
-	        0
+	        '미응시'
 	    )
 	</insert>
-	
-	<select id="countCompletedStudentsforExamList" resultType="int">
-	    SELECT COUNT(DISTINCT p.student_number)
-	    FROM participate p
-	    JOIN test t 
-	    	ON p.test_number = t.test_number
-	    WHERE t.test_number = #{testNumber}
-	    	AND p.participate_status = '응시 완료'
-	</select>
 	
 	<select id="selectCompletedStudents" resultType="ExamVO">
 	    SELECT *
@@ -118,42 +108,37 @@
 	</select>
 	
 	<select id="getStudentExamResults" resultType="GradingResult">
-		WITH participate_paper AS (
-		    SELECT p.participate_number, pap.paper_number 
-		    FROM participate p
-		    JOIN paper pap ON p.test_number = pap.paper_number
-		)
 		SELECT
-		    gr.grading_result_number,
-		    gr.participate_number,
-		    gr.question_number,
-		    gr.answer AS studentAnswer,
-		    gr.answer_status AS answerStatus,
-		    q.answer AS correctAnswer,
-		    q.text AS questionText,
-		    pc.score,
-		    p.producer,
-		    p.paper_title,
-		    s.name AS studentName
+			  gr.grading_result_number,
+			  gr.participate_number,
+			  gr.question_number,
+			  gr.answer AS studentAnswer,
+			  gr.answer_status AS answerStatus,
+			  q.answer AS correctAnswer,
+			  q.text AS questionText,
+			  pc.score,
+			  p.producer,
+			  p.paper_title,
+			  s.name AS studentName
 		FROM
-		    grading_result gr
+		  	grading_result gr
 		JOIN
-		    question q ON gr.question_number = q.question_number
-		LEFT JOIN
-		    participate_paper pp ON gr.participate_number = pp.participate_number
-		LEFT JOIN
-		    paper_content pc ON gr.question_number = pc.question_number
-		                    AND pc.paper_number = pp.paper_number
-		LEFT JOIN
-		    paper p ON pc.paper_number = p.paper_number
+		  	participate part ON gr.participate_number = part.participate_number
 		JOIN
-		    participate part ON gr.participate_number = part.participate_number
+		  	test t ON part.test_number = t.test_number
 		JOIN
-		    student s ON part.student_number = s.student_number
+		  	paper p ON t.paper_number = p.paper_number
+		JOIN
+		  	question q ON gr.question_number = q.question_number
+		LEFT JOIN
+		  	paper_content pc ON gr.question_number = pc.question_number
+		  	AND pc.paper_number = p.paper_number
+		JOIN
+		  	student s ON part.student_number = s.student_number
 		WHERE
-		    gr.participate_number = #{participateNumber}
+		  	gr.participate_number = #{participateNumber}
 		ORDER BY
-		    gr.question_number
+		  	gr.question_number
 	</select>
 	
 

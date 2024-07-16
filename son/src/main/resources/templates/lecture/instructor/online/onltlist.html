@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{common/layouts/instructor_layout}"
+	layout:decorate="~{common/layouts/instructorDetailSubject_layout}"
 	layout:fragment="content">
 <head>
 
@@ -32,7 +32,7 @@ td, th {
 						<tbody class="table-group-divider">
 							<th:block th:each="onlecs : ${onlineLectureList}">
 								<tr
-									th:onclick="|location.href='@{/instructor/onlineLTInfo(onlineLectureNumber=${onlecs.onlineLectureNumber})}'|">
+									th:onclick="|location.href='@{/instructor/{lectureNumber}/onlineLTInfo(onlineLectureNumber=${onlecs.onlineLectureNumber}, lectureNumber=${lectureNumber})}'|">
 									<td>[[ ${onlecs.onlineLectureNumber} ]]</td>
 									<td>[[ ${onlecs.title} ]]</td>
 									<td>[[ ${onlecs.instructorName} ]]</td>
@@ -45,7 +45,24 @@ td, th {
 				</div>
 			</div>
 			<button type="button" class="btn btn-primary mt-3 float-end"
-				th:onclick="|location.href='@{/instructor/lecinsert}'|">강의 등록</button>
+				th:onclick="|location.href='@{/instructor/{lectureNumber}/onlineLTList(lectureNumber=${lectureNumber})}'|">강의 등록</button>
+		</div>
+		<div class="pagination-container">
+			<ul class="pagination d-flex justify-content-center">
+				<li th:if="${pageVO.prev}" class="page-item"><a
+					th:href="@{/instructor/{lectureNumber}/onlineLTList(lectureNumber=${lectureNumber}, page=${pageVO.startPage - 1})}"
+					class="page-link">&laquo;</a></li>
+				<li
+					th:each="pageNum : ${#numbers.sequence(pageVO.startPage, pageVO.endPage)}"
+					th:class="${pageNum == pageVO.page} ? 'page-item active' : 'page-item'">
+					<a
+					th:href="@{/instructor/{lectureNumber}/onlineLTList(lectureNumber=${lectureNumber}, page=${pageNum})}"
+					th:text="${pageNum}" class="page-link"></a>
+				</li>
+				<li th:if="${pageVO.next}" class="page-item"><a
+					th:href="@{/instructor/{lectureNumber}/onlineLTList(lectureNumber=${lectureNumber}, page=${pageVO.endPage + 1})}"
+					class="page-link">&raquo;</a></li>
+			</ul>
 		</div>
 	</div>
 </body>

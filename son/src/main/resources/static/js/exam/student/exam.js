@@ -70,7 +70,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 tbody.innerHTML = '';
 
                 examList.forEach(examInfo => {
-                    tbody.innerHTML = `<tr>
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
                                           <td>${examInfo.rowNum}</td>
                                           <td>${examInfo.testTitle}</td>
                                           <td>${examInfo.examDate}</td>
@@ -78,8 +79,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                               <span>${examInfo.participateStatus}</span>
                                           </td>
                                           <td>${examInfo.totalScore == null ? 'X' : examInfo.totalScore}</td>
-                                       </tr>`;
-
+                                       `;
+                    tbody.appendChild(row);
 
                     if(examInfo.participateStatus === "미응시" && examInfo.examDate === today) {
                         const participateStatusTag = tbody.querySelector("tr td:nth-child(4) span");
@@ -354,20 +355,20 @@ document.addEventListener("DOMContentLoaded", function () {
                 if(startPage > 1) {
                     // 링크 클릭 시 상단으로 이동 X
                     pagination.innerHTML = `<li class="page-item">
-                                                <a class="page-link" style="background-color: #27587E; border-color: #27587E" href="#" data-page="${startPage - 1}">이전</a>
+                                                <a class="page-link" href="#" data-page="${startPage - 1}">이전</a>
                                              </li>`;
                 }
 
                 for (let i = startPage; i <= endPage; i++) {
                     const pageElement = `<li class="page-item ${i === currentPage ? 'active' : ''}">
-                                                    <a class="page-link" style="background-color: #27587E; border-color: #27587E" href="#" data-page="${i}">${i}</a>
+                                                    <a class="page-link" href="#" data-page="${i}">${i}</a>
                                                  </li>`;
                     pagination.innerHTML += pageElement;
                 }
 
                 if (endPage < totalPage) {
                     pagination.innerHTML += `<li class="page-item">
-                                                <a class="page-link" style="background-color: #27587E; border-color: #27587E"  href="#" data-page="${endPage + 1}">다음</a>
+                                                <a class="page-link"  href="#" data-page="${endPage + 1}">다음</a>
                                              </li>`;
                 }
 

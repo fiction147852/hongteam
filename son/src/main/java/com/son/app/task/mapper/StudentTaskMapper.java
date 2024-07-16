@@ -18,4 +18,8 @@ public interface StudentTaskMapper {
     public int studentTaskUploadFile(AttachmentFileVO attachmentFileVO);
     // 과제 제출 상태 변경
     public int studentTaskStatus(Integer taskNumber);
+
+    // 과제 제출 파일 조회
+    public List<AttachmentFileVO> studentTaskSubjectFile(Integer taskNumber);
+    public int studentSubmissionFileDelete(Integer taskNumber);
 }

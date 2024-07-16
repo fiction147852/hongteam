@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.son.app.page.PageVO;
 import com.son.app.task.mapper.TaskMapper;
@@ -26,7 +27,7 @@ public class TaskServiceImpl implements TaskService {
 
     public PageVO getPageInfo(Integer lectureNumber, int page) {
         int totalItems = taskMapper.countTasks(lectureNumber);
-        return new PageVO(page, totalItems, 5, 5); // 10: pageSize, 5: pageGroupSize
+        return new PageVO(page, totalItems, 5, 5);
     }
 
 	@Override
@@ -40,6 +41,28 @@ public class TaskServiceImpl implements TaskService {
 		
 		return result == 1 ? taskVO.getTaskNumber() : -1;
 	}
+	
+	@Override
+    @Transactional
+    public void insertTaskWithSubmissions(TaskVO taskVO) {
+        // 과제 정보 삽입
+        int taskNumber = insertTask(taskVO);
+        
+        if (taskNumber > 0) {
+            // 해당 강의의 학생 목록 가져오기
+            List<Integer> studentNumbers = taskMapper.getStudentNumbersByLecture(taskVO.getLectureNumber());
+            
+            // 각 학생에 대해 과제 제출 정보 생성
+            for (Integer studentNumber : studentNumbers) {
+                TaskVO submitTaskVO = new TaskVO();
+                submitTaskVO.setTaskNumber(taskNumber);
+                submitTaskVO.setStudentNumber(studentNumber);
+                submitTaskVO.setTaskSubmitStatus("미제출");
+                submitTaskVO.setFeedbackStatus("피드백 미완료");
+                taskMapper.insertTaskSubmit(submitTaskVO);
+            }
+        }
+    }
 
 	@Override
 	public Map<String, Object> updateTask(TaskVO taskVO) {
@@ -63,5 +86,19 @@ public class TaskServiceImpl implements TaskService {
 	public boolean deleteTask(Integer taskNo) {
 	    return taskMapper.deleteTaskInfo(taskNo) > 0;
 	}
+
+	@Override
+	public List<TaskVO> getSubmittedStudentsList(Integer taskNumber, Integer lectureNumber, PageVO pageVO) {
+	    int start = Math.max(0, (pageVO.getPage() - 1) * pageVO.getPageSize());
+	    int end = start + pageVO.getPageSize();
+	    return taskMapper.selectSubmittedStudents(taskNumber, lectureNumber, start, end);
+	}
+
+	@Override
+	public PageVO getSubmittedStudentPageInfo(Integer taskNumber, int page) {
+		int totalItems = taskMapper.countSubmittedStudents(taskNumber);
+		return new PageVO(page, totalItems, 10, 5);
+	}
+
 
 }

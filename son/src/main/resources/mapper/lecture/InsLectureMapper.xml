@@ -6,8 +6,8 @@
 			   lecture_title,
 			   lecture_description,
 			   lecture_cost,
-			   subject_code,
-			   detail_subject_code,
+               subject_name(lecture.subject_code) as subject_name,
+               detail_subject_name(detail_subject_code) as detail_subject_name,
 			   capacity,
 			   lecture_level_code,
 			   weekdays_code,
@@ -23,6 +23,13 @@
 	    SELECT student_number
 	    FROM registration
 	    WHERE lecture_number = #{lectureNumber}
+	</select>
+	
+	<select id="selectLectureInfo" resultType="LectureVO">
+        SELECT lecture_number
+             , de_sub_name_by_lecture(lecture_number) as detail_subject_name
+        FROM lecture
+        WHERE lecture_number = #{lectureNumber}
 	</select>
 
 </mapper>

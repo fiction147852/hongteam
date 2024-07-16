@@ -11,6 +11,8 @@ public class LectureVO {
     private String lectureTitle;
     private String lectureDescription;
     private int lectureCost;
+    private String subjectName;
+    private String detailSubjectName;
     private String subjectCode;
     private String detailSubjectCode;
     private int capacity;

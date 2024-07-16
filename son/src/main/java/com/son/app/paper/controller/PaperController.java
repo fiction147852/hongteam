@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.son.app.lecture.service.InsLectureService;
+import com.son.app.lecture.service.LectureVO;
 import com.son.app.member.service.InstructorService;
 import com.son.app.member.service.InstructorVO;
 import com.son.app.page.PageVO;
@@ -32,6 +34,9 @@ public class PaperController {
 	PaperService paperService;
 	
 	@Autowired
+	InsLectureService lectureService;
+	
+	@Autowired
 	InstructorService instructorService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(PaperController.class);
@@ -43,7 +48,9 @@ public class PaperController {
 							Model model) {
 		PageVO pageVO = paperService.getPageInfo(page);
 		List<PaperVO> paperList = paperService.paperList(pageVO);
+		List<LectureVO> lecturelist = lectureService.lectureList();
 		
+		model.addAttribute("lectureList", lecturelist);
 		model.addAttribute("paperList", paperList);
 		model.addAttribute("pageVO", pageVO);
 		return "exam/instructor/paperList";

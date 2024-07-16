@@ -1,6 +1,6 @@
 package com.son.app.task.controller;
 
-import com.son.app.lecture.service.LectureMaterialVO;
+import com.son.app.attachment.AttachmentFileVO;
 import com.son.app.task.service.StudentTaskService;
 import com.son.app.task.service.TaskListVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +17,8 @@ import org.springframework.web.util.UriUtils;
 
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Controller
@@ -50,6 +52,9 @@ public class StudentTaskController {
     @GetMapping("student/{lectureNumber}/task/{taskNumber}")
     public String taskDetailsPage(@PathVariable Integer taskNumber, Model model) {
         TaskListVO taskListVO = studentTaskService.taskInfo(taskNumber);
+        List<AttachmentFileVO> attachmentFileVOList = studentTaskService.taskSubjectFile(taskNumber);
+
+        model.addAttribute("attachmentFileVOList", attachmentFileVOList);
         model.addAttribute("taskListVO", taskListVO);
 
         return "task/student/taskInfo";
@@ -68,17 +73,20 @@ public class StudentTaskController {
                 .body(urlResource);
     }
 
+    // 파일 업로드
     @PostMapping("student/{lectureNumber}/task/{taskNumber}")
     public String filesUpload(@RequestPart("files")List<MultipartFile> multipartFileList, @PathVariable Integer taskNumber, @PathVariable Integer lectureNumber) {
-        studentTaskService.uploadFiles(multipartFileList, taskNumber);
+        studentTaskService.uploadFiles(multipartFileList, taskNumber, lectureNumber);
 
-        return "redirect:/student/" + lectureNumber + "/task/" + taskNumber +"/update";
+        return "redirect:/student/" + lectureNumber + "/task";
     }
 
-    // 과제 수정 페이지로 이동
-    @GetMapping("student/{lectureNumber}/task/{taskNumber}/update")
-    public ResponseEntity<String> taskUpdatePage() {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body("성공!!");
+    // 파일 삭제
+    @DeleteMapping("student/{lectureNumber}/task/{taskNumber}")
+    @ResponseBody
+    public void deleteFiles(@PathVariable Integer lectureNumber, @PathVariable Integer taskNumber) {
+        studentTaskService.removeSubmissionFile(taskNumber, lectureNumber);
     }
+
+
 }

@@ -2,6 +2,8 @@ package com.son.app.exam.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,7 @@ import com.son.app.exam.service.InstructorExamService;
 import com.son.app.lecture.service.InsLectureService;
 import com.son.app.lecture.service.LectureVO;
 import com.son.app.page.PageVO;
+import com.son.app.paper.controller.PaperController;
 import com.son.app.paper.service.PaperService;
 import com.son.app.paper.service.PaperVO;
 
@@ -36,6 +39,7 @@ public class InstructorExamController {
 	
 	@Autowired
 	InstructorExamMapper examMapper;
+	private static final Logger logger = LoggerFactory.getLogger(PaperController.class);
 	
 	@GetMapping("instructor/{lectureNumber}/examList")
 	public String examList(@PathVariable Integer lectureNumber,
@@ -77,6 +81,10 @@ public class InstructorExamController {
             model.addAttribute("paperTitle", firstResult.getPaperTitle());
             model.addAttribute("producer", firstResult.getProducer());
             model.addAttribute("studentName", firstResult.getStudentName());
+            logger.info("Results: {}", results);
+            if (!results.isEmpty()) {
+                logger.info("First result: {}", results.get(0));
+            }
         }
         model.addAttribute("results", results);
         model.addAttribute("lectureNumber", lectureNumber);

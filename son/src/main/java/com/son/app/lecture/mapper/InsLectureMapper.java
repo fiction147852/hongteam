@@ -9,13 +9,7 @@ import com.son.app.lecture.service.LectureVO;
 public interface InsLectureMapper {
 	public List<LectureVO> selectLectureAll();
 	
-	public LectureVO selectLectureInfo(LectureVO lectureVO);
-	
-	public int insertLectureInfo(LectureVO lectureVO);
-	
-	public int updateLetureInfo(LectureVO lectureVO);
-	
-	public int deleteLetureInfo(int lectureNo);
+	public LectureVO selectLectureInfo(@Param("lectureNumber") Integer lectureNumber);
 	
 	List<Integer> getStudentNumbersByLecture(@Param("lectureNumber") Integer lectureNumber);
 }
