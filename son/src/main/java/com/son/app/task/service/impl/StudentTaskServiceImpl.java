@@ -22,7 +22,7 @@ public class StudentTaskServiceImpl implements StudentTaskService {
     @Autowired
     private StudentTaskMapper studentTaskMapper;
 
-    @Value("${file.upload.path}")
+    @Value("${upload.path}")
     private String uploadPath;
 
     @Override
