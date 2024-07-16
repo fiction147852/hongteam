@@ -26,7 +26,7 @@ public class StudentLectureController {
     @Autowired
     private StudentLectureService studentLectureService;
 
-    @Value("${upload.path}")
+    @Value("${file.upload.path}")
     private String uploadPath;
 
     @GetMapping("student/{lectureNumber}/lectureMaterials")

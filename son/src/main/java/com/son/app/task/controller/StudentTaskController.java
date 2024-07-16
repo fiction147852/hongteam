@@ -30,7 +30,7 @@ public class StudentTaskController {
     @Autowired
     private StudentTaskService studentTaskService;
 
-    @Value("${upload.path}")
+    @Value("${file.upload.path}")
     private String uploadPath;
 
     @GetMapping("student/{lectureNumber}/task")
