@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.son.app.counsel.mapper.MainCounselMapper">
+	<insert id="mainCounselInsert" parameterType="CounselVO">
+		INSERT INTO admission_counsel (counsel_number, phone, content, parent_name, student_name, time_code, reservation_date, reservation_code)
+		VALUES(NVL((SELECT /*+ INDEX_DESC(admission_counsel XPK입학_상담) */
+						counsel_number
+						FROM admission_counsel
+						WHERE rownum = 1), 0) + 1, #{phone}, #{content}, #{parentName}, #{studentName}, #{timeCode}, TO_DATE(#{reservationDateMain},'yyyy-MM-dd'), '대기')
+	</insert>
+</mapper>
