@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     const calendarEl = document.getElementById('calendar');
+    let currentPopover = null;
 
     if (!calendarEl) {
         console.error('캘린더 요소를 찾을 수 없습니다.');
@@ -21,9 +22,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // 캘린더의 상단에 위치한 도구를 설정한다. 이 도구 모음에는 이전/다음 버튼, 오늘 버튼, 제목 표시, 뷰 전환 버튼 등이 포함된다.
         headerToolbar: {
-            left: 'prev,today,next',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            left: 'title',
+            right: 'prev,today,next'
         },
 
         // 주간 및 일간 보기의 시간 범위 설정
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
         slotMaxTime: '22:00:00',
 
         // 날짜나 주 번호를 클릭할 수 있게 되며, 클릭하면 해당 날짜에 대한 일간 보기 또는 해당 주에 대한 주간 보기로 전환된다.
-        navLinks: true,
+        navLinks: false,
 
         // 이벤트 객체의 속성을 변경할 수 있는지에 대한 여부
         editable: false,
@@ -52,42 +52,76 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const container = document.createElement('div');
             container.style.display = 'flex';
-            container.style.justifyContent = 'space-between';
+            container.style.justifyContent = 'flex-end';
             container.style.alignItems = 'center';
             container.style.width = "100%";
             container.style.padding = "3px 12px";
 
-            switch (schedule.extendedProps.type) {
-                case "test" :
-                    container.style.backgroundColor = "#28587E";
-                    break;
-                case "task" :
-                    container.style.backgroundColor = "#2C3D4F";
-                    break;
-                default :
-                    container.style.backgroundColor = "#0D3E2A";
-            }
-
             const title = document.createElement('div');
             title.innerHTML = schedule.title;
-            title.style.color = "white";
+            title.style.fontSize = "17px";
+            title.style.fontWeight = "700";
+
+            if(scheduleWithMetadata.event.title === "결석") {
+                title.style.color = "#973131";
+            }
+
             container.appendChild(title);
 
             return {domNodes: [container]};
         },
-        // 날짜 셀이 렌더링된 후에 호출 (셀이 DOM 에 추가된 이후 실행)
-        dayCellDidMount: function (date) {
-            const day = date.date.getDay();
+        eventClick: function (info) {
+            // Close any currently open popovers
+            if (currentPopover) {
+                currentPopover.dispose();
+                currentPopover = null;
+            }
 
-            // if (day === 6) {
-            //
-            // } else if (day === 0) {
-            //
-            // }
-        },
+            // Create a new popover if the clicked event is "조퇴"
+            if (info.event.title === "조퇴") {
+                const popover = new bootstrap.Popover(info.el, {
+                    title: '조퇴',
+                    content: `${info.event.extendedProps.remark}`,
+                    trigger: 'manual'
+                });
+
+                popover.show();
+                currentPopover = popover;
+
+                // Add event listener for closing the popover
+                document.addEventListener('click', closePopover);
+            }
+        }
     });
 
+    axios.get(`/lms/student/${lectureNumber}/attendanceStatus`)
+        .then(response => {
+            const attendanceList = response.data;
 
+            const events = attendanceList.map(attendance => {
+                return {
+                    title: attendance.title,
+                    start: attendance.start,
+                    extendedProps: {
+                        remark: attendance.remark
+                    }
+                };
+            });
+            events.forEach(event => {
+                calendar.addEvent(event);
+            });
+        })
+        .catch(error => {
+            console.error(error);
+        })
+
+    function closePopover(event) {
+        if (currentPopover && !event.target.closest('.popover') && !event.target.closest('.fc-event')) {
+            currentPopover.dispose();
+            currentPopover = null;
+            document.removeEventListener('click', closePopover);
+        }
+    }
 
     calendar.render();
 });

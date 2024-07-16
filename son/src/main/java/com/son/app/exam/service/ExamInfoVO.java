@@ -8,6 +8,7 @@ public class ExamInfoVO {
 
     private String detailSubjectName;
     private Integer limitTime;
+    private Integer studentNumber;
 
     private Integer questionNumber;
     private String questionTypeCode;

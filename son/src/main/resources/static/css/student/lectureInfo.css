@@ -81,3 +81,27 @@
 .modal__lecture-info swiper-pagination {
     top : 100px;
 }
+
+.fc-button {
+    background-color: #27587E !important;
+}
+
+.fc-day  {
+    background-color: #27587E;
+}
+
+.fc-day a[aria-label="일요일"],
+.fc-day a[aria-label="월요일"],
+.fc-day a[aria-label="화요일"],
+.fc-day a[aria-label="수요일"],
+.fc-day a[aria-label="목요일"],
+.fc-day a[aria-label="금요일"],
+.fc-day a[aria-label="토요일"]
+{
+    color: white;
+}
+
+.fc-scrollgrid-sync-inner a {
+    color: black;
+    font-weight: 500;
+}

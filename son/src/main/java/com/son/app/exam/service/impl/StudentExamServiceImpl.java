@@ -18,13 +18,13 @@ public class StudentExamServiceImpl implements StudentExamService {
     private StudentExamMapper studentExamMapper;
 
     @Override
-    public List<ExamListVO> examList(Integer lectureNumber, String testTitle, String participateStatus , int startRow, int endRow) {
-        return studentExamMapper.studentExamList(lectureNumber, testTitle, participateStatus, startRow, endRow);
+    public List<ExamListVO> examList(Integer lectureNumber, Integer studentNumber, String testTitle, String participateStatus , int startRow, int endRow) {
+        return studentExamMapper.studentExamList(lectureNumber, studentNumber, testTitle, participateStatus, startRow, endRow);
     }
 
     @Override
-    public int examCount(Integer lectureNumber, String testTitle, String participateStatus) {
-        return studentExamMapper.studentExamCount(lectureNumber, testTitle, participateStatus);
+    public int examCount(Integer lectureNumber, Integer studentNumber, String testTitle, String participateStatus) {
+        return studentExamMapper.studentExamCount(lectureNumber, studentNumber, testTitle, participateStatus);
     }
 
     @Override
