@@ -2,6 +2,8 @@ package com.son.app.exam.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +46,11 @@ public class InstructorExamController {
 	@GetMapping("instructor/{lectureNumber}/examList")
 	public String examList(@PathVariable Integer lectureNumber,
 						   @RequestParam(defaultValue = "1") int page,
+						   HttpSession httpSession,
 						   Model model) {
+	    LectureVO lectureInfo = lectureService.lectureInfo(lectureNumber);
+	    httpSession.setAttribute("instructorLectureInfo", lectureInfo);
+		
 		PageVO pageVO = instructorExamService.getPageInfo(lectureNumber, page);
 		List<ExamVO> examList = instructorExamService.examList(lectureNumber, pageVO);
 		

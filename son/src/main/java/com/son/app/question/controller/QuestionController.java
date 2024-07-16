@@ -27,14 +27,26 @@ public class QuestionController {
 	InsLectureService lectureService;
 	// 전체
 	@GetMapping("/instructor/questionList")
-	public String questionList(Model model) {
-		List<QuestionVO> list = questionService.questionList();
-		List<LectureVO> lecturelist = lectureService.lectureList();
+	public String questionList(@RequestParam Map<String, String> params,
+            				   Model model) {
+		List<QuestionVO> searchResults = questionService.searchQuestions(params);
 		
+		List<LectureVO> lecturelist = lectureService.lectureList();
 		model.addAttribute("lectureList", lecturelist);
-		model.addAttribute("questionList", list);
+		
+	    model.addAttribute("questionList", searchResults);
 		return "question/instructor/qlist";
 	}
+	
+//	@GetMapping("/lms/instructor/search")
+//	public String searchQuestions(@RequestParam String searchType,
+//	                              @RequestParam String searchKeyword,
+//	                              Model model) {
+//	    List<QuestionVO> searchResults = questionService.searchQuestions(searchType, searchKeyword);
+//	    model.addAttribute("questionList", searchResults);
+//	    
+//	    return "question/instructor/qlist";
+//	}
 	
 	// 단건
 	@GetMapping("/instructor/questionInfo")
@@ -119,13 +131,4 @@ public class QuestionController {
 		return "redirect:/instructor/questionList";
 		}
 	
-	@GetMapping("/lms/instructor/search")
-	public String searchQuestions(@RequestParam String searchType,
-	                              @RequestParam String searchKeyword,
-	                              Model model) {
-	    List<QuestionVO> searchResults = questionService.searchQuestions(searchType, searchKeyword);
-	    model.addAttribute("questionList", searchResults);
-	    
-	    return "question/instructor/qlist";
-	}
 }

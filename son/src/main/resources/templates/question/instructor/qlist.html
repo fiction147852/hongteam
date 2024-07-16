@@ -71,33 +71,33 @@ body {
 			</div>
 			<div class="swiper-scrollbar"></div>
 		</div>
+	<form id="searchForm" class="mb-3">
 		<div class="bg-white shadow-md rounded-lg p-4" style="width: 20rem;">
 			<div>
 				<h5 class="text-lg font-semibold mb-4">필터링</h5>
 				<div class="form-check ml-2">
-					<input class="form-check-input" type="radio" name="filter"
-						id="viewAll" value="viewAll" checked> <label
+					<input class="form-check-input" type="radio" name="subjectCode"
+						id="viewAll" value="" checked> <label
 						class="form-check-label ml-1" for="viewAll">전체보기</label>
 				</div>
 				<div class="form-check ml-2">
-					<input class="form-check-input" type="radio" name="filter"
-						id="math" value="math"> <label
+					<input class="form-check-input" type="radio" name="subjectCode"
+						id="math" value="A001"> <label
 						class="form-check-label ml-1" for="math">수학문제</label>
 				</div>
 				<div class="form-check ml-2">
-					<input class="form-check-input" type="radio" name="filter" id="eng"
-						value="eng"> <label class="form-check-label ml-1"
+					<input class="form-check-input" type="radio" name="subjectCode" id="eng"
+						value="A002"> <label class="form-check-label ml-1"
 						for="eng">영어문제</label>
 				</div>
 				<div class="form-check ml-2">
-					<input class="form-check-input" type="radio" name="filter" id="kor"
-						value="kor"> <label class="form-check-label ml-1"
+					<input class="form-check-input" type="radio" name="subjectCode" id="kor"
+						value="A003"> <label class="form-check-label ml-1"
 						for="kor">국어문제</label>
 				</div>
 			</div>
 		</div>
-		<div class="mt-4">
-			<form id="searchForm" class="d-flex justify-content-center mb-3">
+		<div class="d-flex justify-content-center mt-4">
 			    <select class="form-select me-2 col-1" name="searchType" id="searchType">
 			        <option value="출제자">출제자</option>
 			        <option value="문제유형">문제유형</option>
@@ -105,12 +105,12 @@ body {
 			    <input type="text" placeholder="검색어를 입력하세요." name="searchKeyword" id="searchKeyword"
 			           class="form-control me-2 col-3">
 			    <button type="submit" class="btn btn-info">검색</button>
-			</form>
 		</div>
 		<div>
 			<button type="button" class="btn btn-success float-end"
 				th:onclick="|location.href='@{/instructor/questionInsert}'|">문제생성</button>
 		</div>
+			</form>
 	</div>
 </body>
 
@@ -121,7 +121,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const container = document.getElementById('container');
 
     searchForm.addEventListener('submit', function(event) {
-        event.preventDefault();
 
         const searchType = document.getElementById('searchType').value;
         const searchKeyword = document.getElementById('searchKeyword').value;
