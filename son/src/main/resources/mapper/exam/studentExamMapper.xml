@@ -13,10 +13,10 @@
                     , test_title
                     , exam_date
                FROM participate
-                        JOIN test
-                             ON test.test_number = participate.test_number
+                JOIN test
+                     ON test.test_number = participate.test_number
                <where>
-                   test.lecture_number = #{lectureNumber}
+                   test.lecture_number = #{lectureNumber} AND participate.student_number = #{studentNumber}
                    <if test="testTitle != null and testTitle != ''">
                        AND test_title LIKE '%' || #{testTitle} || '%'
                    </if>
@@ -40,7 +40,7 @@
         JOIN test
              ON test.test_number = participate.test_number
         <where>
-            test.lecture_number = #{lectureNumber}
+            test.lecture_number = #{lectureNumber} AND participate.student_number = #{studentNumber}
             <if test="testTitle != null and testTitle != ''">
                 AND test_title LIKE '%' || #{testTitle} || '%'
             </if>
@@ -118,8 +118,8 @@
           , total_score =
             (SELECT DISTINCT NVL(SUM(paper_content.score), 0) AS total_score
              FROM grading_result
-                      JOIN paper_content
-                           ON grading_result.question_number = paper_content.question_number
+             JOIN paper_content
+                ON grading_result.question_number = paper_content.question_number
              WHERE grading_result.participate_number = #{participateNumber} AND grading_result.answer_status = 'O'
             )
         WHERE participate_number = #{participateNumber}

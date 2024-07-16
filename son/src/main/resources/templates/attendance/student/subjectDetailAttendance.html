@@ -3,10 +3,42 @@
       layout:decorate="~{common/layouts/student/studentDetailSubject_layout}">
 <head>
     <link rel="stylesheet" th:href="@{/css/student/calendar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/student/attendance/chart.css}"/>
+    <script th:inline="javascript">
+        const lectureNumber = [[${session.studentLectureInfo.lectureNumber}]];
+
+    </script>
     <script th:src="@{/js/attendance/detailSubjectCalendar.js}"></script>
+    <script th:src="@{/js/attendance/chartOne.js}"></script>
 </head>
 <body>
 <div layout:fragment="content">
+    <h4 class="header-title">출석 현황</h4>
+    <table class="attendance-status">
+        <thead>
+            <tr>
+                <th>출석률</th>
+                <th>지각</th>
+                <th>조퇴</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                <div class="donut-chart-container">
+                    <canvas id="attendanceChart" class="donut-chart"></canvas>
+                </div>
+                <div class="donut-chart-label"></div>
+            </td>
+            <td>
+                <div class="circle" id="tardyDays"></div>
+            </td>
+            <td>
+                <div class="circle" id="earlyLeaveDays"></div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
     <div id="calendar">
     </div>
 </div>

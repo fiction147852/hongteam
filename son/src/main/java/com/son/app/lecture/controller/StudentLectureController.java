@@ -5,6 +5,7 @@ import com.son.app.lecture.service.LectureMaterialVO;
 import com.son.app.lecture.service.StudentLectureService;
 import com.son.app.security.service.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -24,6 +25,9 @@ public class StudentLectureController {
 
     @Autowired
     private StudentLectureService studentLectureService;
+
+    @Value("${upload.path}")
+    private String uploadPath;
 
     @GetMapping("student/{lectureNumber}/lectureMaterials")
     public String detailSubjecAttendancePage(@PathVariable Integer lectureNumber, Model model) {
@@ -57,7 +61,7 @@ public class StudentLectureController {
     @GetMapping("student/{lectureNumber}/lectureMaterials/{lectureMaterialNumber}/download")
     @ResponseBody
     public ResponseEntity<Resource> materialDownload(@RequestParam String originalFileName, @RequestParam String saveFileName) throws MalformedURLException {
-        UrlResource urlResource = new UrlResource("file:" + "/Users/sondonghan/documents/uploads/materials/b001/" + saveFileName);
+        UrlResource urlResource = new UrlResource("file:" + uploadPath + saveFileName);
 
         String encodedOriginalFileName = UriUtils.encode(originalFileName, StandardCharsets.UTF_8);
         String contentDisposition = "attachment; filename=\"" + encodedOriginalFileName + "\"";

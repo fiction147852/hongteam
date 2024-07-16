@@ -16,7 +16,7 @@
               JOIN task
                   ON task.task_number = task_submit.task_number
               <where>
-                  lecture_number = #{lectureNumber}
+                  lecture_number = #{lectureNumber} AND student_number = #{studentNumber}
                   <if test="title != null and title != ''">
                       AND title LIKE '%' || #{title} || '%'
                   </if>
@@ -40,7 +40,7 @@
         JOIN task
             ON task.task_number = task_submit.task_number
         <where>
-            lecture_number = #{lectureNumber}
+            lecture_number = #{lectureNumber} AND student_number = #{studentNumber}
             <if test="title != null and title != ''">
                 AND title LIKE '%' || #{title} || '%'
             </if>
@@ -62,14 +62,16 @@
 
     <!-- 과제 상세 정보  -->
     <select id="studentTaskInfo" resultMap="studentTaskInfoMap">
-        SELECT task_number
+        SELECT task.task_number
              , title
              , post_date
              , submit_deadline
              , description
              , lecture_number
         FROM task
-        WHERE task_number = #{taskNumber}
+        JOIN task_submit
+            ON task.task_number = task_submit.task_number
+        WHERE task_submit.task_number = #{taskNumber} AND student_number = #{studentNumber}
     </select>
 
     <!-- 특정 과제의 첨부파일    -->
@@ -79,12 +81,11 @@
         WHERE task_number = #{taskNumber}
     </select>
 
-
     <!-- 과제 제출 상태   -->
     <update id="studentTaskStatus">
         UPDATE task_submit
         SET task_submit_code = '제출 완료'
-        WHERE task_number = #{taskNumber}
+        WHERE task_number = #{taskNumber} AND student_number = #{studentNumber}
     </update>
 
     <!-- 업로드 할 파일 정보 저장    -->
@@ -102,7 +103,7 @@
         )VALUES (#{attachmentFileNumber}
            , (SELECT task_submit_number
               FROM task_submit
-              WHERE task_number = #{taskNumber}
+              WHERE task_number = #{taskNumber} AND student_number = #{studentNumber}
              )
            , #{originalFileName}
            , #{saveFileName}
@@ -116,7 +117,7 @@
         FROM attachment_file
         WHERE task_submit_number = (SELECT task_submit_number
                                     FROM task_submit
-                                    WHERE task_number = #{taskNumber})
+                                    WHERE task_number = #{taskNumber} AND student_number = #{studentNumber})
     </select>
 
     <!-- 제출한 파일 삭제 -->
@@ -124,7 +125,7 @@
         DELETE attachment_file
         WHERE task_submit_number = (SELECT task_submit_number
                                     FROM task_submit
-                                    WHERE task_number = #{taskNumber})
+                                    WHERE task_number = #{taskNumber} AND student_number = #{studentNumber})
     </delete>
 
 </mapper>

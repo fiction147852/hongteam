@@ -15,6 +15,7 @@ public class AttachmentFileVO {
     private Integer onlineLectureNumber;
     private Integer taskNumber;
     private Integer questionNumber;
+    private Integer studentNumber;
     private Integer taskSubmitNumber;
     private String originalFileName;
     private String saveFileName;

@@ -1,10 +1,8 @@
 package com.son.app.attendance.service.impl;
 
+import com.son.app.attendance.controller.AttendanceSheetVO;
 import com.son.app.attendance.mapper.StudentAttendanceMapper;
-import com.son.app.attendance.service.StudentAttendanceService;
-import com.son.app.attendance.service.StudentLectureInfoVO;
-import com.son.app.attendance.service.StudentScheduleDetailVO;
-import com.son.app.attendance.service.StudentScheduleVO;
+import com.son.app.attendance.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,5 +32,16 @@ public class StudentAttendanceServiceImpl implements StudentAttendanceService {
     @Override
     public StudentLectureInfoVO lectureInfo(Integer lectureNumber) {
         return studentAttendanceMapper.lectureInfo(lectureNumber);
+    }
+
+    // 출석표
+    @Override
+    public List<AttendanceSheetVO> attendanceSchedule(Integer studentNumber, Integer lectureNumber) {
+        return studentAttendanceMapper.attendanceSchedule(studentNumber, lectureNumber);
+    }
+
+    @Override
+    public AttendanceStatsVO calculateAttendanceStats(Integer lectureNumber, Integer studentNumber) {
+        return studentAttendanceMapper.studentCalculateAttendanceStats(lectureNumber, studentNumber);
     }
 }

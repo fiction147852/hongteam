@@ -1,6 +1,8 @@
 package com.son.app;
 
 import com.son.app.attachment.AttachmentFileVO;
+import com.son.app.attendance.controller.AttendanceSheetVO;
+import com.son.app.attendance.service.AttendanceStatsVO;
 import com.son.app.attendance.service.StudentAttendanceService;
 import com.son.app.attendance.service.StudentLectureInfoVO;
 import com.son.app.attendance.service.StudentScheduleDetailVO;
@@ -112,7 +114,7 @@ class SonApplicationTests {
 	@Test
 	@DisplayName("DH) 시험 목록 조회")
 	public void studentExamList() {
-		List<ExamListVO> examListVOList = studentExamService.examList(1, null, "전체", 1, 5);
+		List<ExamListVO> examListVOList = studentExamService.examList(1, 1,null, "전체", 1, 5);
 
 		System.out.println(examListVOList);
 	}
@@ -146,9 +148,25 @@ class SonApplicationTests {
 	@Test
 	@DisplayName("DH) 과제 상서 정보")
 	public void taskInfo() {
-		TaskListVO taskListVO = studentTaskService.taskInfo(2);
+		TaskListVO taskListVO = studentTaskService.taskInfo(2, 1);
 
 		System.out.println(taskListVO);
+	}
+
+	@Test
+	@DisplayName("DH) 출석표 조회")
+	public void attendanceSchedule() {
+		List<AttendanceSheetVO> attendanceSheetVOList = studentAttendanceService.attendanceSchedule(1, 1);
+
+		System.out.println(attendanceSheetVOList);
+	}
+
+	@Test
+	@DisplayName("DH) 출석 상태 개수")
+	public void attendanceStatusCount() {
+		AttendanceStatsVO attendanceStatsVO = studentAttendanceService.calculateAttendanceStats(2, 1);
+
+		System.out.println(attendanceStatsVO);
 	}
 
 }

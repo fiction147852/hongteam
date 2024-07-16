@@ -6,6 +6,7 @@ import com.son.app.task.service.StudentTaskService;
 import com.son.app.task.service.TaskListVO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,31 +22,32 @@ public class StudentTaskServiceImpl implements StudentTaskService {
     @Autowired
     private StudentTaskMapper studentTaskMapper;
 
-    private String uploadPath = "/Users/sondonghan/Documents/uploads/taskSubmit/";
+    @Value("${upload.path}")
+    private String uploadPath;
 
     @Override
-    public List<TaskListVO> taskList(Integer lectureNumber, String title, String taskSubmitStatus, int startRow, int endRow) {
-        return studentTaskMapper.studentTaskList(lectureNumber, title, taskSubmitStatus, startRow, endRow);
+    public List<TaskListVO> taskList(Integer lectureNumber, Integer studentNumber, String title, String taskSubmitStatus, int startRow, int endRow) {
+        return studentTaskMapper.studentTaskList(lectureNumber, studentNumber, title, taskSubmitStatus, startRow, endRow);
     }
 
     @Override
-    public int taskCount(Integer lectureNumber, String title, String taskSubmitStatus) {
-        return studentTaskMapper.studentTaskCount(lectureNumber, title, taskSubmitStatus);
+    public int taskCount(Integer lectureNumber, Integer studentNumber , String title, String taskSubmitStatus) {
+        return studentTaskMapper.studentTaskCount(lectureNumber, studentNumber, title, taskSubmitStatus);
     }
 
     @Override
-    public TaskListVO taskInfo(Integer taskNumber) {
-        return studentTaskMapper.studentTaskInfo(taskNumber);
+    public TaskListVO taskInfo(Integer taskNumber, Integer studentNumber) {
+        return studentTaskMapper.studentTaskInfo(taskNumber, studentNumber);
     }
 
     @Override
-    public List<AttachmentFileVO> taskSubjectFile(Integer taskNumber) {
-        return studentTaskMapper.studentTaskSubjectFile(taskNumber);
+    public List<AttachmentFileVO> taskSubjectFile(Integer taskNumber, Integer studentNumber) {
+        return studentTaskMapper.studentTaskSubjectFile(taskNumber, studentNumber);
     }
 
     @Override
-    public int removeSubmissionFile(Integer taskNumber, Integer lectureNumber) {
-        List<AttachmentFileVO> attachmentFileVOList = studentTaskMapper.studentTaskSubjectFile(taskNumber);
+    public int removeSubmissionFile(Integer taskNumber, Integer lectureNumber, Integer studentNumber) {
+        List<AttachmentFileVO> attachmentFileVOList = studentTaskMapper.studentTaskSubjectFile(taskNumber, lectureNumber);
 
         for (AttachmentFileVO attachmentFileVO : attachmentFileVOList) {
             String fullPath = getFullPath(attachmentFileVO.getSaveFileName(), lectureNumber);
@@ -53,12 +55,12 @@ public class StudentTaskServiceImpl implements StudentTaskService {
 
             existingFile.delete();
         }
-        return studentTaskMapper.studentSubmissionFileDelete(taskNumber);
+        return studentTaskMapper.studentSubmissionFileDelete(taskNumber, studentNumber);
     }
 
     @Override
     @Transactional
-    public void uploadFiles(List<MultipartFile> files, Integer taskNumber, Integer lectureNumber) {
+    public void uploadFiles(List<MultipartFile> files, Integer taskNumber, Integer studentNumber, Integer lectureNumber) {
         for (MultipartFile file : files) {
             String originalFilename = file.getOriginalFilename();
             String saveFileName = createSaveFileName(originalFilename);
@@ -84,6 +86,7 @@ public class StudentTaskServiceImpl implements StudentTaskService {
                     attachmentFileVO.setOriginalFileName(originalFilename);
                     attachmentFileVO.setSaveFileName(saveFileName);
                     attachmentFileVO.setTaskNumber(taskNumber);
+                    attachmentFileVO.setStudentNumber(studentNumber);
                     attachmentFileVO.setFileSize(fileSize);
 
                     studentTaskMapper.studentTaskUploadFile(attachmentFileVO);
@@ -94,7 +97,7 @@ public class StudentTaskServiceImpl implements StudentTaskService {
                 ioException.printStackTrace();
             }
         }
-        studentTaskMapper.studentTaskStatus(taskNumber);
+        studentTaskMapper.studentTaskStatus(taskNumber, studentNumber);
     }
 
     // 업로드할 파일의 저장 파일명을 생성한다.
