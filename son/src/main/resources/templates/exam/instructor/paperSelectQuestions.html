@@ -11,6 +11,7 @@
 body {
 	font-family: 'Roboto', sans-serif;
 }
+
 .card-text {
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -26,13 +27,26 @@ body {
 </head>
 <body>
 	<div class="mx-auto bg-white p-8 rounded-lg shadow-lg mt-4">
-		<form name="insertForm"
-			th:action="@{paperSelectQuestions}"
+		<form name="insertForm" th:action="@{paperSelectQuestions}"
 			method="post">
+			<div class="mb-3">
+				<label for="autoScore" class="form-label">자동 배점 설정:</label> <select
+					id="autoScore" class="form-select" onchange="setAutoScore()">
+					<option value="">직접 입력</option>
+					<option value="equal">균등 배점</option>
+					<option value="random">랜덤 배점</option>
+				</select>
+			</div>
+			<div id="totalScoreDisplay" class="mb-3">
+				총 배점: <span id="totalScore">0</span>/100
+			</div>
 			<input type="hidden" name="subjectCode" th:value="${subjectCode}" />
 			<input type="hidden" name="lectureNumber" th:value="${lectureNumber}" />
-			<input type="text" name="paperTitle" class="form-control mb-2 col-6 mx-auto" placeholder="시험지 제목을 입력하세요." required/>
-			<input type="text" name="producer" th:value="${instructorName}" class="form-control mb-2 col-2 float-end" readonly/>
+			<input type="text" name="paperTitle"
+				class="form-control mb-2 col-6 mx-auto" placeholder="시험지 제목을 입력하세요."
+				required /> <input type="text" name="producer"
+				th:value="${instructorName}"
+				class="form-control mb-2 col-2 float-end" readonly />
 			<div class="swiper">
 				<div class="swiper-wrapper mb-3">
 					<th:block th:each="qs : ${questions}">
@@ -51,63 +65,66 @@ body {
 												th:value="${qs.questionNumber}" /> <label>배점: </label> <input
 												type="number" name="scores" min="1" max="100"
 												class="w-16 p-1 border border-gray-300 rounded mt-1 mr-1" />
-												<br><label>선택: </label>
-											<input class="mr-1" type="checkbox" name="selectedQuestions"
+											<br> <label>선택: </label> <input class="mr-1"
+												type="checkbox" name="selectedQuestions"
 												th:value="${qs.questionNumber}"
 												onclick="limitSelection(this)" />
 										</div>
 									</div>
 									<div class="card-body">
-									<div class="card-body bg-gray-100">
-										<h5 class="card-title text-center font-medium mb-2">출제자:
-											[[ ${qs.instructorName} ]]</h5>
-										<h6 class="card-subtitle">문제</h6>
-										<p class="card-text">[[ ${qs.text} ]]</p>
-									</div>
+										<div class="card-body bg-gray-100">
+											<h5 class="card-title text-center font-medium mb-2">출제자:
+												[[ ${qs.instructorName} ]]</h5>
+											<h6 class="card-subtitle">문제</h6>
+											<p class="card-text">[[ ${qs.text} ]]</p>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</th:block>
-						<div class="swiper-scrollbar"></div>
+					<div class="swiper-scrollbar"></div>
 				</div>
 			</div>
 			<div class="clearfix">
-			<button type="button" class="btn btn-danger mt-3 float-end" th:onclick="|location.href='@{/instructor/paperList}'|">취소</button>
-			<button type="submit" class="btn btn-info mt-3 mr-2 float-end">시험 생성</button>
+				<button type="button" class="btn btn-danger mt-3 float-end"
+					th:onclick="|location.href='@{/instructor/paperList}'|">취소</button>
+				<button type="submit" class="btn btn-info mt-3 mr-2 float-end">시험
+					생성</button>
 			</div>
 		</form>
 	</div>
-		<script src="/lms/js/question/qlist-slider.js"></script>
-		<script th:inline="javascript">
+	<script src="/lms/js/paper/autoscore.js"></script>
+	<script src="/lms/js/question/qlist-slider.js"></script>
+	<script th:inline="javascript">
 		/*<![CDATA[*/
-			function limitSelection(checkbox) {
-				var checkboxes = document
-						.getElementsByName('selectedQuestions');
-				var checkedCount = 0;
-				for (var i = 0; i < checkboxes.length; i++) {
-					if (checkboxes[i].checked) {
-						checkedCount++;
-					}
-				}
-				if (checkedCount > 20) {
-					checkbox.checked = false;
-					alert('최대 20개의 문제만 선택할 수 있습니다.');
+		function limitSelection(checkbox) {
+			var checkboxes = document.getElementsByName('selectedQuestions');
+			var checkedCount = 0;
+			for (var i = 0; i < checkboxes.length; i++) {
+				if (checkboxes[i].checked) {
+					checkedCount++;
 				}
 			}
-			
-		    document.addEventListener('DOMContentLoaded', function() {
-		        var errorMessage = new URLSearchParams(window.location.search).get('error');
-		        if (errorMessage) {
-		            Swal.fire({
-		                icon: 'error',
-		                title: '오류',
-		                text: decodeURIComponent(errorMessage)
-		            });
-		        }
-		    });
-		    /*]]>*/
-		</script>
+			if (checkedCount > 20) {
+				checkbox.checked = false;
+				alert('최대 20개의 문제만 선택할 수 있습니다.');
+			}
+		}
+
+		document.addEventListener('DOMContentLoaded', function() {
+			var errorMessage = new URLSearchParams(window.location.search)
+					.get('error');
+			if (errorMessage) {
+				Swal.fire({
+					icon : 'error',
+					title : '오류',
+					text : decodeURIComponent(errorMessage)
+				});
+			}
+		});
+		/*]]>*/
+	</script>
 </body>
 </html>
 
