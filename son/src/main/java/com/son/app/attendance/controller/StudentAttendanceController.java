@@ -1,9 +1,6 @@
 package com.son.app.attendance.controller;
 
-import com.son.app.attendance.service.StudentAttendanceService;
-import com.son.app.attendance.service.StudentLectureInfoVO;
-import com.son.app.attendance.service.StudentScheduleDetailVO;
-import com.son.app.attendance.service.StudentScheduleVO;
+import com.son.app.attendance.service.*;
 import com.son.app.security.service.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -63,7 +60,21 @@ public class StudentAttendanceController {
         return "attendance/student/subjectDetailAttendance";
     }
 
+    // 출석표 (상태)
+    @GetMapping("student/{lectureNumber}/attendanceStatus")
+    @ResponseBody
+    public List<AttendanceSheetVO> attendanceSheetList(@AuthenticationPrincipal CustomUserDetails principal, @PathVariable Integer lectureNumber) {
+        int studentNumber = principal.getMember().getIdNumber();
 
+        return studentAttendanceService.attendanceSchedule(studentNumber, lectureNumber);
+    }
 
+    // 출석 상태
+    @GetMapping("student/{lectureNumber}/attendanceStatusCount")
+    @ResponseBody
+    public AttendanceStatsVO calculateAttendanceStats(@AuthenticationPrincipal CustomUserDetails principal, @PathVariable Integer lectureNumber) {
+        int studentNumber = principal.getMember().getIdNumber();
 
+        return studentAttendanceService.calculateAttendanceStats(lectureNumber, studentNumber);
+    }
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.son.app.lecture.mapper.MainMapper">
+	<select id="selectAll" resultType="MainLectureVO">
+		SELECT lecture_number, lecture_title, lecture_description,
+		    lecture_cost, subject_name(subject_code) AS subject_name, 
+		    detail_subject_name(detail_subject_code) AS detail_subject_name,
+		    capacity, lecture_level_code, weekdays_code, time_code,
+		    TO_CHAR(lecture_start_date, 'yyyy-MM-dd') AS lecture_start_date,
+    		TO_CHAR(lecture_end_date, 'yyyy-MM-dd') AS lecture_end_date,
+		    ins_name(instructor_number) AS instructor_name
+		FROM lecture
+	</select>
+
+</mapper>

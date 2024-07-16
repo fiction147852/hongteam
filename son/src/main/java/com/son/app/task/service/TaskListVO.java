@@ -13,6 +13,7 @@ public class TaskListVO {
     private Integer lectureNumber;
     private Integer taskSubmitNumber;
     private Integer taskNumber;
+    private Integer studentNumber;
     private String title;
     private String description;
     private String taskSubmitStatus;

@@ -81,32 +81,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 if(startPage > 1) {
                     // 링크 클릭 시 상단으로 이동 X
                     pagination.innerHTML = `<li class="page-item">
-
                                                 <a class="page-link" href="#" data-page="${startPage - 1}">이전</a>
-
-                                                <a class="page-link" href="#" data-page="${startPage - 1}">이전</a>
-
                                              </li>`;
                 }
 
                 for (let i = startPage; i <= endPage; i++) {
                     const pageElement = `<li class="page-item ${i === currentPage ? 'active' : ''}">
-
                                                     <a class="page-link" href="#" data-page="${i}">${i}</a>
-
-                                                    <a class="page-link" href="#" data-page="${i}">${i}</a>
-
                                                  </li>`;
                     pagination.innerHTML += pageElement;
                 }
 
                 if (endPage < totalPage) {
                     pagination.innerHTML += `<li class="page-item">
-
                                                 <a class="page-link" href="#" data-page="${endPage + 1}">다음</a>
-
-                                                <a class="page-link" href="#" data-page="${endPage + 1}">다음</a>
-
                                              </li>`;
                 }
 

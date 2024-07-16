@@ -16,7 +16,7 @@
 			lecture_start_date,         <!-- 강의 시작 날짜 -->
 			lecture_end_date,           <!-- 강의 종료 날짜 -->
 			capacity,                   <!-- 강의 수용 인원 -->
-			instructor_number           <!-- 강사 번호 -->
+			ins_name(instructor_number) instructor_name <!-- 강사 번호 -->
 		FROM lecture
 	</select>
 
@@ -150,7 +150,7 @@
 
 	<select id="adminInstructorSelectAll" resultType="InstructorVO">
 	    SELECT name,
-	           instructor_number,
+	           ins_name(instructor_number) instructor_name,
 			   subject_name(subject_code) subject_code               <!-- 과목 코드 -->
 	    FROM instructor
 	</select>

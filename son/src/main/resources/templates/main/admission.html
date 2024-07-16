@@ -2,30 +2,163 @@
 <html xmlns:th="https://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{common/layouts/main/main_layout}">
+
 <head>
-<meta charset="UTF-8">
-<title>DONGHAN SON</title>
-<link rel="stylesheet" th:href="@{/css/security/main.css}"/>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<style>
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .card {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-responsive {
+            padding-top: 15px;
+        }
+
+        .btn {
+            margin-right: 5px;
+        }
+
+    </style>
+    
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
 </head>
 
 <body>
-	<div layout:fragment="content" style="margin-top: 50px;">
-		<form method="post" th:action="@{/loginProcess}">
-			<table>
-				<tr style="text-align:center;">
-					<td colspan="2"><h2>상담신청</h2></td>
-				</tr>
-				<tr>
-					<td>
-						<label>전화번호</label>
-						<input id="phone" type="text">
-					</td>
-					<td>
-						<input class="btn2" type="button" value="인증">
-					</td>
-				</tr>
-			</table>
-		</form>
+	<h4 style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">입학 상담 신청</h4>
+	<div layout:fragment="content">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-body">
+						<form method="post" id="counselInsert" name="counselInsert">
+							<div class="form-row">
+								<div class="form-group">
+									<label for="parentName">학부모 이름</label>
+									<input type="text" name="parentName" class="form-control">
+								</div>
+								<div class="form-group">
+									<label for="studentName">학생 이름</label>
+									<input type="text" name="studentName" class="form-control">
+								</div>
+								<div class="form-group">
+									<label for="phone">전화번호</label>
+									<input type="text" name="phone" class="form-control">
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group">
+									<label for="reservationDate">예약 일자</label>
+									<input type="text" name="reservationDateMain" onchange="changeDate()" id="reservationDateMain" class="form-control">
+								</div>
+								<div class="form-group">
+									<label for="timeCode">시간</label>
+									<select id="timeCode" name="timeCode" class="form-control">
+										
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="content">내용</label>
+								<input type="text" class="form-control" name="content" id="content" placeholder="내용을 입력하세요">
+							</div>
+							<div class="form-group">
+								<button type="button" class="btn btn-primary" style="background-color: #28587E" id="save">신청</button>
+								<button type="button" id="goBack" class="btn btn-secondary" style="background-color: #28587E">취소</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+
+			$("#reservationDateMain").datepicker({ 
+			    minDate: 0, // 오늘 이후의 날짜만 선택 가능
+			    maxDate: "+1M +10D", // 최대 1개월 10일 이후까지 선택 가능
+			    dateFormat: "yy-mm-dd", 
+			});
+			
+			
+				function updateAjax(){
+			        fetch('mainCounselInsert', {
+			            method: 'POST',
+			            headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+			            body: $('#counselInsert').serialize()
+			        })
+			        .then(response => response.text())
+			        .then(result => {
+			            console.log(result)
+			
+			            //location.href = '/lms/';
+			        })
+			        .catch(error => {
+			            console.error('Error:', error);
+			        });
+				}
+				document.getElementById('save').addEventListener('click', function(){
+					updateAjax();
+				})
+				
+				function changeDate(){
+					$.ajax({
+						type: 'POST',
+						url: '/lms/admin/counselUpdateCal',
+						data: {
+							reservationDate: $('#reservationDateMain').val()
+			        		,today: getDateFormat(new Date($('#reservationDateMain').val()), 4)
+						},
+						success : function(response){
+							console.log(response);
+							var timeSelect = document.getElementById('timeCode');
+							timeSelect.innerText = '';
+							
+				            response.forEach(function(time) {
+				                var option = document.createElement('option');
+				                option.value = time;
+				                option.text = time;
+				                timeSelect.appendChild(option);
+				            });
+							
+			
+							
+							console.log(response);
+						},
+						 error: function(xhr, status, error) {
+					        // 요청 실패 시 실행할 코드
+					        console.error('Error:', error);
+					    }
+					})
+					
+				}
+				
+				document.getElementById("goBack").addEventListener("click", () => {
+					  window.history.back();
+					});
+				
+			</script>
 	</div>
 </body>
+
+
 </html>

@@ -14733,7 +14733,6 @@ a.close.disabled {
 .popover .arrow::before, .popover .arrow::after {
   position: absolute;
   display: block;
-  content: "";
   border-color: transparent;
   border-style: solid;
 }

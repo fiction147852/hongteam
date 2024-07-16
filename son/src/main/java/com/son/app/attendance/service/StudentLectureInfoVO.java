@@ -13,7 +13,7 @@ public class StudentLectureInfoVO {
     private String detailSubjectName;
     private String lectureLevel;
     private String weekday;
-    private String time; // (시작 시간,끝 시간)
+    private int time; // (시작 시간,끝 시간)
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date begin;

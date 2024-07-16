@@ -5,11 +5,59 @@
 <head>
 <meta charset="UTF-8">
 <title>DONGHAN SON</title><link rel="stylesheet" th:href="@{/css/security/main.css}"/>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
 </head>
 
 <body>
 	<div layout:fragment="content">
-		
+    <h1>강의 목록</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>강의명</th>
+                <th>내용</th>
+                <th>비용</th>
+                <th>과목 분류</th>
+                <th>과목명</th>
+                <th>수용인원 (명)</th>
+                <th>강의 수준</th>
+                <th>요일</th>
+                <th>강의 시간</th>
+                <th>개강일자</th>
+                <th>종강일자</th>
+                <th>강사</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="lecture : ${list}">
+                <td th:text="${lecture.lectureTitle}"></td>
+                <td th:text="${lecture.lectureDescription}"></td>
+                <td th:text="${lecture.lectureCost}"></td>
+                <td th:text="${lecture.subjectName}"></td>
+                <td th:text="${lecture.detailSubjectName}"></td>
+                <td th:text="${lecture.capacity}"></td>
+                <td th:text="${lecture.lectureLevelCode}"></td>
+                <td th:text="${lecture.weekdaysCode}"></td>
+                <td th:text="${lecture.timeCode}"></td>
+                <td th:text="${lecture.lectureStartDate}"></td>
+                <td th:text="${lecture.lectureEndDate}"></td>
+                <td th:text="${lecture.instructorName}"></td>
+            </tr>
+        </tbody>
+    </table>
 	</div>
 </body>
 </html>

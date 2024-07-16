@@ -20,9 +20,11 @@ public class AdminPayVO {
     // 학생
     private Integer studentNumber;
     private String registrationStatus;
+    private String studentName;
     // 강의
     private Integer lectureNumber;
     private String lectureName;
+    private String detailSubjectName;
     private int lectureCost;
     private Date lectureStartDate;
     private Date lectureEndDate;

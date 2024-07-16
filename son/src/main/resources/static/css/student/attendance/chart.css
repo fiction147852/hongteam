@@ -1,0 +1,99 @@
+/* 차트 */
+.attendance-status {
+    width: 100%;
+    text-align: center;
+    table-layout: fixed;
+    border-collapse: collapse;
+    margin-bottom: 40px;
+}
+
+.attendance-status th, .attendance-status td {
+    height: 50px;
+    color: white;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.attendance-status td {
+    background-color: white;
+}
+
+.attendance-status th {
+    background-color: #27587E;
+}
+
+.circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #27587E;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    margin: 0 auto;
+}
+
+.donut-chart-container {
+    position: relative;
+    width: 130px;
+    height: 130px;
+    margin: 0 auto;
+}
+
+.donut-chart-label {
+    color: grey;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 5px;
+
+}
+
+.header-title {
+    margin-bottom: 30px;
+    margin-top: 30px;
+    font-weight: 800;
+    text-align: center;
+}
+
+/* 캘린더 */
+.fc-toolbar-title {
+    font-size: 26px !important;
+}
+
+.fc-button {
+    background-color: #27587E !important;
+}
+
+.fc-day  {
+    background-color: #27587E;
+}
+
+.fc-day a[aria-label="일요일"],
+.fc-day a[aria-label="월요일"],
+.fc-day a[aria-label="화요일"],
+.fc-day a[aria-label="수요일"],
+.fc-day a[aria-label="목요일"],
+.fc-day a[aria-label="금요일"],
+.fc-day a[aria-label="토요일"]
+{
+    color: white;
+}
+
+/* 팝오버 */
+.popover-header {
+    text-align: center;
+    background-color: #27587E !important;
+    color: white !important;
+    font-weight: 600 !important;
+}
+
+.popover-body {
+    color: black !important;
+    font-weight: 300 !important;
+}
+
+.arrow {
+    display: none;
+}
