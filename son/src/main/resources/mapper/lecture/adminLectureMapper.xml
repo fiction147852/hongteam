@@ -151,6 +151,7 @@
 	<select id="adminInstructorSelectAll" resultType="InstructorVO">
 	    SELECT name,
 	           ins_name(instructor_number) instructor_name,
+	           instructor_number,
 			   subject_name(subject_code) subject_code               <!-- 과목 코드 -->
 	    FROM instructor
 	</select>

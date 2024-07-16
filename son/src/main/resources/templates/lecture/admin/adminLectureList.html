@@ -170,129 +170,121 @@
 	</div>
 
 	<!-- 강의 등록 모달 창 -->
-	<div class="modal fade" id="lectureRegisterModal" tabindex="-1"
-		aria-labelledby="lectureRegisterModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="lectureRegisterModalLabel">강의 등록</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<form id="lectureRegisterForm">
-						<!-- 강의 제목 -->
-						<div class="mb-3">
-							<label for="lectureTitle" class="form-label">강의 제목</label> <input
-								type="text" class="form-control" id="lectureTitle"
-								name="lectureTitle" required> <span
-								id="lectureTitleError" class="error-message"></span>
-						</div>
+	<div class="modal fade" id="lectureRegisterModal" tabindex="-1" aria-labelledby="lectureRegisterModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="lectureRegisterModalLabel">강의 등록</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="lectureRegisterForm" class="row g-3">
+                    <!-- 강의 제목 -->
+                    <div class="col-12 col-md-6">
+                        <label for="lectureTitle" class="form-label">강의 제목</label>
+                        <input type="text" class="form-control" id="lectureTitle" name="lectureTitle" required>
+                        <span id="lectureTitleError" class="error-message"></span>
+                    </div>
 
-						<!-- 강의 설명 -->
-						<div class="mb-3">
-							<label for="lectureDescription" class="form-label">강의 설명</label>
-							<textarea class="form-control" id="lectureDescription"
-								name="lectureDescription" required></textarea>
-							<span id="lectureDescriptionError" class="error-message"></span>
-						</div>
+                    <!-- 강의 설명 -->
+                    <div class="col-12">
+                        <label for="lectureDescription" class="form-label">강의 설명</label>
+                        <textarea class="form-control" id="lectureDescription" name="lectureDescription" required></textarea>
+                        <span id="lectureDescriptionError" class="error-message"></span>
+                    </div>
 
-						<!-- 과목 코드 -->
-						<div class="mb-3">
-							<label for="subjectCode" class="form-label">과목</label> <select
-								class="form-select" id="subjectCode" name="subjectCode" required>
-								<option value="null">과목을 선택하세요</option>
-								<!-- 다른 옵션들 -->
-							</select> <span id="subjectCodeError" class="error-message"></span>
-						</div>
+                    <!-- 과목 코드 -->
+                    <div class="col-12 col-md-6">
+                        <label for="subjectCode" class="form-label">과목</label>
+                        <select class="form-select" id="subjectCode" name="subjectCode" required>
+                            <option value="null">과목을 선택하세요</option>
+                            <!-- 다른 옵션들 -->
+                        </select>
+                        <span id="subjectCodeError" class="error-message"></span>
+                    </div>
 
-						<!-- 세부 과목 코드 -->
-						<div class="mb-3">
-							<label for="detailSubjectCode" class="form-label">세부 과목</label> <select
-								class="form-select" id="detailSubjectCode"
-								name="detailSubjectCode" required>
-								<option value="null">세부과목을 선택하세요</option>
-								<!-- 다른 옵션들 -->
-							</select> <span id="detailSubjectCodeError" class="error-message"></span>
-						</div>
+                    <!-- 세부 과목 코드 -->
+                    <div class="col-12 col-md-6">
+                        <label for="detailSubjectCode" class="form-label">세부 과목</label>
+                        <select class="form-select" id="detailSubjectCode" name="detailSubjectCode" required>
+                            <option value="null">세부과목을 선택하세요</option>
+                            <!-- 다른 옵션들 -->
+                        </select>
+                        <span id="detailSubjectCodeError" class="error-message"></span>
+                    </div>
 
-						<!-- 강의 레벨 코드 -->
-						<div class="mb-3">
-							<label for="lectureLevelCode" class="form-label">강의 레벨</label> <select
-								class="form-select" id="lectureLevelCode"
-								name="lectureLevelCode" required>
-								<option value="">강의 레벨을 선택하세요</option>
-								<option value="심화반">심화반</option>
-								<option value="기본반">기본반</option>
-							</select> <span id="lectureLevelCodeError" class="error-message"></span>
-						</div>
+                    <!-- 강의 레벨 코드 -->
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <label for="lectureLevelCode" class="form-label">강의 레벨</label>
+                        <select class="form-select" id="lectureLevelCode" name="lectureLevelCode" required>
+                            <option value="">강의 레벨을 선택하세요</option>
+                            <option value="심화반">심화반</option>
+                            <option value="기본반">기본반</option>
+                        </select>
+                        <span id="lectureLevelCodeError" class="error-message"></span>
+                    </div>
 
-						<!-- 요일 코드 -->
-						<div class="mb-3">
-							<label class="form-label">수업 요일</label><br>
-							<div id="weekdaysCode"></div>
-							<span id="weekdaysCodeError" class="error-message"></span>
-						</div>
+                    <!-- 요일 코드 -->
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <label class="form-label">수업 요일</label><br>
+                        <div id="weekdaysCode"></div>
+                        <span id="weekdaysCodeError" class="error-message"></span>
+                    </div>
 
-						<!-- 시간 코드 -->
-						<div class="mb-3">
-							<label for="timeCode" class="form-label">강의 시간</label> <select
-								class="form-select" id="timeCode" name="timeCode" required></select>
-							<span id="timeCodeError" class="error-message"></span>
-						</div>
+                    <!-- 시간 코드 -->
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <label for="timeCode" class="form-label">강의 시간</label>
+                        <select class="form-select" id="timeCode" name="timeCode" required></select>
+                        <span id="timeCodeError" class="error-message"></span>
+                    </div>
 
-						<!-- 강의 비용 -->
-						<div class="mb-3">
-							<label for="lectureCost" class="form-label">강의 비용</label> <input
-								type="text" class="form-control" id="lectureCost"
-								name="lectureCost" required> <span id="lectureCostError"
-								class="error-message"></span>
-						</div>
+                    <!-- 강의 비용 -->
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <label for="lectureCost" class="form-label">강의 비용</label>
+                        <input type="text" class="form-control" id="lectureCost" name="lectureCost" required>
+                        <span id="lectureCostError" class="error-message"></span>
+                    </div>
 
-						<!-- 수용 인원 -->
-						<div class="mb-3">
-							<label for="capacity" class="form-label">수용 인원</label> <input
-								type="text" class="form-control" id="capacity" name="capacity"
-								required> <span id="capacityError" class="error-message"></span>
-						</div>
 
-						<!-- 강의 시작 날짜 -->
-						<div class="mb-3">
-							<label for="lectureStartDate" class="form-label">강의 시작 날짜</label>
-							<input type="text" class="form-control" id="lectureStartDate"
-								name="lectureStartDate" required> <span
-								id="lectureStartDateError" class="error-message"></span>
-						</div>
 
-						<!-- 강의 종료 날짜 -->
-						<div class="mb-3">
-							<label for="lectureEndDate" class="form-label">강의 종료 날짜</label> <input
-								type="text" class="form-control" id="lectureEndDate"
-								name="lectureEndDate" required> <span
-								id="lectureEndDateError" class="error-message"></span>
-						</div>
+                    <!-- 강의 시작 날짜 -->
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <label for="lectureStartDate" class="form-label">강의 시작 날짜</label>
+                        <input type="text" class="form-control" id="lectureStartDate" name="lectureStartDate" required>
+                        <span id="lectureStartDateError" class="error-message"></span>
+                    </div>
 
-						<!-- 강사 번호 -->
-						<div class="mb-3">
-							<label for="instructorNumber" class="form-label">강사 번호</label> <select
-								class="form-select" id="instructorNumber"
-								name="instructorNumber" required>
-								<option value="null">강사를 선택하세요</option>
-								<!-- 다른 옵션들 -->
-							</select> <span id="instructorNumberError" class="error-message"></span>
-						</div>
-					</form>
+                    <!-- 강의 종료 날짜 -->
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <label for="lectureEndDate" class="form-label">강의 종료 날짜</label>
+                        <input type="text" class="form-control" id="lectureEndDate" name="lectureEndDate" required>
+                        <span id="lectureEndDateError" class="error-message"></span>
+                    </div>
+                    <!-- 수용 인원 -->
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <label for="capacity" class="form-label">수용 인원</label>
+                        <input type="text" class="form-control" id="capacity" name="capacity" required>
+                        <span id="capacityError" class="error-message"></span>
+                    </div>
+                    <!-- 강사 번호 -->
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <label for="instructorNumber" class="form-label">강사 번호</label>
+                        <select class="form-select" id="instructorNumber" name="instructorNumber" required>
+                            <option value="null">강사를 선택하세요</option>
+                            <!-- 다른 옵션들 -->
+                        </select>
+                        <span id="instructorNumberError" class="error-message"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                <button type="submit" class="btn btn-primary" id="insertLecBtn" form="lectureRegisterForm">등록</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">닫기</button>
-					<button type="submit" class="btn btn-primary" id="insertLecBtn"
-						form="lectureRegisterForm">등록</button>
-				</div>
-			</div>
-		</div>
-	</div>
 
 
 
@@ -569,7 +561,7 @@ console.log("days : ",days);
 		    
 			const insertLecBtn = document.getElementById('insertLecBtn');
 			insertLecBtn.addEventListener('click', function(event){
-			    event.preventDefault();
+// 			    event.preventDefault();
 
 			    const lectureTitle = document.getElementById('lectureTitle').value.trim();
 			    const lectureDescription = document.getElementById('lectureDescription').value.trim();
@@ -813,21 +805,23 @@ console.log("days : ",days);
 
 			            // 강의 리스트 행 추가
 			            let newLectureHTML = `
-			                <tr data-id="${result.lectureNumber}" data-bs-toggle="modal"
-			                    onclick="lecInfo('${result.lectureNumber}')" data-bs-target="#lectureInfoModal">
-			                    <td>${result.lectureNumber}</td>
-			                    <td>${result.lectureTitle}</td>
-			                    <td>${result.lectureDescription}</td>
-			                    <td>${result.lectureCost}</td>
-			                    <td>${result.subjectCode} (${result.detailSubjectCode})</td>
-			                    <td>${result.capacity}</td>
-			                    <td>${result.lectureLevelCode}</td>
-			                    <td>${result.weekdaysCode}</td>
-			                    <td>${result.timeCode}</td>
-			                    <td>${result.lectureStartDate.substr(0, 10)}</td>
-			                    <td>${result.lectureEndDate.substr(0, 10)}</td>
-			                    <td>${result.instructorNumber}</td>
-			                </tr>
+// 			                <tr data-id="${result.lectureNumber}" data-bs-toggle="modal"
+// 			                    onclick="lecInfo('${result.lectureNumber}')" data-bs-target="#lectureInfoModal">
+// 			                    <td>${result.lectureNumber}</td>
+// 			                    <td>${result.lectureTitle}</td>
+// 			                    <td>${result.lectureDescription}</td>
+// 			                    <td>${result.lectureCost}</td>
+// 			                    <td>${result.subjectCode} (${result.detailSubjectCode})</td>
+// 			                    <td>${result.capacity}</td>
+// 			                    <td>${result.lectureLevelCode}</td>
+// 			                    <td>${result.weekdaysCode}</td>
+// 			                    <td>${result.timeCode}</td>
+// 			                    <td>${result.lectureStartDate.substr(0, 10)}</td>
+// 			                    <td>${result.lectureEndDate.substr(0, 10)}</td>
+// 			                    <td>${result.instructorName}</td>
+// 			                </tr>
+
+						location.reload;
 			            `;
 
 			            // 강의 리스트 하단에 새 강의 추가

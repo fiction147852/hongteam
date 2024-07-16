@@ -54,7 +54,7 @@ fieldset:disabled .btn {
 						        <td th:text="${pay.chargeNumber}"></td>
 						        <td th:text="${pay.chargeCode}" th:id="'chargeCode_' + ${pay.chargeNumber}"></td>
 						        <td th:text="${#dates.format(pay.requestDate, 'yyyy-MM-dd')}"></td>
-						        <td th:text="${pay.detailSubjectName}"></td>
+						        <td th:text="${pay.lectureTitle}"></td>
 						        <td th:text="${#dates.format(pay.approvalDate, 'yyyy-MM-dd')}"></td>
 						        <td th:text="${pay.receiveStatus}"></td>
 						        <td th:text="${pay.paymentType}"></td>
