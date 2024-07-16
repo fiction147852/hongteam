@@ -17,10 +17,12 @@ public class AdminPayVO {
     
     // 부모
     private Integer parentNumber;
+    
     // 학생
     private Integer studentNumber;
     private String registrationStatus;
     private String studentName;
+    
     // 강의
     private Integer lectureNumber;
     private String lectureName;
@@ -28,4 +30,5 @@ public class AdminPayVO {
     private int lectureCost;
     private Date lectureStartDate;
     private Date lectureEndDate;
+    private String lectureTitle;
 }

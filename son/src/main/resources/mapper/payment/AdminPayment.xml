@@ -4,16 +4,23 @@
 
 
 	<select id="lecturePaySelectAll" resultType="AdminPayVO">
-		SELECT charge_number,
-		       charge_code,
-		       request_date,
-		       de_sub_name_by_lecture(lecture_number) detail_subject_name,
-		       approval_date,
-		       receive_status,
-		       payment_type,
-		       std_name(student_number) student_name,
-		       registration_status
-		FROM charge
+    SELECT c.charge_number,
+           c.charge_code,
+           c.request_date,
+           c.lecture_number,
+           c.lecture_number,
+            l.lecture_title,
+           c.approval_date,
+           c.receive_status,
+           c.payment_type,
+           c.student_number,
+             s.name AS studentName,
+           c.registration_status
+    FROM charge c
+        JOIN lecture l
+        ON c.lecture_number = l.lecture_number
+        JOIN student s
+        ON c.student_number = s.student_number
 	</select>
 
 	<!-- 강의에 학생 등록하기 -->
