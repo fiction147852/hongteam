@@ -14,6 +14,7 @@ public class CounselVO {
 	private String timeCode;			//시간코드
 //	@JsonFormat(pattern = "yy/MM/dd", timezone="Asia/Seoul")
 	private Date reservationDate;		//예약 일자
+	private String reservationDateMain;
 	private String reservationCode;		//예약 상태코드
 	private String weekdaysCode;
 }
