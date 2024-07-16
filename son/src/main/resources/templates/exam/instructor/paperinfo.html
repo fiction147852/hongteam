@@ -51,8 +51,6 @@
     <div class="clearfix">
         <div class="btn-group mt-2 float-end">
         	<button type="button" class="btn btn-primary" th:onclick="|location.href='@{/instructor/createExam(paperNumber=${paperInfo.paperNumber})}'|">출제</button>
-            <button type="button" class="btn btn-success">수정</button>
-            <button type="button" class="btn btn-info">복사</button>
             <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/instructor/paperList}'|">목록</button>
             <button type="button" class="btn btn-danger" th:attr="onclick=|deletePaper(${paperInfo.paperNumber})|">삭제</button>
         </div>
