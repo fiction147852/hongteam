@@ -30,7 +30,7 @@
 							<th:block th:each="ss : ${submittedStudents}">
 								<tr
 									th:onclick="|location.href='@{/instructor/{lectureNumber}/task/{taskNumber}/submittedInfo(taskSubmitNumber=${ss.taskSubmitNumber}, taskNumber=${taskNumber}, lectureNumber=${lectureNumber})}'|">
-									<td>[[ ${ss.taskNumber} ]]</td>
+									<td>[[ ${ss.studentNumber} ]]</td>
 									<td>[[ ${ss.studentName} ]]</td>
 									<td>[[ ${ss.title} ]]</td>
 									<td>[[ ${#dates.format(ss.postDate, 'yyyy년 MM월 dd일')}
