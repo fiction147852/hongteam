@@ -64,7 +64,7 @@
 		        },
 		        customButtons: {
 		        	myCustomButton: {
-		        		text:"일정추가", 
+		        		text:"주간시간", 
 		        		click: function() {
 		        			$("#weekTime").modal("show")
 		        		}
