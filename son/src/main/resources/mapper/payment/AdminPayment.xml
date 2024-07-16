@@ -7,11 +7,11 @@
 		SELECT charge_number,
 		       charge_code,
 		       request_date,
-		       lecture_number,
+		       de_sub_name_by_lecture(lecture_number) detail_subject_name,
 		       approval_date,
 		       receive_status,
 		       payment_type,
-		       student_number,
+		       std_name(student_number) student_name,
 		       registration_status
 		FROM charge
 	</select>

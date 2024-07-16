@@ -17,7 +17,47 @@
 	    padding: 20px;
 	}
 
+
+/*요일 클릭*/
+
+.checkbox-wrapper {
+    display: inline-block;
+    margin-right: 20px; /* 각 체크박스 사이 간격 조정 */
+    font-size: 16px; /* 레이블 글자 크기 조정 */
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+    visibility: hidden; /* 기존 체크박스 숨기기 */
+}
+
+.checkbox-wrapper label {
+    display: inline-block;
+    cursor: pointer;
+    padding-left: 8px; /* 레이블 왼쪽 여백 조정 */
+    line-height: 24px; /* 체크박스 높이에 맞춰서 줄 높이 조정 */
+}
+
+.checkbox-wrapper input[type="checkbox"] + label:before {
+    content: '';
+    display: inline-block;
+    width: 20px; /* 체크박스 너비 조정 */
+    height: 20px; /* 체크박스 높이 조정 */
+    border: 1px solid #ccc; /* 체크박스 테두리 설정 */
+    border-radius: 3px; /* 체크박스 모서리 둥글게 */
+    margin-right: 8px; /* 체크박스 오른쪽 여백 조정 */
+    vertical-align: middle; /* 수직 정렬 */
+}
+
+.checkbox-wrapper input[type="checkbox"]:checked + label:before {
+    background-color: #28587E; /* 선택된 경우 체크박스 배경색 설정 */
+}
+
+
 </style>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+<!--   <link rel="stylesheet" href="/resources/demos/style.css"> -->
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
 </head>
 
 <body>
@@ -27,7 +67,7 @@
 			<div class="card">
 				<div class="table-responsive pt-3">
 					<table id="lectureListTable"
-						class="table table-striped project-orders-table">
+						class="table table-striped project-orders-table" style="text-align: center;">
 						<thead>
 							<tr>
 								<th>강의 번호</th>
@@ -64,7 +104,7 @@
 										th:text="${#dates.format(lecs.lectureStartDate, 'yyyy-MM-dd')}"></td>
 									<td
 										th:text="${#dates.format(lecs.lectureEndDate, 'yyyy-MM-dd')}"></td>
-									<td th:text="${lecs.instructorNumber}"></td>
+									<td th:text="${lecs.instructorName}"></td>
 								</tr>
 							</th:block>
 						</tbody>
@@ -75,7 +115,7 @@
 		
 	</div>
 	<button type="button" class="btn btn-primary" data-bs-toggle="modal" 
-			data-bs-target="#lectureRegisterModal" style="margin: 20px;">강의 등록</button>
+			data-bs-target="#lectureRegisterModal" style="background-color: #28587E; margin: 10px;">강의 등록</button>
 
 	<!-- 강의 정보 모달 창 -->
 	<div class="modal fade" id="lectureInfoModal" tabindex="-1"
@@ -219,7 +259,7 @@
 						<!-- 강의 시작 날짜 -->
 						<div class="mb-3">
 							<label for="lectureStartDate" class="form-label">강의 시작 날짜</label>
-							<input type="date" class="form-control" id="lectureStartDate"
+							<input type="text" class="form-control" id="lectureStartDate"
 								name="lectureStartDate" required> <span
 								id="lectureStartDateError" class="error-message"></span>
 						</div>
@@ -227,7 +267,7 @@
 						<!-- 강의 종료 날짜 -->
 						<div class="mb-3">
 							<label for="lectureEndDate" class="form-label">강의 종료 날짜</label> <input
-								type="date" class="form-control" id="lectureEndDate"
+								type="text" class="form-control" id="lectureEndDate"
 								name="lectureEndDate" required> <span
 								id="lectureEndDateError" class="error-message"></span>
 						</div>
@@ -261,7 +301,18 @@
 
 <script th:inline="javascript">
 
-	
+//날짜 체크 datepiccker
+$("#lectureStartDate").datepicker({ 
+    minDate: 0, // 오늘 이후의 날짜만 선택 가능
+//     maxDate: "+2M", // 최대 1개월 10일 이후까지 선택 가능
+    dateFormat: "yy-mm-dd", 
+});
+
+$("#lectureEndDate").datepicker({ 
+    minDate: 0, // 오늘 이후의 날짜만 선택 가능
+//     maxDate: "+1M +10D", // 최대 1개월 10일 이후까지 선택 가능
+    dateFormat: "yy-mm-dd", 
+});
 
 
 
@@ -453,22 +504,36 @@
 //                 lectureLevelCodeCell.appendChild(select);
 //             }
 
-           	let days = ['월요일','화요일','수요일', '목요일', '금요일'];
-            // 강의 요일 코드
-            const weekdaysCodeCell = document.getElementById('weekdaysCode');
-            weekdaysCodeCell.innerHTML = '';
-           	days.forEach(day =>{
-                const input = document.createElement('input');
-                input.type = 'checkbox';
-                input.value = day;
+           	let days = ['월요일', '화요일', '수요일', '목요일', '금요일'];
+const weekdaysCodeCell = document.getElementById('weekdaysCode');
+weekdaysCodeCell.innerHTML = '';
 
-                const label = document.createElement('label');
-                label.innerText = day;
+days.forEach(day => {
+    const checkboxWrapper = document.createElement('div'); // div wrapper for checkbox and label
+    checkboxWrapper.classList.add('checkbox-wrapper');
 
-                weekdaysCodeCell.appendChild(label);
-                weekdaysCodeCell.appendChild(input);
-           	})
-           	console.log("days : ",days);
+    const input = document.createElement('input');
+    input.type = 'checkbox';
+    input.value = day;
+    input.id = `${day}Checkbox`; // assign unique id to each checkbox
+
+    const label = document.createElement('label');
+    label.innerText = day;
+    label.setAttribute('for', `${day}Checkbox`); // associate label with corresponding checkbox
+
+    checkboxWrapper.appendChild(input);
+    checkboxWrapper.appendChild(label);
+
+    weekdaysCodeCell.appendChild(checkboxWrapper);
+});
+
+// CSS 클래스 추가를 통한 스타일링
+const buttons = document.getElementsByTagName('button');
+for (let i = 0; i < buttons.length; i++) {
+    buttons[i].classList.add('button-style');
+}
+console.log("days : ",days);
+
            	
 
             // 강의 시간 코드
@@ -487,7 +552,8 @@
 			
 		    //강사 번호 이름 
 			const instructorSelect = document.getElementById('instructorNumber');
-			const instructorList = /*[[${adminInstruList}]]*/[];
+			const instructorList = /*[[${adminInstruList}]]*/"";
+			console.log("확인", instructorList);
 			
 			// instructorList가 비어 있는지 확인
 			if (instructorList) {
@@ -495,7 +561,7 @@
 			    instructorList.forEach(instructor => {
 			        const option = document.createElement('option');
 			        option.value = instructor.instructorNumber;
-			        option.textContent = `${instructor.name} (${instructor.instructorNumber})`;
+			        option.textContent = `${instructor.name} (${instructor.subjectCode})`;
 			        instructorSelect.appendChild(option);
 			    });
 			}
@@ -522,144 +588,200 @@
 			    const weekdaysCode = Array.from(weekdaysCodeElements).map(checkbox => checkbox.value).join(',');
 
 			    // 각 필드 유효성 검사
-			    if (!lectureTitle) {
-			        alert('강의 제목을 입력하세요.');
-			        document.getElementById('lectureTitle').classList.add('error');
-			        document.getElementById('lectureTitleError').innerText = '강의 제목을 입력하세요.';
-			        return;
-			    } else {
-			        document.getElementById('lectureTitle').classList.remove('error');
-			        document.getElementById('lectureTitleError').innerText = '';
-			    }
+			   if (!lectureTitle) {
+        Swal.fire({
+            icon: 'error',
+            title: '강의 제목 오류',
+            text: '강의 제목을 입력하세요.'
+        });
+        document.getElementById('lectureTitle').classList.add('error');
+        document.getElementById('lectureTitleError').innerText = '강의 제목을 입력하세요.';
+        return;
+    } else {
+        document.getElementById('lectureTitle').classList.remove('error');
+        document.getElementById('lectureTitleError').innerText = '';
+    }
 
-			    if (!lectureDescription) {
-			        alert('강의 설명을 입력하세요.');
-			        document.getElementById('lectureDescription').classList.add('error');
-			        document.getElementById('lectureDescriptionError').innerText = '강의 설명을 입력하세요.';
-			        return;
-			    } else {
-			        document.getElementById('lectureDescription').classList.remove('error');
-			        document.getElementById('lectureDescriptionError').innerText = '';
-			    }
+    if (!lectureDescription) {
+        Swal.fire({
+            icon: 'error',
+            title: '강의 설명 오류',
+            text: '강의 설명을 입력하세요.'
+        });
+        document.getElementById('lectureDescription').classList.add('error');
+        document.getElementById('lectureDescriptionError').innerText = '강의 설명을 입력하세요.';
+        return;
+    } else {
+        document.getElementById('lectureDescription').classList.remove('error');
+        document.getElementById('lectureDescriptionError').innerText = '';
+    }
 
-			    if (subjectCode === 'null' || !subjectCode) {
-			        alert('과목을 선택하세요.');
-			        document.getElementById('subjectCode').classList.add('error');
-			        document.getElementById('subjectCodeError').innerText = '과목을 선택하세요.';
-			        return;
-			    } else {
-			        document.getElementById('subjectCode').classList.remove('error');
-			        document.getElementById('subjectCodeError').innerText = '';
-			    }
+    if (subjectCode === 'null' || !subjectCode) {
+        Swal.fire({
+            icon: 'error',
+            title: '과목 선택 오류',
+            text: '과목을 선택하세요.'
+        });
+        document.getElementById('subjectCode').classList.add('error');
+        document.getElementById('subjectCodeError').innerText = '과목을 선택하세요.';
+        return;
+    } else {
+        document.getElementById('subjectCode').classList.remove('error');
+        document.getElementById('subjectCodeError').innerText = '';
+    }
 
-			    if (detailSubjectCode === 'null' || !detailSubjectCode) {
-			        alert('세부 과목을 선택하세요.');
-			        document.getElementById('detailSubjectCode').classList.add('error');
-			        document.getElementById('detailSubjectCodeError').innerText = '세부 과목을 선택하세요.';
-			        return;
-			    } else {
-			        document.getElementById('detailSubjectCode').classList.remove('error');
-			        document.getElementById('detailSubjectCodeError').innerText = '';
-			    }
+    if (detailSubjectCode === 'null' || !detailSubjectCode) {
+        Swal.fire({
+            icon: 'error',
+            title: '세부 과목 선택 오류',
+            text: '세부 과목을 선택하세요.'
+        });
+        document.getElementById('detailSubjectCode').classList.add('error');
+        document.getElementById('detailSubjectCodeError').innerText = '세부 과목을 선택하세요.';
+        return;
+    } else {
+        document.getElementById('detailSubjectCode').classList.remove('error');
+        document.getElementById('detailSubjectCodeError').innerText = '';
+    }
 
-			    
-			    if (!lectureLevelCode) {
-			        alert('강의 레벨을 선택하세요.');
-			        document.getElementById('lectureLevelCode').classList.add('error');
-			        document.getElementById('lectureLevelCodeError').innerText = '강의 레벨을 선택하세요.';
-			        return;
-			    } else {
-			        document.getElementById('lectureLevelCode').classList.remove('error');
-			        document.getElementById('lectureLevelCodeError').innerText = '';
-			    }
+    if (!lectureLevelCode) {
+        Swal.fire({
+            icon: 'error',
+            title: '강의 레벨 선택 오류',
+            text: '강의 레벨을 선택하세요.'
+        });
+        document.getElementById('lectureLevelCode').classList.add('error');
+        document.getElementById('lectureLevelCodeError').innerText = '강의 레벨을 선택하세요.';
+        return;
+    } else {
+        document.getElementById('lectureLevelCode').classList.remove('error');
+        document.getElementById('lectureLevelCodeError').innerText = '';
+    }
 
-			    if (weekdaysCode === '') {
-			        alert('수업 요일을 선택하세요.');
-			        document.getElementById('weekdaysCodeError').innerText = '수업 요일을 선택하세요.';
-			        return;
-			    } else {
-			        document.getElementById('weekdaysCodeError').innerText = '';
-			    }
-			    
-			    if (timeCode === 'null' || !timeCode) {
-			        alert('강의 시간을 선택하세요.');
-			        document.getElementById('timeCode').classList.add('error');
-			        document.getElementById('timeCodeError').innerText = '강의 시간을 선택하세요.';
-			        return;
-			    } else {
-			        document.getElementById('timeCode').classList.remove('error');
-			        document.getElementById('timeCodeError').innerText = '';
-			    }
+    if (weekdaysCode === '') {
+        Swal.fire({
+            icon: 'error',
+            title: '수업 요일 선택 오류',
+            text: '수업 요일을 선택하세요.'
+        });
+        document.getElementById('weekdaysCodeError').innerText = '수업 요일을 선택하세요.';
+        return;
+    } else {
+        document.getElementById('weekdaysCodeError').innerText = '';
+    }
 
-			    if (!lectureCost) {
-			        alert('강의 비용을 입력하세요.');
-			        document.getElementById('lectureCost').classList.add('error');
-			        document.getElementById('lectureCostError').innerText = '강의 비용을 입력하세요.';
-			        return;
-			    } else {
-			        document.getElementById('lectureCost').classList.remove('error');
-			        document.getElementById('lectureCostError').innerText = '';
-			    }
+    if (timeCode === 'null' || !timeCode) {
+        Swal.fire({
+            icon: 'error',
+            title: '강의 시간 선택 오류',
+            text: '강의 시간을 선택하세요.'
+        });
+        document.getElementById('timeCode').classList.add('error');
+        document.getElementById('timeCodeError').innerText = '강의 시간을 선택하세요.';
+        return;
+    } else {
+        document.getElementById('timeCode').classList.remove('error');
+        document.getElementById('timeCodeError').innerText = '';
+    }
 
-			    if (isNaN(lectureCost) || parseFloat(lectureCost) <= 0) {
-			        alert('올바른 강의 비용을 입력하세요.');
-			        document.getElementById('lectureCost').classList.add('error');
-			        document.getElementById('lectureCostError').innerText = '올바른 강의 비용을 입력하세요.';
-			        return;
-			    } else {
-			        document.getElementById('lectureCost').classList.remove('error');
-			        document.getElementById('lectureCostError').innerText = '';
-			    }
+    if (!lectureCost) {
+        Swal.fire({
+            icon: 'error',
+            title: '강의 비용 입력 오류',
+            text: '강의 비용을 입력하세요.'
+        });
+        document.getElementById('lectureCost').classList.add('error');
+        document.getElementById('lectureCostError').innerText = '강의 비용을 입력하세요.';
+        return;
+    } else {
+        document.getElementById('lectureCost').classList.remove('error');
+        document.getElementById('lectureCostError').innerText = '';
+    }
 
-			    if (!capacity) {
-			        alert('수용 인원을 입력하세요.');
-			        document.getElementById('capacity').classList.add('error');
-			        document.getElementById('capacityError').innerText = '수용 인원을 입력하세요.';
-			        return;
-			    } else {
-			        document.getElementById('capacity').classList.remove('error');
-			        document.getElementById('capacityError').innerText = '';
-			    }
+    if (isNaN(lectureCost) || parseFloat(lectureCost) <= 0) {
+        Swal.fire({
+            icon: 'error',
+            title: '강의 비용 입력 오류',
+            text: '올바른 강의 비용을 입력하세요.'
+        });
+        document.getElementById('lectureCost').classList.add('error');
+        document.getElementById('lectureCostError').innerText = '올바른 강의 비용을 입력하세요.';
+        return;
+    } else {
+        document.getElementById('lectureCost').classList.remove('error');
+        document.getElementById('lectureCostError').innerText = '';
+    }
 
-			    if (isNaN(capacity) || parseInt(capacity) <= 0) {
-			        alert('올바른 수용 인원을 입력하세요.');
-			        document.getElementById('capacity').classList.add('error');
-			        document.getElementById('capacityError').innerText = '올바른 수용 인원을 입력하세요.';
-			        return;
-			    } else {
-			        document.getElementById('capacity').classList.remove('error');
-			        document.getElementById('capacityError').innerText = '';
-			    }
+    if (!capacity) {
+        Swal.fire({
+            icon: 'error',
+            title: '수용 인원 입력 오류',
+            text: '수용 인원을 입력하세요.'
+        });
+        document.getElementById('capacity').classList.add('error');
+        document.getElementById('capacityError').innerText = '수용 인원을 입력하세요.';
+        return;
+    } else {
+        document.getElementById('capacity').classList.remove('error');
+        document.getElementById('capacityError').innerText = '';
+    }
 
-			    if (!lectureStartDate) {
-			        alert('강의 시작 날짜를 선택하세요.');
-			        document.getElementById('lectureStartDate').classList.add('error');
-			        document.getElementById('lectureStartDateError').innerText = '강의 시작 날짜를 선택하세요.';
-			        return;
-			    } else {
-			        document.getElementById('lectureStartDate').classList.remove('error');
-			        document.getElementById('lectureStartDateError').innerText = '';
-			    }
+    if (isNaN(capacity) || parseInt(capacity) <= 0) {
+        Swal.fire({
+            icon: 'error',
+            title: '수용 인원 입력 오류',
+            text: '올바른 수용 인원을 입력하세요.'
+        });
+        document.getElementById('capacity').classList.add('error');
+        document.getElementById('capacityError').innerText = '올바른 수용 인원을 입력하세요.';
+        return;
+    } else {
+        document.getElementById('capacity').classList.remove('error');
+        document.getElementById('capacityError').innerText = '';
+    }
 
-			    if (!lectureEndDate) {
-			        alert('강의 종료 날짜를 선택하세요.');
-			        document.getElementById('lectureEndDate').classList.add('error');
-			        document.getElementById('lectureEndDateError').innerText = '강의 종료 날짜를 선택하세요.';
-			        return;
-			    } else {
-			        document.getElementById('lectureEndDate').classList.remove('error');
-			        document.getElementById('lectureEndDateError').innerText = '';
-			    }
+    if (!lectureStartDate) {
+        Swal.fire({
+            icon: 'error',
+            title: '강의 시작 날짜 선택 오류',
+            text: '강의 시작 날짜를 선택하세요.'
+        });
+        document.getElementById('lectureStartDate').classList.add('error');
+        document.getElementById('lectureStartDateError').innerText = '강의 시작 날짜를 선택하세요.';
+        return;
+    } else {
+        document.getElementById('lectureStartDate').classList.remove('error');
+        document.getElementById('lectureStartDateError').innerText = '';
+    }
 
-			    if (instructorNumber === 'null' || !instructorNumber) {
-			        alert('강사를 선택하세요.');
-			        document.getElementById('instructorNumber').classList.add('error');
-			        document.getElementById('instructorNumberError').innerText = '강사를 선택하세요.';
-			        return;
-			    } else {
-			        document.getElementById('instructorNumber').classList.remove('error');
-			        document.getElementById('instructorNumberError').innerText = '';
-			    }
+    if (!lectureEndDate) {
+        Swal.fire({
+            icon: 'error',
+            title: '강의 종료 날짜 선택 오류',
+            text: '강의 종료 날짜를 선택하세요.'
+        });
+        document.getElementById('lectureEndDate').classList.add('error');
+        document.getElementById('lectureEndDateError').innerText = '강의 종료 날짜를 선택하세요.';
+        return;
+    } else {
+        document.getElementById('lectureEndDate').classList.remove('error');
+        document.getElementById('lectureEndDateError').innerText = '';
+    }
+
+    if (instructorNumber === 'null' || !instructorNumber) {
+        Swal.fire({
+            icon: 'error',
+            title: '강사 선택 오류',
+            text: '강사를 선택하세요.'
+        });
+        document.getElementById('instructorNumber').classList.add('error');
+        document.getElementById('instructorNumberError').innerText = '강사를 선택하세요.';
+        return;
+    } else {
+        document.getElementById('instructorNumber').classList.remove('error');
+        document.getElementById('instructorNumberError').innerText = '';
+    }
+
 
 			    // 데이터 객체 생성
 			    const param = {

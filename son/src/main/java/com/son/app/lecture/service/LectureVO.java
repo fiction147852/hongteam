@@ -24,4 +24,6 @@ public class LectureVO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date lectureEndDate;
     private Integer instructorNumber;
+    
+    private String instructorName;
 }

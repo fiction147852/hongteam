@@ -81,6 +81,18 @@ body {
 	width: 150px;
 }
 
+/* fullcalendar의 달력 요소에 대한 기본 스타일 */
+.fc {
+    width: 100%;
+    max-width: 100%;
+}
+
+/* 달력의 각 일정을 나타내는 셀 요소 */
+.fc-event {
+    white-space: normal; /* 글자가 잘림 현상 방지 */
+}
+
+
 .form-select {
     width: 100px;
     padding: 10px;
@@ -95,23 +107,83 @@ body {
     margin-right: 10px;
 }
 
-#counselDayTime {
-    border-spacing: 10px; /* 열 사이 간격 설정 */
-    width: 100%; /* 테이블 전체 너비 설정 */
-    margin-bottom: 20px; /* 하단 여백 추가 */
-}
-
-#counselDayTime th,
-#counselDayTime td {
-    padding: 8px; /* 셀 안 여백(padding) 설정 */
-    text-align: left; /* 텍스트 왼쪽 정렬 */
-}
 
 
+ /* 주간 시간 설정 */
+   .table-responsive {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    .day-time-setting {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .day-time-setting label {
+        width: 80px; /* 적절한 너비로 설정 */
+    }
+
+    .day-time-setting select {
+        width: 100px; /* 적절한 너비로 설정 */
+    }
+
+    .day-time-setting p {
+        margin: 0 10px;
+        width: 20px; /* 적절한 너비로 설정 */
+        text-align: center;
+    }
+
+    .day-container {
+        margin: 20px 0;
+    }
+
+    .change {
+        background-color: #28587E;
+        color: white;
+    }
 
 
+ /* 일간 시간 설정 */
+    .day-time-setting {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
 
+    .day-time-setting label {
+        width: 80px; /* 적절한 너비로 설정 */
+    }
+
+    .day-time-setting select {
+        width: 100px; /* 적절한 너비로 설정 */
+    }
+
+    .day-time-setting p {
+        margin: 0 10px;
+        width: 20px; /* 적절한 너비로 설정 */
+        text-align: center;
+    }
 </style>
+
+
+
+
 </head>
 
 <body>
@@ -382,8 +454,12 @@ body {
 
 	            // 시작 시간이 마감 시간보다 늦으면 alert
 	            if (startValue > endValue) {
-	                alert('시작 시간은 마감 시간보다 늦을 수 없습니다.');
-	                this.value = endValue; // 이전 값으로 되돌립니다.
+	            	 Swal.fire({
+	                     icon: 'error',
+	                     title: '시작 시간 오류',
+	                     text: '시작 시간은 마감 시간보다 늦을 수 없습니다.',
+	                 });
+	                 this.value = endValue; // 이전 값으로 되돌립니다.
 	            }
 	        });
 
@@ -393,8 +469,12 @@ body {
 
 	            // 마감 시간이 시작 시간보다 빠르면 alert
 	            if (endValue < startValue) {
-	                alert('마감 시간은 시작 시간보다 빠를 수 없습니다.');
-	                this.value = startValue; // 이전 값으로 되돌립니다.
+	            	 Swal.fire({
+	                     icon: 'error',
+	                     title: '마감 시간 오류',
+	                     text: '마감 시간은 시작 시간보다 빠를 수 없습니다.',
+	                 });
+	                 this.value = startValue; // 이전 값으로 되돌립니다.
 	            }
 	        });
 		});
