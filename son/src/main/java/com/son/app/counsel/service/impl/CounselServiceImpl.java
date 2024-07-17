@@ -10,19 +10,31 @@ import com.son.app.counsel.service.AdmissionCounselPossibilityVO;
 import com.son.app.counsel.service.CounselImpossibilityVO;
 import com.son.app.counsel.service.CounselService;
 import com.son.app.counsel.service.CounselVO;
+import com.son.app.lecture.service.Criteria;
 
 @Service
 public class CounselServiceImpl implements CounselService {
 
 	@Autowired
 	CounselMapper counselMapper;
-
+	// 상담 달력 보기
+	@Override
+	public List<CounselVO> counselCalendarList() {
+		return counselMapper.counselSelectCalendarAll();
+	}
+	
+	
 	// 상담일정 전체조회
 	@Override
-	public List<CounselVO> counselList() {
-		return counselMapper.counselSelectAll();
+	public List<CounselVO> counselList(Criteria cri) {
+		return counselMapper.counselSelectAll(cri);
 	}
 
+	// 데이터 갯수
+	@Override
+	public int lecPageing(Criteria cri) {
+		return counselMapper.counselPageing(cri);
+	}
 	// 상담일정 단건조회
 	@Override
 	public CounselVO counselInfo(CounselVO counselVO) {
@@ -120,5 +132,7 @@ public class CounselServiceImpl implements CounselService {
 	public AdmissionCounselPossibilityVO counselTimeList(String today) {
 		return counselMapper.counPosList(today);
 	}
+
+
 
 }

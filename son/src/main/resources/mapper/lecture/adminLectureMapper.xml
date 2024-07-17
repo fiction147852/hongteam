@@ -4,6 +4,36 @@
 
     <!-- 강의 내용 전체 조회 -->
 	<select id="adminLectureSelectAll" resultType="LectureVO">
+		 SELECT c.*		  
+	   FROM ( 
+   	   		 SELECT ROWNUM as rn
+   	   		 		, a.*
+   	   		 FROM (SELECT lecture_number,          <!-- 강의 번호 -->
+					lecture_title,              <!-- 강의 제목 -->
+					lecture_description,        <!-- 강의 설명 -->
+					subject_name(subject_code) subject_code,               <!-- 과목 코드 -->
+					detail_subject_name(detail_subject_code) detail_subject_code,        <!-- 세부 과목 코드 -->
+					lecture_cost,               <!-- 강의 비용 -->
+					lecture_level_code,         <!-- 강의 수준 코드 -->
+					weekdays_code,              <!-- 강의 요일 코드 -->
+					time_code,                  <!-- 강의 시간대 코드 -->
+					lecture_start_date,         <!-- 강의 시작 날짜 -->
+					lecture_end_date,           <!-- 강의 종료 날짜 -->
+					capacity,                   <!-- 강의 수용 인원 -->
+					ins_name(instructor_number) instructor_name <!-- 강사 번호 -->
+				FROM lecture
+				ORDER BY lecture_number DESC) a 
+					) c 
+		<![CDATA[
+		WHERE c.rn <= #{pageNum} * #{amount} AND
+			  c.rn > (#{pageNum} -1 ) * #{amount}
+		]]>
+	</select>
+
+	<!-- 페이징 처리 -->
+	<select id="lecPageing" resultType="int">
+	SELECT COUNT(*)
+	FROM(
 		SELECT lecture_number,          <!-- 강의 번호 -->
 			lecture_title,              <!-- 강의 제목 -->
 			lecture_description,        <!-- 강의 설명 -->
@@ -18,7 +48,12 @@
 			capacity,                   <!-- 강의 수용 인원 -->
 			ins_name(instructor_number) instructor_name <!-- 강사 번호 -->
 		FROM lecture
+		ORDER BY lecture_number DESC)	
 	</select>
+
+
+
+
 
 <!-- 	특정 강의 정보 불러오기 -->
 	<select id="adminLectureSelectInfo" resultType="LectureVO">

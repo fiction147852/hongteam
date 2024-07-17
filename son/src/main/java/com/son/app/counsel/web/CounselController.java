@@ -20,6 +20,8 @@ import com.son.app.counsel.service.AdmissionCounselPossibilityVO;
 import com.son.app.counsel.service.CounselImpossibilityVO;
 import com.son.app.counsel.service.CounselService;
 import com.son.app.counsel.service.CounselVO;
+import com.son.app.lecture.service.Criteria;
+import com.son.app.lecture.service.PageDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,17 +40,20 @@ public class CounselController {
 
 	// 상담 스케줄 전체조회
 	@GetMapping("admin/counselList")
-	public String counselList(Model model) {
-		List<CounselVO> list = counselService.counselList();
+	public String counselList(Model model, Criteria cri) {
+		List<CounselVO> list = counselService.counselList(cri);
 		model.addAttribute("counselList", list);
 
+		int total = counselService.lecPageing(cri);
+		model.addAttribute("page", new PageDTO(cri, total));
+		
 		return "counsel/counselList";
 	}
 
 	// 상담 스케쥴 전체 보기 - 캘린더, 시간
 	@GetMapping("admin/counselCalendar")
 	public String counselCalinder(Model model) {
-		List<CounselVO> counList = counselService.counselList();
+		List<CounselVO> counList = counselService.counselCalendarList();
 		model.addAttribute("counselList", counList);
 		System.out.println(counList);
 

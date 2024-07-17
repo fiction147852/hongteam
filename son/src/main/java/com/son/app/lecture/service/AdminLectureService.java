@@ -5,7 +5,12 @@ import java.util.List;
 import com.son.app.member.service.InstructorVO;
 
 public interface AdminLectureService {
-	public List<LectureVO> adminLectureList();
+	
+	// 목록 조회 페이징
+	public List<LectureVO> adminLectureList(Criteria cri);
+	
+	// 데이터 갯수
+	public int lecPageing(Criteria cri);
 	
 	public LectureVO adminLectureInfo(Integer lectureNumber);
 
