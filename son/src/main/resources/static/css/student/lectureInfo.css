@@ -78,8 +78,9 @@
     font-weight: 600;
 }
 
-.modal__lecture-info swiper-pagination {
+.modal__lecture-info .swiper-pagination {
     top : 100px;
+    bottom: auto !important;
 }
 
 .fc-button {
