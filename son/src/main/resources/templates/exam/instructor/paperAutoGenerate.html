@@ -30,19 +30,16 @@ body {
 		<div th:if="${warningMessage}" class="alert alert-warning"
 			role="alert" th:text="${warningMessage}"></div>
 		<form name="insertForm" th:action="@{paperAutoGenerate}" method="post">
-			<div class="mb-3">
-				<label for="autoScore" class="form-label">자동 배점 설정:</label> <select
-					id="autoScore" class="form-select" onchange="setAutoScore()">
+			<div class="mb-3 d-flex justify-content-start">
+				<label for="autoScore" class="form-label mr-2 pt-3">자동 배점 설정:</label> <select
+					id="autoScore" class="form-select col-2" onchange="setAutoScore()">
 					<option value="">직접 입력</option>
 					<option value="equal">균등 배점</option>
 					<option value="random">랜덤 배점</option>
 				</select>
-			</div>
-			<div id="totalScoreDisplay" class="mb-3">
+			<div id="totalScoreDisplay" class="ml-3 mb-3 pt-3">
 				총 배점: <span id="totalScore">0</span>/100
 			</div>
-			<div id="totalScoreDisplay" class="mb-3">
-				총 배점: <span id="totalScore">0</span>/100
 			</div>
 			<input type="hidden" name="subjectCode" th:value="${subjectCode}" />
 			<input type="text" name="paperTitle"

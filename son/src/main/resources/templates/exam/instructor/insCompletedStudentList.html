@@ -5,11 +5,12 @@
 	layout:fragment="content">
 <head>
 
-<title>시험 목록</title>
+<title>응시 완료 학생 목록</title>
 
 </head>
 
 <body>
+<h4 style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">응시 완료자</h4>
 	<div class="row">
 		<div class="col-md-12">
 			<div class="card">
@@ -25,7 +26,7 @@
 								<th>피드백 현황</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody class="table-group-divider">
 							<th:block th:each="cs : ${completedStudents}" >
 								<tr>
 									<td>[[${cs.participateNumber}]]</td>
