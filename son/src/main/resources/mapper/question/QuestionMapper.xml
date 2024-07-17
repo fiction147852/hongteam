@@ -60,12 +60,15 @@
 	    JOIN instructor i 
 	    	ON q.instructor_number = i.instructor_number
 	    WHERE 1=1
-	    <if test="searchType == '출제자'">
+	    <if test='searchType == "출제자"'>
 	        AND i.name LIKE '%' || #{searchKeyword} || '%'
 	    </if>
-	    <if test="searchType == '문제유형'">
+	    <if test='searchType == "문제유형"'>
 	        AND q.question_type_code LIKE '%' || #{searchKeyword} || '%'
 	    </if>
+	   <if test='subjectCode != null and subjectCode != ""'>
+	        AND q.subject_code = #{subjectCode}
+		</if> 
 	    ORDER BY q.question_number
 	</select>
 	

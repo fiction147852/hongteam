@@ -58,10 +58,8 @@ public class QuestionServiceImpl implements QuestionService{
 	
 	
 	@Override
-	public List<QuestionVO> searchQuestions(String searchType, String searchKeyword) {
-	    Map<String, String> params = new HashMap<>();
-	    params.put("searchType", searchType);
-	    params.put("searchKeyword", searchKeyword);
+	public List<QuestionVO> searchQuestions(Map<String, String> params) {
+		System.out.println(params);
 	    return questionMapper.searchQuestions(params);
 	}
 

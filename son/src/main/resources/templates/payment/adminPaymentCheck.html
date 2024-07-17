@@ -41,11 +41,11 @@ fieldset:disabled .btn {
 								<th>결제 번호</th>
 								<th>결제 상태</th>
 								<th>요청 일자</th>
-								<th>강의 번호</th>
+								<th>강의</th>
 								<th>승인 일자</th>
 								<th>수납 여부</th>
 								<th>납부 유형</th>
-								<th>학생 번호</th>
+								<th>학생</th>
 								<th>등록 현황</th>
 							</tr>
 						</thead>
@@ -54,11 +54,11 @@ fieldset:disabled .btn {
 						        <td th:text="${pay.chargeNumber}"></td>
 						        <td th:text="${pay.chargeCode}" th:id="'chargeCode_' + ${pay.chargeNumber}"></td>
 						        <td th:text="${#dates.format(pay.requestDate, 'yyyy-MM-dd')}"></td>
-						        <td th:text="${pay.lectureNumber}"></td>
+						        <td th:text="${pay.lectureTitle}"></td>
 						        <td th:text="${#dates.format(pay.approvalDate, 'yyyy-MM-dd')}"></td>
 						        <td th:text="${pay.receiveStatus}"></td>
 						        <td th:text="${pay.paymentType}"></td>
-						        <td th:text="${pay.studentNumber}"></td>
+						        <td th:text="${pay.studentName}"></td>
 						        <td>
 		                            <button type="button" class="btn btn-primary" style="background-color: #28587E"
 		                                    th:text="${pay.registrationStatus}"
@@ -79,13 +79,21 @@ fieldset:disabled .btn {
 </body>
 
 <script th:inline="javascript">
-    function updateRegistrationStatus(button) {
-        var studentNumber = button.getAttribute('data-studentNumber');
-        var lectureNumber = button.getAttribute('data-lectureNumber');
-        var chargeNumber = button.closest('tr').getAttribute('data-id');
-        var confirmation = confirm('등록을 완료하시겠습니까?');
+function updateRegistrationStatus(button) {
+    var studentNumber = button.getAttribute('data-studentNumber');
+    var lectureNumber = button.getAttribute('data-lectureNumber');
+    var chargeNumber = button.closest('tr').getAttribute('data-id');
 
-        if (confirmation) {
+    // SweetAlert2를 사용하여 확인 다이얼로그 표시
+    Swal.fire({
+        title: '등록 완료',
+        text: '등록을 완료하시겠습니까?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: '확인',
+        cancelButtonText: '취소'
+    }).then((result) => {
+        if (result.isConfirmed) {
             var requestData = {
                 studentNumber: studentNumber,
                 lectureNumber: lectureNumber,
@@ -99,18 +107,27 @@ fieldset:disabled .btn {
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify(requestData),
                 success: function (response) {
-                    alert('등록 상태가 성공적으로 업데이트되었습니다.');
+                    Swal.fire({
+                        icon: 'success',
+                        title: '등록 완료',
+                        text: '등록 상태가 성공적으로 업데이트되었습니다.',
+                    });
                     button.textContent = '등록완료';
                     button.classList.add('btn-success'); // 버튼 스타일 변경
                     button.disabled = true;
                 },
                 error: function (error) {
-                    alert('등록 상태 업데이트에 실패했습니다.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: '등록 실패',
+                        text: '등록 상태 업데이트에 실패했습니다.',
+                    });
                     console.error('Error:', error);
                 }
             });
         }
-    }
+    });
+}
 </script>
 <script>
 

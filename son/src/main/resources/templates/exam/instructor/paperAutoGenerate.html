@@ -11,6 +11,7 @@
 body {
 	font-family: 'Roboto', sans-serif;
 }
+
 .card-text {
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -29,12 +30,26 @@ body {
 		<div th:if="${warningMessage}" class="alert alert-warning"
 			role="alert" th:text="${warningMessage}"></div>
 		<form name="insertForm" th:action="@{paperAutoGenerate}" method="post">
+			<div class="mb-3">
+				<label for="autoScore" class="form-label">자동 배점 설정:</label> <select
+					id="autoScore" class="form-select" onchange="setAutoScore()">
+					<option value="">직접 입력</option>
+					<option value="equal">균등 배점</option>
+					<option value="random">랜덤 배점</option>
+				</select>
+			</div>
+			<div id="totalScoreDisplay" class="mb-3">
+				총 배점: <span id="totalScore">0</span>/100
+			</div>
+			<div id="totalScoreDisplay" class="mb-3">
+				총 배점: <span id="totalScore">0</span>/100
+			</div>
 			<input type="hidden" name="subjectCode" th:value="${subjectCode}" />
 			<input type="text" name="paperTitle"
 				class="form-control mb-2 col-6 mx-auto" placeholder="시험지 제목을 입력하세요."
 				required /> <input type="text" name="producer"
-				th:value="${instructorName}" class="form-control mb-2 col-2 float-end"
-				readonly />
+				th:value="${instructorName}"
+				class="form-control mb-2 col-2 float-end" readonly />
 			<div class="swiper">
 				<div class="swiper-wrapper mb-3">
 					<th:block th:each="qs, status : ${generatedPaper}">
@@ -51,17 +66,17 @@ body {
 										<div>
 											<input type="hidden" name="questionNumbers"
 												th:value="${qs.questionNumber}" /> <label>배점: </label> <input
-												type="number" name="scores" min="1" max="100" required
+												type="number" name="scores" min="1" max="100"
 												class="w-16 p-1 border border-gray-300 rounded mt-1 mr-1" />
 										</div>
 									</div>
 									<div class="card-body">
-									<div class="card-body bg-gray-100">
-									<h5 class="card-title text-center font-medium mb-2">출제자:
-										[[ ${qs.instructorName} ]]</h5>
-										<h6 class="card-subtitle">문제</h6>
-										<p class="card-text">[[ ${qs.text} ]]</p>
-									</div>
+										<div class="card-body bg-gray-100">
+											<h5 class="card-title text-center font-medium mb-2">출제자:
+												[[ ${qs.instructorName} ]]</h5>
+											<h6 class="card-subtitle">문제</h6>
+											<p class="card-text">[[ ${qs.text} ]]</p>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -78,21 +93,24 @@ body {
 			</div>
 		</form>
 	</div>
+	<script src="/lms/js/paper/autoscore.js"></script>
 	<script src="/lms/js/question/qlist-slider.js"></script>
 	<script th:inline="javascript">
-    /*<![CDATA[*/
-    document.addEventListener('DOMContentLoaded', function() {
-        var errorMessage = new URLSearchParams(window.location.search).get('error');
-        if (errorMessage) {
-            Swal.fire({
-                icon: 'error',
-                title: '오류',
-                text: decodeURIComponent(errorMessage)
-            });
-        }
-    });
-    /*]]>*/
-</script>
+		/*<![CDATA[*/
+		document.addEventListener('DOMContentLoaded', function() {
+			var errorMessage = new URLSearchParams(window.location.search)
+					.get('error');
+			if (errorMessage) {
+				Swal.fire({
+					icon : 'error',
+					title : '오류',
+					text : decodeURIComponent(errorMessage)
+				});
+			}
+		});
+
+		/*]]>*/
+	</script>
 </body>
 </html>
 

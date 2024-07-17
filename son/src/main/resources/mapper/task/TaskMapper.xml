@@ -131,38 +131,46 @@
 	</delete>
 	
 	<select id="selectSubmittedStudents" resultType="TaskVO">
-		  	SELECT 
-			    t.rn,
-			    t.task_number,
-			    t.title,
-			    t.post_date,
-			    t.submit_deadline,
-			    ts.task_submit_code AS taskSubmitStatus,
-			    ts.feedback_code AS feedbackStatus,
-			    ts.task_submit_number,
-			    s.name AS studentName
-			FROM 
-			    (
-			        SELECT 
-			            ROW_NUMBER() OVER (ORDER BY task_number) AS rn,
-			            task_number, 
-			            title, 
-			            post_date, 
-			            submit_deadline, 
-			            lecture_number
-			        FROM 
-			            task 
-			        WHERE 
-			            lecture_number = #{lectureNumber}
-			    ) t
-			JOIN task_submit ts ON t.task_number = ts.task_number
-			JOIN registration r ON ts.student_number = r.student_number AND t.lecture_number = r.lecture_number
-			JOIN student s ON r.student_number = s.student_number
-			WHERE 
-			    t.rn BETWEEN #{start} AND #{end}
-			    AND t.task_number = #{taskNumber}
-			ORDER BY 
-			    t.rn, s.student_number
+		SELECT
+			t.rn,
+			t.task_number,
+			t.title,
+			t.post_date,
+			t.submit_deadline,
+			ts.task_submit_code AS taskSubmitStatus,
+			ts.feedback_code AS feedbackStatus,
+			ts.task_submit_number,
+			s.name AS studentName,
+			s.student_number
+		FROM
+			(
+				SELECT
+				ROW_NUMBER() OVER (ORDER BY task_number) AS rn,
+				task_number,
+				title,
+				post_date,
+				submit_deadline,
+				lecture_number
+				FROM
+				task
+				WHERE
+				lecture_number = #{lectureNumber}
+			) t
+				JOIN (
+				    SELECT task_number, student_number, MAX(task_submit_number) as max_submit_number
+				    FROM task_submit
+				    GROUP BY task_number, student_number
+				) latest_submit ON t.task_number = latest_submit.task_number
+				JOIN task_submit ts ON latest_submit.task_number = ts.task_number 
+				    AND latest_submit.student_number = ts.student_number 
+				    AND latest_submit.max_submit_number = ts.task_submit_number
+				JOIN registration r ON ts.student_number = r.student_number AND t.lecture_number = r.lecture_number
+				JOIN student s ON r.student_number = s.student_number
+			WHERE
+				t.rn BETWEEN #{start} AND #{end}
+				AND t.task_number = #{taskNumber}
+			ORDER BY
+				t.rn, s.student_number
 	</select>
 	
 	<select id="countSubmittedStudents" resultType="int">

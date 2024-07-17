@@ -1,15 +1,15 @@
 package com.son.app.file.controller;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -41,6 +41,9 @@ public class FileRestController {
 	
 	/* 미사용중 */
 	
+	@Value("${upload.path}")
+	private String uploadPath;
+	
 	// 파일 리스트 즈회
 	// 과제
 	@GetMapping("/lms/task/instructor/{type}/{number}/files")
@@ -54,8 +57,9 @@ public class FileRestController {
         FileResponse file = fileService.findFileByAttachmentFileNumber(attachmentFileNumber);
         
         // 경로 구성 수정
-        Path filePath = Paths.get("C:", "uploads").resolve(file.getFilePath().replaceFirst("^/", ""));
-        Resource resource = new FileSystemResource(filePath.toFile());
+        //Path filePath = Paths.get("C:", "uploads").resolve(file.getFilePath().replaceFirst("^/", ""));
+        
+        Resource resource = new FileSystemResource(new File(uploadPath, file.getFilePath()));
 
         
         try { 
@@ -80,8 +84,7 @@ public class FileRestController {
 												        @RequestParam String originalFileName,
 												        @RequestParam String saveFileName) throws MalformedURLException, FileNotFoundException {
 
-	    // 파일 경로를 구성합니다. 필요에 따라 경로를 조정하세요.
-	    String filePath = "C:/uploads/" + taskSubmitNumber + "/" + saveFileName;
+	    String filePath = uploadPath + taskSubmitNumber + "/" + saveFileName;
 	    
 	    UrlResource urlResource = new UrlResource("file:" + filePath);
 
