@@ -53,7 +53,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     icon: 'error',
                     title: '제출 실패',
                     text: '하나 이상의 과제를 제출해야 합니다.',
-
                     customClass: {
                         icon: 'task__icon',
                         title: 'task__title',

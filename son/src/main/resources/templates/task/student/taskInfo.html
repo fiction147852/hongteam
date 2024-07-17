@@ -35,7 +35,7 @@
                     <div class="attachment-cards">
                         <th:block th:each="attachmentFile : ${taskListVO.attachmentFileVOList}">
                             <div class="card">
-                                <a th:href="@{/student/{lectureNumber}/task/{taskNumber}/download(lectureNumber=${taskListVO.lectureNumber}, taskNumber=${attachmentFile.taskNumber}, originalFileName=${attachmentFile.originalFileName}, saveFileName=${attachmentFile.saveFileName})}"><i class="fa-solid fa-file"></i>[[${attachmentFile.originalFileName}]]</a>
+                                <a th:href="@{/student/{lectureNumber}/task/{taskNumber}/download(lectureNumber=${taskListVO.lectureNumber}, taskNumber=${attachmentFile.taskNumber}, originalFileName=${attachmentFile.originalFileName}, filePath=${attachmentFile.filePath})}"><i class="fa-solid fa-file"></i>[[${attachmentFile.originalFileName}]]</a>
                             </div>
                         </th:block>
                     </div>
