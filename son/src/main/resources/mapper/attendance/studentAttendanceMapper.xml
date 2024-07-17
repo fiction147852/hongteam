@@ -57,7 +57,7 @@
         FROM task_submit submit
         JOIN task
             ON task.task_number = submit.task_number
-        WHERE student_number = #{studentNumber} AND TO_CHAR(submit_deadline, 'YY/MM/DD') = #{deadlineDate}
+        WHERE student_number = #{studentNumber} AND TRUNC(submit_deadline) = #{deadlineDate}
         UNION ALL
         SELECT
             'test' as type
@@ -69,7 +69,7 @@
         FROM participate
         JOIN test
             ON test.test_number = participate.test_number
-        WHERE student_number = #{studentNumber} AND TO_CHAR(exam_date,'YY/MM/DD') = #{deadlineDate}
+        WHERE student_number = #{studentNumber} AND TRUNC(exam_date) = #{deadlineDate}
     </select>
 
     <select id="lectureInfo" resultType="StudentLectureInfoVO">

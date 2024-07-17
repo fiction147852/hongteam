@@ -19,11 +19,13 @@ public class TaskListVO {
     private String taskSubmitStatus;
     private String feedbackStatus;
     private String feedback;
+    private String filePath;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date postDate;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date submitDeadline;
+
 
     private List<AttachmentFileVO> attachmentFileVOList;
 }

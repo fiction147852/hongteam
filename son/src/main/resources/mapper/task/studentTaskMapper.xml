@@ -100,6 +100,8 @@
                         , original_file_name
                         , save_file_name
                         , file_size
+                        , file_path
+                        , is_deleted
         )VALUES (#{attachmentFileNumber}
            , (SELECT task_submit_number
               FROM task_submit
@@ -108,6 +110,8 @@
            , #{originalFileName}
            , #{saveFileName}
            ,#{fileSize}
+           , '/' || TO_CHAR(SYSDATE, 'YYMMDD') || '/' || #{saveFileName}
+           , 0
         )
     </insert>
 
@@ -121,12 +125,14 @@
     </select>
 
     <!-- 제출한 파일 삭제 -->
-    <delete id="studentSubmissionFileDelete">
-        DELETE attachment_file
+    <update id="studentSubmissionFileDelete">
+        UPDATE attachment_file
+        SET is_deleted = 1
+            , deleted_date = SYSDATE
         WHERE task_submit_number = (SELECT task_submit_number
                                     FROM task_submit
                                     WHERE task_number = #{taskNumber} AND student_number = #{studentNumber})
-    </delete>
+    </update>
 
 </mapper>
 

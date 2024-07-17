@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -63,7 +63,11 @@ public class StudentTaskController {
         TaskListVO taskListVO = studentTaskService.taskInfo(taskNumber, studentNumber);
         List<AttachmentFileVO> attachmentFileVOList = studentTaskService.taskSubjectFile(taskNumber, studentNumber);
 
-        model.addAttribute("attachmentFileVOList", attachmentFileVOList);
+        List<AttachmentFileVO> filteredAttachmentFileVOList = attachmentFileVOList.stream()
+                .filter(file -> file.getIsDeleted() == 0)
+                .collect(Collectors.toList());
+
+        model.addAttribute("attachmentFileVOList", filteredAttachmentFileVOList);
         model.addAttribute("taskListVO", taskListVO);
 
         return "task/student/taskInfo";
@@ -71,8 +75,8 @@ public class StudentTaskController {
 
     @GetMapping("student/{lectureNumber}/task/{taskNumber}/download")
     @ResponseBody
-    public ResponseEntity<Resource> taskDownload(@RequestParam String originalFileName, @RequestParam String saveFileName) throws MalformedURLException {
-        UrlResource urlResource = new UrlResource("file:" + uploadPath + "/" + saveFileName);
+    public ResponseEntity<Resource> taskDownload(@RequestParam String originalFileName, @RequestParam String filePath) throws MalformedURLException {
+        UrlResource urlResource = new UrlResource("file:" + uploadPath + "/" + filePath);
 
         String encodedOriginalFileName = UriUtils.encode(originalFileName, StandardCharsets.UTF_8);
         String contentDisposition = "attachment; filename=\"" + encodedOriginalFileName + "\"";
