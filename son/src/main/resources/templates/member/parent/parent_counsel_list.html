@@ -15,7 +15,7 @@
                     <table class="table table-striped project-orders-table">
                         <thead>
                             <tr>
-                                <th class="ml-5">번호</th>
+                                <th>번호</th>
                                 <th>제목</th>
                                 <th>작성자</th>
                                 <th>작성일</th>
@@ -23,12 +23,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="counsel : ${ParentCounselList}" th:onclick="|location.href='@{counselInfo(counselNumber=${counsel.counselNumber})}'|">
-                                <td th:text="${counsel.counselNumber}">#번호</td>
-                                <td th:text="${counsel.title}">제목</td>
-                                <td th:text="${#authentication.principal.member.name}">작성자</td>
-                                <td th:text="${#dates.format(counsel.writeDate, 'yyyy-MM-dd')}">작성일</td>
-                                <td th:text="${counsel.responseStatus == 0 ? '답변 대기중' : '답변 완료'}">답변상태</td>
+                            <tr th:block th:each="counsel : ${ParentCounselList}" th:onclick="|location.href='@{counselInfo(counselNumber=${counsel.counselNumber})}'|">
+                                <td th:text="${counsel.counselNumber}"></td>
+                                <td th:text="${counsel.title}"></td>
+                                <td th:text="${#authentication.principal.member.name}"></td>
+                                <td th:text="${#dates.format(counsel.writeDate, 'yyyy-MM-dd')}"></td>
+                                <td th:text="${counsel.responseStatus == 0 ? '답변 대기중' : '답변 완료'}"></td>
                             </tr>
                         </tbody>
                     </table>
