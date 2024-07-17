@@ -63,6 +63,7 @@
     <!--  출제된 시험의 문제 조회 ( + 세부 과목 이름, 제한 시간(분))    -->
     <select id="studentExamInfo" resultMap="studentExamInfoMap">
         SELECT de_sub_name_by_lecture(lecture_number) AS detail_subject_name
+            , test.paper_number
             , limit_time
             , question.question_number
             , question_type_code
@@ -120,7 +121,7 @@
              FROM grading_result
              JOIN paper_content
                 ON grading_result.question_number = paper_content.question_number
-             WHERE grading_result.participate_number = #{participateNumber} AND grading_result.answer_status = 'O'
+             WHERE grading_result.participate_number = #{participateNumber} AND grading_result.answer_status = 'O' AND paper_number = #{paperNumber}
             )
         WHERE participate_number = #{participateNumber}
     </update>

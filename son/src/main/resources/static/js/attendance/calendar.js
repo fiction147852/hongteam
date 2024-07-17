@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // 이벤트 객체를 포함하는 배열이며, 각 이벤트 객체는 일정(이벤트)을 나타낸다.
         events: [],
+
         // event | 클릭된 이벤트에 대한 상세 정보를 담고 있는 속성.
         // el | 클릭된 이벤트를 나타내는 HTML 요소를 나타내는 속성.
         // jsEvent | 클릭 이벤트에 대한 상세 정보를 담고 있는 속성.
@@ -55,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function () {
             axios.get("student/scheduleDetail?deadlineDate=" + eventDate)
                 .then(response => {
                     const events = response.data;
-                    console.log("Server response:", events);
                     const filteredEvents = events.filter(event => event.lectureNumber === lectureNumber);
 
                     const swiperWrapperDiv = document.querySelector("#eventModal .swiper-wrapper");
@@ -169,6 +169,7 @@ document.addEventListener('DOMContentLoaded', function () {
     axios.get("student/schedule")
         .then(response => {
             const eventData = response.data;
+            console.log(eventData)
 
             // (날짜, 제목) 중복된 이벤트를 하나의 이벤트로 결합하기 위해 객체 정의
             const groupedEvents = {};

@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class GradingResult {
 
+    private Integer paperNumber;
     private Integer participateNumber;
     private Integer questionNumber;
     private String studentAnswer;

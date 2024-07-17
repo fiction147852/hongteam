@@ -18,5 +18,5 @@ public interface StudentExamMapper {
 
     // 시험 결과
     public int getExamResults(GradingResult gradingResultList);
-    public int modifyParticipateStatus(Integer participateNumber);
+    public int modifyParticipateStatus(@Param("participateNumber") Integer participateNumber, @Param("paperNumber") Integer paperNumber);
 }

@@ -53,10 +53,14 @@ public class StudentExamController {
     @PostMapping("/student/{lectureNumber}/exam/{participateNumber}/insert")
     @ResponseBody
     public void autoGradeExam(@RequestBody List<GradingResult> gradingResultList, @PathVariable Integer participateNumber) {
+        Integer paperNumber = null;
+
         for (GradingResult gradingResult : gradingResultList) {
             studentExamService.autoGradeExam(gradingResult);
+            paperNumber = gradingResult.getPaperNumber();
         }
-        studentExamService.modifyParticipateStatus(participateNumber);
+
+        studentExamService.modifyParticipateStatus(participateNumber, paperNumber);
     }
 
 

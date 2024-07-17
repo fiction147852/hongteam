@@ -26,7 +26,7 @@ public class StudentLectureController {
     @Autowired
     private StudentLectureService studentLectureService;
 
-    @Value("${file.upload.path}")
+    @Value("${upload.path}")
     private String uploadPath;
 
     @GetMapping("student/{lectureNumber}/lectureMaterials")
@@ -61,7 +61,7 @@ public class StudentLectureController {
     @GetMapping("student/{lectureNumber}/lectureMaterials/{lectureMaterialNumber}/download")
     @ResponseBody
     public ResponseEntity<Resource> materialDownload(@RequestParam String originalFileName, @RequestParam String saveFileName) throws MalformedURLException {
-        UrlResource urlResource = new UrlResource("file:" + uploadPath + saveFileName);
+        UrlResource urlResource = new UrlResource("file:" + uploadPath + "/" + saveFileName);
 
         String encodedOriginalFileName = UriUtils.encode(originalFileName, StandardCharsets.UTF_8);
         String contentDisposition = "attachment; filename=\"" + encodedOriginalFileName + "\"";

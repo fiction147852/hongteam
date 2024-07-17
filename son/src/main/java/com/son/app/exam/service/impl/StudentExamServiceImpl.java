@@ -38,8 +38,8 @@ public class StudentExamServiceImpl implements StudentExamService {
     }
 
     @Override
-    public int modifyParticipateStatus(Integer participateNumber) {
-        return studentExamMapper.modifyParticipateStatus(participateNumber);
+    public int modifyParticipateStatus(Integer participateNumber, Integer paperNumber) {
+        return studentExamMapper.modifyParticipateStatus(participateNumber, paperNumber);
     }
 
 }
