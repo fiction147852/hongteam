@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,8 @@ import com.son.app.counsel.service.AdmissionCounselPossibilityVO;
 import com.son.app.counsel.service.CounselImpossibilityVO;
 import com.son.app.counsel.service.CounselService;
 import com.son.app.counsel.service.CounselVO;
+import com.son.app.lecture.service.Criteria;
+import com.son.app.lecture.service.PageDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,17 +41,26 @@ public class CounselController {
 
 	// 상담 스케줄 전체조회
 	@GetMapping("admin/counselList")
-	public String counselList(Model model) {
-		List<CounselVO> list = counselService.counselList();
+	public String counselList(Model model,
+							  @ModelAttribute("cri") Criteria cri) {
+
+		//페이징 최소값 1
+		if(cri.getPageNum() == null) {
+			cri.setPageNum(1);
+		}
+		List<CounselVO> list = counselService.counselList(cri);
 		model.addAttribute("counselList", list);
 
+		int total = counselService.lecPageing(cri);
+		model.addAttribute("page", new PageDTO(cri, total));
+		
 		return "counsel/counselList";
 	}
 
 	// 상담 스케쥴 전체 보기 - 캘린더, 시간
 	@GetMapping("admin/counselCalendar")
 	public String counselCalinder(Model model) {
-		List<CounselVO> counList = counselService.counselList();
+		List<CounselVO> counList = counselService.counselCalendarList();
 		model.addAttribute("counselList", counList);
 		System.out.println(counList);
 
@@ -136,36 +148,58 @@ public class CounselController {
 
 		// 해당 날짜 가져오기
 		Date reservationDate = findVO.getReservationDate();
-		SimpleDateFormat format1 = new SimpleDateFormat("E요일");
+		SimpleDateFormat format1 = new SimpleDateFormat("u");
+		
+		String wekDay = format1.format(reservationDate);
+		
+		String wekDayList;
+		
+		if(wekDay.equals("1")) {
+			wekDayList = "월요일";
+		} else if(wekDay.equals("2")) {
+			wekDayList = "화요일";
+		} else if(wekDay.equals("3")) {
+			wekDayList = "수요일";
+		} else if(wekDay.equals("4")) {
+			wekDayList = "목요일";
+		} else if(wekDay.equals("5")) {
+			wekDayList = "금요일";
+		} else if(wekDay.equals("6")) {
+			wekDayList = "토요일";
+		} else {
+			wekDayList = "일요일";
+		} 
 		// 해당 요일 변환
-		vo.setWeekdaysCode(format1.format(reservationDate));
+		vo.setWeekdaysCode(wekDayList);
 		System.out.println(format1);
 
 		// 가능한 time code
 		String list = counselService.getdayPos(vo);
 		System.out.println("무슨날짜?" + list);
-		String[] T = list.split(",");
-		int start = Integer.parseInt(T[0].trim());
-		int end = Integer.parseInt(T[1].trim());
-
-		// 가능한시간 list 만들기
-		List<Integer> posTime = new ArrayList<Integer>();
-
-		for (int i = start; i <= end; i++) {
-			posTime.add(i);
-		}
-		model.addAttribute("timeList", list);
-
-		// posTime 리스트에서 impTime에 포함된 시간들을 제외하는 코드
-
-		System.out.println("무슨시간?" + posTime);
-		impList.forEach(e -> {
-			if (posTime.indexOf(e) != -1) {
-				posTime.remove(posTime.indexOf(e));
+		if(list != null) {
+			String[] T = list.split(",");
+			int start = Integer.parseInt(T[0].trim());
+			int end = Integer.parseInt(T[1].trim());
+	
+			// 가능한시간 list 만들기
+			List<Integer> posTime = new ArrayList<Integer>();
+	
+			for (int i = start; i <= end; i++) {
+				posTime.add(i);
 			}
-		});
-		System.out.println("최종 가능 시간?" + posTime);
-		model.addAttribute("counselPosTime", posTime);
+			model.addAttribute("timeList", list);
+	
+			// posTime 리스트에서 impTime에 포함된 시간들을 제외하는 코드
+	
+			System.out.println("무슨시간?" + posTime);
+			impList.forEach(e -> {
+				if (posTime.indexOf(e) != -1) {
+					posTime.remove(posTime.indexOf(e));
+				}
+			});
+			System.out.println("최종 가능 시간?" + posTime);
+			model.addAttribute("counselPosTime", posTime);
+		}
 
 		return "counsel/counselUpdate";
 	}

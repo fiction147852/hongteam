@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.son.app.lecture.service.AdminLectureService;
+import com.son.app.lecture.service.Criteria;
 import com.son.app.lecture.service.LectureStudentVO;
 import com.son.app.lecture.service.LectureSubjectDetailVO;
 import com.son.app.lecture.service.LectureSubjectVO;
 import com.son.app.lecture.service.LectureVO;
+import com.son.app.lecture.service.PageDTO;
 import com.son.app.lecture.service.RegistrationVO;
 import com.son.app.member.service.InstructorVO;
 
@@ -27,21 +29,21 @@ public class AdminLectureController {
 	
 	//강의 리스트 및 세부사항 리스트 조회
 	@GetMapping("admin/adminlectureList")
-	public String adminLectureList(Model model) {
+	public String adminLectureList(Model model, Criteria cri) {
 		List<LectureSubjectVO> lecSublist = adminLectureService.adminLectureSubjectList();
 		model.addAttribute("lecSublist", lecSublist);
 		
 		List<LectureSubjectDetailVO> lecSubDeList = adminLectureService.adminLectureSubjectDetailList();
 		model.addAttribute("lecSubDeList", lecSubDeList);
 		
-		List<LectureVO> lecList = adminLectureService.adminLectureList();
+		List<LectureVO> lecList = adminLectureService.adminLectureList(cri);
 		model.addAttribute("adminLecList", lecList);
-//		System.out.println("서브" + lecSublist);
-//		System.out.println("서브디테일" + lecSubDeList);
-//		System.out.println("그냥" + lecList);
+
 		List<InstructorVO> instructorVO = adminLectureService.adminInstructorList();
 		model.addAttribute("adminInstruList", instructorVO);
 
+		int total = adminLectureService.lecPageing(cri);
+		model.addAttribute("page", new PageDTO(cri, total));
 		
 		return "lecture/admin/adminLectureList";
 	}

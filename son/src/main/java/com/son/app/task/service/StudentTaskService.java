@@ -15,7 +15,7 @@ public interface StudentTaskService {
     public TaskListVO taskInfo(Integer taskNumber, Integer studentNumber);
 
     // 과제 파일 업로드
-    public void uploadFiles(List<MultipartFile> files, Integer taskNumber, Integer studentNumber, Integer lectureNumber);
+    public void uploadFiles(List<MultipartFile> files, Integer taskNumber, Integer studentNumber);
 
     // 과제 제출 파일 조회
     public List<AttachmentFileVO> taskSubjectFile(Integer taskNumber, Integer studentNumber);

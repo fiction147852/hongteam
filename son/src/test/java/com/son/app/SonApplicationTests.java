@@ -142,7 +142,7 @@ class SonApplicationTests {
 	@Test
 	@DisplayName("DH) 시험 성적 구하기")
 	public void examScore() {
-		studentExamService.modifyParticipateStatus(2);
+		studentExamService.modifyParticipateStatus(2, 10);
 	}
 
 	@Test

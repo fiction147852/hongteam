@@ -17,6 +17,9 @@
 
 </style>
 <body>
+
+
+
     <h4 style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">상담 신청 리스트</h4>
 	<div class="row">
 		<div class="col-md-12">
@@ -53,8 +56,56 @@
 			</div>
 		</div>
 	</div>
+	
+		<form name="counList" id="counList" style="margin-top: 20px;">
+		    <input type="hidden" id="pageNum" name="pageNum">
+		    
+		    <select name="reservationCode" onchange="document.counList.submit()" style="padding: 8px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc;">
+		        <option value="">전체</option>
+		        <option value="대기" th:selected="${cri.reservationCode=='대기'}">대기</option>
+		        <option value="확정" th:selected="${cri.reservationCode=='확정'}">확정</option>
+		    </select>
+		</form>
+
+			<!-- 페이징 구현 -->
+			<div class="row pagination-wrap mt-5">
+			    <div class="col-md-12 text-center">
+			        <nav aria-label="Page navigation">
+			            <ul class="pagination justify-content-center">
+			                <li class="page-item">
+			                    <a th:if="${page.prev}" href="#" th:data-pagenum="${page.startPage - 1}" class="page-link" aria-label="Previous">
+			                        <span aria-hidden="true">&laquo;</span>
+			                        <span class="sr-only">Previous</span>
+			                    </a>
+			                </li>
+			                <th:block th:each="num : ${#numbers.sequence(page.startPage, page.endPage)}">
+			                    <li class="page-item">
+			                        <a th:class="${page.cri.pageNum == num ? 'page-link active' : 'page-link'}" href="#" th:data-pagenum="${num}">
+			                            [[${num}]]
+			                        </a>
+			                    </li>
+			                </th:block>
+			                <li class="page-item">
+			                    <a th:if="${page.next}" href="#" th:data-pagenum="${page.endPage + 1}" class="page-link" aria-label="Next">
+			                        <span aria-hidden="true">&raquo;</span>
+			                        <span class="sr-only">Next</span>
+			                    </a>
+			                </li>
+			            </ul>
+			        </nav>
+			    </div>
+			</div>
 
 
+<script th:inline="javascript">
+
+	$(".pagination-wrap a").on("click", (e)=>{
+		document.getElementById('pageNum').value = $(e.target).data("pagenum");
+		document.counList.submit();
+	})
+	
+	
+</script>
 </body>
 
 </html>

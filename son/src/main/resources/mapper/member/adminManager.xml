@@ -5,13 +5,46 @@
 
 	<!-- 이메일로 부모 번호 조회 -->
 	<select id="memberSelectAll" resultType="MemberVO">
-			SELECT  id_number, 
-			        name, 
-			        email,
-			        phone,
-			        auth
-			FROM v_member	
+			SELECT c.*		  
+		FROM ( 
+   	   		 SELECT ROWNUM as rn
+   	   		 		, a.*
+   	   		 FROM (SELECT  id_number, 
+					        name, 
+					        email,
+					        phone,
+					        auth
+					FROM v_member
+					<where>
+						<if test="auth != null and auth != ''.toString()">
+							auth = #{auth}
+						</if> 
+					</where>
+					) a 
+					) c 
+		<![CDATA[
+		WHERE c.rn <= #{pageNum} * #{amount} AND
+			  c.rn > (#{pageNum} -1 ) * #{amount}
+		]]>	
 	</select>
+	
+	<!-- 페이징 처리 -->
+	<select id="selectMemberListPageing" resultType="int">
+	SELECT COUNT(*)
+	FROM(SELECT  id_number, 
+					        name, 
+					        email,
+					        phone,
+					        auth
+					FROM v_member
+		<where>
+			<if test="auth != null and auth != ''.toString()">
+				auth = #{auth}
+			</if> 
+		</where>
+		)	
+	</select>
+	
 	
 	<select id="selectMemberList" parameterType="MemberVO" resultType="MemberVO">
 			SELECT id_number,

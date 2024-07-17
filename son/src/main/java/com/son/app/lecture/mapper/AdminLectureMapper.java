@@ -2,6 +2,7 @@ package com.son.app.lecture.mapper;
 
 import java.util.List;
 
+import com.son.app.lecture.service.Criteria;
 import com.son.app.lecture.service.LectureStudentVO;
 import com.son.app.lecture.service.LectureSubjectDetailVO;
 import com.son.app.lecture.service.LectureSubjectVO;
@@ -10,7 +11,13 @@ import com.son.app.lecture.service.RegistrationVO;
 import com.son.app.member.service.InstructorVO;
 
 public interface AdminLectureMapper {
-	public List<LectureVO> adminLectureSelectAll();
+	
+	// 목록조회 페이징
+	public List<LectureVO> adminLectureSelectAll(Criteria cri);
+	
+	// 데이터 갯수
+	public int lecPageing(Criteria cri);
+	
 	
 	public LectureVO adminLectureSelectInfo(Integer lectureNumber);
 

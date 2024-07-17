@@ -5,11 +5,18 @@ import java.util.List;
 import com.son.app.counsel.service.AdmissionCounselPossibilityVO;
 import com.son.app.counsel.service.CounselImpossibilityVO;
 import com.son.app.counsel.service.CounselVO;
+import com.son.app.lecture.service.Criteria;
 
 public interface CounselMapper {
 	
-	//상담일정 전체조회
-	public List<CounselVO> counselSelectAll();
+	// 달력 조회
+	public List<CounselVO> counselSelectCalendarAll();
+	
+	//상담일정 전체조회 (페이징)
+	public List<CounselVO> counselSelectAll(Criteria cri);
+	
+	// 데이터 갯수
+	public int counselPageing(Criteria cri);
 	
 	//상담일정 단건조회 
 	public CounselVO counselSelectInfo(CounselVO counselVO);
@@ -54,6 +61,8 @@ public interface CounselMapper {
 
 	// 해당 날짜 가능한 시간 뷰 리스트
 	public AdmissionCounselPossibilityVO counPosList(String today);
+
+
 	
 	
 }

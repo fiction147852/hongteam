@@ -74,7 +74,8 @@ public class FileRestController {
             throw new RuntimeException("filename encoding failed : " + file.getOriginalFileName());
         }
     }
-	
+
+	//
 	@GetMapping("instructor/{lectureNumber}/task/{taskNumber}/submittedInfo/download")
 	@ResponseBody
 	public ResponseEntity<Resource> submittedTaskDownload(
@@ -82,15 +83,15 @@ public class FileRestController {
 												        @PathVariable Integer taskNumber,
 												        @RequestParam Integer taskSubmitNumber,
 												        @RequestParam String originalFileName,
-												        @RequestParam String saveFileName) throws MalformedURLException, FileNotFoundException {
+												        @RequestParam String filePath) throws MalformedURLException, FileNotFoundException {
 
-	    String filePath = uploadPath + taskSubmitNumber + "/" + saveFileName;
+	    String filePaths = uploadPath + "/" + filePath;
 	    
-	    UrlResource urlResource = new UrlResource("file:" + filePath);
+	    UrlResource urlResource = new UrlResource("file:" + filePaths);
 
 	    // 파일이 존재하는지 확인합니다.
 	    if (!urlResource.exists()) {
-	        throw new FileNotFoundException("File not found: " + originalFileName);
+	        throw new FileNotFoundException("File not found: " + filePaths);
 	    }
 
 	    String encodedOriginalFileName = UriUtils.encode(originalFileName, StandardCharsets.UTF_8);
