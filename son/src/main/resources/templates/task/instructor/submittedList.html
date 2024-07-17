@@ -10,7 +10,9 @@
 </head>
 
 <body>
-<h4 style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">제출 상태</h4>
+	<h4
+		style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">제출
+		상태</h4>
 	<div class="row">
 		<div class="col-md-12">
 			<div class="card">
@@ -34,8 +36,7 @@
 									<td>[[ ${ss.studentNumber} ]]</td>
 									<td>[[ ${ss.studentName} ]]</td>
 									<td>[[ ${ss.title} ]]</td>
-									<td>[[ ${#dates.format(ss.postDate, 'yyyy년 MM월 dd일')}
-										]]</td>
+									<td>[[ ${#dates.format(ss.postDate, 'yyyy년 MM월 dd일')} ]]</td>
 									<td>[[ ${#dates.format(ss.submitDeadline, 'yyyy년 MM월
 										dd일')} ]]</td>
 									<td>[[ ${ss.taskSubmitStatus} ]]</td>
@@ -52,20 +53,30 @@
 		<div class="pagination-container">
 			<ul class="pagination d-flex justify-content-center">
 				<li th:if="${pageVO.prev}" class="page-item"><a
-					th:href="@{/instructor/{lectureNumber}/taskList(lectureNumber=${lectureNumber}, page=${pageVO.startPage - 1})}"
+					th:href="@{/instructor/{lectureNumber}/task/{taskNumber}/submittedStudents(lectureNumber=${lectureNumber},taskNumber=${taskNumber},page=${pageVO.startPage - 1},searchKeyword=${searchKeyword})}"
 					class="page-link">&laquo;</a></li>
 				<li
 					th:each="pageNum : ${#numbers.sequence(pageVO.startPage, pageVO.endPage)}"
 					th:class="${pageNum == pageVO.page} ? 'page-item active' : 'page-item'">
 					<a
-					th:href="@{/instructor/{lectureNumber}/taskList(lectureNumber=${lectureNumber}, page=${pageNum})}"
+					th:href="@{/instructor/{lectureNumber}/task/{taskNumber}/submittedStudents(lectureNumber=${lectureNumber},taskNumber=${taskNumber},page=${pageNum},searchKeyword=${searchKeyword})}"
 					th:text="${pageNum}" class="page-link"></a>
 				</li>
 				<li th:if="${pageVO.next}" class="page-item"><a
-					th:href="@{/instructor/{lectureNumber}/taskList(lectureNumber=${lectureNumber}, page=${pageVO.endPage + 1})}"
+					th:href="@{/instructor/{lectureNumber}/task/{taskNumber}/submittedStudents(lectureNumber=${lectureNumber},taskNumber=${taskNumber},page=${pageVO.endPage + 1},searchKeyword=${searchKeyword})}"
 					class="page-link">&raquo;</a></li>
 			</ul>
 		</div>
+		<form id="searchForm" class="mb-3"
+			th:action="@{/instructor/{lectureNumber}/task/{taskNumber}/submittedStudents(lectureNumber=${lectureNumber},taskNumber=${taskNumber})}"
+			method="get">
+			<div class="d-flex justify-content-center mt-4">
+				<input type="text" name="searchKeyword" class="form-control me-2"
+					style="width: 200px;" th:value="${searchKeyword}"
+					placeholder="학생 이름을 입력하세요">
+				<button type="submit" class="btn btn-info">검색</button>
+			</div>
+		</form>
 	</div>
 </body>
 

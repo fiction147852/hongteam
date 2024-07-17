@@ -38,16 +38,6 @@ public class QuestionController {
 		return "question/instructor/qlist";
 	}
 	
-//	@GetMapping("/lms/instructor/search")
-//	public String searchQuestions(@RequestParam String searchType,
-//	                              @RequestParam String searchKeyword,
-//	                              Model model) {
-//	    List<QuestionVO> searchResults = questionService.searchQuestions(searchType, searchKeyword);
-//	    model.addAttribute("questionList", searchResults);
-//	    
-//	    return "question/instructor/qlist";
-//	}
-	
 	// 단건
 	@GetMapping("/instructor/questionInfo")
 	public String questionInfo(QuestionVO questionVO, Model model) {

@@ -46,16 +46,26 @@ public class TaskController {
 	
 	// 전체
 	@GetMapping("/instructor/{lectureNumber}/taskList")
-	public String taskList(@PathVariable Integer lectureNumber, 
-					       @RequestParam(defaultValue = "1") int page, 
-					       Model model) {
-			PageVO pageVO = taskService.getPageInfo(lectureNumber, page);
-			List<TaskVO> taskList = taskService.taskList(lectureNumber, pageVO);
-			
-			model.addAttribute("taskList", taskList);
-			model.addAttribute("pageVO", pageVO);
-			model.addAttribute("lectureNumber", lectureNumber);
-		return "task/instructor/taskList";
+	public String taskList(@PathVariable Integer lectureNumber,
+	                       @RequestParam(defaultValue = "1") int page,
+	                       @RequestParam(required = false) String searchKeyword,
+	                       Model model) {
+	    PageVO pageVO;
+	    List<TaskVO> taskList;
+	    
+	    if (searchKeyword != null && !searchKeyword.isEmpty()) {
+	        pageVO = taskService.getSearchPageInfo(lectureNumber, searchKeyword, page);
+	        taskList = taskService.searchTasks(lectureNumber, searchKeyword, pageVO);
+	    } else {
+	        pageVO = taskService.getPageInfo(lectureNumber, page);
+	        taskList = taskService.taskList(lectureNumber, pageVO);
+	    }
+
+	    model.addAttribute("taskList", taskList);
+	    model.addAttribute("pageVO", pageVO);
+	    model.addAttribute("lectureNumber", lectureNumber);
+	    model.addAttribute("searchKeyword", searchKeyword);
+	    return "task/instructor/taskList";
 	}
 	
 	// 상세
@@ -70,17 +80,19 @@ public class TaskController {
 	
 	@GetMapping("/instructor/{lectureNumber}/task/{taskNumber}/submittedStudents")
 	public String submittedStudentList(@PathVariable Integer lectureNumber,
-									   @PathVariable Integer taskNumber,
-									   @RequestParam(defaultValue = "1") int page,
-									   Model model) {
-		PageVO pageVO = taskService.getSubmittedStudentPageInfo(taskNumber, page);
-		List<TaskVO> submittedStudents = taskService.getSubmittedStudentsList(taskNumber, lectureNumber, pageVO);
-		
-		model.addAttribute("submittedStudents", submittedStudents);
-		model.addAttribute("pageVO", pageVO);
-		model.addAttribute("lectureNumber", lectureNumber);
-		model.addAttribute("taskNumber", taskNumber);
-		return "task/instructor/submittedList";
+	                                   @PathVariable Integer taskNumber,
+	                                   @RequestParam(defaultValue = "1") int page,
+	                                   @RequestParam(required = false) String searchKeyword,
+	                                   Model model) {
+	    PageVO pageVO = taskService.getSubmittedStudentPageInfo(taskNumber, page, searchKeyword);
+	    List<TaskVO> submittedStudents = taskService.getSubmittedStudentsList(taskNumber, lectureNumber, pageVO, searchKeyword);
+
+	    model.addAttribute("submittedStudents", submittedStudents);
+	    model.addAttribute("pageVO", pageVO);
+	    model.addAttribute("lectureNumber", lectureNumber);
+	    model.addAttribute("taskNumber", taskNumber);
+	    model.addAttribute("searchKeyword", searchKeyword);
+	    return "task/instructor/submittedList";
 	}
 	
 	@GetMapping("instructor/{lectureNumber}/task/{taskNumber}/submittedInfo")
