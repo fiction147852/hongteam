@@ -9,6 +9,7 @@ public class Criteria {
 	private int amount;
 	
 	private String reservationCode;
+	private String auth;
 	
 	//검색
 	private String type;

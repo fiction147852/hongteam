@@ -43,6 +43,8 @@ public class CounselController {
 	@GetMapping("admin/counselList")
 	public String counselList(Model model,
 							  @ModelAttribute("cri") Criteria cri) {
+
+		//페이징 최소값 1
 		if(cri.getPageNum() == null) {
 			cri.setPageNum(1);
 		}
