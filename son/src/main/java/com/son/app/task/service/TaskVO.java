@@ -35,5 +35,8 @@ public class TaskVO {
 	
 	private List<FileRequest> fileList;
 	private List<Integer> removeFileIds;
+	
+	private Integer submittedCount;
+	private Integer totalCount;
 
 }

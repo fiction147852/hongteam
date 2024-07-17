@@ -13,11 +13,24 @@ public interface TaskMapper {
 					           @Param("end") int end);
 	int countTasks(@Param("lectureNumber") Integer lectureNumber);
 	
-	List<TaskVO> selectSubmittedStudents(@Param("taskNumber") Integer taskNumber,
+    List<TaskVO> selectSubmittedStudents(@Param("taskNumber") Integer taskNumber,
 							             @Param("lectureNumber") Integer lectureNumber,
 							             @Param("start") int start,
-							             @Param("end") int end);
-	int countSubmittedStudents(@Param("taskNumber") Integer taskNumber);
+							             @Param("end") int end,
+							             @Param("searchKeyword") String searchKeyword);
+
+    int countSubmittedStudents(@Param("taskNumber") Integer taskNumber,
+    						   @Param("searchKeyword") String searchKeyword);
+    int countTotalStudents(@Param("taskNumber") Integer taskNumber);
+    
+    // 검색
+    List<TaskVO> searchTasks(@Param("lectureNumber") Integer lectureNumber, 
+            @Param("searchKeyword") String searchKeyword,
+            @Param("start") int start,
+            @Param("end") int end);
+
+	int countSearchTasks(@Param("lectureNumber") Integer lectureNumber, 
+	        @Param("searchKeyword") String searchKeyword);
 	
 	// 단건
 	public TaskVO selectTaskInfo(@Param("taskNumber") Integer taskNumber);

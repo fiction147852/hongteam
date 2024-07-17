@@ -11,10 +11,16 @@ public interface TaskService {
     public List<TaskVO> taskList(@Param("lectureNumber") Integer lectureNumber, PageVO pageVO);
     public PageVO getPageInfo(@Param("lectureNumber") Integer lectureNumber, int page);
     
-    List<TaskVO> getSubmittedStudentsList(@Param("taskNumber") Integer taskNumber, 
-							              @Param("lectureNumber") Integer lectureNumber, 
-							              PageVO pageVO);
-    PageVO getSubmittedStudentPageInfo(@Param("taskNumber") Integer taskNumber, int page);
+    List<TaskVO> getSubmittedStudentsList(Integer taskNumber,
+							              Integer lectureNumber,
+							              PageVO pageVO,
+							              String searchKeyword);
+
+    PageVO getSubmittedStudentPageInfo(Integer taskNumber, int page, String searchKeyword);
+    
+    // 검색
+    List<TaskVO> searchTasks(Integer lectureNumber, String searchKeyword, PageVO pageVO);
+    PageVO getSearchPageInfo(Integer lectureNumber, String searchKeyword, int page);
 	
 	public TaskVO taskInfo(Integer taskNumber);
 	

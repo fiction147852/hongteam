@@ -19,10 +19,12 @@ public class TaskServiceImpl implements TaskService {
 	@Autowired
 	TaskMapper taskMapper;
 	
+    @Override
     public List<TaskVO> taskList(Integer lectureNumber, PageVO pageVO) {
         int start = Math.max(0, (pageVO.getPage() - 1) * pageVO.getPageSize());
         int end = start + pageVO.getPageSize();
-        return taskMapper.selectTaskAll(lectureNumber, start, end);
+        List<TaskVO> tasks = taskMapper.selectTaskAll(lectureNumber, start, end);
+        return tasks;
     }
 
     public PageVO getPageInfo(Integer lectureNumber, int page) {
@@ -87,18 +89,31 @@ public class TaskServiceImpl implements TaskService {
 	    return taskMapper.deleteTaskInfo(taskNo) > 0;
 	}
 
-	@Override
-	public List<TaskVO> getSubmittedStudentsList(Integer taskNumber, Integer lectureNumber, PageVO pageVO) {
-	    int start = Math.max(0, (pageVO.getPage() - 1) * pageVO.getPageSize());
-	    int end = start + pageVO.getPageSize();
-	    return taskMapper.selectSubmittedStudents(taskNumber, lectureNumber, start, end);
-	}
+    @Override
+    public List<TaskVO> getSubmittedStudentsList(Integer taskNumber, Integer lectureNumber, PageVO pageVO, String searchKeyword) {
+        int start = Math.max(0, (pageVO.getPage() - 1) * pageVO.getPageSize());
+        int end = start + pageVO.getPageSize();
+        return taskMapper.selectSubmittedStudents(taskNumber, lectureNumber, start, end, searchKeyword);
+    }
 
-	@Override
-	public PageVO getSubmittedStudentPageInfo(Integer taskNumber, int page) {
-		int totalItems = taskMapper.countSubmittedStudents(taskNumber);
-		return new PageVO(page, totalItems, 10, 5);
-	}
+    @Override
+    public PageVO getSubmittedStudentPageInfo(Integer taskNumber, int page, String searchKeyword) {
+        int totalItems = taskMapper.countSubmittedStudents(taskNumber, searchKeyword);
+        return new PageVO(page, totalItems, 10, 5);
+    }
+	
+    @Override
+    public List<TaskVO> searchTasks(Integer lectureNumber, String searchKeyword, PageVO pageVO) {
+        int start = Math.max(0, (pageVO.getPage() - 1) * pageVO.getPageSize());
+        int end = start + pageVO.getPageSize();
+        return taskMapper.searchTasks(lectureNumber, searchKeyword, start, end);
+    }
+    
+    @Override
+    public PageVO getSearchPageInfo(Integer lectureNumber, String searchKeyword, int page) {
+        int totalItems = taskMapper.countSearchTasks(lectureNumber, searchKeyword);
+        return new PageVO(page, totalItems, 5, 5);
+    }
 
 
 }
