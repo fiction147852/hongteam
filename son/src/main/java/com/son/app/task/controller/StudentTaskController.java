@@ -91,7 +91,7 @@ public class StudentTaskController {
     public String filesUpload(@RequestPart("files")List<MultipartFile> multipartFileList, @PathVariable Integer taskNumber, @AuthenticationPrincipal CustomUserDetails principal, @PathVariable Integer lectureNumber) {
         int studentNumber = principal.getMember().getIdNumber();
 
-        studentTaskService.uploadFiles(multipartFileList, taskNumber, studentNumber, lectureNumber);
+        studentTaskService.uploadFiles(multipartFileList, taskNumber, studentNumber);
 
         return "redirect:/student/" + lectureNumber + "/task";
     }

@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         let slideHTML = `<div class="swiper-slide">
                                                     <div class="slide-content">
                                                         <div class="subject-info">
-                                                            <h5 class="slide-title" style="font-weight: ${event.type === 'task' ? 800 : 'normal'}">${event.title}</h5>
+                                                            <h5 class="slide-title" style="font-weight: ${event.type === 'task' ? 800 : 800}">${event.title}</h5>
                                                             <div class="info-item">
                                                                 <i class="fa-regular fa-circle-check"></i>
                                                                 ${event.status}
@@ -88,12 +88,14 @@ document.addEventListener('DOMContentLoaded', function () {
                         swiperWrapperDiv.innerHTML += slideHTML;
                     });
 
+                    const swiperPagination = document.querySelector('.swiper-pagination');
                     // swiper 높이 조정
                     if (filteredEvents.length > 0 && eventType === 'task') {
                         swiperWrapperDiv.closest(".swiper").style.height = "130px";
                         swiperWrapperDiv.closest(".swiper").style.marginBottom = "10px";
                     } else if (filteredEvents.length > 0 && eventType === 'test') {
-                        swiperWrapperDiv.closest(".swiper").style.height = "75px";
+                        swiperWrapperDiv.closest(".swiper").style.height = "80px";
+                        swiperPagination.style.setProperty('height', '80px', 'important');
                     }
 
                     swiperTwo.update();

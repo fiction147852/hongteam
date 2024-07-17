@@ -13,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,7 +52,7 @@ public class StudentTaskServiceImpl implements StudentTaskService {
         List<AttachmentFileVO> attachmentFileVOList = studentTaskMapper.studentTaskSubjectFile(taskNumber, lectureNumber);
 
         for (AttachmentFileVO attachmentFileVO : attachmentFileVOList) {
-            String fullPath = getFullPath(attachmentFileVO.getSaveFileName(), lectureNumber);
+            String fullPath = getFullPath(attachmentFileVO.getSaveFileName());
             File existingFile = new File(fullPath);
 
             existingFile.delete();
@@ -60,13 +62,13 @@ public class StudentTaskServiceImpl implements StudentTaskService {
 
     @Override
     @Transactional
-    public void uploadFiles(List<MultipartFile> files, Integer taskNumber, Integer studentNumber, Integer lectureNumber) {
+    public void uploadFiles(List<MultipartFile> files, Integer taskNumber, Integer studentNumber) {
         for (MultipartFile file : files) {
             String originalFilename = file.getOriginalFilename();
             String saveFileName = createSaveFileName(originalFilename);
 
             // 지정된 경로에 대한 File 객체 생성 후 반환
-            File fileDirectory = new File(getFullPath(saveFileName, lectureNumber));
+            File fileDirectory = new File(getFullPath(saveFileName));
 
             // 파일 명을 제외한 모든 경로에 대한 File 객체 반환
             File parentDirectory = fileDirectory.getParentFile();
@@ -114,7 +116,8 @@ public class StudentTaskServiceImpl implements StudentTaskService {
         return originalFilename.substring(extensionPosition + 1);
     }
 
-    private String getFullPath(String filename, Integer lectureNumber) {
-        return uploadPath + lectureNumber + "/" + filename;
+    private String getFullPath(String filename) {
+        String datePath = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
+        return uploadPath + "/" + datePath + "/" + filename;
     }
 }
