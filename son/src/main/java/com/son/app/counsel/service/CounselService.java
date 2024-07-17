@@ -2,10 +2,15 @@ package com.son.app.counsel.service;
 
 import java.util.List;
 
+import com.son.app.lecture.service.Criteria;
+
 public interface CounselService {
 
 	// 상담일정 전체조회
-	public List<CounselVO> counselList();
+	public List<CounselVO> counselList(Criteria cri);
+	
+	// 데이터 갯수
+	public int lecPageing(Criteria cri);
 
 	// 상담일정 단건조회
 	public CounselVO counselInfo(CounselVO counselVO);
@@ -48,5 +53,7 @@ public interface CounselService {
 
 	// 해당 날짜 가능한 뷰 리스트
 	public AdmissionCounselPossibilityVO counselTimeList(String today);
+
+	public List<CounselVO> counselCalendarList();
 
 }

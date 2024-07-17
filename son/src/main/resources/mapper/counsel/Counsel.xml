@@ -2,16 +2,54 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.son.app.counsel.mapper.CounselMapper">
 
+<!-- 상담 일정 캘린더 조회 -->
+	<select id="counselSelectCalendarAll" resultType="CounselVO">
+		SELECT counsel_number
+			, parent_name
+			, student_name
+			, phone
+			, time_code
+			, reservation_date
+			, reservation_code
+		FROM admission_counsel
+	</select>
+
+
 	<!-- 상담 일정 전체 조회 -->
 	<select id="counselSelectAll" resultType="CounselVO">
+		SELECT c.*		  
+		FROM ( 
+   	   		 SELECT ROWNUM as rn
+   	   		 		, a.*
+   	   		 FROM (SELECT counsel_number
+						, parent_name
+						, student_name
+						, phone
+						, time_code
+						, reservation_date
+						, reservation_code
+					FROM admission_counsel
+					ORDER BY counsel_number DESC) a 
+					) c 
+		<![CDATA[
+		WHERE c.rn <= #{pageNum} * #{amount} AND
+			  c.rn > (#{pageNum} -1 ) * #{amount}
+		]]>
+	</select>
+
+	<!-- 페이징 처리 -->
+	<select id="counselPageing" resultType="int">
+	SELECT COUNT(*)
+	FROM(
 		SELECT counsel_number
-		, parent_name
-		, student_name
-		, phone
-		, time_code
-		, reservation_date
-		, reservation_code
-		FROM admission_counsel
+						, parent_name
+						, student_name
+						, phone
+						, time_code
+						, reservation_date
+						, reservation_code
+					FROM admission_counsel
+					ORDER BY counsel_number DESC)	
 	</select>
 
     <select id="getCounselList" resultType="CounselVO" parameterType="map">
@@ -153,11 +191,11 @@
 			FROM(
 				SELECT time_code
 				FROM admission_counsel
-				WHERE reservation_date = TO_DATE(#{reservationDate}, 'YY/MM/DD')
+				WHERE reservation_date = #{reservationDate}
 			UNION
 				SELECT time_code
 				FROM counsel_impossibility
-				WHERE reservation_date = TO_DATE(#{reservationDate}, 'YY/MM/DD')
+				WHERE reservation_date = #{reservationDate}
 			MINUS
 				SELECT time_code
 				FROM admission_counsel
