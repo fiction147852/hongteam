@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.son.app.payment.mapper.ParentPayMapper">
 
-	<!-- 학부모의 학생 결제할 강의 전체조회 -->
+	<!-- 결제목록 -->
 	<select id="lecturePayList" resultType="ParentPayVO">
 		SELECT lecture_title, lecture_cost, std_name(c.student_number) as
 		student_name, c.*
@@ -12,6 +12,29 @@
 		WHERE student_number in (SELECT student_number
 								FROM student
 								WHERE parent_number = #{parentNumber})
+								ORDER BY charge_number DESC
 	</select>
+    <!-- 결제 정보 저장 -->
+    <insert id="savePaymentInfo" parameterType="ParentPayVO">
+        INSERT INTO charge (
+            charge_number, charge_code, request_date, lecture_number, 
+            approval_date, receive_status, payment_type, student_number, 
+            registration_status
+        ) VALUES (
+            charge_seq.NEXTVAL, #{chargeCode}, SYSDATE, #{lectureNumber},
+            #{approvalDate}, #{receiveStatus}, #{paymentType}, #{studentNumber},
+            #{registrationStatus}
+        )
+    </insert>
 
+    <!-- 결제 상태 업데이트 -->
+    <update id="updatePaymentStatus" parameterType="ParentPayVO">
+        UPDATE charge
+        SET charge_code = #{chargeCode},
+            approval_date = SYSDATE,
+            receive_status = #{receiveStatus},
+            payment_type = #{paymentType},
+            registration_status = #{registrationStatus}
+        WHERE charge_number = #{chargeNumber}
+    </update>
 </mapper>
