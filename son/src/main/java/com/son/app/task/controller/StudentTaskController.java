@@ -87,6 +87,7 @@ public class StudentTaskController {
     }
 
     // 파일 업로드
+
     @PostMapping("student/{lectureNumber}/task/{taskNumber}")
     public String filesUpload(@RequestPart("files")List<MultipartFile> multipartFileList, @PathVariable Integer taskNumber, @AuthenticationPrincipal CustomUserDetails principal, @PathVariable Integer lectureNumber) {
         int studentNumber = principal.getMember().getIdNumber();
@@ -95,7 +96,6 @@ public class StudentTaskController {
 
         return "redirect:/student/" + lectureNumber + "/task";
     }
-
     // 파일 삭제
     @DeleteMapping("student/{lectureNumber}/task/{taskNumber}")
     @ResponseBody
