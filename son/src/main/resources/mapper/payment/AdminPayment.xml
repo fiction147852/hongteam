@@ -4,7 +4,38 @@
 
 
 	<select id="lecturePaySelectAll" resultType="AdminPayVO">
-    SELECT c.charge_number,
+    SELECT c.*		  
+		FROM ( 
+   	   		 SELECT ROWNUM as rn
+   	   		 		, a.*
+   	   		 FROM (SELECT c.charge_number,
+				           c.charge_code,
+				           c.request_date,
+				           c.lecture_number,
+				            l.lecture_title,
+				           c.approval_date,
+				           c.receive_status,
+				           c.payment_type,
+				           c.student_number,
+				             s.name AS studentName,
+				           c.registration_status
+				    FROM charge c
+				        JOIN lecture l
+				        ON c.lecture_number = l.lecture_number
+				        JOIN student s
+				        ON c.student_number = s.student_number) a 
+					) c 
+		<![CDATA[
+		WHERE c.rn <= #{pageNum} * #{amount} AND
+			  c.rn > (#{pageNum} -1 ) * #{amount}
+		]]>
+	</select>
+
+	<!-- 페이징 처리 -->
+	<select id="adminPaymentPageing" resultType="int">
+	SELECT COUNT(*)
+	FROM(
+		SELECT c.charge_number,
            c.charge_code,
            c.request_date,
            c.lecture_number,
@@ -20,8 +51,9 @@
         JOIN lecture l
         ON c.lecture_number = l.lecture_number
         JOIN student s
-        ON c.student_number = s.student_number
+        ON c.student_number = s.student_number)
 	</select>
+
 
 	<!-- 강의에 학생 등록하기 -->
 	<insert id="payLectureInsertStudent" parameterType="registrationVO">

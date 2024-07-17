@@ -29,6 +29,11 @@
 						, reservation_date
 						, reservation_code
 					FROM admission_counsel
+					<where>
+					  <if test="reservationCode != null and reservationCode != ''.toString()">
+					  	reservation_code = #{reservationCode}
+					  </if>
+					</where>
 					ORDER BY counsel_number DESC) a 
 					) c 
 		<![CDATA[
@@ -49,6 +54,11 @@
 						, reservation_date
 						, reservation_code
 					FROM admission_counsel
+					<where>
+					  <if test="reservationCode != null and reservationCode != ''.toString()">
+					  	reservation_code = #{reservationCode}
+					  </if>
+					</where>
 					ORDER BY counsel_number DESC)	
 	</select>
 
