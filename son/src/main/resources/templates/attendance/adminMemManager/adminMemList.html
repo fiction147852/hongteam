@@ -46,22 +46,53 @@
 					</table>
 				</div>
 			</div>
-		
+			
+			
+		<form name="memLi" id="memLi" style="margin-top: 20px;">
+		    <input type="hidden" id="pageNum" name="pageNum">
+		    
+		    <select name="auth" onchange="document.memLi.submit()" style="padding: 8px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc;">
+		        <option value="">전체</option>
+		        <option value="ROLE_STUDENT" th:selected="${cri.auth=='ROLE_STUDENT'}">학생</option>
+		        <option value="ROLE_PARENT" th:selected="${cri.auth=='ROLE_PARENT'}">부모</option>
+		        <option value="ROLE_INSTRUCTOR" th:selected="${cri.auth=='ROLE_INSTRUCTOR'}">강사</option>
+		        <option value="ROLE_ADMIN" th:selected="${cri.auth=='ROLE_ADMIN'}">관리자</option>
+		    </select>
+		</form>
+					
+			
+			
 			<!-- 페이징 구현 -->
-			<div class="row pagination-wrap mt-5" >
-			    <div class="col-md-12 text-center ">
-			      <div class="custom-pagination ml-auto">
-			        <a th:if="${page.prev}" th:href="@{/admin/adminMemList(pageNum=${page.startPage - 1})}" class="prev">Prev</a>
-			        <div class="d-inline-block">
-			          <th:block th:each="num : ${#numbers.sequence(page.startPage, page.endPage)}">
-			          <a th:class="${page.cri.pageNum == num ? 'active' : ''}" th:href="|@{/admin/adminMemList(pageNum=${num})}|" >[[${num}]]</a>
-			          </th:block> 
-			        </div>
-			        <a th:if="${page.next}" th:href="@{/admin/adminMemList(pageNum=${page.endPage + 1})}" class="next">Next</a>
-			      </div>
+			<div class="row pagination-wrap mt-5">
+			    <div class="col-md-12 text-center">
+			        <nav aria-label="Page navigation">
+			            <ul class="pagination justify-content-center">
+			                <li class="page-item">
+			                    <a th:if="${page.prev}" href="#" th:data-pagenum="${page.startPage - 1}" class="page-link" aria-label="Previous">
+			                        <span aria-hidden="true">&laquo;</span>
+			                        <span class="sr-only">Previous</span>
+			                    </a>
+			                </li>
+			                <th:block th:each="num : ${#numbers.sequence(page.startPage, page.endPage)}">
+			                    <li class="page-item">
+			                        <a th:class="${page.cri.pageNum == num ? 'page-link active' : 'page-link'}" href="#" th:data-pagenum="${num}">
+			                            [[${num}]]
+			                        </a>
+			                    </li>
+			                </th:block>
+			                <li class="page-item">
+			                    <a th:if="${page.next}" href="#" th:data-pagenum="${page.endPage + 1}" class="page-link" aria-label="Next">
+			                        <span aria-hidden="true">&raquo;</span>
+			                        <span class="sr-only">Next</span>
+			                    </a>
+			                </li>
+			            </ul>
+			        </nav>
 			    </div>
-			  </div>
 			</div>
+
+
+		</div>
 		
 		
 		<div class="col-md-4">
@@ -101,6 +132,13 @@
 	</div>
 </body>
 <script th:inline="javascript">
+
+$(".pagination-wrap a").on("click", (e)=>{
+	document.getElementById('pageNum').value = $(e.target).data("pagenum");
+	document.memLi.submit();
+})
+
+
 	function infoClick(idNumber, auth) {
 		$.ajax({
 			type : 'GET',

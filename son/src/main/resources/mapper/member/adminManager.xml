@@ -14,7 +14,13 @@
 					        email,
 					        phone,
 					        auth
-					FROM v_member) a 
+					FROM v_member
+					<where>
+						<if test="auth != null and auth != ''.toString()">
+							auth = #{auth}
+						</if> 
+					</where>
+					) a 
 					) c 
 		<![CDATA[
 		WHERE c.rn <= #{pageNum} * #{amount} AND
@@ -30,7 +36,13 @@
 					        email,
 					        phone,
 					        auth
-					FROM v_member)	
+					FROM v_member
+		<where>
+			<if test="auth != null and auth != ''.toString()">
+				auth = #{auth}
+			</if> 
+		</where>
+		)	
 	</select>
 	
 	

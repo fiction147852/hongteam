@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.son.app.lecture.service.Criteria;
@@ -23,9 +24,16 @@ public class AdminMemberController {
 	AdminMemberService adminMemberService;
 	
 	@GetMapping("admin/adminMemList")
-	public String accountList (Model model, Criteria cri){
+	public String accountList (Model model, 
+									@ModelAttribute("cri") Criteria cri ){
+		//페이징 최소값 1
+		if(cri.getPageNum() == null) {
+			cri.setPageNum(1);
+		}
+		
 		List<MemberVO> list = adminMemberService.memberList(cri);
 		model.addAttribute("memberList", list);
+
 		
 		int total = adminMemberService.memListPageing(cri);
 		model.addAttribute("page", new PageDTO(cri, total));
