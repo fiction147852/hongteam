@@ -10,6 +10,7 @@ public class ExamInfoVO {
     private Integer limitTime;
     private Integer studentNumber;
 
+    private Integer paperNumber;
     private Integer questionNumber;
     private String questionTypeCode;
     private String text;

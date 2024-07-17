@@ -15,5 +15,5 @@ public interface StudentExamService {
 
     // 시험 결과
     public void autoGradeExam(GradingResult gradingResultList);
-    public int modifyParticipateStatus(Integer participateNumber);
+    public int modifyParticipateStatus(Integer participateNumber, Integer paperNumber);
 }

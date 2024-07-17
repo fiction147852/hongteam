@@ -93,7 +93,7 @@
         WITH lecture_date_range AS (
             SELECT lecture_number
                 , lecture_start_date + (LEVEL - 1) AS lecture_date
-                , TO_CHAR(lecture_start_date + (LEVEL - 1), 'DY') AS day_of_week
+                , TO_CHAR(lecture_start_date + (LEVEL - 1), 'DY', 'NLS_DATE_LANGUAGE=KOREAN') AS day_of_week
             FROM lecture
             WHERE lecture_number = #{lectureNumber}
             <![CDATA[
@@ -111,7 +111,7 @@
             SELECT student_number
                 , attendance_code
                 , attendance_date
-                , TO_CHAR(attendance_date, 'DY') AS day_of_week
+                , TO_CHAR(attendance_date, 'DY', 'NLS_DATE_LANGUAGE=KOREAN') AS day_of_week
             FROM attendance
             JOIN lecture
                 ON attendance.lecture_number = lecture.lecture_number
