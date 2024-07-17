@@ -10,6 +10,7 @@
 </head>
 
 <body>
+<h4 style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">시험지</h4>
 	<div class="row">
 		<div class="col-md-12">
 			<div class="card">
@@ -23,7 +24,7 @@
 								<th>제작일</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody class="table-group-divider">
 							<th:block th:each="papers : ${paperList}">
 								<tr
 									th:onclick="|location.href='@{/instructor/paperInfo(paperNumber=${papers.paperNumber})}'|">
