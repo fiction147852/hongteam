@@ -9,7 +9,7 @@ import com.son.app.lecture.service.Criteria;
 
 public interface CounselMapper {
 	
-	//
+	// 달력 조회
 	public List<CounselVO> counselSelectCalendarAll();
 	
 	//상담일정 전체조회 (페이징)

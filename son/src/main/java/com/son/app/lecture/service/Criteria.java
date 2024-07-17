@@ -5,8 +5,10 @@ import lombok.Data;
 @Data
 public class Criteria {
 	//페이징
-	private int pageNum;
+	private Integer pageNum;
 	private int amount;
+	
+	private String reservationCode;
 	
 	//검색
 	private String type;
