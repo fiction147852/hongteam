@@ -50,86 +50,67 @@ document.addEventListener('DOMContentLoaded', function () {
         // jsEvent | 클릭 이벤트에 대한 상세 정보를 담고 있는 속성.
         // 이 세 가지 속성을 모두 담고 있는 매개변수를 전달받는다.
         eventClick: function (eventInfo) {
-            const eventDate = eventInfo.event.start.getFullYear() + "-0" + (eventInfo.event.start.getMonth() + 1) + "-" + eventInfo.event.start.getDate();
+            const eventDate = eventInfo.event.start.getFullYear() + "-" + String(eventInfo.event.start.getMonth() + 1).padStart(2, '0') + "-" + String(eventInfo.event.start.getDate()).padStart(2, '0');
             const lectureNumber = eventInfo.event.extendedProps.lectureNumber;
+            const eventType = eventInfo.event.extendedProps.type; // 클릭된 이벤트의 타입을 가져옴
 
             axios.get("student/scheduleDetail?deadlineDate=" + eventDate)
                 .then(response => {
                     const events = response.data;
-                    const filteredEvents = events.filter(event => event.lectureNumber === lectureNumber);
+
+                    // 클릭된 이벤트 타입에 따라 필터링
+                    const filteredEvents = events.filter(event => event.lectureNumber === lectureNumber && event.type === eventType);
 
                     const swiperWrapperDiv = document.querySelector("#eventModal .swiper-wrapper");
                     swiperWrapperDiv.innerHTML = ''; // 슬라이드 초기화
 
                     filteredEvents.forEach(event => {
-                        // 틀잡기.
-                        const swiperSlideDiv = document.createElement("div");
-                        const slideContentDiv = document.createElement("div");
-                        const subjectInfoDiv = document.createElement("div");
+                        let slideHTML = `<div class="swiper-slide">
+                                                    <div class="slide-content">
+                                                        <div class="subject-info">
+                                                            <h5 class="slide-title" style="font-weight: ${event.type === 'task' ? 800 : 'normal'}">${event.title}</h5>
+                                                            <div class="info-item">
+                                                                <i class="fa-regular fa-circle-check"></i>
+                                                                ${event.status}
+                                                            </div>`;
 
-                        swiperSlideDiv.className = "swiper-slide";
-                        slideContentDiv.className = "slide-content";
-                        subjectInfoDiv.className = "subject-info";
-
-                        swiperWrapperDiv.appendChild(swiperSlideDiv);
-                        swiperSlideDiv.appendChild(slideContentDiv);
-                        slideContentDiv.appendChild(subjectInfoDiv)
-
-                        // 내용 생성
-                        const slideTitle = document.createElement("h5");
-                        const itemInfoDivOne = document.createElement("div");
-                        const iconOne = document.createElement("i");
-
-                        slideTitle.className = "slide-title";
-                        itemInfoDivOne.className = "info-item";
-                        iconOne.className = "fa-regular fa-circle-check";
-
-                        itemInfoDivOne.appendChild(iconOne);
-                        subjectInfoDiv.appendChild(slideTitle);
-                        subjectInfoDiv.appendChild(itemInfoDivOne);
 
                         if (event.type === "task") {
-                            swiperWrapperDiv.closest(".swiper").style.height = "130px";
-                            swiperWrapperDiv.closest(".swiper").style.marginBottom = "10px";
-
-                            slideTitle.innerText = event.title;
-                            slideTitle.style.fontWeight = 800;
-                            const itemInfoDivOneTextNode = document.createTextNode(" " + event.status);
-
-                            const itemInfoDivTwo = document.createElement("div");
-                            const iconTwo = document.createElement("i");
-                            const itemInfoDivTextNode = document.createTextNode(" " + event.postDate.split("T")[0] + " ~ " + event.deadlineDate.split("T")[0]);
-
-                            itemInfoDivTwo.className = "info-item";
-                            iconTwo.className = "fas fa-clock";
-
-                            itemInfoDivOne.appendChild(itemInfoDivOneTextNode);
-                            itemInfoDivTwo.appendChild(iconTwo);
-                            itemInfoDivTwo.appendChild(itemInfoDivTextNode);
-                            subjectInfoDiv.appendChild(itemInfoDivTwo);
-                        } else {
-                            swiperWrapperDiv.closest(".swiper").style.height = "75px";
-
-                            slideTitle.innerText = event.title;
-                            const itemInfoDivOneTextNode = document.createTextNode(" " + event.status);
-
-                            itemInfoDivOne.appendChild(itemInfoDivOneTextNode);
+                            slideHTML += `<div class="info-item">
+                                             <i class="fas fa-clock"></i>
+                                             ${event.postDate.split("T")[0]} ~ ${event.deadlineDate.split("T")[0]}
+                                          </div>`;
                         }
+                        slideHTML += `</div>
+                                    </div>
+                                  </div>`;
 
-                        swiperTwo.update();
+                        swiperWrapperDiv.innerHTML += slideHTML;
+                    });
 
-                        const modal = new bootstrap.Modal(document.getElementById('eventModal'));
-                        modal.show();
+                    // swiper 높이 조정
+                    if (filteredEvents.length > 0 && eventType === 'task') {
+                        swiperWrapperDiv.closest(".swiper").style.height = "130px";
+                        swiperWrapperDiv.closest(".swiper").style.marginBottom = "10px";
+                    } else if (filteredEvents.length > 0 && eventType === 'test') {
+                        swiperWrapperDiv.closest(".swiper").style.height = "75px";
+                    }
 
-                        document.querySelector("#closeModalButton").addEventListener("click", function() {
-                            modal.hide();
-                        })
+                    swiperTwo.update();
+
+                    const modal = new bootstrap.Modal(document.getElementById('eventModal'));
+                    modal.show();
+
+                    document.querySelector("#closeModalButton").addEventListener("click", function() {
+                        modal.hide();
                     });
                 })
                 .catch(error => {
                     console.error(error);
                 });
         },
+
+
         // 이벤트(일정)의 콘텐츠를 커스터마이징하는 데 사용된다. 이벤트의 콘텐츠를 구성하는 DOM 요소를 반환한다. (이벤트가 렌더링될 때 호출된다.)
         eventContent: function (scheduleWithMetadata) {
             // 해당 이벤트 객체와 그와 관련된 추가 정보를 포함하는 객체를 매개변수로 전달받는다.
@@ -169,7 +150,6 @@ document.addEventListener('DOMContentLoaded', function () {
     axios.get("student/schedule")
         .then(response => {
             const eventData = response.data;
-            console.log(eventData)
 
             // (날짜, 제목) 중복된 이벤트를 하나의 이벤트로 결합하기 위해 객체 정의
             const groupedEvents = {};
