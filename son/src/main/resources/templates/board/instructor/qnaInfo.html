@@ -4,50 +4,46 @@
 	layout:decorate="~{common/layouts/instructorDetailSubject_layout}"
 	layout:fragment="content">
 <head>
+<link th:href="@{/css/instructor/task/QnA.css}" rel="stylesheet">
 
-<title>과제 상세 조회</title>
+<title>학부모 QnA</title>
 
 <!-- Include ConfigFragment -->
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
-	
 </style>
 </head>
 
 <body>
-			
-			
-	<div id="container" class="mt-5" style="width: 896px; margin: 0 auto;">
-    <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
-        <div class="grid grid-cols-4 gap-4 p-6 border-b">
-            <div class="col-span-1 font-bold">제목</div>
-            <div class="col-span-3 border-gray-300" th:text="${question.title}"></div>
-        </div>
-        <div class="grid grid-cols-4 gap-4 p-6 border-b">
-            <div class="col-span-1 font-bold">작성일자</div>
-            <div class="col-span-1  border-gray-300" th:text="${#dates.format(question.writeDate, 'yyyy-MM-dd')}"></div>
-        </div>
-        <div class="grid grid-cols-4 gap-4 p-6">
-            <div class="col-span-1 font-bold mb-2">질문 내용</div>
-            <div class="col-span-1  border-gray-300" th:text="${question.content}">
-			</div>
-        </div>
-        <div class="grid grid-cols-4 gap-4 p-6">
-            <div class="col-span-1 font-bold mb-2">답변 내용</div>
-            <div class="col-span-3">
-            	<textarea class="w-full h-24 px-3 py-2 bg-transparent placeholder-gray-500 focus:outline-none" placeholder="답변을 입력해주세요" id="response"></textarea>
-			</div>
-        </div>
-    </div>
-        <div class="btn-group float-end" role="group">
-			<button type="button" class="btn btn-secondary mt-3" th:onclick="|location.href='@{/instructor/{lectureNumber}/qnaList(lectureNumber=${question.lectureNumber})}'|">목록</button>
-			<button type="button" class="btn btn-secondary mt-3" id="replyBtn">저장</button>
-		</div>
-  	</div>
-  	
+
+
+	<table class="table-custom">
+		<tr>
+			<th rowspan="1">제목</th>
+			<td rowspan="1" class="highlight" th:text="${question.title}"></td>
+			<th>작성일자</th>
+			<td th:text="${#dates.format(question.writeDate, 'yyyy년 MM월 dd일')}"></td>
+		</tr>
+		<tr>
+			<th>질문 내용</th>
+			<td colspan="3" th:text="${question.content}"></td>
+		</tr>
+		<tr>
+			<th>답변 내용</th>
+			<td colspan="3">
+			<textarea
+					class="form-control" rows="9"
+					placeholder="답변을 입력해주세요" id="response"></textarea></td>
+		</tr>
+	</table>
+	<div class="btn-group float-end" role="group">
+		<button type="button" class="btn btn-secondary mt-3"
+			th:onclick="|location.href='@{/instructor/{lectureNumber}/qnaList(lectureNumber=${question.lectureNumber})}'|">목록</button>
+		<button type="button" class="btn btn-success mt-3" id="replyBtn">저장</button>
+	</div>
+
 </body>
-  	<script>
+<script>
   		$('#replyBtn').on('click', ()=>{
   			var replyContent = $('#response').val();
   			$.ajax({
