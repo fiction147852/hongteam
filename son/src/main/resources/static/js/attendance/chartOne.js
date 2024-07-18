@@ -32,16 +32,28 @@ document.addEventListener('DOMContentLoaded', function () {
     axios.get(`/lms/student/${lectureNumber}/attendanceStatusCount`)
         .then(response => {
             const data = response.data;
-            console.log(data);
 
-            const totalDays = data.totalDays;
-            const attendanceDays = data.attendanceDays;
+            const totalDays = data.totalDays !== undefined ? data.totalDays : 0;
+            const attendanceDays = data.attendanceDays !== undefined ? data.attendanceDays : 0;
 
             initChart(totalDays, attendanceDays);
 
-            document.querySelector("#tardyDays").innerText = data.tardyDays;
-            document.querySelector("#earlyLeaveDays").innerText = data.earlyLeaveDays;
-            document.querySelector(".donut-chart-label").innerText = `${Math.round((attendanceDays / totalDays) * 1000) / 10}%`;
+            document.querySelector("#tardyDays").innerText = data.tardyDays ?? "";
+            document.querySelector("#earlyLeaveDays").innerText = data.earlyLeaveDays ?? "";
+
+            const attendancePercentage = totalDays !== 0
+                ? Math.round((attendanceDays / totalDays) * 1000) / 10
+                : null;
+
+            const donutChartLabel = document.querySelector(".donut-chart-label");
+            const donutChart = document.querySelector(".donut-chart-container");
+            if (attendancePercentage !== null) {
+                donutChartLabel.innerText = `${attendancePercentage}%`;
+            } else {
+                donutChart.style.display = 'none';
+                donutChartLabel.innerText = '출석 정보 없음';  // 또는 다른 적절한 메시지
+            }
+            donutChartLabel.style.display = 'block';  // 항상 레이블을 표시
         })
         .catch(error => {
             console.error(error);

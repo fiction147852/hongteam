@@ -19,55 +19,55 @@
     <h4 style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">상담 신청 조회</h4>
 
 	<div class="row">
-		<div class="col-md-12">
-			<div class="card">
-				<div class="table-responsive pt-3">
-					<form>
-						<table class="table table-striped project-orders-table" style="text-align: center;">
-							<thead>
-								<tr>
-									<th class="ml-5">번호</th>
-									<td th:text="${counselInfo.counselNumber}" ></td>
-								</tr>
-								<tr>
-									<th>학부모</th>
-									<td th:text="${counselInfo.parentName}"></td>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="table-responsive pt-3">
+                <form>
+                    <table class="table project-orders-table" style="text-align: center;">
+                        <thead>
+                            <tr>
+                                <th>번호</th>
+                                <td th:text="${counselInfo.counselNumber}"></td>
+                            </tr>
+                            <tr>
+                                <th>학부모</th>
+                                <td th:text="${counselInfo.parentName}"></td>
 
-									<th>학생</th>
-									<td th:text="${counselInfo.studentName}"></td>
+                                <th>학생</th>
+                                <td th:text="${counselInfo.studentName}"></td>
 
-									<th>전화번호</th>
-									<td th:text="${counselInfo.phone}"></td>
-								</tr>
-								<tr>
-									<th>예약 일자</th>
-									<td th:text="${counselInfo.reservationDate}"></td>
+                                <th>전화번호</th>
+                                <td th:text="${counselInfo.phone}"></td>
+                            </tr>
+                            <tr>
+                                <th>예약 일자</th>
+                                <td th:text="${counselInfo.reservationDate}"></td>
 
-									<th>시간</th>
-									<td th:text="${counselInfo.timeCode}"></td>
+                                <th>시간</th>
+								<td th:text="${counselInfo.timeCode + ' 시'}"></td>
 
-									<th>상태</th>
-									<td th:text="${counselInfo.reservationCode}"></td>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<th>내용</th>
-									<td th:text="${counselInfo.content}"></td>
-								</tr>
-							</tbody>
-						</table>
-					</form>
+                                <th>상태</th>
+                                <td th:text="${counselInfo.reservationCode}"></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>내용</th>
+                                <td th:text="${counselInfo.content}" colspan="5"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
-					<div>  
-						<button type="button" id="upBtn" class="btn btn-primary" style="background-color: #28587E; margin: 10px;" th:onclick="|location.href='@{/admin/counselUpdate(counselNumber=${counselInfo.counselNumber})}'|">수정</button>
-						<button type="button" id="liBtn" class="btn btn-secondary" style="background-color: #28587E; margin: 10px;" th:onclick="|location.href='@{/admin/counselList}'|">목록</button>
+					<div class="float-end">  
+						<button type="button" id="upBtn" class="btn btn-secondary" style="background-color: #14213d; margin: 10px;" th:onclick="|location.href='@{/admin/counselUpdate(counselNumber=${counselInfo.counselNumber})}'|">수정</button>
+						<button type="button" id="liBtn" class="btn btn-secondary" style="background-color: #14213d; margin: 10px;" th:onclick="|location.href='@{/admin/counselList}'|">목록</button>
 <!-- 						<button type="button" id="delBtn" class="btn btn-primary" th:onclick="|location.href='@{/admin/counseldelete(counselId=${counselInfo.counselNumber})}'|">삭제</button> -->
 					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 	<!-- content-wrapper ends -->
 
 </body>

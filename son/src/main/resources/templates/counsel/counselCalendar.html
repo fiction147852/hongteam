@@ -154,7 +154,7 @@ body {
     }
 
     .change {
-        background-color: #28587E;
+        background-color: #14213d;
         color: white;
     }
 
@@ -201,14 +201,14 @@ body {
 							<div id="counselWeekTime"></div>
 						</div>
 					</div>
-					<button type="button" style="background-color: #28587E" class="btn-close" data-bs-dismiss="modal"
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal" style="background-color: #28587E">닫기</button>
-					<button type="button" id="weekBtn" class="btn btn-primary"
-						data-bs-dismiss="modal" style="background-color: #28587E">저장</button>
+					<button type="button" class="btn btn-secondary" style="background-color: #14213d"
+						data-bs-dismiss="modal" >닫기</button>
+					<button type="button" id="weekBtn" class="btn btn-secondary" style="background-color: #14213d"
+						data-bs-dismiss="modal" >저장</button>
 				</div>
 			</div>
 		</div>
@@ -230,9 +230,9 @@ body {
 						aria-label="Close"></button>
 				</div>
 				<div class="modal-footer">
-					<button type="button" style="background-color: #28587E" class="btn btn-secondary"
+					<button type="button" class="btn btn-secondary" style="background-color: #14213d"
 						data-bs-dismiss="modal">취소</button>
-					<button type="button" style="background-color: #28587E" id="dayBtn" class="btn btn-primary"
+					<button type="button" class="btn btn-secondary" style="background-color: #14213d" id="dayBtn"
 						data-bs-dismiss="modal">저장</button>
 				</div>
 			</div>
@@ -242,7 +242,7 @@ body {
 <script th:inline="javascript">
 
 //===================================================================================
-// 일간 - 상담 시간 설정 ====================================================================
+// 일간 - 상담 시간 설정 
 // ===================================================================================
 
     const dayTimeData = /*[[${counselDayTime}]]*/"";  //예약 일정

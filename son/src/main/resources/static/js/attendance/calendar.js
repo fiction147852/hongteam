@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
         eventClick: function (eventInfo) {
             const eventDate = eventInfo.event.start.getFullYear() + "-" + String(eventInfo.event.start.getMonth() + 1).padStart(2, '0') + "-" + String(eventInfo.event.start.getDate()).padStart(2, '0');
             const lectureNumber = eventInfo.event.extendedProps.lectureNumber;
+            console.log("번호", lectureNumber);
             const eventType = eventInfo.event.extendedProps.type; // 클릭된 이벤트의 타입을 가져옴
 
             axios.get("student/scheduleDetail?deadlineDate=" + eventDate)
@@ -88,17 +89,47 @@ document.addEventListener('DOMContentLoaded', function () {
                         swiperWrapperDiv.innerHTML += slideHTML;
                     });
 
-                    const swiperPagination = document.querySelector('.swiper-pagination');
-                    // swiper 높이 조정
-                    if (filteredEvents.length > 0 && eventType === 'task') {
-                        swiperWrapperDiv.closest(".swiper").style.height = "130px";
-                        swiperWrapperDiv.closest(".swiper").style.marginBottom = "10px";
-                    } else if (filteredEvents.length > 0 && eventType === 'test') {
-                        swiperWrapperDiv.closest(".swiper").style.height = "80px";
-                        swiperPagination.style.setProperty('height', '80px', 'important');
+                    const swiperContainer = swiperWrapperDiv.closest(".swiper");
+                    swiperContainer.classList.remove("swiper-task", "swiper-test", "swiper-empty", "swiper-emptyTask", "swiper-emptyTest");
+                    if (filteredEvents.length > 1) {
+                        swiperContainer.classList.add(eventType === 'task' ? "swiper-task" : "swiper-test");
+                    } else {
+                        swiperContainer.classList.add(eventType === 'task' ? "swiper-emptyTask" : "swiper-emptyTest");
                     }
 
-                    swiperTwo.update();
+                    const listBtn = document.querySelector(".modal-header button:first-child");
+                    listBtn.addEventListener("click", function(e) {
+                        axios.get(`/lms/student/${lectureNumber}`)
+                            .then(response => {
+
+                                if(events[0].type === "task") {
+                                    window.location.href = `/lms/student/${lectureNumber}/task`;
+                                } else {
+                                    window.location.href = `/lms/student/${lectureNumber}/exam`;
+                                }
+                            })
+                            .catch(error => {
+                                console.error(error);
+                            })
+                    });
+
+                    // Swiper 초기화
+                    if (swiperTwo) {
+                        swiperTwo.destroy(true, true);
+                    }
+                    swiperTwo = new Swiper('.modal__lecture-info .swiper', {
+                        slidesPerView: 1,
+                        spaceBetween: 10,
+                        navigation: {
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev',
+                        },
+                        pagination: {
+                            el: '.swiper-pagination',
+                            clickable: true,
+                        },
+                        // 여기에 필요한 다른 Swiper 옵션들을 추가하세요
+                    });
 
                     const modal = new bootstrap.Modal(document.getElementById('eventModal'));
                     modal.show();
@@ -186,4 +217,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
     calendar.render();
+
+    const scrollEl = calendarEl.querySelector('.fc-scroller');
+    scrollEl.style.overflow = 'hidden';
 });

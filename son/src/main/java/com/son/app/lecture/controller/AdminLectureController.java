@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,13 +30,23 @@ public class AdminLectureController {
 	
 	//강의 리스트 및 세부사항 리스트 조회
 	@GetMapping("admin/adminlectureList")
-	public String adminLectureList(Model model, Criteria cri) {
+	public String adminLectureList(Model model, 
+									@ModelAttribute("cri") Criteria cri) {
+		
+		//페이징 최소값 1
+		if(cri.getPageNum() == null) {
+			cri.setPageNum(1);
+		}
+		
+		//과목 리스트
 		List<LectureSubjectVO> lecSublist = adminLectureService.adminLectureSubjectList();
 		model.addAttribute("lecSublist", lecSublist);
 		
+		//세부 과목 리스트
 		List<LectureSubjectDetailVO> lecSubDeList = adminLectureService.adminLectureSubjectDetailList();
 		model.addAttribute("lecSubDeList", lecSubDeList);
 		
+		// 과목 페이징
 		List<LectureVO> lecList = adminLectureService.adminLectureList(cri);
 		model.addAttribute("adminLecList", lecList);
 
