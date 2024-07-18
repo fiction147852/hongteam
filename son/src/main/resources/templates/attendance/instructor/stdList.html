@@ -10,7 +10,8 @@
 </head>
 
 <body>
-<h4 style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">학생명단</h4>
+	<h4
+		style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">학생명단</h4>
 	<div class="row">
 		<div class="col-md-12">
 			<div class="card">
@@ -25,12 +26,12 @@
 							</tr>
 						</thead>
 						<tbody class="table-group-divider">
-							<th:block>
+							<th:block th:each="std : ${studentInfoList}">
 								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
+									<td th:text="${std.studentNumber}"></td>
+									<td th:text="${std.studentName}"></td>
+									<td th:text="${std.email}"></td>
+									<td th:text="${std.phone}"></td>
 								</tr>
 							</th:block>
 						</tbody>
@@ -38,28 +39,32 @@
 				</div>
 			</div>
 		</div>
-		<div class="pagination-container">
-		    <ul class="pagination d-flex justify-content-center">
-		        <li th:if="${pageVO.prev}" class="page-item">
-		            <a th:href="@{/instructor/{lectureNumber}/taskList(lectureNumber=${lectureNumber}, page=${pageVO.startPage - 1}, searchKeyword=${searchKeyword})}"
-		               class="page-link">&laquo;</a>
-		        </li>
-		        <li th:each="pageNum : ${#numbers.sequence(pageVO.startPage, pageVO.endPage)}"
-		            th:class="${pageNum == pageVO.page} ? 'page-item active' : 'page-item'">
-		            <a th:href="@{/instructor/{lectureNumber}/taskList(lectureNumber=${lectureNumber}, page=${pageNum}, searchKeyword=${searchKeyword})}"
-		               th:text="${pageNum}" class="page-link"></a>
-		        </li>
-		        <li th:if="${pageVO.next}" class="page-item">
-		            <a th:href="@{/instructor/{lectureNumber}/taskList(lectureNumber=${lectureNumber}, page=${pageVO.endPage + 1}, searchKeyword=${searchKeyword})}"
-		               class="page-link">&raquo;</a>
-		        </li>
-		    </ul>
+		<div class="pagination-container mt-3">
+			<ul class="pagination d-flex justify-content-center">
+				<li th:if="${pageVO.prev}" class="page-item"><a
+					th:href="@{/instructor/{lectureNumber}(lectureNumber=${lectureNumber}, page=${pageVO.startPage - 1}, searchType=${searchType}, searchKeyword=${searchKeyword})}"
+					class="page-link">&laquo;</a></li>
+				<li
+					th:each="pageNum : ${#numbers.sequence(pageVO.startPage, pageVO.endPage)}"
+					th:class="${pageNum == pageVO.page} ? 'page-item active' : 'page-item'">
+					<a
+					th:href="@{/instructor/{lectureNumber}(lectureNumber=${lectureNumber}, page=${pageNum}, searchType=${searchType}, searchKeyword=${searchKeyword})}"
+					th:text="${pageNum}" class="page-link"></a>
+				</li>
+				<li th:if="${pageVO.next}" class="page-item"><a
+					th:href="@{/instructor/{lectureNumber}(lectureNumber=${lectureNumber}, page=${pageVO.endPage + 1}, searchType=${searchType}, searchKeyword=${searchKeyword})}"
+					class="page-link">&raquo;</a></li>
+			</ul>
 		</div>
 		<form id="searchForm" class="mb-3"
-			th:action="@{/instructor/{lectureNumber}/taskList(lectureNumber=${lectureNumber})}"
+			th:action="@{/instructor/{lectureNumber}(lectureNumber=${lectureNumber})}"
 			method="get">
 			<div class="d-flex justify-content-center mt-4">
-				<input type="text" placeholder="제목을 입력하세요" name="searchKeyword"
+				<select name="searchType" class="form-select me-2"
+					style="width: auto;">
+					<option value="studentName" th:selected="${searchType == 'studentName'}">이름</option>
+					<option value="email" th:selected="${searchType == 'email'}">이메일</option>
+				</select> <input type="text" placeholder="검색어를 입력하세요" name="searchKeyword"
 					id="searchKeyword" class="form-control me-2 col-3"
 					th:value="${searchKeyword}">
 				<button type="submit" class="btn btn-info">검색</button>

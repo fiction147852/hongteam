@@ -42,7 +42,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="pagination-container">
+		<div class="pagination-container mt-3">
 		    <ul class="pagination d-flex justify-content-center">
 		        <li th:if="${pageVO.prev}" class="page-item">
 		            <a th:href="@{/instructor/{lectureNumber}/qnaList(lectureNumber=${lectureNumber}, page=${pageVO.startPage - 1})}"
