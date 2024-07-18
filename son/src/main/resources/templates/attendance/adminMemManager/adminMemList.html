@@ -18,12 +18,28 @@
 </style>
 
 <body>
-    <h4 style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">회원 조회</h4>
+
+<div style="display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 20px; margin-top: 20px; margin-bottom: 20px;">
+    <form name="memLi" id="memLi">
+        <input type="hidden" id="pageNum" name="pageNum">
+        
+        <select name="auth" onchange="document.memLi.submit()" style="padding: 8px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc;">
+            <option value="">전체</option>
+            <option value="ROLE_STUDENT" th:selected="${cri.auth=='ROLE_STUDENT'}">학생</option>
+            <option value="ROLE_PARENT" th:selected="${cri.auth=='ROLE_PARENT'}">부모</option>
+            <option value="ROLE_INSTRUCTOR" th:selected="${cri.auth=='ROLE_INSTRUCTOR'}">강사</option>
+            <option value="ROLE_ADMIN" th:selected="${cri.auth=='ROLE_ADMIN'}">관리자</option>
+        </select>
+    </form>
+    
+    <h4 style="font-weight: 800; text-align: center; width: 300px; margin-left: 500px;">회원 조회</h4>
+</div>
+
 	<div class="row">
 		<div class="col-md-8">
 			<div class="card">
 				<div class="table-responsive pt-3">
-                        <table class="table table-striped project-orders-table text-center">
+                        <table class="table project-orders-table text-center">
 						<thead>
 							<tr>
 								<th>번호</th>
@@ -48,18 +64,7 @@
 			</div>
 			
 			
-		<form name="memLi" id="memLi" style="margin-top: 20px;">
-		    <input type="hidden" id="pageNum" name="pageNum">
-		    
-		    <select name="auth" onchange="document.memLi.submit()" style="padding: 8px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc;">
-		        <option value="">전체</option>
-		        <option value="ROLE_STUDENT" th:selected="${cri.auth=='ROLE_STUDENT'}">학생</option>
-		        <option value="ROLE_PARENT" th:selected="${cri.auth=='ROLE_PARENT'}">부모</option>
-		        <option value="ROLE_INSTRUCTOR" th:selected="${cri.auth=='ROLE_INSTRUCTOR'}">강사</option>
-		        <option value="ROLE_ADMIN" th:selected="${cri.auth=='ROLE_ADMIN'}">관리자</option>
-		    </select>
-		</form>
-					
+
 			
 			
 			<!-- 페이징 구현 -->
@@ -100,7 +105,7 @@
 				<div class="table-responsive pt-3">
 				    <h4 style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">회원 조회</h4>
 				
-					<table class="table table-striped project-orders-table">
+					<table class="table project-orders-table">
 						<tr>
 							<th id="name-name">이름</th>
 							<td id="name"></td>
