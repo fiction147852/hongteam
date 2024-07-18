@@ -4,6 +4,7 @@
 	layout:decorate="~{common/layouts/instructorDetailSubject_layout}"
 	layout:fragment="content">
 <head>
+<link th:href="@{/css/instructor/task/taskinfo.css}" rel="stylesheet">
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
@@ -11,58 +12,77 @@
 
 <title>과제 등록</title>
 <script th:inline="javascript">let lectureNumber = /* [[${lectureNumber}]] */ "";</script>
-<script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 <style>
-        #taskInfoBody {
-            font-family: 'Roboto', sans-serif;
-        }
+.attachment-cards {
+	display: block;
+}
+
+.ui-datepicker {
+width:300px;
+}
+
+.ui-datepicker select.ui-datepicker-month, .ui-datepicker select.ui-datepicker-year {
+	margin: 2px;
+}
 </style>
 </head>
 
 <body id="taskInfoBody">
-<h4 style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">과제 등록</h4>
-<div id="container" style="width:878px; margin:0 auto;">
- <form name="insertForm" th:action="@{/instructor/{lectureNumber}/taskInsert(lectureNumber=${lectureNumber})}" method="post" enctype="multipart/form-data">
-    <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
-    <input type="hidden" name="lectureNumber" th:value="${lectureNumber}" />
-        <div class="grid grid-cols-4 gap-4 p-6 border-b">
-            <div class="col-span-1 font-bold">제목</div>
-            <div class="col-span-3 border-gray-300">
-            <input type="text" class="form-control" name="title" />
-            </div>
-        </div>
-        <div class="grid grid-cols-4 gap-4 p-6 border-b">
-            <div class="col-span-1 font-bold">제출기한</div>
-            <div class="col-span-3  border-gray-300">
-            <input type="text" class="form-control" name="submitDeadline" placeholder="yyyy-MM-dd"/></div>
-        </div>
-        <div class="grid grid-cols-4 p-6 border-b">
-            <div class="col-span-1 font-bold mb-2">내용</div>
-            <div class="col-span-1  border-gray-300">
-				<textarea class="form-control" name="description" style="resize: none; width:45em; height: 12.25em;"></textarea>
-			</div>
-        </div>
-				<div class="grid grid-cols-4 p-6 border-b" id="file_list">
-				  <div class="col-span-1 font-bold mb-2">첨부 파일</div>
-				  <div class="col-span-3 file_input" id="file_input">
-				    <input type="text" readonly class="form-control mb-1" />
-				    <label id="file-field">
-				      <input type="file" name="files" multiple class="form-control" onchange="selectFile(this);" />
-				    </label>
-				    <button type="button" onclick="removeFile(this);" class="btn btn-danger"><span>삭제</span></button>
-					<button type="button" onclick="addFile();" class="btn btn-info"><span>파일 추가</span></button>
-				  </div>
-				</div>
-			</div>
-        <div class="btn-group float-end" role="group">
-        	<button type="submit" class="btn btn-success mt-3">등록</button>
-			<button type="button" class="btn btn-danger mt-3" th:onclick="|location.href='@{/instructor/{lectureNumber}/taskList(lectureNumber=${lectureNumber})}'|">취소</button>
-        </div>
-      </form>
-      </div>
+	<h4
+		style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">과제
+		등록</h4>
+	<form name="insertForm"
+		th:action="@{/instructor/{lectureNumber}/taskInsert(lectureNumber=${lectureNumber})}"
+		method="post" enctype="multipart/form-data">
+		<table class="table-custom">
+			<tr>
+				<th rowspan="2">제목</th>
+				<td rowspan="2" class="highlight"><input type="text"
+					class="form-control" name="title" /></td>
+				<th>게시일자</th>
+				<td th:text="${#dates.format(#dates.createNow(), 'yyyy년 MM월 dd일')}"></td>
+			</tr>
+			<tr>
+				<th>제출기한</th>
+				<td><input type="text" class="form-control" id="datepicker"
+					name="submitDeadline" placeholder="yyyy-MM-dd" /></td>
+			</tr>
+			<tr>
+				<th>내용</th>
+				<td colspan="3"><textarea class="form-control"
+						name="description"
+						style="resize: none; width: 100%; height: 12.25em;"></textarea></td>
+			</tr>
+			<tr>
+				<th>첨부 파일</th>
+				<td colspan="3">
+					<div class="attachment-cards" id="file_input">
+						<!-- 파일공간 -->
+					</div>
+					<button type="button" onclick="addFile();"
+						class="btn btn-info mt-2">
+						<span>파일 추가</span>
+					</button>
+				</td>
+			</tr>
+		</table>
+		<input type="hidden" name="lectureNumber" th:value="${lectureNumber}" />
+		<div class="btn-group float-end" role="group">
+			<button type="submit" class="btn btn-success mt-3">등록</button>
+			<button type="button" class="btn btn-danger mt-3"
+				th:onclick="|location.href='@{/instructor/{lectureNumber}/taskList(lectureNumber=${lectureNumber})}'|">취소</button>
+		</div>
+	</form>
 
 	<script>
+    $( "#datepicker" ).datepicker({ 
+    	minDate: 0, 
+    	dateFormat: "yy-mm-dd",
+    	showOtherMonths: true,
+        showMonthAfterYear: true,
+        changeYear: true,
+        changeMonth: true});
+    
 	let insertForm = $('form[name="insertForm"]');
 
     function taskInsertHandler(event) {
@@ -80,56 +100,58 @@
         insertForm.submit();
     };
 	
- // 파일 선택
     function selectFile(element) {
-      const file = element.files[0];
-      const filename = element.closest('.file_input').querySelector('input[type="text"]');
+        const file = element.files[0];
+        const filename = element.previousElementSibling; // 텍스트 입력 필드
 
-      // 1. 파일 선택 창에서 취소 버튼이 클릭된 경우
-      if (!file) {
-        filename.value = '';
-        return false;
-      }
+        // 1. 파일 선택 창에서 취소 버튼이 클릭된 경우
+        if (!file) {
+            filename.value = '';
+            return false;
+        }
 
-      // 2. 파일 크기가 10MB를 초과하는 경우
-      const fileSize = Math.floor(file.size / 1024 / 1024);
-      if (fileSize > 10) {
-        alert('10MB 이하의 파일로 업로드해 주세요.');
-        filename.value = '';
-        element.value = '';
-        return false;
-      }
+        // 2. 파일 크기가 10MB를 초과하는 경우
+        const fileSize = Math.floor(file.size / 1024 / 1024);
+        if (fileSize > 10) {
+            alert('10MB 이하의 파일로 업로드해 주세요.');
+            filename.value = '';
+            element.value = '';
+            return false;
+        }
 
-      // 3. 파일명 지정
-      filename.value = file.name;
+        // 3. 파일명 지정
+        filename.value = file.name;
     }
 
-    // 파일 추가
-    function addFile() {
-      const fileDiv = document.createElement('div');
-      fileDiv.className = 'col-span-3 file_input';
-      fileDiv.innerHTML = `
-        <input type="text" readonly class="form-control mb-1" />
-        <label>
-          <input type="file" name="files" class="form-control" onchange="selectFile(this);" />
-        </label>
-        <button type="button" onclick="removeFile(this);" class="btn btn-danger"><span>삭제</span></button>
-      `;
-      document.getElementById('file_input').appendChild(fileDiv);
-    }
-
-    // 파일 삭제
     function removeFile(element) {
-      const fileInput = element.closest('.file_input');
-      if (fileInput.parentElement.id === 'file_list') {
-        const inputs = fileInput.querySelectorAll('input');
-        inputs.forEach(input => input.value = '');
-      } else {
-        fileInput.remove();
-      }
+        const fileItem = element.closest('.file-item');
+        if (document.querySelectorAll('.file-item').length > 1) {
+            fileItem.remove();
+        } else {
+            // 마지막 파일 입력 필드는 제거하지 않고 초기화
+            const inputs = fileItem.querySelectorAll('input');
+            inputs.forEach(input => input.value = '');
+        }
     }
+    // 파일 추가
+	function addFile() {
+	    const fileInputContainer = document.getElementById('file_input');
+	    const fileDiv = document.createElement('div');
+	    fileDiv.className = 'file-item d-flex justify-content mb-2';
+	    fileDiv.innerHTML = `
+	        <input type="text" readonly class="form-control col-4" onclick="this.nextElementSibling.click();" />
+	        <input type="file" name="files" class="form-control" onchange="selectFile(this);" style="display:none;" />
+	        <div><button type="button" onclick="removeFile(this);" class="btn btn-danger btn-sm mt-2 ml-1">x</button></div>
+	    `;
+	    fileInputContainer.appendChild(fileDiv);
+	}
+	
+	// 페이지 로드 시 첫 번째 파일 입력 필드 추가
+	document.addEventListener('DOMContentLoaded', function() {
+	    addFile();
+	});
 	</script>
-		
+
 	<!-- End custom js for this page-->
 </body>
 

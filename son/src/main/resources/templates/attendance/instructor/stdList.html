@@ -5,12 +5,12 @@
 	layout:fragment="content">
 <head>
 
-<title>과제 목록</title>
+<title>학생 목록</title>
 
 </head>
 
 <body>
-<h4 style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">과제</h4>
+<h4 style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">학생명단</h4>
 	<div class="row">
 		<div class="col-md-12">
 			<div class="card">
@@ -18,32 +18,25 @@
 					<table class="table table-hover text-center project-orders-table">
 						<thead>
 							<tr>
-								<th>번호</th>
-								<th>제목</th>
-								<th>게시 일자</th>
-								<th>제출 기한</th>
-								<th>제출인원현황</th>
+								<th>학생번호</th>
+								<th>이름</th>
+								<th>이메일</th>
+								<th>전화번호</th>
 							</tr>
 						</thead>
 						<tbody class="table-group-divider">
-							<th:block th:each="tasks : ${taskList}">
-								<tr
-									th:onclick="|location.href='@{/instructor/{lectureNumber}/taskInfo(taskNumber=${tasks.taskNumber}, lectureNumber=${lectureNumber})}'|">
-									<td>[[ ${tasks.taskNumber} ]]</td>
-									<td>[[ ${tasks.title} ]]</td>
-									<td>[[ ${#dates.format(tasks.postDate, 'yyyy년 MM월 dd일')}
-										]]</td>
-									<td>[[ ${#dates.format(tasks.submitDeadline, 'yyyy년 MM월
-										dd일')} ]]</td>
-									<td>[[ ${tasks.submittedCount} ]]명 / [[ ${tasks.totalCount} ]]명</td>
+							<th:block>
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
 								</tr>
 							</th:block>
 						</tbody>
 					</table>
 				</div>
 			</div>
-			<button type="button" class="btn btn-primary mt-3 float-end"
-				th:onclick="|location.href='@{/instructor/{lectureNumber}/taskInsert(lectureNumber=${lectureNumber})}'|">작성</button>
 		</div>
 		<div class="pagination-container">
 		    <ul class="pagination d-flex justify-content-center">
