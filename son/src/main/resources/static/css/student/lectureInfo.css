@@ -64,7 +64,7 @@
 /* 모달 창 안에 있는 슬라이드 */
 
 .modal__lecture-info .swiper {
-    height: 150px;
+    height: 130px;
     margin-top: 10px;
     margin-bottom: 10px;
 }
@@ -105,4 +105,33 @@
 .fc-scrollgrid-sync-inner a {
     color: black;
     font-weight: 500;
+}
+
+.swiper-task {
+    height: 130px;
+    margin-bottom: 10px;
+}
+
+.swiper-test .swiper-pagination {
+    top: 80px !important;
+}
+
+.swiper-test {
+    height: 100px !important;;
+    margin-bottom: 0;
+}
+
+.swiper-emptyTask {
+    height: 110px !important;;
+}
+
+.swiper-emptyTest {
+    height: 80px !important;
+    margin-bottom: 0;
+}
+
+
+
+.swiper-button-next, .swiper-button-prev {
+    color: #27587E;
 }

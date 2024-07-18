@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class AttendanceStatsVO {
 
-    private Integer totalDays;
-    private Integer attendanceDays;
-    private Integer tardyDays;
-    private Integer earlyLeaveDays;
-    private Integer absentDays;
+    private int totalDays;
+    private int attendanceDays;
+    private int tardyDays;
+    private int earlyLeaveDays;
+    private int absentDays;
 }
