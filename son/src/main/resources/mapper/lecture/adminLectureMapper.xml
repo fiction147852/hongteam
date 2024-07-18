@@ -11,7 +11,7 @@
    	   		 FROM (SELECT lecture_number,          <!-- 강의 번호 -->
 					lecture_title,              <!-- 강의 제목 -->
 					lecture_description,        <!-- 강의 설명 -->
-					subject_name(subject_code) subject_code,               <!-- 과목 코드 -->
+					find_subject_name(subject_code) subject_code,               <!-- 과목 코드 -->
 					detail_subject_name(detail_subject_code) detail_subject_code,        <!-- 세부 과목 코드 -->
 					lecture_cost,               <!-- 강의 비용 -->
 					lecture_level_code,         <!-- 강의 수준 코드 -->
@@ -22,11 +22,11 @@
 					capacity,                   <!-- 강의 수용 인원 -->
 					ins_name(instructor_number) instructor_name <!-- 강사 번호 -->
 				FROM lecture
-		<where>
-		  <if test="subjectName != null and subjectName != ''.toString()">
-		  	subject_name = #{subjectName}
-		  </if>
-		</where>
+				<where>
+				  <if test="subjectName != null and subjectName != ''.toString()">
+				  	find_subject_name(subject_code) = #{subjectName}
+				  </if>
+				</where>
 				ORDER BY lecture_start_date DESC) a 
 					) c 
 		<![CDATA[
@@ -42,7 +42,7 @@
 		SELECT lecture_number,          <!-- 강의 번호 -->
 			lecture_title,              <!-- 강의 제목 -->
 			lecture_description,        <!-- 강의 설명 -->
-			subject_name(subject_code) subject_code,               <!-- 과목 코드 -->
+			find_subject_name(subject_code) subject_code,               <!-- 과목 코드 -->
 			detail_subject_name(detail_subject_code) detail_subject_code,        <!-- 세부 과목 코드 -->
 			lecture_cost,               <!-- 강의 비용 -->
 			lecture_level_code,         <!-- 강의 수준 코드 -->
@@ -55,7 +55,7 @@
 		FROM lecture
 		<where>
 		  <if test="subjectName != null and subjectName != ''.toString()">
-		  	subject_name = #{subjectName}
+		  	find_subject_name(subject_code) = #{subjectName}
 		  </if>
 		</where>
 		ORDER BY lecture_number DESC)	
@@ -70,7 +70,7 @@
 		SELECT lecture_number,          <!-- 강의 번호 -->
 			lecture_title,              <!-- 강의 제목 -->
 			lecture_description,        <!-- 강의 설명 -->
-			subject_name(subject_code) subject_code,               <!-- 과목 코드 -->
+			find_subject_name(subject_code) subject_code,               <!-- 과목 코드 -->
 			detail_subject_name(detail_subject_code) detail_subject_code,        <!-- 세부 과목 코드 -->
 			lecture_cost,               <!-- 강의 비용 -->
 			lecture_level_code,         <!-- 강의 수준 코드 -->
