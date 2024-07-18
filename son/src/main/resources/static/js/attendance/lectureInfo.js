@@ -31,10 +31,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     swiperTwo = new Swiper('.modal__lecture-info .swiper', {
         grabCursor: true,
+        simulateTouch: false, // 터치 및 드래그로 슬라이드 이동을 방지
+        allowTouchMove: false,
+        touchRatio: 0,
+        noSwipingClass: 'swiper-no-swiping',
         pagination: {
             el: '.swiper-pagination',
             clickable: true,
         },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        }
 
     });
 });
