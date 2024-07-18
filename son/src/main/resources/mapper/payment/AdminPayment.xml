@@ -23,7 +23,14 @@
 				        JOIN lecture l
 				        ON c.lecture_number = l.lecture_number
 				        JOIN student s
-				        ON c.student_number = s.student_number) a 
+				        ON c.student_number = s.student_number
+				    <where>
+					  <if test="registrationStatus != null and registrationStatus != ''.toString()">
+					  	c.registration_status = #{registrationStatus}
+					  </if>
+					</where>
+				    ORDER BY c.approval_date
+				    ) a 
 					) c 
 		<![CDATA[
 		WHERE c.rn <= #{pageNum} * #{amount} AND
@@ -51,7 +58,12 @@
         JOIN lecture l
         ON c.lecture_number = l.lecture_number
         JOIN student s
-        ON c.student_number = s.student_number)
+        ON c.student_number = s.student_number
+	    <where>
+		  <if test="registrationStatus != null and registrationStatus != ''.toString()">
+		  	c.registration_status = #{registrationStatus}
+		  </if>
+		</where>)
 	</select>
 
 
