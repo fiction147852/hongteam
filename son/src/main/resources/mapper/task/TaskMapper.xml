@@ -33,8 +33,13 @@
     <!-- 검색 -->
     <select id="searchTasks" resultType="TaskVO">
 	    SELECT t.*,
-	           (SELECT COUNT(*) FROM task_submit WHERE task_number = t.task_number AND task_submit_code = '제출 완료') as submittedCount,
-	           (SELECT COUNT(*) FROM task_submit WHERE task_number = t.task_number) as totalCount
+	           (SELECT COUNT(*) 
+	           	FROM task_submit 
+	           	WHERE task_number = t.task_number 
+	           	AND task_submit_code = '제출 완료') as submittedCount,
+	           (SELECT COUNT(*) 
+	           	FROM task_submit 
+	           	WHERE task_number = t.task_number) as totalCount
 	    FROM (
 	        SELECT ROW_NUMBER() OVER (ORDER BY task_number DESC) AS rn,
 	               task_number,

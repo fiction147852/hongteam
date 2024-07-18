@@ -1,0 +1,95 @@
+.table-custom {
+    width: 100%;
+    border-collapse: collapse;
+}
+.table-custom th, .table-custom td {
+    border: 1px solid #dee2e6;
+    padding: 10px;
+    text-align: left;
+}
+.table-custom th {
+    width: 180px;
+    background-color: #844fc1;
+    color: white;
+    text-align: center;
+    font-weight: 800;
+}
+.table-custom td {
+    background-color: #f8f9fa;
+}
+
+.table-custom tr:nth-child(1) {
+    height: 60px;
+}
+
+.table-custom tr:nth-child(2) {
+    height: 60px;
+}
+
+.table-custom tr:nth-child(3) {
+    height: 200px;
+}
+
+.table-custom:first-of-type tr:first-child td:last-of-type {
+    width: 40vw;
+}
+
+.table-custom tr:last-child {
+    height: 100px;
+}
+
+.header-title {
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    font-weight: 800;
+}
+.header-right {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.header-right span {
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.highlight {
+    background-color: #844fc1;
+    color: black;
+    text-align: center;
+    width: 50vw;
+}
+
+.table-custom tr:last-child td a {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    font-weight: 400;
+}
+
+.attachment-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.card {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    padding: 10px;
+    width: 250px;
+    text-align: center;
+    border-radius: 8px;
+}
+.card a {
+    text-decoration: none;
+    color: #000;
+    font-weight: 500;
+}
+.card a:hover {
+    text-decoration: underline;
+}
+
+.card i {
+    margin-right: 10px;
+}

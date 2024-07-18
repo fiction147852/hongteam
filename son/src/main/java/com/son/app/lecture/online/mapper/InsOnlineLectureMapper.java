@@ -13,10 +13,4 @@ public interface InsOnlineLectureMapper {
 	int countOnlineLecs(@Param("lectureNumber") Integer lectureNumber);
 	
 	public OnlineLectureVO selectLectureInfo(@Param("onlineLectureNumber") Integer onlineLectureNumber);
-	
-	public int insertOnlineLectureInfo(OnlineLectureVO onlineLectureVO);
-	
-	public int updateOnlineLectureInfo(OnlineLectureVO onlineLectureVO);
-	
-	public int deleteOnlineLectureInfo(int onlineLectureNo);
 }

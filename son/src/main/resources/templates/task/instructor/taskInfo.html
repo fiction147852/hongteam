@@ -5,60 +5,53 @@
 	layout:fragment="content">
 <head>
 
+	<link th:href="@{/css/instructor/task/taskinfo.css}" rel="stylesheet">
+
 <title>과제 상세 조회</title>
 
 <!-- Include ConfigFragment -->
-<script src="https://cdn.tailwindcss.com"></script>
 <script th:inline="javascript">let lectureNumber = /* [[${lectureNumber}]] */ "";</script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-<style>
-        #taskInfoBody {
-            font-family: 'Roboto', sans-serif;
-        }
-</style>
+
 </head>
 
 <body id="taskInfoBody">
-			
-			
-	<div id="container" class="mt-5" style="width: 896px; margin: 0 auto;">
-    <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
-        <div class="grid grid-cols-4 gap-4 p-6 border-b">
-            <div class="col-span-1 font-bold">제목</div>
-            <div class="col-span-3 border-gray-300" th:text="${taskInfo.title}"></div>
-        </div>
-        <div class="grid grid-cols-4 gap-4 p-6 border-b">
-            <div class="col-span-1 font-bold">게시일자</div>
-            <div class="col-span-1  border-gray-300" th:text="${#dates.format(taskInfo.postDate, 'yyyy년 MM월 dd일')}"></div>
-            <div class="col-span-1 font-bold">제출기한</div>
-            <div class="col-span-1  border-gray-300" th:text="${#dates.format(taskInfo.submitDeadline, 'yyyy년 MM월 dd일')}"></div>
-        </div>
-        <div class="grid grid-cols-4 gap-4 p-6">
-            <div class="col-span-1 font-bold mb-2">내용</div>
-            <div class="col-span-1  border-gray-300" th:text="${taskInfo.description}">
-			</div>
-        </div>
-		<div class="grid grid-cols-4 p-6 border-b">
-		    <div class="col-span-1 font-bold mb-2">첨부 파일</div>
-		    <div class="col-span-3 border-gray-300" id="files">
-		        
-		            <th:block th:each="file : ${taskInfo.fileList}">
-		                <p th:if="${file.isDeleted} == false">
-		                    <a th:href="@{/instructor/taskInfo/{taskNumber}/files/{attachmentFileNumber}/download(taskNumber=${taskInfo.taskNumber},attachmentFileNumber=${file.attachmentFileNumber})}">
-		                    <span class="icons"><i class="fas fa-folder-open"></i></span>
-		                    <span th:text="${file.originalFileName}"> <span class="icons"><i class="fas fa-folder-open"></i></span></span></a>
-		                </p>
-		        </th:block>
-		    </div>
-		</div>
-    </div>
-        <div class="btn-group float-end" role="group">
-        	<button type="button" class="btn btn-success mt-3" th:onclick="|location.href='@{/instructor/{lectureNumber}/taskUpdate/{taskNumber}(lectureNumber=${lectureNumber},taskNumber=${taskInfo.taskNumber})}'|">수정</button>
-			<button type="button" class="btn btn-secondary mt-3" th:onclick="|location.href='@{/instructor/{lectureNumber}/taskList(lectureNumber=${taskInfo.lectureNumber})}'|">목록</button>
-			<button type="button" class="btn btn-danger mt-3" th:onclick="confirmDelete(this)" th:data-task-no="${taskInfo.taskNumber}" th:data-lecture-no="${taskInfo.lectureNumber}">삭제</button>
+    <table class="table-custom">
+      <tr>
+        <th rowspan="2">제목</th>
+        <td rowspan="2" class="highlight" th:text="${taskInfo.title}"></td>
+        <th>게시일자</th>
+        <td th:text="${#dates.format(taskInfo.postDate, 'yyyy년 MM월 dd일')}"></td>
+      </tr>
+      <tr>
+        <th>제출기한</th>
+        <td th:text="${#dates.format(taskInfo.submitDeadline, 'yyyy년 MM월 dd일')}"></td>
+      </tr>
+      <tr>
+        <th>내용</th>
+        <td colspan="3" th:text="${taskInfo.description}"></td>
+      </tr>
+      <tr>
+        <th>첨부 파일</th>
+        <td colspan="3">
+          <div class="attachment-cards">
+            <th:block th:each="file : ${taskInfo.fileList}">
+              <div class="card" th:if="${file.isDeleted} == false">
+                <a th:href="@{/instructor/taskInfo/{taskNumber}/files/{attachmentFileNumber}/download(taskNumber=${taskInfo.taskNumber},attachmentFileNumber=${file.attachmentFileNumber})}">
+                  <span class="icons"><i class="fas fa-folder-open"></i></span>
+                  <span th:text="${file.originalFileName}"></span>
+                </a>
+              </div>
+            </th:block>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <div class="btn-group float-end" role="group">
+      <button type="button" class="btn btn-success mt-3" th:onclick="|location.href='@{/instructor/{lectureNumber}/taskUpdate/{taskNumber}(lectureNumber=${lectureNumber},taskNumber=${taskInfo.taskNumber})}'|">수정</button>
+      <button type="button" class="btn btn-secondary mt-3" th:onclick="|location.href='@{/instructor/{lectureNumber}/taskList(lectureNumber=${taskInfo.lectureNumber})}'|">목록</button>
+      <button type="button" class="btn btn-danger mt-3" th:onclick="confirmDelete(this)" th:data-task-no="${taskInfo.taskNumber}" th:data-lecture-no="${taskInfo.lectureNumber}">삭제</button>
       <button type="button" class="btn btn-info mt-3" th:onclick="|location.href='@{/instructor/{lectureNumber}/task/{taskNumber}/submittedStudents(lectureNumber=${lectureNumber},taskNumber=${taskInfo.taskNumber})}'|">제출상태</button>
-        </div>
-  	</div>
+    </div>
   	
   	<script>
 
