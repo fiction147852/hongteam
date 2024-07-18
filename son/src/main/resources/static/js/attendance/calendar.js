@@ -94,8 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         swiperWrapperDiv.closest(".swiper").style.height = "130px";
                         swiperWrapperDiv.closest(".swiper").style.marginBottom = "10px";
                     } else if (filteredEvents.length > 0 && eventType === 'test') {
-                        swiperWrapperDiv.closest(".swiper").style.height = "80px";
-                        swiperPagination.style.setProperty('height', '80px', 'important');
+                        swiperWrapperDiv.closest(".swiper").style.height = "120px";
                     }
 
                     swiperTwo.update();
