@@ -7,6 +7,6 @@ import com.son.app.payment.service.ParentPayVO;
 public interface ParentPayMapper {
 	// 지불강의 리스트
 	public List<ParentPayVO> lecturePayList(Integer parentNumber);
-    public int savePaymentInfo(ParentPayVO paymentInfo);
-    public int updatePaymentStatus(ParentPayVO paymentInfo);
+	
+    public int updatePaymentStatus(Integer chargeNumber);
 }

@@ -19,12 +19,7 @@ public class ParentPayServiceImpl implements ParentPayService{
 	}
 
 	@Override
-	public int savePaymentInfo(ParentPayVO paymentInfo) {
-		return parentpaymapper.savePaymentInfo(paymentInfo);
-	}
-
-	@Override
-	public int updatePaymentStatus(ParentPayVO paymentInfo) {
-		return parentpaymapper.updatePaymentStatus(paymentInfo);
+	public int updatePaymentStatus(Integer chargeNumber) {
+		return parentpaymapper.updatePaymentStatus(chargeNumber);
 	}	
 }

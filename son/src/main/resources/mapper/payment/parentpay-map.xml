@@ -4,37 +4,24 @@
 
 	<!-- 결제목록 -->
 	<select id="lecturePayList" resultType="ParentPayVO">
-		SELECT lecture_title, lecture_cost, std_name(c.student_number) as
-		student_name, c.*
+		SELECT lecture_title, lecture_cost, std_name(c.student_number) as student_name,
+				TO_CHAR(request_date, 'yyyy-MM-dd') AS request_date,
+				TO_CHAR(approval_date, 'yyyy-MM-dd') AS approval_date,
+				charge_code, charge_number
 		FROM charge c
 		JOIN lecture l
 		ON c.lecture_number = l.lecture_number
 		WHERE student_number in (SELECT student_number
 								FROM student
 								WHERE parent_number = #{parentNumber})
-								ORDER BY charge_number DESC
+								ORDER BY charge_number
 	</select>
-    <!-- 결제 정보 저장 -->
-    <insert id="savePaymentInfo" parameterType="ParentPayVO">
-        INSERT INTO charge (
-            charge_number, charge_code, request_date, lecture_number, 
-            approval_date, receive_status, payment_type, student_number, 
-            registration_status
-        ) VALUES (
-            charge_seq.NEXTVAL, #{chargeCode}, SYSDATE, #{lectureNumber},
-            #{approvalDate}, #{receiveStatus}, #{paymentType}, #{studentNumber},
-            #{registrationStatus}
-        )
-    </insert>
 
     <!-- 결제 상태 업데이트 -->
-    <update id="updatePaymentStatus" parameterType="ParentPayVO">
+    <update id="updatePaymentStatus">
         UPDATE charge
-        SET charge_code = #{chargeCode},
-            approval_date = SYSDATE,
-            receive_status = #{receiveStatus},
-            payment_type = #{paymentType},
-            registration_status = #{registrationStatus}
+        SET charge_code = '결제완료',
+        	request_date = sysdate
         WHERE charge_number = #{chargeNumber}
     </update>
 </mapper>
