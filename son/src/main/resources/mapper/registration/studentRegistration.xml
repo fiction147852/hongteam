@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.son.app.registration.mapper.StudentCourseRegistrationMapper">
+
+    <!-- 수강 신청 목록  -->
+    <select id="studentCourseRegistration" resultType="CourseRegistrationVO">
+        SELECT *
+        FROM (SELECT ROW_NUMBER() OVER(ORDER BY lecture.lecture_number DESC) AS row_num
+                   , lecture.lecture_number
+                   , lecture_title
+                   , lecture_description
+                   , lecture_cost
+                   , subject_name(subject_code) AS subject_name
+                   , detail_subject_name(detail_subject_code) AS detail_subject_name
+                   , lecture_level_code
+                   , weekdays_code
+                   , time_code
+                   , lecture_start_date
+                   , lecture_end_date
+                   , ins_name(instructor_number) AS instructor_name
+              FROM lecture
+              WHERE NOT EXISTS (SELECT 1
+                                FROM registration
+                                WHERE lecture.lecture_number = registration.lecture_number AND student_number = #{studentNumber})
+                  <if test="lectureTitle != null and lectureTitle != ''">
+                      AND test_title LIKE '%' || #{lectureTitle} || '%'
+                  </if>
+                  <choose>
+                      <when test="subjectName == '국어'">
+                          AND subject_name(lecture.subject_code) = '국어'
+                      </when>
+                      <when test="subjectName == '영어'">
+                          AND subject_name(lecture.subject_code) = '영어'
+                      </when>
+                      <when test="subjectName == '수학'">
+                          AND subject_name(lecture.subject_code)= '수학'
+                      </when>
+                  </choose>
+              )
+        WHERE row_num BETWEEN #{startRow} AND #{endRow}
+    </select>
+
+    <select id="studentCourseRegistrationCount" resultType="int">
+        SELECT COUNT(*)
+        FROM lecture
+        WHERE NOT EXISTS (SELECT 1
+                          FROM registration
+                          WHERE lecture.lecture_number = registration.lecture_number AND student_number = #{studentNumber})
+            <if test="lectureTitle != null and lectureTitle != ''">
+                AND test_title LIKE '%' || #{lectureTitle} || '%'
+            </if>
+            <choose>
+                <when test="subjectName == '국어'">
+                    AND subject_name(lecture.subject_code) = '국어'
+                </when>
+                <when test="subjectName == '영어'">
+                    AND subject_name(lecture.subject_code) = '영어'
+                </when>
+                <when test="subjectName == '수학'">
+                    AND subject_name(lecture.subject_code) = '수학'
+                </when>
+            </choose>
+    </select>
+
+    <insert id="insertCharge" parameterType="ChargeVO">
+        <selectKey keyProperty="chargeNumber" resultType="Integer" order="BEFORE">
+            SELECT NVL(MAX(charge_number) + 1, 1)
+            FROM charge
+        </selectKey>
+        INSERT INTO charge (charge_number
+                , charge_code
+                , lecture_number
+                , approval_date
+                , receive_status
+                , student_number
+                , registration_status
+        )VALUES (#{chargeNumber}
+            , '결제대기'
+            , #{lectureNumber}
+            , SYSDATE
+            , '수납대기'
+            , #{studentNumber}
+            , '등록대기'
+        )
+    </insert>
+
+</mapper>

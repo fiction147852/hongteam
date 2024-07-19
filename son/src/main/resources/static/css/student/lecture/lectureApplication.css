@@ -1,0 +1,148 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: whitesmoke;
+    margin: 0;
+}
+
+h4 {
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 10px;
+    margin-top: 30px;
+    color: #333;
+}
+
+#dropDownContainer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#subjectNameDropDown {
+    height: 40px;
+}
+
+.course-card {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    justify-content: center;
+}
+
+.card {
+    background-color: white;
+    width: 100%;
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card-content p {
+    font-size: 16px;
+    margin-bottom: 8px !important;
+}
+
+.card-content span {
+    margin-left: 8px;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+.card-header {
+    background-color: #27587E;
+    color: white;
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: center;
+}
+.card-content {
+    padding: 20px;
+    text-align: left;
+    line-height: 1.6; /* 줄 높이 조정 */
+}
+
+.card-footer {
+    text-align: center;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    background-color: #f4f4f4;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.select-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #27587E;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.select-btn.selected {
+    background-color: white;
+    color: black;
+}
+
+.select-btn:hover {
+    background-color: #27587E;
+    color: white;
+}
+
+.btn-container {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.btn-container button {
+    color: white;
+    background-color: #28587E;
+    font-weight: 800;
+}
+
+.btn-container button:hover {
+    color: white;
+    background-color: #28587E;
+    font-weight: 800;
+}
+
+.pagination .page-item .page-link {
+    background-color: #27587E;
+    border-color: #27587E;
+    font-weight: 600;
+    color: white;
+}
+
+.pagination .page-item.active .page-link, .pagination .page-item:hover .page-link, .pagination .page-item:focus .page-link, .pagination .page-item:active .page-link {
+    background-color: white;
+    border-color: white;
+    color: black;
+}
+
+/* alert 창 */
+.registration__icon {
+    border-color: #19344C !important;
+    color: #19344C !important;
+}
+
+.registration__icon__title {
+    font-weight: 800 !important;
+}
+
+.registration__icon__tex {
+    font-weight: 600 !important;
+}
+
