@@ -26,26 +26,6 @@ public class ParentPayController {
 		model.addAttribute("payment", list);
         return "member/parent/parent_pay";
     }
-    // 결제 콜백 처리
-//    @PostMapping("/parent/pay/callback")
-//    public ResponseEntity<?> paymentCallback(@RequestBody Map<String, Object> payload) {
-//        String paymentId = (String) payload.get("paymentId");
-//        String status = (String) payload.get("status");
-//        Integer chargeNumber = Integer.valueOf((String) payload.get("chargeNumber"));
-//
-//        if ("SUCCESS".equals(status)) {
-//
-//            int updatedRows = parentpayService.updatePaymentStatus(chargeNumber);
-//
-//            if (updatedRows > 0) {
-//                return ResponseEntity.ok().body(Map.of("message", "Payment processed successfully"));
-//            } else {
-//                return ResponseEntity.badRequest().body(Map.of("message", "Failed to update payment status"));
-//            }
-//        } else {
-//            return ResponseEntity.badRequest().body(Map.of("message", "Payment failed"));
-//        }
-//    }
     
     @ResponseBody
     @PostMapping("/parent/pay/callback")
