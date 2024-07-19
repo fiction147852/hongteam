@@ -13,4 +13,5 @@ public interface InsOnlineLectureMapper {
 	int countOnlineLecs(@Param("lectureNumber") Integer lectureNumber);
 	
 	public OnlineLectureVO selectLectureInfo(@Param("onlineLectureNumber") Integer onlineLectureNumber);
+	public int incrementOnlineLectureViewCount(Integer onlineLectureNumber);
 }
