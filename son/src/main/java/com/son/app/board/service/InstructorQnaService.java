@@ -12,4 +12,6 @@ public interface InstructorQnaService {
 	
 	public ParentCounselVO qnaInfo(Integer counselNumber);
 	
+	public int updateQna(ParentCounselVO qvo);
+	
 }

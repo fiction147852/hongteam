@@ -34,7 +34,7 @@
 									<td th:text="${#dates.format(question.writeDate, 'yyyy-MM-dd')}"></td>
 									<td th:text="${question.parentName}"></td>
 									<td th:text="${question.studentName}"></td>
-									<td th:text="${question.responseStatus == 0 ? '답변 대기중' : '답변 완료'}"></td>
+									<td th:text="${question.responseStatus == 1 ? '답변 완료' : '답변 대기중'}"></td>
 								</tr>
 							</th:block>
 						</tbody>

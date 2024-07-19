@@ -8,4 +8,5 @@ public interface InstructorQnaMapper {
 	public int countQna(Integer lectureNumber);
 	public List<ParentCounselVO> selectCounselAll(Integer lectureNumber, int start, int end);
 	public ParentCounselVO counselInfo(Integer counselNumber);
+	public int updateQna(ParentCounselVO qvo);
 }

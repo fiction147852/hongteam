@@ -22,7 +22,7 @@
 	            std_name(student_number) AS student_name,
 	            ins_name(instructor_number) AS instructor_name
 		    FROM parent_counsel
-		    WHERE lecture_number = 1) p
+		    WHERE lecture_number = #{lectureNumber}) p
 		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 	
@@ -36,5 +36,11 @@
 		FROM parent_counsel
 		WHERE counsel_number = #{counselNumber}
 	</select>
+	
+	<update id="updateQna">
+		UPDATE parent_counsel
+		SET response_status = '1', response_content = #{responseContent}
+		WHERE counsel_number = #{counselNumber}
+	</update>
 
 </mapper>
