@@ -38,4 +38,10 @@ public class InstructorQnaServiceImpl implements InstructorQnaService {
 		return mapper.counselInfo(counselNumber);
 	}
 
+	@Override
+	public int updateQna(ParentCounselVO qvo) {
+		
+		return mapper.updateQna(qvo);
+	}
+
 }

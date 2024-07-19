@@ -25,34 +25,39 @@
 			<td th:text="${#dates.format(question.writeDate, 'yyyy년 MM월 dd일')}"></td>
 		</tr>
 		<tr>
+			<th rowspan="1">작성자</th>
+			<td rowspan="1" class="highlight" th:text="${question.parentName}"></td>
+			<th>학생이름</th>
+			<td th:text="${question.studentName}"></td>
+		</tr>
+		<tr>
 			<th>질문 내용</th>
 			<td colspan="3" th:text="${question.content}"></td>
 		</tr>
 		<tr>
 			<th>답변 내용</th>
 			<td colspan="3">
-			<textarea
-					class="form-control" rows="9"
-					placeholder="답변을 입력해주세요" id="response"></textarea></td>
+			<textarea class="form-control" rows="9" id="response" th:text="${question.responseContent}"></textarea></td>
 		</tr>
 	</table>
 	<div class="btn-group float-end" role="group">
+		<button type="button" class="btn btn-secondary mt-3" th:onclick="updateReply([[${question.counselNumber}]], [[${question.lectureNumber}]])" id="replyBtn">저장</button>
 		<button type="button" class="btn btn-secondary mt-3"
 			th:onclick="|location.href='@{/instructor/{lectureNumber}/qnaList(lectureNumber=${question.lectureNumber})}'|">목록</button>
-		<button type="button" class="btn btn-success mt-3" id="replyBtn">저장</button>
 	</div>
 
 </body>
-<script>
-  		$('#replyBtn').on('click', ()=>{
+	<script>
+  		function updateReply(counselNo, lectureNo){
   			var replyContent = $('#response').val();
   			$.ajax({
   				type:'POST',
   				url:'/lms/instructor/updateQna',
-  				data:{replyContent},
+  				data:{'responseContent' : replyContent, 'counselNumber' : counselNo},
                 success: function(response) {
                 	if(response > 0){
-                		location.href="counselInfo?counselNumber="+ response
+                		alert('성공했습니다');
+                		location.href = '/lms/instructor/' + lectureNo + '/qnaList';
                 	}else{
                 		alert('저장에 실패했습니다!');
                 	}
@@ -61,7 +66,7 @@
                     console.error('Error:', error);
                 }
   			})
-  		})
+  		}
   	</script>
 
 </html>
