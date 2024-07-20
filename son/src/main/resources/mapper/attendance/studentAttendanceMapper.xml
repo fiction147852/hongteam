@@ -115,10 +115,16 @@
             FROM attendance
             JOIN lecture
                 ON attendance.lecture_number = lecture.lecture_number
-            WHERE lecture.lecture_number = #{lectureNumber} AND student_number = #{studentNumber} AND attendance_code IN ('출석', '지각', '조퇴', '결석'))
+            WHERE lecture.lecture_number = #{lectureNumber} AND student_number = #{studentNumber} AND attendance_code IN ('출석', '지각', '조퇴', '결석')),
+        total_days_with_status AS (
+            SELECT COUNT(DISTINCT lecture_date) AS total_days
+            FROM filtered_attendance
+            JOIN lecture_days
+                ON filtered_attendance.attendance_date = lecture_days.lecture_date
+            )
         SELECT(
-            SELECT COUNT(*)
-            FROM lecture_days) AS total_days
+            SELECT total_days
+            FROM total_days_with_status) AS total_days
             , SUM(CASE
                       WHEN attendance_code IN ('출석', '지각', '조퇴') THEN 1
                       ELSE 0

@@ -5,7 +5,6 @@ import com.son.app.registration.service.CourseRegistrationVO;
 import com.son.app.registration.service.StudentCourseRegistrationService;
 import com.son.app.security.service.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
