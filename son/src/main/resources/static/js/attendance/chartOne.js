@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    console.log(lectureNumber);
     function initChart(totalDays, attendanceDays) {
         const ctx = document.getElementById('attendanceChart').getContext('2d');
 

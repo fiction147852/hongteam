@@ -19,10 +19,10 @@ public class StudentAttendanceController {
 
     // 일정 화면 출력
     @GetMapping("student")
-    public String attendancePage(Model model, @AuthenticationPrincipal CustomUserDetails principal) {
+    public String attendancePage(Model model, @AuthenticationPrincipal CustomUserDetails principal, HttpSession session) {
         int studentNumber = principal.getMember().getIdNumber();
         List<StudentLectureInfoVO> studentLectureInfoVOS = studentAttendanceService.lectureList(studentNumber);
-
+        session.setAttribute("lectureList", studentLectureInfoVOS);
         model.addAttribute("lectureList", studentLectureInfoVOS);
 
         return "attendance/student/attendance";

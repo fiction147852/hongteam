@@ -8,7 +8,7 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>PolluxUI Admin</title>
+<title>학원 상담 일정</title>
 
 <!-- FullCalendar Core Stylesheet -->
 <link
@@ -90,8 +90,26 @@ body {
 /* 달력의 각 일정을 나타내는 셀 요소 */
 .fc-event {
     white-space: normal; /* 글자가 잘림 현상 방지 */
+    background-color: #2b3a6e;
+    border: 1px solid black;
 }
 
+.fc-daygrid-event-dot {
+	display: none;
+}
+
+.fc-event-time {
+	margin-left: 10px;
+}
+
+.fc-daygrid-day-number,
+.fc-col-header-cell-cushion{
+ color: black;
+}
+
+#dayTimeCoun {
+	width: 63%;
+}
 
 .form-select {
     width: 100px;
@@ -106,6 +124,9 @@ body {
     cursor: pointer;
     margin-right: 10px;
 }
+
+
+
 
 
 
@@ -194,7 +215,7 @@ body {
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header">
+				<div class="modal-header" >
 					<div id="schedule-settings">
 						<div class="table-responsive pt-3">
 							<h2>상담 시간 조정</h2>
@@ -217,14 +238,12 @@ body {
 	<div class="modal" id="dayTime" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
-			<div class="modal-content">
+			<div class="modal-content" id="dayTimeCoun">
 				<div class="modal-header">
 					<div id="schedule-settings">
-						<div class="table-responsive pt-3">
 							<h4 id="modalDate"></h4>
 							<input type="hidden" id="modalDateParam">
 							<div id="counselDayTime"></div>
-						</div>
 					</div>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>

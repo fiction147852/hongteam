@@ -89,13 +89,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     tbody.appendChild(row);
 
                     if(examInfo.participateStatus === "미응시" && examInfo.examDate === localToday) {
-                        console.log("조건 만족:", examInfo);
                         const participateStatusTag = row.querySelector("td:nth-child(4) span");
-                        console.log("선택된 요소:", participateStatusTag);
                         participateStatusTag.style.cursor = "pointer";
-
-                        // 디버깅을 위해 콘솔 로그 추가
-                        console.log("이벤트 리스너 추가됨:", participateStatusTag, examInfo);
 
                         participateStatusTag.addEventListener("click", function(event) {
                             Swal.fire({
@@ -124,7 +119,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                     axios.get(`/lms/student/${lectureNumber}/exam/${examInfo.testNumber}`)
                                         .then(response => {
                                             const exams = response.data;
-                                            console.log(exams);
                                             const gradingResult = [];
 
                                             const limitTime = exams[0].limitTime;

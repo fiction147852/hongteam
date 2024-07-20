@@ -19,10 +19,10 @@
 								<th>강의명</th>
 								<th>자녀이름</th>
 								<th>학원비</th>
-								<th>요청일자</th>
-								<th>승인일자</th>
-								<th>납부여부</th>
-								<th>납부</th>
+								<th>수강신청일자</th>
+								<th>결제일자</th>
+								<th>결제여부</th>
+								<th>결제</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -31,9 +31,9 @@
 								<td th:text="${pay.lectureTitle}"></td>
 								<td th:text="${pay.studentName}"></td>
 								<td th:text="${pay.lectureCost} + '원'"></td>
-								<td th:text="${pay.RequestDate}"></td>
 								<td th:text="${pay.approvalDate}"></td>
-								<td th:text="${pay.receiveStatus}"></td>
+								<td th:text="${pay.requestDate}"></td>
+								<td th:text="${pay.chargeCode}"></td>
 								<td>
                                 <div class="d-flex align-items-center">
                                     <button type="button"
@@ -72,8 +72,10 @@
             
         });
     });
-	
+    
+	/*
     document.addEventListener("DOMContentLoaded", function() {
+    	console.log('PortOne : ', PortOne, typeof PortOne);
         if (typeof PortOne !== 'undefined') {
             PortOne.init({
                 storeId: "store-de9fb682-27f5-4a8d-a37b-96c75ee490b3"
@@ -84,48 +86,50 @@
 
         // 결제 버튼에 이벤트 리스너 추가
     });
+	*/
 
-    function requestPayment(lectureTitle, lectureCost, studentName, parentName, parentPhone, parentEmail, chargeNumber) {
-        if (typeof PortOne !== 'undefined') {
-            PortOne.requestPayment({
-                storeId: "store-de9fb682-27f5-4a8d-a37b-96c75ee490b3",
-                channelKey: "channel-key-21477788-3f9c-4718-a6fb-e5a8428a79f9",
-                paymentId: `${crypto.randomUUID()}`,
-                orderName: lectureTitle,
-                totalAmount: Number(lectureCost),
-                currency: "CURRENCY_KRW",
-                payMethod: "CARD",
-                customer: {
-                    fullName: parentName,
-                    phoneNumber: parentPhone,
-                    email: parentEmail,
-                },
-                callback: function(response) {
-                    if (response.status === "SUCCESS") {
-                        fetch('/parent/pay/callback', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(response)
-                        }).then(function(res) {
-                            if (res.ok) {
-                                alert('결제가 성공적으로 완료되었습니다.');
-                                location.reload(); // 페이지 새로고침
-                            } else {
-                                alert('결제 처리 중 오류가 발생했습니다.');
-                            }
-                        }).catch(function(error) {
-                            console.error('Error:', error);
-                            alert('결제 처리 중 오류가 발생했습니다.');
-                        });
-                    } else {
-                        alert('결제에 실패했습니다: ' + response.error.message);
-                    }
-                }
-            });
-        } else {
-            console.error('PortOne이 정의되지 않았습니다. 스크립트 소스를 확인해주세요.');
+    async function requestPayment(lectureTitle, lectureCost, studentName, parentName, parentPhone, parentEmail, chargeNumber) {
+    	console.log('PortOne : ', PortOne, typeof PortOne);
+    	
+    	const paymentId = `son-${crypto.randomUUID()}`;
+    	const PORTONE_API_SECRET = 'zvGiQspEsK8oOzDaiAIBu7uWfCauTN1JObedxafxZOyhMCHtCRjDMfacDieEezViHazYwntINwuKhjPy';
+    	console.log(paymentId);
+    	
+        const response = await PortOne.requestPayment({
+            storeId: "store-de9fb682-27f5-4a8d-a37b-96c75ee490b3",
+            channelKey: "channel-key-21477788-3f9c-4718-a6fb-e5a8428a79f9",
+            paymentId: paymentId,
+            orderName: lectureTitle,
+            totalAmount: Number(lectureCost),
+            currency: "CURRENCY_KRW",
+            payMethod: "CARD",
+            customer: {
+                fullName: parentName,
+                phoneNumber: parentPhone,
+                email: parentEmail,
+            }
+        });
+        
+        const paymentResponse = await fetch(
+   	      'https://api.portone.io/payments/' + `${paymentId}`,
+   	      { headers: { Authorization: `PortOne ${PORTONE_API_SECRET}` } },
+   	    );
+        
+        const payment = await paymentResponse.json();
+        
+        if(payment.status == 'PAID'){
+        	$.ajax({
+            	method:'POST',
+            	url:'/lms/parent/pay/callback',
+            	data:{'chargeNumber':chargeNumber},
+            	success:function(data){
+            		if(data>0){
+            			alert('결제가 성공적으로 완료되었습니다.');
+            			
+            			location.reload();
+            		}else alert('결제에 실패했습니다.');
+            	}
+            })
         }
     }
 </script>

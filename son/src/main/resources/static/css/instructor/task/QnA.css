@@ -23,6 +23,10 @@
 }
 
 .table-custom tr:nth-child(2) {
+    height: 80px;
+}
+
+.table-custom tr:nth-child(3) {
     height: 200px;
 }
 

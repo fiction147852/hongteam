@@ -5,7 +5,7 @@
 	layout:fragment="content">
 <head>
 
-<title>결제</title>
+<title>결제 현황 목록</title>
 <style>
 
 .btn.disabled,
@@ -30,41 +30,39 @@ fieldset:disabled .btn {
             <option value="등록완료" th:selected="${cri.registrationStatus =='등록완료'}">등록완료</option>
         </select>
     </form>
-    <h4 style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">결제 현황 리스트</h4>
+    <h4 style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">결제 현황 목록</h4>
 </div>
 
 		<div class="row">
 		<div class="col-md-12">
 			<div class="card">
 				<div class="table-responsive pt-3">
-					<table id="paymentListTable" class="table table-striped" style="text-align: center;">
+					<table id="paymentListTable" class="table" style="text-align: center;">
 						<thead>
 							<tr>
+								<th>강의</th>
+								<th>학생</th>
 								<th>신청 일자</th>
 								<th>결제 상태</th>
-								<th>요청 일자</th>
-								<th>강의</th>
-								<th>수납 여부</th>
-								<th>납부 유형</th>
-								<th>학생</th>
-								<th>등록 현황</th>
+								<th>결제 일자</th>
+<!-- 								<th>등록 여부</th> -->
+								<th>등록 버튼</th>
 							</tr>
 						</thead>
 						<tbody>
 						    <tr th:each="pay : ${payList}" th:data-id="${pay.chargeNumber}">
+						        <td th:text="${pay.lectureTitle}"></td>
+						        <td th:text="${pay.studentName}"></td>
 						        <td th:text="${#dates.format(pay.approvalDate, 'yyyy-MM-dd')}"></td>
 						        <td th:text="${pay.chargeCode}" th:id="'chargeCode_' + ${pay.chargeNumber}"></td>
 						        <td th:text="${#dates.format(pay.requestDate, 'yyyy-MM-dd')}"></td>
-						        <td th:text="${pay.lectureTitle}"></td>
-						        <td th:text="${pay.receiveStatus}"></td>
-						        <td th:text="${pay.paymentType}"></td>
-						        <td th:text="${pay.studentName}"></td>
+<!-- 						        <td th:text="${pay.receiveStatus}"></td> -->
 						        <td>
 		                            <button type="button" class="btn btn-secondary" style="background-color: #14213d"
 		                                    th:text="${pay.registrationStatus}"
 		                                    th:attr="data-studentNumber=${pay.studentNumber}, data-lectureNumber=${pay.lectureNumber}, data-chargeNumber=${pay.chargeNumber}"
 		                                    th:disabled="${pay.chargeCode == '결제대기' or pay.registrationStatus == '등록완료'}"
-		                                    th:classappend="${pay.registrationStatus == '등록완료'} ? 'btn-success' : ''"
+		                                    th:classappend="${pay.registrationStatus == '등록완료'} ? 'btn-secondary' : ''"
 		                                    onclick="updateRegistrationStatus(this)">
 		                            </button>
 		                        </td>
@@ -150,7 +148,9 @@ function updateRegistrationStatus(button) {
                 studentNumber: studentNumber,
                 lectureNumber: lectureNumber,
                 registrationStatus: '등록완료',
-                chargeNumber: chargeNumber
+                chargeNumber: chargeNumber,
+//                 receiveStatus: '등록완료'
+                
             };
 
             $.ajax({
@@ -167,6 +167,7 @@ function updateRegistrationStatus(button) {
                     button.textContent = '등록완료';
                     button.classList.add('btn-success'); // 버튼 스타일 변경
                     button.disabled = true;
+                    
                 },
                 error: function (error) {
                     Swal.fire({
@@ -181,7 +182,5 @@ function updateRegistrationStatus(button) {
     });
 }
 </script>
-<script>
 
-</script>
 </html>
