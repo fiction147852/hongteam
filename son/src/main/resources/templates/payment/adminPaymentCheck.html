@@ -62,7 +62,7 @@ fieldset:disabled .btn {
 		                                    th:text="${pay.registrationStatus}"
 		                                    th:attr="data-studentNumber=${pay.studentNumber}, data-lectureNumber=${pay.lectureNumber}, data-chargeNumber=${pay.chargeNumber}"
 		                                    th:disabled="${pay.chargeCode == '결제대기' or pay.registrationStatus == '등록완료'}"
-		                                    th:classappend="${pay.registrationStatus == '등록완료'} ? 'btn-success' : ''"
+		                                    th:classappend="${pay.registrationStatus == '등록완료'} ? 'btn-secondary' : ''"
 		                                    onclick="updateRegistrationStatus(this)">
 		                            </button>
 		                        </td>
