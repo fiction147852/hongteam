@@ -65,7 +65,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 const cardContainer = document.querySelector(".course-card");
                 cardContainer.innerHTML = "";
 
-                console.log(lectures);
                 const selectedLectures = getSelectedLectures();
                 lectures.forEach(lecture => {
                     const card = document.createElement("div");
