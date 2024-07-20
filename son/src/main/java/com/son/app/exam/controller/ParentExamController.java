@@ -61,5 +61,29 @@ public class ParentExamController {
         }
         parentExamService.modifyParticipateStatus(participateNumber);
     }
+    
+    // 시험 결과 확인
+    @GetMapping("parent/{studentNumber}/{lectureNumber}/exam/{testNumber}/result")
+    public String viewChildExamResult(@PathVariable Integer studentNumber,
+                                      @PathVariable Integer lectureNumber,
+                                      @PathVariable Integer testNumber,
+                                      @RequestParam Integer participateNumber,
+                                      Model model) {
+        List<GradingResult> results = parentExamService.getChildExamResults(participateNumber);
+
+        if (!results.isEmpty()) {
+            GradingResult firstResult = results.get(0);
+            model.addAttribute("paperTitle", firstResult.getPaperTitle());
+            model.addAttribute("producer", firstResult.getProducer());
+            model.addAttribute("studentName", firstResult.getStudentName());
+        }
+        model.addAttribute("results", results);
+        model.addAttribute("studentNumber", studentNumber);
+        model.addAttribute("lectureNumber", lectureNumber);
+        model.addAttribute("testNumber", testNumber);
+        model.addAttribute("participateNumber", participateNumber);
+        
+        return "exam/parent/childExamResult";
+    }
 
 }

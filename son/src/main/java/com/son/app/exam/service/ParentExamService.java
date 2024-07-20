@@ -19,4 +19,5 @@ public interface ParentExamService {
     public void autoGradeExam(GradingResult gradingResultList);
     public int modifyParticipateStatus(Integer participateNumber);
 	
+    List<GradingResult> getChildExamResults(Integer participateNumber);
 }
