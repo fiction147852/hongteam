@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     // 현재 페이지
     let currentPage = 1;
-
-    console.log(lectureNumber);
     // 한 화면에 보여줄 데이터의 개수
     const pageSize = 5;
 
@@ -21,8 +19,6 @@ document.addEventListener('DOMContentLoaded', function () {
         axios.get(`/lms/student/${lectureNumber}/task/list`, {params})
             .then(response => {
                 const tasks = response.data;
-
-                console.log(tasks);
 
                 const tbody = document.querySelector('#task-tbody');
                 tbody.innerHTML = "";

@@ -52,7 +52,6 @@ document.addEventListener('DOMContentLoaded', function () {
         eventClick: function (eventInfo) {
             const eventDate = eventInfo.event.start.getFullYear() + "-" + String(eventInfo.event.start.getMonth() + 1).padStart(2, '0') + "-" + String(eventInfo.event.start.getDate()).padStart(2, '0');
             const lectureNumber = eventInfo.event.extendedProps.lectureNumber;
-            console.log("번호", lectureNumber);
             const eventType = eventInfo.event.extendedProps.type; // 클릭된 이벤트의 타입을 가져옴
 
             axios.get("student/scheduleDetail?deadlineDate=" + eventDate)

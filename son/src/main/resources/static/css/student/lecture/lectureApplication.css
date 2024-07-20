@@ -97,11 +97,6 @@ h4 {
     color: black;
 }
 
-.select-btn:hover {
-    background-color: #27587E;
-    color: white;
-}
-
 .btn-container {
     text-align: right;
     margin-top: 20px;
@@ -130,6 +125,11 @@ h4 {
     background-color: white;
     border-color: white;
     color: black;
+}
+
+.page-link:hover {
+    background-color: #27587E !important;
+    color: white !important;
 }
 
 /* alert 창 */
