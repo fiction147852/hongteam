@@ -41,7 +41,10 @@ public class ParentExamServiceImpl implements ParentExamService{
         return parentExamMapper.modifyParticipateStatus(participateNumber);
     }
 
-
+    @Override
+    public List<GradingResult> getChildExamResults(Integer participateNumber) {
+        return parentExamMapper.getChildExamResults(participateNumber);
+    }
 
 	
 	
