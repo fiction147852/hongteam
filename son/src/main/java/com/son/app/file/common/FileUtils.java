@@ -32,10 +32,10 @@ public class FileUtils {
 	// uploadPath = 물리적으로 파일을 저장할 위치를 의미
 	// Paths.get( )을 이용하면 OS에 상관없이 디렉터리 경로를 구분
 //	private final String uploadPath = Paths.get("D:", "Dev", "upload-files").toString();
-//	private final String uploadPath = "C:/uploads";
+	private final String uploadPath = "C:/uploads";
 	
-	@Value("${upload.path}")
-	private String uploadPath;
+//	@Value("${upload.path}")
+//	private String uploadPath;
 	
 	// 프로젝트 내 업로드 경로 설정
 //	private final String uploadPath = Paths.get("C:", "User", "admin", "git", "hongteam", "son", "src", "main", "resources","static", "uploads").toString();
