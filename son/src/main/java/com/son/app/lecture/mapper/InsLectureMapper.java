@@ -12,4 +12,16 @@ public interface InsLectureMapper {
 	public LectureVO selectLectureInfo(@Param("lectureNumber") Integer lectureNumber);
 	
 	List<Integer> getStudentNumbersByLecture(@Param("lectureNumber") Integer lectureNumber);
+	
+    List<LectureVO> getStudentInfoByLecture(@Param("lectureNumber") Integer lectureNumber,
+								            @Param("searchType") String searchType,
+								            @Param("searchKeyword") String searchKeyword,
+								            @Param("start") int start,
+								            @Param("end") int end);
+
+	int countStudentsByLecture(@Param("lectureNumber") Integer lectureNumber,
+							   @Param("searchType") String searchType,
+							   @Param("searchKeyword") String searchKeyword);
+	
+	List<LectureVO> selectLecturesByInstructor(@Param("instructorNumber") int instructorNumber);
 }

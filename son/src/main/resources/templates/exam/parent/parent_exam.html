@@ -24,6 +24,7 @@
 									<th>시험명</th>
 									<th>응시일</th>
 									<th>점수</th>
+									<th>결과확인</th>
 									<th>응시 여부</th>
 								</tr>
 							</thead>
@@ -34,6 +35,7 @@
 									<td th:text="${examInfo.examDate}"></td>
 									<td th:text="${examInfo.totalScore == null ? 'X' :
 										examInfo.totalScore}"></td>
+									<td><button class="btn btn-link btn-sm" th:onclick="|location.href='@{/parent/{studentNumber}/{lectureNumber}/exam/{testNumber}/result(studentNumber=${studentNumber}, lectureNumber=${lectureNumber}, testNumber=${examInfo.testNumber}, participateNumber=${examInfo.participateNumber})}'|">확인</button></td>
 									<td><span th:text="${examInfo.participateStatus}"></span></td>
 								</tr>
 							</tbody>

@@ -16,7 +16,7 @@
 			<div class="collapse" id="ui-basic">
 				<ul class="nav flex-column sub-menu">
 					<li class="nav-item" th:each="lecture : ${lectureList}">
-					    <a class="nav-link" th:href="@{'/instructor/' + ${lecture.lectureNumber}}">[[${lecture.detailSubjectName}]]</a>
+					    <a class="nav-link" th:href="@{'/instructor/' + ${lecture.lectureNumber}}">[[${lecture.lectureTitle}]] <span style="font-size: 10px;">([[${lecture.lectureLevelCode}]])</span></a>
 					</li>
 				</ul>
 			</div></li>

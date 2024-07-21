@@ -27,6 +27,12 @@
 		WHERE lecture_number = #{lectureNumber}
 	</select>
 	
+	<update id="incrementOnlineLectureViewCount">
+		UPDATE online_lecture
+		SET views = views + 1
+		WHERE online_lecture_number = #{onlineLectureNumber}
+	</update>
+	
 	<select id="selectLectureInfo" resultType="OnlineLectureVO">
 	SELECT ol.online_lecture_number,
            ol.title,
@@ -41,7 +47,6 @@
         JOIN instructor i
             ON l.instructor_number = i.instructor_number
     WHERE online_lecture_number = #{onlineLectureNumber}
-	
 	</select>
 
 </mapper>

@@ -23,4 +23,6 @@ public interface ParentExamMapper {
     // 시험 결과
     public int getExamResults(GradingResult gradingResultList);
     public int modifyParticipateStatus(Integer participateNumber);
+    
+    List<GradingResult> getChildExamResults(@Param("participateNumber") Integer participateNumber);
 }

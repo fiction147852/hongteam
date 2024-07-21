@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,7 +23,14 @@ public class AdminPayController {
 	
 	// 납부 현황 리스트 조회
 	@GetMapping("admin/adminPaymentCheck")
-	public String adminLecturePayList(Model model, Criteria cri){
+	public String adminLecturePayList(Model model, 
+										@ModelAttribute("cri") Criteria cri){
+		
+		//페이징 최소값 1
+		if(cri.getPageNum() == null) {
+			cri.setPageNum(1);
+		}
+		
 		List<AdminPayVO> payList = adminPayService.lecturePayList(cri);
 		System.out.println("Pay List: " + payList); 
 		model.addAttribute("payList", payList);

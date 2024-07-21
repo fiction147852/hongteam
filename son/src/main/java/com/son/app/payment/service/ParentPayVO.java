@@ -10,8 +10,8 @@ public class ParentPayVO {
 	// 결제 charge
     private Integer chargeNumber;
     private String chargeCode;
-    private Date RequestDate;
-    private Date approvalDate;
+    private String requestDate;
+    private String approvalDate;
     private String receiveStatus;
     private String paymentType;
     private Integer studentNumber;

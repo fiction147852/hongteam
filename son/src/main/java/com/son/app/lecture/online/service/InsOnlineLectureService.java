@@ -1,7 +1,6 @@
 package com.son.app.lecture.online.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -13,9 +12,4 @@ public interface InsOnlineLectureService {
 	
 	public OnlineLectureVO onlineLecsInfo(Integer onlineLectureNumber);
 	
-	public int insertOnlineLecture(OnlineLectureVO onlineLectureVO);
-	
-	public Map<String, Object> updateOnlineLecture(OnlineLectureVO onlineLectureVO);
-	
-	public int deleteOnlineLecture(int onlineLectureNo);
 }

@@ -15,7 +15,6 @@
 				            l.lecture_title,
 				           c.approval_date,
 				           c.receive_status,
-				           c.payment_type,
 				           c.student_number,
 				             s.name AS studentName,
 				           c.registration_status
@@ -23,7 +22,14 @@
 				        JOIN lecture l
 				        ON c.lecture_number = l.lecture_number
 				        JOIN student s
-				        ON c.student_number = s.student_number) a 
+				        ON c.student_number = s.student_number
+				    <where>
+					  <if test="registrationStatus != null and registrationStatus != ''.toString()">
+					  	c.registration_status = #{registrationStatus}
+					  </if>
+					</where>
+				    ORDER BY c.approval_date
+				    ) a 
 					) c 
 		<![CDATA[
 		WHERE c.rn <= #{pageNum} * #{amount} AND
@@ -43,7 +49,6 @@
             l.lecture_title,
            c.approval_date,
            c.receive_status,
-           c.payment_type,
            c.student_number,
              s.name AS studentName,
            c.registration_status
@@ -51,7 +56,12 @@
         JOIN lecture l
         ON c.lecture_number = l.lecture_number
         JOIN student s
-        ON c.student_number = s.student_number)
+        ON c.student_number = s.student_number
+	    <where>
+		  <if test="registrationStatus != null and registrationStatus != ''.toString()">
+		  	c.registration_status = #{registrationStatus}
+		  </if>
+		</where>)
 	</select>
 
 
@@ -73,7 +83,8 @@
 	<!-- 등록 현황 없데이트 -->
 	<update id="payLectureUpdateStatus">
 		UPDATE charge
-			SET registration_status = #{registrationStatus}
+			SET registration_status = '등록완료',
+				receive_status = '수납완료'
 		WHERE charge_number = #{chargeNumber}
 	</update>
 </mapper>

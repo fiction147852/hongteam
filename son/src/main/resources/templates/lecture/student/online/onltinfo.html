@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/student/studentDetailSubject_layout}"
+	layout:fragment="content">
+
+<head>
+
+<title>온라인 강의 조회</title>
+
+</head>
+
+<body>
+	<div id="container" style="margin: 0 auto; width: 1198px">
+		<div class="card" style="width: 75rem;">
+			<div class="card-header">
+				<h5 class="card-title font-medium mb-2">[[${onLTinfo.title}]]</h5>
+				<p class="card-subtitle">[[ ${#dates.format(onLTinfo.postDate,
+					'yyyy년 MM월 dd일')} ]]</p>
+				<p class="card-text">강의자: [[${onLTinfo.instructorName}]]</p>
+			</div>
+			<div class="card-body bg-gray-100">
+			    <video width="100%" controls class="mx-auto">
+			        <source th:src="@{'/video/' + ${onLTinfo.lectureUrl}}" type="video/mp4">
+			    </video>
+			</div>
+			<div class="card-footer">
+				<div class="d-flex justify-content">
+					<p>[[${onLTinfo.description}]]
+				</div>
+			</div>
+		</div>
+		<div>
+			<button type="button" class="btn btn-secondary float-end mt-3"
+				th:onclick="|location.href='@{/student/{lectureNumber}/onlineLTList(lectureNumber=${lectureNumber})}'|">목록</button>
+		</div>
+	</div>
+	
+	<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const video = document.querySelector('video');
+        
+        // 재생/일시정지 토글
+        function togglePlay() {
+            if (video.paused) {
+                video.play();
+            } else {
+                video.pause();
+            }
+        }
+
+        // 볼륨 조절
+        function setVolume(volume) {
+            video.volume = volume;
+        }
+
+        // 재생 시간 이동
+        function seek(time) {
+            video.currentTime = time;
+        }
+
+    });
+</script>
+</body>
+</html>
+

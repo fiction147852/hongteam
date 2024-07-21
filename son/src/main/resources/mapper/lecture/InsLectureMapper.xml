@@ -25,11 +25,64 @@
 	    WHERE lecture_number = #{lectureNumber}
 	</select>
 	
+	<select id="getStudentInfoByLecture" resultType="LectureVO">
+	    SELECT *
+	    FROM (
+	        SELECT s.student_number,
+	               s.name AS studentName,
+	               s.email,
+	               s.phone,
+	               ROWNUM rn
+	        FROM student s
+	        JOIN registration r ON s.student_number = r.student_number
+	        WHERE r.lecture_number = #{lectureNumber}
+	        <if test="searchType != null and searchKeyword != null and searchKeyword != ''">
+	            <choose>
+	                <when test="searchType == 'studentName'">
+	                    AND s.name LIKE '%' || #{searchKeyword} || '%'
+	                </when>
+	                <when test="searchType == 'email'">
+	                    AND s.email LIKE '%' || #{searchKeyword} || '%'
+	                </when>
+	            </choose>
+	        </if>
+	        AND ROWNUM &lt;= #{end}
+	        ORDER BY s.student_number
+	    )
+	    WHERE rn > #{start}
+	</select>
+	
+	<select id="countStudentsByLecture" resultType="int">
+	    SELECT COUNT(*)
+	    FROM student s
+	    JOIN registration r ON s.student_number = r.student_number
+	    WHERE r.lecture_number = #{lectureNumber}
+	    <if test="searchType != null and searchKeyword != null and searchKeyword != ''">
+	        <choose>
+	            <when test="searchType == 'studentName'">
+	                AND s.name LIKE '%' || #{searchKeyword} || '%'
+	            </when>
+	            <when test="searchType == 'email'">
+	                AND s.email LIKE '%' || #{searchKeyword} || '%'
+	            </when>
+	        </choose>
+	    </if>
+	</select>
+	
 	<select id="selectLectureInfo" resultType="LectureVO">
         SELECT lecture_number
              , de_sub_name_by_lecture(lecture_number) as detail_subject_name
         FROM lecture
         WHERE lecture_number = #{lectureNumber}
+	</select>
+	
+	<select id="selectLecturesByInstructor" resultType="LectureVO">
+	    SELECT lecture_number, 
+	    	   lecture_title, 
+	    	   lecture_level_code
+	    FROM lecture
+	    WHERE instructor_number = #{instructorNumber}
+	    ORDER BY lecture_number
 	</select>
 
 </mapper>

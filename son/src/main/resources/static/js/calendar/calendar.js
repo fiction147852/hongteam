@@ -79,6 +79,12 @@
 		        //해당날 클릭시 이벤트 
 		        dateClick: async function(info) {
 					
+					
+		            var dayOfWeek = info.date.getDay(); // 0: 일요일, 6: 토요일
+
+		            if (dayOfWeek === 0 || dayOfWeek === 6) { // 주말인 경우
+		                return; // 클릭 이벤트 무시
+		            }
 					let dateObj = info.date; 
 	        	       
 	        	    // 모달 날짜변경
@@ -130,3 +136,5 @@
 
 
 		});
+		
+		

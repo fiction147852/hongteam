@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.son.app.board.mapper.InstructorQnaMapper">
+
+	<select id="countQna" resultType="int">
+	    SELECT COUNT(*)
+	    FROM parent_counsel
+	    WHERE lecture_number = #{lectureNumber}
+	</select>
+	
+	<select id="selectCounselAll" resultType="ParentCounselVO">
+		SELECT p.*
+		FROM 
+		    (SELECT ROW_NUMBER() OVER (ORDER BY write_date) AS rn,
+				counsel_number, title, content, write_date, response_status,
+	            lecture_number, response_content, parent_number,
+	            instructor_number, student_number,
+	            prt_name(parent_number) AS parent_name,
+	            std_name(student_number) AS student_name,
+	            ins_name(instructor_number) AS instructor_name
+		    FROM parent_counsel
+		    WHERE lecture_number = #{lectureNumber}) p
+		WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="counselInfo" resultType="ParentCounselVO">
+		SELECT counsel_number, title, content, write_date, response_status,
+		        lecture_number, response_content, parent_number,
+		        instructor_number, student_number,
+		        prt_name(parent_number) AS parent_name,
+		        std_name(student_number) AS student_name,
+		        ins_name(instructor_number) AS instructor_name
+		FROM parent_counsel
+		WHERE counsel_number = #{counselNumber}
+	</select>
+	
+	<update id="updateQna">
+		UPDATE parent_counsel
+		SET response_status = '1', response_content = #{responseContent}
+		WHERE counsel_number = #{counselNumber}
+	</update>
+
+</mapper>

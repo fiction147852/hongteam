@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.son.app.task.mapper.ParentTaskMapper">
+    <!-- 시험 목록에서 한 페이지에 최대 5개의 게시글 표시  -->
+    <select id="parentTaskList" resultType="ParentTaskListVO">
+        SELECT
+		    t.task_number,
+		    t.title,
+		    t.post_date,
+		    t.submit_deadline,
+		    ts.task_submit_code AS taskSubmitStatus,
+		    ts.feedback_code AS feedbackStatus,
+		    ts.feedback,
+		    ts.task_submit_number,
+		    s.student_number,
+		    s.name AS studentName
+		FROM
+		    task t
+		JOIN registration r ON t.lecture_number = r.lecture_number
+		JOIN student s ON r.student_number = s.student_number
+		LEFT JOIN task_submit ts ON t.task_number = ts.task_number AND s.student_number = ts.student_number
+		WHERE
+		    t.lecture_number = #{lectureNumber}
+		    AND s.student_number = #{studentNumber}
+		ORDER BY
+		    t.task_number, ts.task_submit_number DESC
+    </select>
+
+
+    <resultMap id="parentTaskInfoMap" type="ParentTaskListVO">
+        <id property="taskNumber" column="task_number"></id>
+        <collection property="attachmentFileVOList" ofType="AttachmentFileVO" javaType="ArrayList" column="task_number"></collection>
+    </resultMap>
+
+    <!-- 과제 상세 정보  -->
+    <select id="parentTaskInfo" resultMap="parentTaskInfoMap">
+        SELECT task.task_number
+             , title
+             , post_date
+             , submit_deadline
+             , description
+             , lecture_number
+        FROM task
+        JOIN task_submit
+            ON task.task_number = task_submit.task_number
+        WHERE task_submit.task_number = #{taskNumber} AND student_number = #{studentNumber}
+    </select>
+
+    <!-- 제출한 파일 조회  -->
+    <select id="parentTaskSubjectFile" resultType="AttachmentFileVO">
+        SELECT *
+        FROM attachment_file
+        WHERE task_submit_number = (SELECT task_submit_number
+                                    FROM task_submit
+                                    WHERE task_number = #{taskNumber} AND student_number = #{studentNumber})
+    </select>
+
+</mapper>
+
+
+
+
+
+
+
+
+

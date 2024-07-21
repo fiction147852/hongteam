@@ -10,6 +10,8 @@ public class Criteria {
 	
 	private String reservationCode;
 	private String auth;
+	private String registrationStatus;
+	private String subjectName;
 	
 	//검색
 	private String type;
