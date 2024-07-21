@@ -32,6 +32,12 @@
                         <span class="menu-title">인터넷 강의</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/instructor/{lectureNumber}/qnaList(lectureNumber= ${session.instructorLectureInfo.lectureNumber})}">
+                        <i class="fa-solid fa-regular fa-comment menu-icon " style="margin-right: 14px"></i>
+                        <span class="menu-title">학부모 소통</span>
+                    </a>
+                </li>
             </ul>
         </nav>
     </body>

@@ -44,27 +44,38 @@ public class PaperController {
 	String encodedErrorMessageforTitle = URLEncoder.encode("시험지 제목을 입력해주세요.", StandardCharsets.UTF_8);
 	
 	@GetMapping("instructor/paperList")
-	public String paperList(@RequestParam(defaultValue = "1") int page,
+	public String paperList(@AuthenticationPrincipal CustomUserDetails userDetails,
+							@RequestParam(defaultValue = "1") int page,
 							Model model) {
+		int instructorNumber = userDetails.getMember().getIdNumber();
+		
 		PageVO pageVO = paperService.getPageInfo(page);
 		List<PaperVO> paperList = paperService.paperList(pageVO);
-		List<LectureVO> lecturelist = lectureService.lectureList();
+		List<LectureVO> lectureList = lectureService.getLecturesByInstructor(instructorNumber);
 		
-		model.addAttribute("lectureList", lecturelist);
+		model.addAttribute("lectureList", lectureList);
 		model.addAttribute("paperList", paperList);
 		model.addAttribute("pageVO", pageVO);
 		return "exam/instructor/paperList";
 	}
 	
 	@GetMapping("instructor/paperInfo")
-	public String paperInfo(@RequestParam int paperNumber, Model model) {
+	public String paperInfo(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam int paperNumber, Model model) {
+		int instructorNumber = userDetails.getMember().getIdNumber();
+		List<LectureVO> lectureList = lectureService.getLecturesByInstructor(instructorNumber);
+		model.addAttribute("lectureList", lectureList);
+		
 	    PaperVO paperInfo = paperService.paperInfo(paperNumber);
 	    model.addAttribute("paperInfo", paperInfo);
 	    return "exam/instructor/paperinfo";
 	}
 	
 	@GetMapping("instructor/paperChoose")
-    public String paperInsertChooseForm(Model model) {
+    public String paperInsertChooseForm(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
+		int instructorNumber = userDetails.getMember().getIdNumber();
+		List<LectureVO> lectureList = lectureService.getLecturesByInstructor(instructorNumber);
+		model.addAttribute("lectureList", lectureList);
+		
         return "exam/instructor/paperChoose";
     }
 	
@@ -84,12 +95,16 @@ public class PaperController {
     // 문제선택
     @GetMapping("instructor/paperSelectQuestions")
     public String paperSelectQuestionsForm(@RequestParam String subjectCode, Model model, 
-    									   @AuthenticationPrincipal CustomUserDetails principal) {
+    									   @AuthenticationPrincipal CustomUserDetails userDetails) {
+		int instructorNumber = userDetails.getMember().getIdNumber();
+		List<LectureVO> lectureList = lectureService.getLecturesByInstructor(instructorNumber);
+		model.addAttribute("lectureList", lectureList);
+    	
         List<QuestionVO> questions = paperService.getQuestionsBySubject(subjectCode);
         model.addAttribute("subjectCode", subjectCode);
         model.addAttribute("questions", questions);
         
-        InstructorVO instructor = instructorService.getInstructorByUsername(principal.getMember().getName());
+        InstructorVO instructor = instructorService.getInstructorByUsername(userDetails.getMember().getName());
         model.addAttribute("instructorName", instructor.getName());
         logger.info("Instructor name: {}", instructor.getName());
         
@@ -127,7 +142,11 @@ public class PaperController {
     // 자동생성
     @GetMapping("instructor/paperAutoGenerate")
     public String paperAutoGenerateForm(@RequestParam String subjectCode, Model model, 
-    									@AuthenticationPrincipal CustomUserDetails principal) {
+    									@AuthenticationPrincipal CustomUserDetails userDetails) {
+		int instructorNumber = userDetails.getMember().getIdNumber();
+		List<LectureVO> lectureList = lectureService.getLecturesByInstructor(instructorNumber);
+		model.addAttribute("lectureList", lectureList);
+    	
         model.addAttribute("subjectCode", subjectCode);
 
         List<QuestionVO> generatedPaper = paperService.generatePaperBySubject(subjectCode);
@@ -137,7 +156,7 @@ public class PaperController {
             model.addAttribute("warningMessage", "요청한 수만큼의 문제를 생성할 수 없었습니다. 현재 생성된 문제 수: " + generatedPaper.size());
         }
         
-        InstructorVO instructor = instructorService.getInstructorByUsername(principal.getMember().getName());
+        InstructorVO instructor = instructorService.getInstructorByUsername(userDetails.getMember().getName());
         model.addAttribute("instructorName", instructor.getName());
 
         return "exam/instructor/paperAutoGenerate";

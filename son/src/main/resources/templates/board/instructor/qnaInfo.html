@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/instructorDetailSubject_layout}"
+	layout:fragment="content">
+<head>
+<link th:href="@{/css/instructor/task/QnA.css}" rel="stylesheet">
+
+<title>학부모 QnA</title>
+
+<!-- Include ConfigFragment -->
+
+<style>
+</style>
+</head>
+
+<body>
+
+
+	<table class="table-custom">
+		<tr>
+			<th rowspan="1">제목</th>
+			<td rowspan="1" class="highlight" th:text="${question.title}"></td>
+			<th>작성일자</th>
+			<td th:text="${#dates.format(question.writeDate, 'yyyy년 MM월 dd일')}"></td>
+		</tr>
+		<tr>
+			<th rowspan="1">작성자</th>
+			<td rowspan="1" class="highlight" th:text="${question.parentName}"></td>
+			<th>학생이름</th>
+			<td th:text="${question.studentName}"></td>
+		</tr>
+		<tr>
+			<th>질문 내용</th>
+			<td colspan="3" th:text="${question.content}"></td>
+		</tr>
+		<tr>
+			<th>답변 내용</th>
+			<td colspan="3">
+			<textarea class="form-control" rows="9" id="response" th:text="${question.responseContent}"></textarea></td>
+		</tr>
+	</table>
+	<div class="btn-group float-end" role="group">
+		<button type="button" class="btn btn-secondary mt-3" th:onclick="updateReply([[${question.counselNumber}]], [[${question.lectureNumber}]])" id="replyBtn">저장</button>
+		<button type="button" class="btn btn-secondary mt-3"
+			th:onclick="|location.href='@{/instructor/{lectureNumber}/qnaList(lectureNumber=${question.lectureNumber})}'|">목록</button>
+	</div>
+
+</body>
+	<script>
+  		function updateReply(counselNo, lectureNo){
+  			var replyContent = $('#response').val();
+  			$.ajax({
+  				type:'POST',
+  				url:'/lms/instructor/updateQna',
+  				data:{'responseContent' : replyContent, 'counselNumber' : counselNo},
+                success: function(response) {
+                	if(response > 0){
+                		alert('성공했습니다');
+                		location.href = '/lms/instructor/' + lectureNo + '/qnaList';
+                	}else{
+                		alert('저장에 실패했습니다!');
+                	}
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                }
+  			})
+  		}
+  	</script>
+
+</html>
+

@@ -201,11 +201,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     title: 'Birthday Party',
                     start: '2024-06-09T07:00:00'
                     },
-                    {
-                    title: 'Click for Google',
-                    url: 'http://google.com/',
-                    start: '2024-06-30'
-                    }
                 ]
             });
 			

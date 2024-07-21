@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import com.son.app.lecture.service.InsLectureService;
 import com.son.app.lecture.service.LectureVO;
 import com.son.app.question.service.QuestionService;
 import com.son.app.question.service.QuestionVO;
+import com.son.app.security.service.CustomUserDetails;
 
 @Controller
 public class QuestionController {
@@ -27,12 +29,15 @@ public class QuestionController {
 	InsLectureService lectureService;
 	// 전체
 	@GetMapping("/instructor/questionList")
-	public String questionList(@RequestParam Map<String, String> params,
+	public String questionList(@AuthenticationPrincipal CustomUserDetails userDetails,
+							   @RequestParam Map<String, String> params,
             				   Model model) {
+		int instructorNumber = userDetails.getMember().getIdNumber();
+		 
 		List<QuestionVO> searchResults = questionService.searchQuestions(params);
 		
-		List<LectureVO> lecturelist = lectureService.lectureList();
-		model.addAttribute("lectureList", lecturelist);
+		List<LectureVO> lectureList = lectureService.getLecturesByInstructor(instructorNumber);
+		model.addAttribute("lectureList", lectureList);
 		
 	    model.addAttribute("questionList", searchResults);
 		return "question/instructor/qlist";
@@ -40,8 +45,12 @@ public class QuestionController {
 	
 	// 단건
 	@GetMapping("/instructor/questionInfo")
-	public String questionInfo(QuestionVO questionVO, Model model) {
+	public String questionInfo(@AuthenticationPrincipal CustomUserDetails userDetails, QuestionVO questionVO, Model model) {
 		QuestionVO findVO = questionService.questionInfo(questionVO);
+		
+		int instructorNumber = userDetails.getMember().getIdNumber();
+		List<LectureVO> lectureList = lectureService.getLecturesByInstructor(instructorNumber);
+		model.addAttribute("lectureList", lectureList);
 		
 		model.addAttribute("questionInfo", findVO);
 		return "question/instructor/qinfo";
@@ -49,7 +58,11 @@ public class QuestionController {
 	
 	// 등록 페이지
 	@GetMapping("/instructor/questionInsert")
-	public String questionInsertForm() {
+	public String questionInsertForm(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
+		int instructorNumber = userDetails.getMember().getIdNumber();
+		List<LectureVO> lectureList = lectureService.getLecturesByInstructor(instructorNumber);
+		model.addAttribute("lectureList", lectureList);
+		
 		return "question/instructor/qinsert";
 	}
 	
@@ -62,7 +75,11 @@ public class QuestionController {
 	
 	// 수정 페이지
 	@GetMapping("/instructor/questionUpdate")
-	public String questionUpdateForm(QuestionVO questionVO, Model model) {
+	public String questionUpdateForm(@AuthenticationPrincipal CustomUserDetails userDetails, QuestionVO questionVO, Model model) {
+		int instructorNumber = userDetails.getMember().getIdNumber();
+		List<LectureVO> lectureList = lectureService.getLecturesByInstructor(instructorNumber);
+		model.addAttribute("lectureList", lectureList);
+		
 	    QuestionVO findVO = questionService.questionInfo(questionVO);
 	    if (findVO == null) {
 	        return "error/questionNotFound";
@@ -96,11 +113,11 @@ public class QuestionController {
 	    // 세부 과목 목록 가져오기
 	    List<Map<String, String>> detailSubjects = List.of(
 			       Map.of("code", "B001", "name", "미적분"),
-			       Map.of("code", "B002", "name", "확률과 통계"),
+			       Map.of("code", "B002", "name", "확률과통계"),
 			       Map.of("code", "B003", "name", "독해"),
 			       Map.of("code", "B004", "name", "문법"),
-			       Map.of("code", "B005", "name", "화법과 작문"),
-			       Map.of("code", "B006", "name", "언어와 매체")
+			       Map.of("code", "B005", "name", "화법과작문"),
+			       Map.of("code", "B006", "name", "언어와매체")
 			    );
 	    model.addAttribute("detailSubjects", detailSubjects);
 	    

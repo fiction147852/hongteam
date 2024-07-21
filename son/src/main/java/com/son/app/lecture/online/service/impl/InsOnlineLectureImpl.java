@@ -1,11 +1,10 @@
 package com.son.app.lecture.online.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.son.app.lecture.online.mapper.InsOnlineLectureMapper;
 import com.son.app.lecture.online.service.InsOnlineLectureService;
@@ -29,37 +28,12 @@ public class InsOnlineLectureImpl implements InsOnlineLectureService{
 		return new PageVO(page, totalItems, 5, 5);
 	}
 
+	@Transactional
 	@Override
 	public OnlineLectureVO onlineLecsInfo(Integer onlineLectureNumber) {
-		return onlineLectureMapper.selectLectureInfo(onlineLectureNumber);
-	}
-
-	@Override
-	public int insertOnlineLecture(OnlineLectureVO onlineLectureVO) {
-		int result = onlineLectureMapper.insertOnlineLectureInfo(onlineLectureVO);
+		onlineLectureMapper.incrementOnlineLectureViewCount(onlineLectureNumber);
+		OnlineLectureVO onlineLectureVO = onlineLectureMapper.selectLectureInfo(onlineLectureNumber);
 		
-		return result == 1 ? onlineLectureVO.getOnlineLectureNumber() : -1;
-	}
-
-	@Override
-	public Map<String, Object> updateOnlineLecture(OnlineLectureVO onlineLectureVO) {
-		Map<String, Object> map = new HashMap<>();
-		boolean inSuccessed = false;
-		
-		int result = onlineLectureMapper.updateOnlineLectureInfo(onlineLectureVO);
-		
-		if(result == 1) {
-			inSuccessed = true;
-		}
-		
-		map.put("result", inSuccessed);
-		map.put("target", onlineLectureVO);
-		
-		return map;
-	}
-
-	@Override
-	public int deleteOnlineLecture(int onlineLectureNo) {
-		return onlineLectureMapper.deleteOnlineLectureInfo(onlineLectureNo);
+		return onlineLectureVO;
 	}
 }

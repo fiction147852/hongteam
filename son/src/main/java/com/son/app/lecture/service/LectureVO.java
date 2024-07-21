@@ -26,4 +26,10 @@ public class LectureVO {
     private Integer instructorNumber;
     
     private String instructorName;
+    
+    // 학생
+    private Integer studentNumber;
+    private String studentName;
+    private String email;
+    private String phone;
 }

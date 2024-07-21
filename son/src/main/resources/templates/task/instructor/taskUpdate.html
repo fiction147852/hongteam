@@ -4,6 +4,7 @@
 	layout:decorate="~{common/layouts/instructorDetailSubject_layout}"
 	layout:fragment="content">
 <head>
+<link th:href="@{/css/instructor/task/taskinfo.css}" rel="stylesheet">
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
@@ -13,78 +14,87 @@
 
 <!-- Include ConfigFragment -->
 <script src="https://cdn.tailwindcss.com"></script>
-<link
-	href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-	rel="stylesheet">
 <style>
-#taskInfoBody {
-	font-family: 'Roboto', sans-serif;
+.attachment-cards {
+	display:block;
 }
+
+.ui-datepicker {
+width:300px;
+}
+
+.ui-datepicker select.ui-datepicker-month, .ui-datepicker select.ui-datepicker-year {
+	margin: 2px;
+}
+
 </style>
 </head>
 
 <body id="taskInfoBody">
 <h4 style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">과제 수정</h4>
-	<div id="container" style="width: 878px; margin: 0 auto;">
-		<form name="updateForm" th:object="${taskInfo}"
-			enctype="multipart/form-data">
-			<div
-				class="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
-				<div class="grid grid-cols-4 gap-4 p-6 border-b">
-					<input type="hidden" id="taskNumber" th:field="*{taskNumber}" />
-					<input type="hidden" id="lectureNumber" th:field="*{lectureNumber}">
-					<div class="col-span-1 font-bold">제목</div>
-					<div class="col-span-3 border-gray-300">
-						<input type="text" class="form-control" th:field="*{title}" />
-					</div>
-				</div>
-				<div class="grid grid-cols-4 gap-4 p-6 border-b">
-					<div class="col-span-1 font-bold">게시일자</div>
-					<div class="col-span-1  border-gray-300">[[*{#dates.format(postDate,
-						'yyyy년 MM월 dd일')}]]</div>
-					<div class="col-span-1 font-bold">제출기한</div>
-					<div class="col-span-1  border-gray-300">
-						<input type="text" class="form-control"
-							th:field="*{submitDeadline}" placeholder="yyyy-MM-dd" />
-					</div>
-				</div>
-				<div class="grid grid-cols-4 p-6 border-b">
-					<div class="col-span-1 font-bold mb-2">내용</div>
-					<div class="col-span-1  border-gray-300">
-						<textarea class="form-control" th:field="*{description}"
-							style="resize: none; width: 45em; height: 12.25em;"></textarea>
-					</div>
-				</div>
-				<div class="grid grid-cols-4 p-6 border-b" id="file_list">
-					<div class="col-span-1 font-bold mb-2">첨부 파일</div>
-					<div class="col-span-3 file_input" id="file_input">
-						<th:block th:each="file : ${taskInfo.fileList}">
-							<div th:if="${file.isDeleted} == false" class="file-item d-flex justify-content">
-								<input type="text" readonly class="form-control col-8 mb-1"
-									th:value="${file.originalFileName}" />
-								<div>
-									<button type="button" class="btn btn-danger btn-sm mt-2"
-										th:onclick="'removeFile(this, ' + ${file.attachmentFileNumber} + ')'">x</button>
-								</div>
-							</div>
-						</th:block>
-						<div id="new-file-inputs">
-							<!-- 새 파일 입력 필드가 여기에 추가됩니다 -->
-						</div>
-						<button type="button" onclick="addFile()" class="btn btn-info">
-							<span>파일 추가</span>
-						</button>
-					</div>
-				</div>
-			</div>
-			<div class="btn-group float-end" role="group">
-				<button type="button" id="updateBtn" class="btn btn-success mt-3">수정</button>
-				<button type="button" class="btn btn-danger mt-3"
-					th:onclick="|location.href='@{/instructor/{lectureNumber}/taskInfo(taskNumber=${taskInfo.taskNumber}, lectureNumber=${lectureNumber})}'|">취소</button>
-			</div>
-		</form>
-	</div>
+    <form name="updateForm" th:object="${taskInfo}" enctype="multipart/form-data">
+        <table class="table-custom">
+            <tr>
+                <th rowspan="2">제목</th>
+                <td rowspan="2" class="highlight">
+                    <input type="text" class="form-control" th:field="*{title}" />
+                </td>
+                <th>게시일자</th>
+                <td th:text="${#dates.format(taskInfo.postDate, 'yyyy년 MM월 dd일')}"></td>
+            </tr>
+            <tr>
+                <th>제출기한</th>
+                <td>
+                    <input type="text" class="form-control" id="datepicker" th:field="*{submitDeadline}" placeholder="yyyy-MM-dd" />
+                </td>
+            </tr>
+            <tr>
+                <th>내용</th>
+                <td colspan="3">
+                    <textarea class="form-control" th:field="*{description}"
+                        style="resize: none; width: 100%; height: 12.25em;"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>첨부 파일</th>
+                <td colspan="3">
+                    <div class="attachment-cards" id="file_input">
+                        <th:block th:each="file : ${taskInfo.fileList}">
+                            <div th:if="${file.isDeleted} == false" class="file-item d-flex justify-content mb-2">
+                                <input type="text" readonly class="form-control col-4"
+                                    th:value="${file.originalFileName}" />
+                                <div>
+                                    <button type="button" class="btn btn-danger btn-sm mt-2 ml-1"
+                                        th:onclick="'removeFile(this, ' + ${file.attachmentFileNumber} + ')'">x</button>
+                                </div>
+                            </div>
+                        </th:block>
+                        <div id="new-file-inputs">
+                            <!-- 새 파일 입력 필드가 여기에 추가됩니다 -->
+                        </div>
+                        <button type="button" onclick="addFile()" class="btn btn-info mt-2">
+                            <span>파일 추가</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <input type="hidden" id="taskNumber" th:field="*{taskNumber}" />
+        <input type="hidden" id="lectureNumber" th:field="*{lectureNumber}">
+        <div class="btn-group float-end" role="group">
+            <button type="button" id="updateBtn" class="btn btn-success mt-3">수정</button>
+            <button type="button" class="btn btn-danger mt-3"
+                th:onclick="|location.href='@{/instructor/{lectureNumber}/taskInfo(taskNumber=${taskInfo.taskNumber}, lectureNumber=${lectureNumber})}'|">취소</button>
+        </div>
+    </form>
 	<script>
+		    $( "#datepicker" ).datepicker({ 
+		    	minDate: 0, 
+		    	dateFormat: "yy-mm-dd",
+		    	showOtherMonths: true,
+		        showMonthAfterYear: true,
+		        changeYear: true,
+		        changeMonth: true});
 	/*<![CDATA[*/
 	document.getElementById('updateBtn').addEventListener('click', taskUpdateAjax);
 	const lectureNumber = document.getElementById('lectureNumber').value;
@@ -193,7 +203,7 @@
         fileDiv.className = 'file-item mb-2 d-flex justify-content';
         fileDiv.innerHTML = `
             <input type="file" name="files" class="form-control" onchange="selectFile(this);" style="display:none;" />
-            <input type="text" readonly class="form-control col-8 mb-1" onclick="this.previousElementSibling.click();" />
+            <input type="text" readonly class="form-control col-4 mb-1" onclick="this.previousElementSibling.click();" />
             <div><button type="button" onclick="removeFile(this)" class="btn btn-danger btn-sm ml-1 mt-2">x</button></div>
         `;
         document.getElementById('new-file-inputs').appendChild(fileDiv);

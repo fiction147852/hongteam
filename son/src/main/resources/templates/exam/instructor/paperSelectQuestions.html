@@ -19,6 +19,9 @@ body {
 	-webkit-line-clamp: 2;
 	-webkit-box-orient: vertical;
 }
+.collapse {
+	visibility: visible;
+}
 </style>
 <head>
 
@@ -89,7 +92,7 @@ body {
 			<div class="clearfix">
 				<button type="button" class="btn btn-danger mt-3 float-end"
 					th:onclick="|location.href='@{/instructor/paperList}'|">취소</button>
-				<button type="submit" class="btn btn-info mt-3 mr-2 float-end">시험
+				<button type="submit" class="btn btn-primary mt-3 mr-2 float-end">시험
 					생성</button>
 			</div>
 		</form>
