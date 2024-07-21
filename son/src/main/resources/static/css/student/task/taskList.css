@@ -75,3 +75,7 @@
     border-color: white;
     color: black;
 }
+
+.table-striped>tbody>tr:nth-of-type(odd)>* {
+    --bs-table-bg-type: #FFFFFF !important;
+}

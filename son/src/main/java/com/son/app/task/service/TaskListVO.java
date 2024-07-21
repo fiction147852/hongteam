@@ -21,9 +21,9 @@ public class TaskListVO {
     private String feedback;
     private String filePath;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+9")
     private Date postDate;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+9")
     private Date submitDeadline;
 
 
