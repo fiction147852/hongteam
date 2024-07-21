@@ -150,6 +150,56 @@
 		WHERE lecture_number = #{lectureNumber}
 	</select>
 	
+	
+	
+	
+	
+	<!-- 해당 강의 수강 학생 조회 -->
+<!--  <select id="adminLectureStudentList" resultType="LectureStudentVO"> -->
+ 
+<!--  SELECT c.*  -->
+<!--  FROM (  -->
+<!--  SELECT ROWNUM as rn -->
+<!--  , a.* -->
+<!--  FROM (SELECT student_number -->
+<!--  , name -->
+<!--  , email -->
+<!--  , phone -->
+<!--  , birth -->
+<!--  FROM lecture_student -->
+<!--  <where> -->
+<!--  <if test="reservationCode != null and reservationCode != ''.toString()"> -->
+<!--  lecture_number = #{lectureNumber} -->
+<!--  </if> -->
+<!--  </where> -->
+<!--  ) c  -->
+<!--  <![CDATA[ -->
+<!--  WHERE c.rn <= #{pageNum} * #{amount} AND -->
+<!--  c.rn > (#{pageNum} -1 ) * #{amount} -->
+<!--  ]]> -->
+<!--  </select> -->
+ 
+<!--  <select id="adminLecStuLisPaging" resultType="int"> -->
+<!--  SELECT COUNT(*) -->
+<!--  FROM(SELECT student_number -->
+<!--  , name -->
+<!--  , email -->
+<!--  , phone -->
+<!--  , birth -->
+<!--  FROM lecture_student -->
+<!--  <where> -->
+<!--  <if test="reservationCode != null and reservationCode != ''.toString()"> -->
+<!--  lecture_number = #{lectureNumber} -->
+<!--  </if> -->
+<!--  </where>) -->
+<!--  </select> -->
+	
+	
+	
+	
+	
+	
+	
 <!-- 	이메일로 학생찾기 -->
 	<select id="adminLectureStudentEmail" parameterType="String" resultType="LectureStudentVO">
 		SELECT student_number, 
