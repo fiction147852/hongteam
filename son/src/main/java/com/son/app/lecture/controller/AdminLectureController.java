@@ -20,6 +20,7 @@ import com.son.app.lecture.service.LectureVO;
 import com.son.app.lecture.service.PageDTO;
 import com.son.app.lecture.service.RegistrationVO;
 import com.son.app.member.service.InstructorVO;
+import com.son.app.member.service.StudentVO;
 
 @Controller
 @lombok.extern.slf4j.Slf4j
@@ -50,6 +51,10 @@ public class AdminLectureController {
 		List<LectureVO> lecList = adminLectureService.adminLectureList(cri);
 		model.addAttribute("adminLecList", lecList);
 
+		// 학생 페이징
+//		List<StudentVO> letStuList = adminLectureService.adminLectureStuList(cri);
+//		model.addAttribute("adminLecStuList", letStuList);
+		
 		List<InstructorVO> instructorVO = adminLectureService.adminInstructorList();
 		model.addAttribute("adminInstruList", instructorVO);
 

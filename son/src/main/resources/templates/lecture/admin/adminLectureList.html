@@ -336,24 +336,28 @@ $(".pagination-wrap a").on("click", (e)=>{
 	document.subName.submit();
 })
 
-//날짜 체크 datepiccker
+// 날짜 체크 datepicker
 $("#lectureStartDate").datepicker({ 
-	minDate: 0, 
-	dateFormat: "yy-mm-dd", 
+    minDate: 0, 
+    dateFormat: "yy-mm-dd", 
     beforeShowDay: function(date) {
         const day = date.getDay();
-        // 0은 일요일, 6은 토요일
         return [(day != 0 && day != 6), ''];
+    },
+    onSelect: function() {
+        validateDates();
     }
 });
 
 $("#lectureEndDate").datepicker({ 
-	minDate: 0, 
-	dateFormat: "yy-mm-dd", 
+    minDate: 0, 
+    dateFormat: "yy-mm-dd", 
     beforeShowDay: function(date) {
         const day = date.getDay();
-        // 0은 일요일, 6은 토요일
         return [(day != 0 && day != 6), ''];
+    },
+    onSelect: function() {
+        validateDates();
     }
 });
 
@@ -482,6 +486,61 @@ $("#lectureEndDate").datepicker({
 			
 
 
+			document.getElementById('lectureStartDate').addEventListener('change', validateDates);
+			document.getElementById('lectureEndDate').addEventListener('change', validateDates);
+
+			function validateDates() {
+			    const lectureStartDate = document.getElementById('lectureStartDate').value;
+			    const lectureEndDate = document.getElementById('lectureEndDate').value;
+
+			    if (!lectureStartDate) {
+			        Swal.fire({
+			            icon: 'error',
+			            title: '강의 시작 날짜 선택 오류',
+			            text: '강의 시작 날짜를 선택하세요.'
+			        });
+			        document.getElementById('lectureStartDate').classList.add('error');
+			        document.getElementById('lectureStartDateError').innerText = '강의 시작 날짜를 선택하세요.';
+			        return;
+			    } else {
+			        document.getElementById('lectureStartDate').classList.remove('error');
+			        document.getElementById('lectureStartDateError').innerText = '';
+			    }
+
+			    if (!lectureEndDate) {
+			        Swal.fire({
+			            icon: 'error',
+			            title: '강의 종료 날짜 선택 오류',
+			            text: '강의 종료 날짜를 선택하세요.'
+			        });
+			        document.getElementById('lectureEndDate').classList.add('error');
+			        document.getElementById('lectureEndDateError').innerText = '강의 종료 날짜를 선택하세요.';
+			        return;
+			    } else {
+			        document.getElementById('lectureEndDate').classList.remove('error');
+			        document.getElementById('lectureEndDateError').innerText = '';
+			    }
+
+			    // 날짜 비교
+			    const startDate = new Date(lectureStartDate);
+			    const endDate = new Date(lectureEndDate);
+
+			    if (endDate < startDate) {
+			        Swal.fire({
+			            icon: 'error',
+			            title: '날짜 선택 오류',
+			            text: '강의 종료 날짜가 강의 시작 날짜보다 이전일 수 없습니다.'
+			        });
+			        document.getElementById('lectureEndDate').classList.add('error');
+			        document.getElementById('lectureEndDateError').innerText = '강의 종료 날짜가 강의 시작 날짜보다 이전일 수 없습니다.';
+			        return;
+			    } else {
+			        document.getElementById('lectureEndDate').classList.remove('error');
+			        document.getElementById('lectureEndDateError').innerText = '';
+			    }
+			}
+            
+            
 
             // 강의 레벨 코드
 //             const lectureLevelCodeCell = document.getElementById('lectureLevelCode');
