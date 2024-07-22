@@ -46,82 +46,82 @@ document.addEventListener('DOMContentLoaded', function () {
         events: [],
 
         // 이벤트(일정)의 콘텐츠를 커스터마이징하는 데 사용된다. 이벤트의 콘텐츠를 구성하는 DOM 요소를 반환한다. (이벤트가 렌더링될 때 호출된다.)
-        eventContent: function (scheduleWithMetadata) {
-            // 해당 이벤트 객체와 그와 관련된 추가 정보를 포함하는 객체를 매개변수로 전달받는다.
-            const schedule = scheduleWithMetadata.event;
-
-            const container = document.createElement('div');
-            container.style.display = 'flex';
-            container.style.justifyContent = 'flex-end';
-            container.style.alignItems = 'center';
-            container.style.width = "100%";
-            container.style.padding = "3px 12px";
-
-            const title = document.createElement('div');
-            title.innerHTML = schedule.title;
-            title.style.fontSize = "17px";
-            title.style.fontWeight = "700";
-
-            if(scheduleWithMetadata.event.title === "결석") {
-                title.style.color = "#973131";
-            }
-
-            container.appendChild(title);
-
-            return {domNodes: [container]};
-        },
-        eventClick: function (info) {
-            // Close any currently open popovers
-            if (currentPopover) {
-                currentPopover.dispose();
-                currentPopover = null;
-            }
-
-            // Create a new popover if the clicked event is "조퇴"
-            if (info.event.title === "조퇴") {
-                const popover = new bootstrap.Popover(info.el, {
-                    title: '조퇴',
-                    content: `${info.event.extendedProps.remark}`,
-                    trigger: 'manual'
-                });
-
-                popover.show();
-                currentPopover = popover;
-
-                // Add event listener for closing the popover
-                document.addEventListener('click', closePopover);
-            }
-        }
+        // eventContent: function (scheduleWithMetadata) {
+        //         //     // 해당 이벤트 객체와 그와 관련된 추가 정보를 포함하는 객체를 매개변수로 전달받는다.
+        //         //     const schedule = scheduleWithMetadata.event;
+        //         //
+        //         //     const container = document.createElement('div');
+        //         //     container.style.display = 'flex';
+        //         //     container.style.justifyContent = 'flex-end';
+        //         //     container.style.alignItems = 'center';
+        //         //     container.style.width = "100%";
+        //         //     container.style.padding = "3px 12px";
+        //         //
+        //         //     const title = document.createElement('div');
+        //         //     title.innerHTML = schedule.title;
+        //         //     title.style.fontSize = "17px";
+        //         //     title.style.fontWeight = "700";
+        //         //
+        //         //     if(scheduleWithMetadata.event.title === "결석") {
+        //         //         title.style.color = "#973131";
+        //         //     }
+        //         //
+        //         //     container.appendChild(title);
+        //         //
+        //         //     return {domNodes: [container]};
+        //         // },
+        // eventClick: function (info) {
+        //     // Close any currently open popovers
+        //     if (currentPopover) {
+        //         currentPopover.dispose();
+        //         currentPopover = null;
+        //     }
+        //
+        //     // Create a new popover if the clicked event is "조퇴"
+        //     if (info.event.title === "조퇴") {
+        //         const popover = new bootstrap.Popover(info.el, {
+        //             title: '조퇴',
+        //             content: `${info.event.extendedProps.remark}`,
+        //             trigger: 'manual'
+        //         });
+        //
+        //         popover.show();
+        //         currentPopover = popover;
+        //
+        //         // Add event listener for closing the popover
+        //         document.addEventListener('click', closePopover);
+        //     }
+        // }
     });
 
-    axios.get(`/lms/student/${lectureNumber}/attendanceStatus`)
-        .then(response => {
-            const attendanceList = response.data;
-
-            const events = attendanceList.map(attendance => {
-                return {
-                    title: attendance.title,
-                    start: attendance.start,
-                    extendedProps: {
-                        remark: attendance.remark
-                    }
-                };
-            });
-            events.forEach(event => {
-                calendar.addEvent(event);
-            });
-        })
-        .catch(error => {
-            console.error(error);
-        })
-
-    function closePopover(event) {
-        if (currentPopover && !event.target.closest('.popover') && !event.target.closest('.fc-event')) {
-            currentPopover.dispose();
-            currentPopover = null;
-            document.removeEventListener('click', closePopover);
-        }
-    }
+    // axios.get(`/lms/student/${lectureNumber}/attendanceStatus`)
+    //     .then(response => {
+    //         const attendanceList = response.data;
+    //
+    //         const events = attendanceList.map(attendance => {
+    //             return {
+    //                 title: attendance.title,
+    //                 start: attendance.start,
+    //                 extendedProps: {
+    //                     remark: attendance.remark
+    //                 }
+    //             };
+    //         });
+    //         events.forEach(event => {
+    //             calendar.addEvent(event);
+    //         });
+    //     })
+    //     .catch(error => {
+    //         console.error(error);
+    //     })
+    //
+    // function closePopover(event) {
+    //     if (currentPopover && !event.target.closest('.popover') && !event.target.closest('.fc-event')) {
+    //         currentPopover.dispose();
+    //         currentPopover = null;
+    //         document.removeEventListener('click', closePopover);
+    //     }
+    // }
 
     calendar.render();
 });
