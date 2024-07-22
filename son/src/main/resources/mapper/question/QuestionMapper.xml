@@ -89,6 +89,7 @@
 					option2,
 					option3,
 					option4,
+					option5,
 					instructor_number,
 					explanation
 				)
@@ -105,6 +106,7 @@
 					#{option2},
 					#{option3},
 					#{option4},
+					#{option5},
 					#{instructorNumber},
 					#{explanation}
 				)

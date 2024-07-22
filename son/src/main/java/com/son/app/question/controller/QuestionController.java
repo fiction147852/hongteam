@@ -62,7 +62,7 @@ public class QuestionController {
 		int instructorNumber = userDetails.getMember().getIdNumber();
 		List<LectureVO> lectureList = lectureService.getLecturesByInstructor(instructorNumber);
 		model.addAttribute("lectureList", lectureList);
-		
+		model.addAttribute("instructorNumber", instructorNumber);
 		return "question/instructor/qinsert";
 	}
 	

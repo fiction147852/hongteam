@@ -67,22 +67,28 @@ public class PaperServiceImpl implements PaperService {
         return paper;
     }
 
+    @Transactional
     @Override
     public int createPaper(List<Integer> questionNumbers, List<Integer> scores, String paperTitle, String producer) {
-        PaperVO paper = new PaperVO();
-        paper.setPaperTitle(paperTitle);
-        paper.setProducer(producer);
+        try {
+            PaperVO paper = new PaperVO();
+            paper.setPaperTitle(paperTitle);
+            paper.setProducer(producer);
 
-        paperMapper.insertPaper(paper);
-        int paperNumber = paper.getPaperNumber();
-        logger.info("Created paper with number: {}", paperNumber);
+            paperMapper.insertPaper(paper);
+            int paperNumber = paper.getPaperNumber();
+            logger.info("Created paper with number: {}", paperNumber);
 
-        for (int i = 0; i < questionNumbers.size(); i++) {
-        	logger.info("Inserting question {} with score {} for paper {}", questionNumbers.get(i), scores.get(i), paperNumber);
-            paperMapper.insertPaperQuestion(paperNumber, questionNumbers.get(i), scores.get(i));
+            for (int i = 0; i < questionNumbers.size(); i++) {
+                logger.info("Inserting question {} with score {} for paper {}", questionNumbers.get(i), scores.get(i), paperNumber);
+                paperMapper.insertPaperQuestion(paperNumber, questionNumbers.get(i), scores.get(i));
+            }
+
+            return paperNumber;
+        } catch (Exception e) {
+            logger.error("Error creating paper: ", e);
+            throw new RuntimeException("Failed to create paper", e);
         }
-
-        return paperNumber;
     }
     
     @Override

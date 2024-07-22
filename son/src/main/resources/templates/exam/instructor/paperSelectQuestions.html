@@ -19,6 +19,7 @@ body {
 	-webkit-line-clamp: 2;
 	-webkit-box-orient: vertical;
 }
+
 .collapse {
 	visibility: visible;
 }
@@ -32,16 +33,22 @@ body {
 	<div class="mx-auto bg-white p-8 rounded-lg shadow-lg mt-4">
 		<form name="insertForm" th:action="@{paperSelectQuestions}"
 			method="post">
-			<div class="mb-3">
-				<label for="autoScore" class="form-label">자동 배점 설정:</label> <select
-					id="autoScore" class="form-select" onchange="setAutoScore()">
+			<div class="mb-3 d-flex justify-content-start">
+				<label for="autoScore" class="form-label mr-2 pt-3">자동 배점 설정:</label> <select
+					id="autoScore" class="form-select col-2" onchange="setAutoScore()">
 					<option value="">직접 입력</option>
 					<option value="equal">균등 배점</option>
 					<option value="random">랜덤 배점</option>
 				</select>
-			</div>
-			<div id="totalScoreDisplay" class="mb-3">
+			<div id="totalScoreDisplay" class="ml-3 mb-3 pt-3">
 				총 배점: <span id="totalScore">0</span>/100
+			</div>
+			</div>
+			<div class="mb-3">
+				<label for="selectAll" class="form-label"> <input
+					type="checkbox" id="selectAll" onchange="toggleAllCheckboxes(this)">
+					전체 선택
+				</label>
 			</div>
 			<input type="hidden" name="subjectCode" th:value="${subjectCode}" />
 			<input type="hidden" name="lectureNumber" th:value="${lectureNumber}" />
@@ -52,7 +59,7 @@ body {
 				class="form-control mb-2 col-2 float-end" readonly />
 			<div class="swiper">
 				<div class="swiper-wrapper mb-3">
-					<th:block th:each="qs : ${questions}">
+					<th:block th:each="qs, status : ${questions}">
 						<div class="swiper-slide">
 							<div class="card">
 								<div class="slide-content">
@@ -66,7 +73,7 @@ body {
 										<div>
 											<input type="hidden" name="questionNumbers"
 												th:value="${qs.questionNumber}" /> <label>배점: </label> <input
-												type="number" name="scores" min="1" max="100"
+												type="number" name="scores" id="scores" th:name="'scores[' + ${qs.questionNumber} + ']'" min="1" max="100"
 												class="w-16 p-1 border border-gray-300 rounded mt-1 mr-1" />
 											<br> <label>선택: </label> <input class="mr-1"
 												type="checkbox" name="selectedQuestions"
