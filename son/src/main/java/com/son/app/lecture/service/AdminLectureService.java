@@ -3,6 +3,7 @@ package com.son.app.lecture.service;
 import java.util.List;
 
 import com.son.app.member.service.InstructorVO;
+import com.son.app.member.service.StudentVO;
 
 public interface AdminLectureService {
 	
@@ -30,5 +31,8 @@ public interface AdminLectureService {
 
 	// 강사 정보 드롭 리스트 불러오기
 	public List<InstructorVO> adminInstructorList();
+
+	// 학생 페이징
+	public List<StudentVO> adminLectureStuList(Criteria cri);
 
 }

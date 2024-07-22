@@ -12,6 +12,7 @@ public class Criteria {
 	private String auth;
 	private String registrationStatus;
 	private String subjectName;
+	private String lectureNumber;
 	
 	//검색
 	private String type;
