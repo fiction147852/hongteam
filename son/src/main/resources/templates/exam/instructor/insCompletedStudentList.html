@@ -23,7 +23,6 @@
 								<th>점수</th>
 								<th>시험지 확인</th>
 								<th>피드백 작성</th>
-								<th>피드백 현황</th>
 							</tr>
 						</thead>
 						<tbody class="table-group-divider">
@@ -34,7 +33,6 @@
 									<td>[[${cs.totalScore}]]점</td>
 									<td><button class="btn btn-link btn-sm" th:onclick="|location.href='@{/instructor/{lectureNumber}/exam/{testNumber}/studentResult(lectureNumber=${lectureNumber}, testNumber=${testNumber}, participateNumber=${cs.participateNumber})}'|">확인</button></td>
 									<td><button class="btn btn-link btn-sm">작성</button></td>
-									<td>[[${cs.feedback}]]</td>
 								</tr>
 							</th:block>
 						</tbody>

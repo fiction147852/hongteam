@@ -1,8 +1,11 @@
 package com.son.app.paper.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -113,29 +116,55 @@ public class PaperController {
 
     @PostMapping("instructor/paperSelectQuestions")
     public String paperCreate(@RequestParam String subjectCode,
-                              @RequestParam List<Integer> selectedQuestions,
-                              @RequestParam List<Integer> scores,
+                              @RequestParam(required = false) List<Integer> selectedQuestions,
+                              @RequestParam(required = false) Map<String, String> allRequestParams,
                               @RequestParam String paperTitle,
                               @RequestParam String producer,
-                              Model model) {
-        if (selectedQuestions.size() > 20) {
-            model.addAttribute("error", "최대 20개의 문제만 선택할 수 있습니다.");
-            return "redirect:paperSelectQuestions?subjectCode=" + subjectCode;
+                              Model model) throws UnsupportedEncodingException {
+        
+    	// 문제 미선택 (null 값일 경우)
+        if (selectedQuestions == null || selectedQuestions.isEmpty()) {
+            return "redirect:paperSelectQuestions?subjectCode=" + subjectCode + "&error=" + URLEncoder.encode("최소 1개 이상의 문제를 선택해주세요.", StandardCharsets.UTF_8);
         }
         
+        // 선택문제 20개 초과시
+        if (selectedQuestions.size() > 20) {
+            return "redirect:paperSelectQuestions?subjectCode=" + subjectCode + "&error=" + URLEncoder.encode("최대 20개의 문제만 선택할 수 있습니다.", StandardCharsets.UTF_8);
+        }
+        
+        // 제목 미입력 (null 값일 경우)
         if (paperTitle == null || paperTitle.trim().isEmpty()) {
             return "redirect:paperSelectQuestions?subjectCode=" + subjectCode + "&error=" + encodedErrorMessageforTitle;
         }
 
-        int totalScore = scores.stream().mapToInt(Integer::intValue).sum();
+        // 선택된 문제에 해당하는 점수만 필터링
+        List<Integer> selectedScores = new ArrayList<>();
+        for (Integer questionNumber : selectedQuestions) {
+            String scoreKey = "scores[" + questionNumber + "]";
+            String scoreValue = allRequestParams.get(scoreKey);
+            if (scoreValue != null && !scoreValue.isEmpty()) {
+                try {
+                    selectedScores.add(Integer.parseInt(scoreValue));
+                } catch (NumberFormatException e) {
+                    return "redirect:paperSelectQuestions?subjectCode=" + subjectCode + "&error=" + URLEncoder.encode("유효하지 않은 점수 형식입니다.", StandardCharsets.UTF_8);
+                }
+            } else {
+                return "redirect:paperSelectQuestions?subjectCode=" + subjectCode + "&error=" + URLEncoder.encode("선택된 문제의 점수가 입력되지 않았습니다.", StandardCharsets.UTF_8);
+            }
+        }
+        
+        // 총 배점 100점 미만
+        int totalScore = selectedScores.stream().mapToInt(Integer::intValue).sum();
         if (totalScore != 100) {
-            model.addAttribute("error", "총 배점은 정확히 100점이어야 합니다.");
             return "redirect:paperSelectQuestions?subjectCode=" + subjectCode + "&error=" + encodedErrorMessageforScore;
         }
 
-        int paperId = paperService.createPaper(selectedQuestions, scores, paperTitle, producer);
-
-        return "redirect:paperList";
+        try {
+            int paperId = paperService.createPaper(selectedQuestions, selectedScores, paperTitle, producer);
+            return "redirect:paperList";
+        } catch (Exception e) {
+            return "redirect:paperSelectQuestions?subjectCode=" + subjectCode + "&error=" + URLEncoder.encode("시험지 생성 중 오류가 발생했습니다: " + e.getMessage(), StandardCharsets.UTF_8);
+        }
     }
     
     

@@ -120,6 +120,21 @@ body {
 document.addEventListener('DOMContentLoaded', function () {
     const searchForm = document.getElementById('searchForm');
     const container = document.getElementById('container');
+    
+    const searchType = document.getElementById('searchType');
+    const searchKeyword = document.getElementById('searchKeyword');
+    
+    function updatePlaceholder() {
+        if (searchType.value === '출제자') {
+            searchKeyword.placeholder = '출제자의 이름을 입력하세요.';
+        } else if (searchType.value === '문제유형') {
+            searchKeyword.placeholder = '문제유형을 입력하세요. 예) 객관식';
+        }
+    }
+    
+    
+    
+    updatePlaceholder();
 
     searchForm.addEventListener('submit', function(event) {
 
