@@ -7,38 +7,142 @@
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" th:href="@{/css/security/main.css}"/>
 <style>
-        .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
+.top-bar {
+	background-color: #f0f0f0;
+	padding: 5px 0;
+}
 
-        .form-group {
-            flex: 1;
-            min-width: 200px;
-        }
+.top-bar ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	justify-content: flex-end;
+}
 
-        .card {
-            margin: 20px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+.top-bar ul li {
+	margin: 0 10px;
+}
 
-        .table-responsive {
-            padding-top: 15px;
-        }
+.top-bar ul li a {
+	text-decoration: none;
+	color: black;
+	font-size: 0.9em;
+}
 
-        .btn {
-            margin-right: 5px;
-        }
+header {
+	text-align: center;
+	padding: 20px 0;
+}
 
-    </style>
+nav {
+	border-top: 1px solid #e0e0e0;
+	border-bottom: 1px solid #e0e0e0;
+	padding: 10px 0;
+}
+
+nav ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	justify-content: center;
+}
+
+nav ul li {
+	margin: 0 10px;
+}
+
+nav ul li a {
+	text-decoration: none;
+	color: black;
+}
+
+a {
+	font-size: 20px;
+	color: darkgray;
+	text-decoration-line: none;
+	margin: 0 15px;
+}
+
+.ui-datepicker a {
+	margin: 0;
+}
+
+table {
+	height: 300px;
+	margin: auto;
+	font-size: 15px;
+}
+
+input[type="text"], input[type="password"] {
+	width: 250px;
+	height: 32px;
+	font-size: 15px;
+	border: 0;
+	border-radius: 15px;
+	outline: none;
+	padding-left: 10px;
+	background-color: rgb(233, 233, 233);
+}
+
+.btn {
+	width: 263px;
+	height: 32px;
+	font-size: 15px;
+	border: 0;
+	border-radius: 15px;
+	outline: none;
+	padding-left: 10px;
+	background-color: rgb(164, 199, 255);
+}
+
+.btn:active {
+	width: 263px;
+	height: 32px;
+	font-size: 15px;
+	border: 0;
+	border-radius: 15px;
+	outline: none;
+	padding-left: 10px;
+	background-color: rgb(61, 135, 255);
+}
+
+.join {
+	text-align: center;
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+.card {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.table-responsive {
+    padding-top: 15px;
+}
+
+.btn {
+    margin-right: 5px;
+}
+
+</style>
     
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
