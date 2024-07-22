@@ -14,7 +14,7 @@
 		WHERE student_number in (SELECT student_number
 								FROM student
 								WHERE parent_number = #{parentNumber})
-								ORDER BY charge_number
+								ORDER BY charge_number desc
 	</select>
 
     <!-- 결제 상태 업데이트 -->

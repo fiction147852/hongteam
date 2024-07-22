@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.son.app.page.PageVO;
+import com.son.app.lecture.service.RegistrationVO;
 
 public interface ParentExamService {
 
@@ -20,4 +20,5 @@ public interface ParentExamService {
     public int modifyParticipateStatus(Integer participateNumber);
 	
     List<GradingResult> getChildExamResults(Integer participateNumber);
+	public List<RegistrationVO> childlecture(Integer lectureNumber);
 }
