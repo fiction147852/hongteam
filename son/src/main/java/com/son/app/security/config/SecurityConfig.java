@@ -22,14 +22,14 @@ public class SecurityConfig{
 	private CustomUserDetailsService service;
 	
 	@Bean
-	public BCryptPasswordEncoder passwordEncoder(){
+	BCryptPasswordEncoder passwordEncoder(){
 		return new BCryptPasswordEncoder();
 	}
 	
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		// 사이트 위변조 요청 방지
-	    http.csrf().disable();
+	    http.csrf(csrf ->csrf.disable());
 	    
 	    http.authorizeHttpRequests()
 	    	.antMatchers("/", "/admin/counselUpdateCal", "/mainCounselInsert", "/lectures", "/admission", "/join", "/sec/**", "/login", "/signUp", "/css/**", "/fonts/**", "/images/**", "/js/**", "/vendors/**").permitAll()
@@ -39,22 +39,22 @@ public class SecurityConfig{
 	    	.antMatchers("/instructor/**").hasRole("INSTRUCTOR")
 	    	.anyRequest().authenticated();
 	    
-	    http.formLogin()
+	    http.formLogin(login ->login
 	    	.loginPage("/login")
 	    	.loginProcessingUrl("/loginProcess")
 	    	.successHandler(new CustomLoginSuccessHandler())
-	    	.failureHandler(new CustomLoginFailureHandler());
+	    	.failureHandler(new CustomLoginFailureHandler()));
 	    
-	    http.logout()
+	    http.logout(logout ->logout
 	    	.logoutUrl("/logout")
 	    	.logoutSuccessUrl("/login")
-	    	.invalidateHttpSession(true);
+	    	.invalidateHttpSession(true));
 	    
-	    http.rememberMe()
+	    http.rememberMe(me ->me
 	    	.key("son")
 	    	.rememberMeParameter("remember")
 //	    	.alwaysRemember(true)
-	    	.userDetailsService(service);
+	    	.userDetailsService(service));
 	    
 	    return http.build();
 	}
