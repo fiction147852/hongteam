@@ -6,9 +6,9 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.son.app.exam.service.ExamInfoVO;
-import com.son.app.exam.service.ExamListVO;
 import com.son.app.exam.service.GradingResult;
 import com.son.app.exam.service.ParentChildExamVO;
+import com.son.app.lecture.service.RegistrationVO;
 
 public interface ParentExamMapper {
 
@@ -25,4 +25,5 @@ public interface ParentExamMapper {
     public int modifyParticipateStatus(Integer participateNumber);
     
     List<GradingResult> getChildExamResults(@Param("participateNumber") Integer participateNumber);
+    public List<RegistrationVO> childLecture(int lectureNumber);
 }

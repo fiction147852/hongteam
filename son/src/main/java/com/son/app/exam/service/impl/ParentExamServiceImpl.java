@@ -10,6 +10,7 @@ import com.son.app.exam.service.ExamInfoVO;
 import com.son.app.exam.service.GradingResult;
 import com.son.app.exam.service.ParentChildExamVO;
 import com.son.app.exam.service.ParentExamService;
+import com.son.app.lecture.service.RegistrationVO;
 @Service
 public class ParentExamServiceImpl implements ParentExamService{
 	
@@ -45,6 +46,12 @@ public class ParentExamServiceImpl implements ParentExamService{
     public List<GradingResult> getChildExamResults(Integer participateNumber) {
         return parentExamMapper.getChildExamResults(participateNumber);
     }
+
+	@Override
+	public List<RegistrationVO> childlecture(Integer lectureNumber) {
+		// TODO Auto-generated method stub
+		return parentExamMapper.childLecture(lectureNumber);
+	}
 
 	
 	
