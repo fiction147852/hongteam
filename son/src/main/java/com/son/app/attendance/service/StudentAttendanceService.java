@@ -13,6 +13,6 @@ public interface StudentAttendanceService {
     public StudentLectureInfoVO lectureInfo(Integer lectureNumber);
 
     public List<AttendanceSheetVO> attendanceSchedule(Integer studentNumber, Integer lectureNumber);
-    public AttendanceStatsVO calculateAttendanceStats(Integer lectureNumber, Integer studentNumber);
+//    public AttendanceStatsVO calculateAttendanceStats(Integer lectureNumber, Integer studentNumber);
 
 }

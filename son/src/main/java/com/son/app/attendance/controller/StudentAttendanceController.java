@@ -75,6 +75,13 @@ public class StudentAttendanceController {
     public AttendanceStatsVO calculateAttendanceStats(@AuthenticationPrincipal CustomUserDetails principal, @PathVariable Integer lectureNumber) {
         int studentNumber = principal.getMember().getIdNumber();
 
-        return studentAttendanceService.calculateAttendanceStats(lectureNumber, studentNumber);
+        AttendanceStatsVO stats = new AttendanceStatsVO();
+        stats.setTotalDays(0);
+        stats.setAttendanceDays(0);
+        stats.setTardyDays(0);
+        stats.setEarlyLeaveDays(0);
+        stats.setAbsentDays(0);
+
+        return stats;
     }
 }
