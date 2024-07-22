@@ -89,63 +89,63 @@
     </select>
 
     <!--  총 출석 일수 + 지각 수 + 결석 수 + 조퇴 수  -->
-    <select id="studentCalculateAttendanceStats">
-        WITH lecture_date_range AS (
-            SELECT lecture_number
-                , lecture_start_date + (LEVEL - 1) AS lecture_date
-                , TO_CHAR(lecture_start_date + (LEVEL - 1), 'DY', 'NLS_DATE_LANGUAGE=KOREAN') AS day_of_week
-            FROM lecture
-            WHERE lecture_number = #{lectureNumber}
-            <![CDATA[
-            CONNECT BY LEVEL <= (lecture_end_date - lecture_start_date + 1) AND PRIOR lecture_start_date = lecture_start_date AND PRIOR SYS_GUID() IS NOT NULL
-            ]]>),
-        lecture_days AS (
-            SELECT lecture_date_range.lecture_number
-                , lecture_date
-                , day_of_week
-            FROM lecture_date_range
-            JOIN lecture
-                ON lecture_date_range.lecture_number = lecture.lecture_number
-            WHERE lecture.lecture_number = #{lectureNumber} AND (REGEXP_LIKE(lecture.weekdays_code, '월요일') AND day_of_week = '월' OR REGEXP_LIKE(lecture.weekdays_code, '화요일') AND day_of_week = '화' OR REGEXP_LIKE(lecture.weekdays_code, '수요일') AND day_of_week = '수' OR REGEXP_LIKE(lecture.weekdays_code, '목요일') AND day_of_week = '목' OR REGEXP_LIKE(lecture.weekdays_code, '금요일') AND day_of_week = '금' OR REGEXP_LIKE(lecture.weekdays_code, '토요일') AND day_of_week = '토' OR REGEXP_LIKE(lecture.weekdays_code, '일요일') AND day_of_week = '일')),
-        filtered_attendance AS (
-            SELECT student_number
-                , attendance_code
-                , attendance_date
-                , TO_CHAR(attendance_date, 'DY', 'NLS_DATE_LANGUAGE=KOREAN') AS day_of_week
-            FROM attendance
-            JOIN lecture
-                ON attendance.lecture_number = lecture.lecture_number
-            WHERE lecture.lecture_number = #{lectureNumber} AND student_number = #{studentNumber} AND attendance_code IN ('출석', '지각', '조퇴', '결석')),
-        total_days_with_status AS (
-            SELECT COUNT(DISTINCT lecture_date) AS total_days
-            FROM filtered_attendance
-            JOIN lecture_days
-                ON filtered_attendance.attendance_date = lecture_days.lecture_date
-            )
-        SELECT(
-            SELECT total_days
-            FROM total_days_with_status) AS total_days
-            , SUM(CASE
-                      WHEN attendance_code IN ('출석', '지각', '조퇴') THEN 1
-                      ELSE 0
-                  END) AS attendance_days
-            , SUM(CASE
-                      WHEN attendance_code = '지각' THEN 1
-                      ELSE 0
-                  END) AS tardy_days
-            , SUM(CASE
-                      WHEN attendance_code = '조퇴' THEN 1
-                      ELSE 0
-                  END) AS early_leave_days
-            , SUM(CASE
-                      WHEN attendance_code = '결석' THEN 1
-                      ELSE 0
-                  END) AS absent_days
-        FROM filtered_attendance
-        JOIN lecture_days
-            ON filtered_attendance.attendance_date = lecture_days.lecture_date
-        GROUP BY filtered_attendance.student_number
+<!--    <select id="studentCalculateAttendanceStats">-->
+<!--        WITH lecture_date_range AS (-->
+<!--            SELECT lecture_number-->
+<!--                , lecture_start_date + (LEVEL - 1) AS lecture_date-->
+<!--                , TO_CHAR(lecture_start_date + (LEVEL - 1), 'DY', 'NLS_DATE_LANGUAGE=KOREAN') AS day_of_week-->
+<!--            FROM lecture-->
+<!--            WHERE lecture_number = #{lectureNumber}-->
+<!--            <![CDATA[-->
+<!--            CONNECT BY LEVEL <= (lecture_end_date - lecture_start_date + 1) AND PRIOR lecture_start_date = lecture_start_date AND PRIOR SYS_GUID() IS NOT NULL-->
+<!--            ]]>),-->
+<!--        lecture_days AS (-->
+<!--            SELECT lecture_date_range.lecture_number-->
+<!--                , lecture_date-->
+<!--                , day_of_week-->
+<!--            FROM lecture_date_range-->
+<!--            JOIN lecture-->
+<!--                ON lecture_date_range.lecture_number = lecture.lecture_number-->
+<!--            WHERE lecture.lecture_number = #{lectureNumber} AND (REGEXP_LIKE(lecture.weekdays_code, '월요일') AND day_of_week = '월' OR REGEXP_LIKE(lecture.weekdays_code, '화요일') AND day_of_week = '화' OR REGEXP_LIKE(lecture.weekdays_code, '수요일') AND day_of_week = '수' OR REGEXP_LIKE(lecture.weekdays_code, '목요일') AND day_of_week = '목' OR REGEXP_LIKE(lecture.weekdays_code, '금요일') AND day_of_week = '금' OR REGEXP_LIKE(lecture.weekdays_code, '토요일') AND day_of_week = '토' OR REGEXP_LIKE(lecture.weekdays_code, '일요일') AND day_of_week = '일')),-->
+<!--        filtered_attendance AS (-->
+<!--            SELECT student_number-->
+<!--                , attendance_code-->
+<!--                , attendance_date-->
+<!--                , TO_CHAR(attendance_date, 'DY', 'NLS_DATE_LANGUAGE=KOREAN') AS day_of_week-->
+<!--            FROM attendance-->
+<!--            JOIN lecture-->
+<!--                ON attendance.lecture_number = lecture.lecture_number-->
+<!--            WHERE lecture.lecture_number = #{lectureNumber} AND student_number = #{studentNumber} AND attendance_code IN ('출석', '지각', '조퇴', '결석')),-->
+<!--        total_days_with_status AS (-->
+<!--            SELECT COUNT(DISTINCT lecture_date) AS total_days-->
+<!--            FROM filtered_attendance-->
+<!--            JOIN lecture_days-->
+<!--                ON filtered_attendance.attendance_date = lecture_days.lecture_date-->
+<!--            )-->
+<!--        SELECT(-->
+<!--            SELECT total_days-->
+<!--            FROM total_days_with_status) AS total_days-->
+<!--            , SUM(CASE-->
+<!--                      WHEN attendance_code IN ('출석', '지각', '조퇴') THEN 1-->
+<!--                      ELSE 0-->
+<!--                  END) AS attendance_days-->
+<!--            , SUM(CASE-->
+<!--                      WHEN attendance_code = '지각' THEN 1-->
+<!--                      ELSE 0-->
+<!--                  END) AS tardy_days-->
+<!--            , SUM(CASE-->
+<!--                      WHEN attendance_code = '조퇴' THEN 1-->
+<!--                      ELSE 0-->
+<!--                  END) AS early_leave_days-->
+<!--            , SUM(CASE-->
+<!--                      WHEN attendance_code = '결석' THEN 1-->
+<!--                      ELSE 0-->
+<!--                  END) AS absent_days-->
+<!--        FROM filtered_attendance-->
+<!--        JOIN lecture_days-->
+<!--            ON filtered_attendance.attendance_date = lecture_days.lecture_date-->
+<!--        GROUP BY filtered_attendance.student_number-->
 
-    </select>
+<!--    </select>-->
 
 </mapper>

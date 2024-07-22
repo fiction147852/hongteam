@@ -20,5 +20,5 @@ public interface StudentAttendanceMapper {
     // 출석표
     public List<AttendanceSheetVO> attendanceSchedule(@Param("studentNumber") Integer studentNumber, @Param("lectureNumber") Integer lectureNumber);
     // 출석 상태 계산
-    public AttendanceStatsVO studentCalculateAttendanceStats(@Param("lectureNumber") Integer lectureNumber, @Param("studentNumber") Integer studentNumber);
+//    public AttendanceStatsVO studentCalculateAttendanceStats(@Param("lectureNumber") Integer lectureNumber, @Param("studentNumber") Integer studentNumber);
 }

@@ -161,12 +161,5 @@ class SonApplicationTests {
 		System.out.println(attendanceSheetVOList);
 	}
 
-	@Test
-	@DisplayName("DH) 출석 상태 개수")
-	public void attendanceStatusCount() {
-		AttendanceStatsVO attendanceStatsVO = studentAttendanceService.calculateAttendanceStats(2, 1);
-
-		System.out.println(attendanceStatsVO);
-	}
 
 }

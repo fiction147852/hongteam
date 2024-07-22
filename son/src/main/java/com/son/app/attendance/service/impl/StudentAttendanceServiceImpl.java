@@ -40,8 +40,8 @@ public class StudentAttendanceServiceImpl implements StudentAttendanceService {
         return studentAttendanceMapper.attendanceSchedule(studentNumber, lectureNumber);
     }
 
-    @Override
-    public AttendanceStatsVO calculateAttendanceStats(Integer lectureNumber, Integer studentNumber) {
-        return studentAttendanceMapper.studentCalculateAttendanceStats(lectureNumber, studentNumber);
-    }
+//    @Override
+//    public AttendanceStatsVO calculateAttendanceStats(Integer lectureNumber, Integer studentNumber) {
+//        return studentAttendanceMapper.studentCalculateAttendanceStats(lectureNumber, studentNumber);
+//    }
 }

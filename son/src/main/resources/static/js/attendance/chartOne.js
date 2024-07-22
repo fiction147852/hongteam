@@ -32,13 +32,13 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => {
             const data = response.data;
 
-            const totalDays = data.totalDays !== undefined ? data.totalDays : 0;
-            const attendanceDays = data.attendanceDays !== undefined ? data.attendanceDays : 0;
+            const totalDays = data.totalDays !== null ? data.totalDays : 0;
+            const attendanceDays = data.attendanceDays !== null ? data.attendanceDays : 0;
 
             initChart(totalDays, attendanceDays);
 
-            document.querySelector("#tardyDays").innerText = data.tardyDays ?? "";
-            document.querySelector("#earlyLeaveDays").innerText = data.earlyLeaveDays ?? "";
+            document.querySelector("#tardyDays").innerText = data.tardyDays !== null ? data.tardyDays : "";
+            document.querySelector("#earlyLeaveDays").innerText = data.earlyLeaveDays !== null ? data.earlyLeaveDays : "";
 
             const attendancePercentage = totalDays !== 0
                 ? Math.round((attendanceDays / totalDays) * 1000) / 10
@@ -56,5 +56,5 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .catch(error => {
             console.error(error);
-        })
+        });
 });
