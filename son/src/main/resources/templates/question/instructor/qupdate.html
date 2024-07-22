@@ -103,6 +103,7 @@ body {
             </div>
 
             <input type="hidden" th:field="*{questionNumber}" />
+            <input type="hidden" name="lectureNumber" th:value="${lectureNumber}" />
             <div class="flex justify-end space-x-4">
                 <button type="button" id="updateBtn" class="btn btn-primary">수정</button>
                 <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/instructor/questionList}'|" >취소</button>

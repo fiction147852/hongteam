@@ -7,10 +7,17 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
 	rel="stylesheet">
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	var questionTypeCode = /*[[${questionInfo.questionTypeCode}]]*/'default';
+	/*]]>*/
+</script>
+<script th:src="@{/js/question/qinfo.js}"></script>
 <style>
 body {
 	font-family: 'Roboto', sans-serif;
 }
+
 .collapse {
 	visibility: visible;
 }
@@ -22,7 +29,9 @@ body {
 </head>
 
 <body>
-<h4 style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">상세 조회</h4>
+	<h4
+		style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">상세
+		조회</h4>
 	<div class="card mx-auto" style="width: 75rem;">
 		<div class="card-body">
 			<div class="card-body bg-gray-100">
@@ -30,7 +39,7 @@ body {
 				<p class="card-text" style="white-space: pre-line;">[[
 					${questionInfo.text} ]]</p>
 			</div>
-			<div class="card-footer">
+			<div class="card-footer" id="questionOptions">
 				<div class="d-flex justify-content">
 					<p class="mr-10">1. [[${questionInfo.option1}]]</p>
 					<p class="mr-10">2. [[${questionInfo.option2}]]</p>
@@ -44,7 +53,8 @@ body {
 			<p class="card-title">답안과 해설</p>
 			<p class="card-text">[[${questionInfo.answer}]]</p>
 			<p class="card-text">[[${questionInfo.explanation}]]</p>
-			<button type="button" class="btn btn-secondary float-end" th:onclick="|location.href='@{/instructor/questionList}'|">목록</button>
+			<button type="button" class="btn btn-secondary float-end"
+				th:onclick="|location.href='@{/instructor/questionList}'|">목록</button>
 		</div>
 	</div>
 </body>
