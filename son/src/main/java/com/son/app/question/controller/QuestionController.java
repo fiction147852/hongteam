@@ -1,4 +1,4 @@
-package com.son.app.question.controller;
+	package com.son.app.question.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -104,20 +104,22 @@ public class QuestionController {
 	    
 	    // 과목 목록 가져오기
 	    List<Map<String, String>> subjects = List.of(
-		       Map.of("code", "A001", "name", "수학"),
+		       Map.of("code", "A001", "name", "국어"),
 		       Map.of("code", "A002", "name", "영어"),
-		       Map.of("code", "A003", "name", "국어")
+		       Map.of("code", "A003", "name", "수학")
 		    );
 	    model.addAttribute("subjects", subjects);
 	    
 	    // 세부 과목 목록 가져오기
 	    List<Map<String, String>> detailSubjects = List.of(
-			       Map.of("code", "B001", "name", "미적분"),
-			       Map.of("code", "B002", "name", "확률과통계"),
-			       Map.of("code", "B003", "name", "독해"),
-			       Map.of("code", "B004", "name", "문법"),
-			       Map.of("code", "B005", "name", "화법과작문"),
-			       Map.of("code", "B006", "name", "언어와매체")
+			       Map.of("code", "B001", "name", "문학"),
+			       Map.of("code", "B002", "name", "화법과 작문"),
+			       Map.of("code", "B003", "name", "언어와 매체"),
+			       Map.of("code", "B004", "name", "독해"),
+			       Map.of("code", "B005", "name", "문법"),
+			       Map.of("code", "B006", "name", "미적분"),
+			       Map.of("code", "B007", "name", "확률과 통계"),
+			       Map.of("code", "B008", "name", "기하와 벡터")
 			    );
 	    model.addAttribute("detailSubjects", detailSubjects);
 	    

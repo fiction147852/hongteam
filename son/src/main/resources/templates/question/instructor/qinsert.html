@@ -47,9 +47,9 @@ body {
                     <label for="category" class="block text-sm font-medium text-gray-700">과목선택</label>
                     <select id="category" name="subjectCode" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" onchange="updateDetailSubjects()">
                      	<option value="">과목 선택</option>
-                        <option value="A001">수학</option>
+                        <option value="A001">국어</option>
                         <option value="A002">영어</option>
-                        <option value="A003">국어</option>
+                        <option value="A003">수학</option>
                     </select>
                 </div>
                 <div class="col-start-3">
@@ -96,8 +96,7 @@ body {
                 <label for="fileUpload" class="block text-sm font-medium text-gray-700">첨부파일</label>
                 <input type="file" id="fileUpload" name="attachmentFile" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
             </div>
-            <!-- 이후에 없애야함 -->
-            <input type="hidden" value="1" name="instructorNumber">
+            <input type="hidden" name="lectureNumber" th:value="${lectureNumber}" />
             <div class="flex justify-end space-x-4">
                 <button type="submit" class="btn btn-primary">등록</button>
                 <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/instructor/questionList}'|">취소</button>
