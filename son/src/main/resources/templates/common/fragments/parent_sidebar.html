@@ -5,8 +5,7 @@
 		<li class="nav-item"><a class="nav-link" th:href="@{/parent}">
 				<i class="fa-solid fa-house-chimney menu-icon"
 				style="margin-right: 10px"></i> <span class="menu-title">HOME</span>
-		</a>
-		</li>
+		</a></li>
 		<li class="nav-item"><a class="nav-link" data-toggle="collapse"
 			href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
 				<i class="typcn typcn-document-text menu-icon"></i> <span
@@ -18,44 +17,19 @@
 						class="nav-link" th:href="@{'/parent/' + ${child.studentNumber}}">[[${child.name}]]</a>
 					</li>
 				</ul>
-			</div>
-		</li>
-		<li class="nav-item"><a class="nav-link" data-toggle="collapse"
-			href="#form-elements" aria-expanded="false"
-			aria-controls="form-elements"> <i
-				class="typcn typcn-film menu-icon"></i> <span class="menu-title">학부모
-					QNA</span> <i class="menu-arrow"></i>
-		</a>
-			<div class="collapse" id="form-elements">
-				<ul class="nav flex-column sub-menu">
-					<li class="nav-item"><a class="nav-link"
-						 th:href="@{/parent/counselList}">학부모 상담</a></li>
-				</ul>
-			</div>
-		</li>
-		<li class="nav-item"><a class="nav-link" data-toggle="collapse"
-			href="#charts" aria-expanded="false" aria-controls="charts"> <i
-				class="typcn typcn-chart-pie-outline menu-icon"></i> <span
-				class="menu-title">수납</span> <i class="menu-arrow"></i>
-		</a>
-			<div class="collapse" id="charts">
-				<ul class="nav flex-column sub-menu">
-					<li class="nav-item"><a th:href="@{/parent/pay}"
-						class="nav-link">수납 조회</a></li>
-				</ul>
-			</div>
-		</li>
-		<li class="nav-item"><a class="nav-link" data-toggle="collapse"
-			href="#tables" aria-expanded="false" aria-controls="tables"> <i
-				class="typcn typcn-th-small-outline menu-icon"></i> <span
-				class="menu-title">내정보</span> <i class="menu-arrow"></i>
-		</a>
-			<div class="collapse" id="tables">
-				<ul class="nav flex-column sub-menu">
-					<li class="nav-item"><a class="nav-link" th:href="@{/parent/mypage}"
-						>정보 수정</a></li>
-				</ul>
-			</div>
-		</li>
+			</div></li>
+		<li class="nav-item"><a class="nav-link"
+			th:href="@{/parent/counselList}"> <i
+				class="fa-regular fa-calendar menu-icon"></i> <span
+				class="menu-title">학부모QNA</span>
+		</a></li>
+		<li class="nav-item"><a class="nav-link" th:href="@{/parent/pay}">
+				<i class="typcn typcn-chart-pie-outline menu-icon"></i> <span
+				class="menu-title">수납</span>
+		</a></li>
+		<li class="nav-item"><a class="nav-link"
+			th:href="@{/parent/mypage}"> <i
+				class="typcn typcn-film menu-icon"></i> <span class="menu-title">내정보</span>
+		</a></li>
 	</ul>
 </nav>

@@ -8,7 +8,7 @@
 <title>강의 정보</title>
 </head>
 <body>
-	<div class="row">
+	<div class="Content">
 		<div class="col-md-12">
 			<div class="card">
 				<div class="table-responsive pt-3">
@@ -73,20 +73,6 @@
         });
     });
     
-	/*
-    document.addEventListener("DOMContentLoaded", function() {
-    	console.log('PortOne : ', PortOne, typeof PortOne);
-        if (typeof PortOne !== 'undefined') {
-            PortOne.init({
-                storeId: "store-de9fb682-27f5-4a8d-a37b-96c75ee490b3"
-            });
-        } else {
-            console.error('PortOne이 정의되지 않았습니다. 스크립트 소스를 확인해주세요.');
-        }
-
-        // 결제 버튼에 이벤트 리스너 추가
-    });
-	*/
 
     async function requestPayment(lectureTitle, lectureCost, studentName, parentName, parentPhone, parentEmail, chargeNumber) {
     	console.log('PortOne : ', PortOne, typeof PortOne);

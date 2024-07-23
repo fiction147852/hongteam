@@ -8,36 +8,141 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <style>
-        .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
+.top-bar {
+	background-color: #f0f0f0;
+	padding: 5px 0;
+}
 
-        .form-group {
-            flex: 1;
-            min-width: 200px;
-        }
+.top-bar ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	justify-content: flex-end;
+}
 
-        .card {
-            margin: 20px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+.top-bar ul li {
+	margin: 0 10px;
+}
 
-        .table-responsive {
-            padding-top: 15px;
-        }
+.top-bar ul li a {
+	text-decoration: none;
+	color: black;
+	font-size: 0.9em;
+}
 
-        .btn {
-            margin-right: 5px;
-        }
+header {
+	text-align: center;
+	padding: 20px 0;
+}
 
-    </style>
+nav {
+	border-top: 1px solid #e0e0e0;
+	border-bottom: 1px solid #e0e0e0;
+	padding: 10px 0;
+}
+
+nav ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	justify-content: center;
+}
+
+nav ul li {
+	margin: 0 10px;
+}
+
+nav ul li a {
+	text-decoration: none;
+	color: black;
+}
+
+a {
+	font-size: 20px;
+	color: darkgray;
+	text-decoration-line: none;
+	margin: 0 15px;
+}
+
+.ui-datepicker a {
+	margin: 0;
+}
+
+table {
+	height: 300px;
+	margin: auto;
+	font-size: 15px;
+}
+
+input[type="text"], input[type="password"] {
+	width: 250px;
+	height: 32px;
+	font-size: 15px;
+	border: 0;
+	border-radius: 15px;
+	outline: none;
+	padding-left: 10px;
+	background-color: rgb(233, 233, 233);
+}
+
+.btn {
+	width: 263px;
+	height: 32px;
+	font-size: 15px;
+	border: 0;
+	border-radius: 15px;
+	outline: none;
+	padding-left: 10px;
+	background-color: rgb(164, 199, 255);
+}
+
+.btn:active {
+	width: 263px;
+	height: 32px;
+	font-size: 15px;
+	border: 0;
+	border-radius: 15px;
+	outline: none;
+	padding-left: 10px;
+	background-color: rgb(61, 135, 255);
+}
+
+.join {
+	text-align: center;
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+.card {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.table-responsive {
+    padding-top: 15px;
+}
+
+.btn {
+    margin-right: 5px;
+}
+
+</style>
     
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
@@ -48,7 +153,7 @@
 	<h4 style="font-weight: 800; text-align: center; margin-bottom: 30px; margin-top: 30px">입학 상담 신청</h4>
 	<div layout:fragment="content">
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-6" style="margin:0 auto;">
 				<div class="card">
 					<div class="card-body">
 						<form method="post" id="counselInsert" name="counselInsert">
@@ -61,6 +166,8 @@
 									<label for="studentName">학생 이름</label>
 									<input type="text" name="studentName" class="form-control">
 								</div>
+							</div>
+							<div class="form-row">
 								<div class="form-group">
 									<label for="phone">전화번호</label>
 									<input type="text" name="phone" class="form-control">
@@ -69,7 +176,7 @@
 							<div class="form-row">
 								<div class="form-group">
 									<label for="reservationDate">예약 일자</label>
-									<input type="text" name="reservationDateMain" onchange="changeDate()" id="reservationDateMain" class="form-control">
+									<input type="text" name="reservationDateMain" onchange="changeDate()" id="reservationDateMain" class="form-control aaa">
 								</div>
 								<div class="form-group">
 									<label for="timeCode">시간</label>
@@ -80,11 +187,11 @@
 							</div>
 							<div class="form-group">
 								<label for="content">내용</label>
-								<input type="text" class="form-control" name="content" id="content" placeholder="내용을 입력하세요">
+								<textarea class="form-control" rows="9" name="content" id="content" placeholder="내용을 입력하세요"></textarea>
 							</div>
 							<div class="form-group">
-								<button type="button" class="btn btn-primary" style="background-color: #28587E" id="save">신청</button>
-								<button type="button" id="goBack" class="btn btn-secondary" style="background-color: #28587E">취소</button>
+								<button type="button" class="btn btn-primary" style="background-color: #28587E; width: 150px;" id="save">신청</button>
+								<button type="button" id="goBack" class="btn btn-secondary" style="background-color: #28587E; width: 150px;">취소</button>
 							</div>
 						</form>
 					</div>

@@ -74,7 +74,7 @@ public class StudentTaskController {
     @GetMapping("student/{lectureNumber}/task/{taskNumber}/download")
     @ResponseBody
     public ResponseEntity<Resource> taskDownload(@RequestParam String originalFileName, @RequestParam String filePath) throws MalformedURLException {
-        UrlResource urlResource = new UrlResource("file:" + uploadPath + "/" + filePath);
+        UrlResource urlResource = new UrlResource("file:" + uploadPath + filePath);
 
         String encodedOriginalFileName = UriUtils.encode(originalFileName, StandardCharsets.UTF_8);
         String contentDisposition = "attachment; filename=\"" + encodedOriginalFileName + "\"";
@@ -85,7 +85,6 @@ public class StudentTaskController {
     }
 
     // 파일 업로드
-
     @PostMapping("student/{lectureNumber}/task/{taskNumber}")
     public String filesUpload(@RequestPart("files")List<MultipartFile> multipartFileList, @PathVariable Integer taskNumber, @AuthenticationPrincipal CustomUserDetails principal, @PathVariable Integer lectureNumber) {
         int studentNumber = principal.getMember().getIdNumber();
