@@ -14,7 +14,7 @@
 	            WHERE p.test_number = t.test_number
 	            AND p.participate_status = '응시 완료') AS completedCount
 	    FROM (
-	        SELECT ROW_NUMBER() OVER (ORDER BY test_number) AS rn,
+	        SELECT ROW_NUMBER() OVER (ORDER BY test_number DESC) AS rn,
 	               test_number,
 	               examination_date,
 	               limit_time,
@@ -80,7 +80,7 @@
 	<select id="selectCompletedStudents" resultType="ExamVO">
 	    SELECT *
 	    FROM (
-	        SELECT ROW_NUMBER() OVER (ORDER BY p.participate_number) AS rn,
+	        SELECT ROW_NUMBER() OVER (ORDER BY p.participate_number DESC) AS rn,
 	               t.test_number,
 	               t.test_title,
 	               p.student_number,

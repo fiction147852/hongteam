@@ -179,7 +179,7 @@
 	    FROM
 	        (
 	            SELECT
-	                ROW_NUMBER() OVER (ORDER BY task_number) AS rn,
+	                ROW_NUMBER() OVER (ORDER BY task_number DESC) AS rn,
 	                task_number,
 	                title,
 	                post_date,

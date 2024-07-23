@@ -19,7 +19,7 @@
 		       q.explanation
 		FROM question q
 		JOIN instructor i ON q.instructor_number = i.instructor_number
-		ORDER BY q.question_number
+		ORDER BY q.question_number DESC
 	</select>
 	
 	<select id="selectQuestionInfo" resultType="QuestionVO">
@@ -69,7 +69,7 @@
 	   <if test='subjectCode != null and subjectCode != ""'>
 	        AND q.subject_code = #{subjectCode}
 		</if> 
-	    ORDER BY q.question_number
+	    ORDER BY q.question_number DESC
 	</select>
 	
 	<insert id="insertQuestionInfo" parameterType="QuestionVO">
