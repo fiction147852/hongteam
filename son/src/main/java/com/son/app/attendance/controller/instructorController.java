@@ -26,7 +26,9 @@ public class instructorController {
         return "attendance/instructor/insAttendance";
     }
     
-    
-    
+    @GetMapping("instructor/404")
+    public String notFoundErrorPage() {
+    	return "pages/samples/error-404-ins";
+    }
 
 }
