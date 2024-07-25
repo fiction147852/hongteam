@@ -175,8 +175,10 @@ function limitSelection(checkbox) {
 }
 
 function toggleAllCheckboxes(source) {
-	var checkboxes = document.getElementsByName('selectedQuestions');
-	for (var i = 0, n = checkboxes.length; i < n; i++) {
-		checkboxes[i].checked = source.checked;
-	}
+    var checkboxes = document.getElementsByName('selectedQuestions');
+    var limit = Math.min(20, checkboxes.length); // 20개와 실제 체크박스 수 중 작은 값을 선택
+    
+    for (var i = 0; i < limit; i++) {
+        checkboxes[i].checked = source.checked;
+    }
 }
