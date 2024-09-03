@@ -15,8 +15,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
 
 	@Override
-	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-			AuthenticationException exception) throws IOException, ServletException {
+	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 		
 		String errMsg = "";
 		
@@ -28,12 +27,8 @@ public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
 			errMsg += "다시 시도해주세요.";
 		}
 		
-		System.out.println("sssssssssssssssss" + errMsg);
-		
-		request.setAttribute("error", errMsg);
+		request.setAttribute("error", errMsg); // HttpServletRequest 구현체에 있는 임시 저장소에 데이터 저장
 		request.getRequestDispatcher("/login").forward(request, response);
-//		response.sendRedirect(request.getContextPath()+"/login?error="+errMsg);
-		
 	}
 
 }

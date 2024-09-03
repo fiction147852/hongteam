@@ -36,26 +36,12 @@ public class CertServiceImpl implements CertService {
 	@Override
 	public SimpleMailMessage createMail(String mail) {
 		createNumber();
-//        MimeMessage message = javaMailSender.createMimeMessage();
 
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setFrom(senderEmail);
 		message.setTo(mail);
 		message.setSubject("이메일 인증");
 		message.setText("인증번호 : " + number);
-
-//        try {
-//            message.setFrom(senderEmail);
-//            message.setRecipients(MimeMessage.RecipientType.TO, mail);
-//            message.setSubject("이메일 인증");
-//            String body = "";
-//            body += "<h3>" + "요청하신 인증 번호입니다." + "</h3>";
-//            body += "<h1>" + number + "</h1>";
-//            body += "<h3>" + "감사합니다." + "</h3>";
-//            message.setText(body,"UTF-8", "html");
-//        } catch (MessagingException e) {
-//            e.printStackTrace();
-//        }
 
 		return message;
 	}

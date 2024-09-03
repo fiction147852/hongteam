@@ -18,6 +18,7 @@ function setEmailDomain(domain) {
 
 function validateEmail(email_address) {
 	email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+
 	if (!email_regex.test(email_address)) {
 		return false;
 	} else {
@@ -49,7 +50,6 @@ function sendEmail(email) {
 		data: { "mail": email },
 		//dataType:'json',
 		success: function(data) {
-			console.log(data);
 			alert('인증번호를 발송했습니다');
 			mailConfirm = data;
 			//$('#mailConfirm').attr("value", data);

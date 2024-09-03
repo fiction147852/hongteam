@@ -15,108 +15,142 @@
 <script src="/lms/js/security/join.js"></script>
 </head>
 <body>
-<div layout:fragment="content">
-<form id="signUpForm" method="post" th:action="@{/signUp}">
-    <table>
-    <tr>
-        <td><h2>회원가입</h2></td>
-    </tr>
-    <tr>
-    	<td>
-		   	<input type="radio" name="type" value="1" checked>
-		   	<label> 학생 </label>
-		   	<input type="radio" name="type" value="2">
-		   	<label> 학부모 </label>
-    	</td>
-    </tr>
-    <tr id="studentCert" style="display: none">
-    	<td>
-    		<input type="text" id="childMail" placeholder="자녀 이메일" class="text"/>
-    		<input type="button" value="인증" class="btn2" onclick="childMailCheck()">
-    		<input type="hidden" id="studentNumber" name="studentNumber">
-    	</td>
-    </tr>
-    <tr id="child_phone" style="display:none">
-    	<td>
-	    	<input type="text" id="childPhone" placeholder="자녀 휴대폰 번호" class="text"/>
-	   		<input type="button" value="인증" class="btn2" onclick="childCheckPhone()">
-		</td>
-    </tr>
-    <tr id="child_phone_number" style="display: none">
-    	<td>
-    		<input type="text" id="childPhoneCertNumber" placeholder="인증번호 입력" class="text">
-    		<input type="button" value="확인" class="btn2" onclick="childCertPhone()">
-			<input type="hidden" id="childConfirm" style="display:none">
-    	</td>
-    </tr>
-    <tr><td>아이디(이메일)</td></tr>
-    <tr>
-        <td>
-			<input type="text" id="email_id" class="text" placeholder="이메일" maxlength="18" /> @ 
-			<input type="text" id="email_domain" class="text" placeholder="이메일 도메인" maxlength="18"/> 
-			<select class="select" title="이메일 도메인 주소 선택" onchange="setEmailDomain(this.value)">
-			    <option value="">-직접입력-</option>
-			    <option value="naver.com">naver.com</option>
-			    <option value="gmail.com">gmail.com</option>
-			    <option value="hanmail.net">hanmail.net</option>
-			    <option value="hotmail.com">hotmail.com</option>
-			    <option value="korea.com">korea.com</option>
-			    <option value="nate.com">nate.com</option>
-			    <option value="yahoo.com">yahoo.com</option>
-			</select>
-			<input type="button" value="인증" class="btn2" onclick="checkEmail()">
-			<input type="hidden" id="mailConfirm" style="display:none">
-			<input type="hidden" id="email" name="email">
-        </td>
-    </tr>
-    
-    <tr id="mail_number" name="mail_number" style="display: none">
-    	<td>
-    		<input type="text" id="emailCertNumber" placeholder="인증번호 입력" class="text">
-    		<input type="button" value="확인" class="btn2" onclick="certMail()">
-    	</td>
-    </tr>
-    
-    <tr><td>비밀번호</td></tr>
-    <tr><td><input type="password" id="pwd" name="password" class="text"></td></tr>
-    <tr><td>비밀번호 확인</td></tr>
-    <tr><td><input type="password" id="pwdCheck" class="text"></td></tr>
-    
-    <tr><td>이름</td></tr>
-    <tr><td><input type="text" id="name" name="name" class="text"></td></tr>
-    
-    <tr><td>휴대폰번호</td></tr>
-    <tr>
-    	<td>
-    		<input type="text" id="phone" name="phone" class="text">
-			<input type="button" value="인증" class="btn2" onclick="checkPhone()">
-			<input type="hidden" id="phoneConfirm" style="display:none">
-		</td>
-    </tr>
-    <tr id="phone_number" style="display: none">
-    	<td>
-    		<input type="text" id="phoneCertNumber" placeholder="인증번호 입력" class="text">
-    		<input type="button" value="확인" class="btn2" onclick="certPhone()">
-    	</td>
-    </tr>
-    <tr><td>생년월일</td></tr>
-    <tr><td><input type="date" id="birth" name="birth" class="text"></td></tr>
-    <tr><td>주소</td></tr>
-    <tr>
-    	<td>
-    		<input type="text" id="addr" class="text2" readonly>
-    		<input type="button" value="검색" class="btn2" onclick="searchAddr()">
-    	</td>
-    </tr>
-    <tr>
-    	<td>
-    		<input type="text" id="detailAddr" class="text2" placeholder="상세주소">
-			<input type="hidden" id="address" name="address">
-    	</td>
-    </tr>
-    <tr><td><input type="submit" value="가입하기" class="btn"></td></tr>
-    </table>
-</form>
-</div>
+	<div layout:fragment="content">
+		<form id="signUpForm" method="post" th:action="@{/signUp}">
+			<table>
+				<tr>
+					<td>
+						<h3 style="font-weight: bold; margin-top: 20px">회원가입</h3>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="radio" name="type" value="1" checked>
+						<label> 학생 </label>
+						<input type="radio" name="type" value="2">
+						<label> 학부모 </label>
+					</td>
+				</tr>
+				<tr id="studentCert" style="display: none">
+					<td>
+						<input type="text" id="childMail" placeholder="자녀 이메일" class="text"/>
+						<input type="button" value="인증" class="btn2" onclick="childMailCheck()">
+						<input type="hidden" id="studentNumber" name="studentNumber">
+					</td>
+				</tr>
+				<tr id="child_phone" style="display:none">
+					<td>
+						<input type="text" id="childPhone" placeholder="자녀 휴대폰 번호" class="text"/>
+						<input type="button" value="인증" class="btn2" onclick="childCheckPhone()">
+					</td>
+				</tr>
+				<tr id="child_phone_number" style="display: none">
+					<td>
+						<input type="text" id="childPhoneCertNumber" placeholder="인증번호 입력" class="text">
+						<input type="button" value="확인" class="btn2" onclick="childCertPhone()">
+						<input type="hidden" id="childConfirm" style="display:none">
+					</td>
+				</tr>
+				<tr>
+					<td>아이디(이메일)</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" id="email_id" class="text" placeholder="이메일" maxlength="18" /> @
+						<input type="text" id="email_domain" class="text" placeholder="이메일 도메인" maxlength="18"/>
+						<select class="select" title="이메일 도메인 주소 선택" onchange="setEmailDomain(this.value)">
+							<option value="">-직접입력-</option>
+							<option value="naver.com">naver.com</option>
+							<option value="gmail.com">gmail.com</option>
+							<option value="hanmail.net">hanmail.net</option>
+							<option value="hotmail.com">hotmail.com</option>
+							<option value="korea.com">korea.com</option>
+							<option value="nate.com">nate.com</option>
+							<option value="yahoo.com">yahoo.com</option>
+						</select>
+						<input type="button" value="인증" class="btn2" onclick="checkEmail()">
+						<input type="hidden" id="mailConfirm" style="display:none">
+						<input type="hidden" id="email" name="email">
+					</td>
+				</tr>
+
+				<tr id="mail_number" name="mail_number" style="display: none">
+					<td>
+						<input type="text" id="emailCertNumber" placeholder="인증번호 입력" class="text">
+						<input type="button" value="확인" class="btn2" onclick="certMail()">
+					</td>
+				</tr>
+
+				<tr>
+					<td>비밀번호</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="password" id="pwd" name="password" class="text">
+					</td>
+				</tr>
+				<tr>
+					<td>비밀번호 확인</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="password" id="pwdCheck" class="text" />
+					</td>
+				</tr>
+				<tr>
+					<td>이름</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" id="name" name="name" class="text" />
+					</td>
+				</tr>
+
+				<tr>
+					<td>휴대폰번호</td></tr>
+				<tr>
+					<td>
+						<input type="text" id="phone" name="phone" class="text">
+						<input type="button" value="인증" class="btn2" onclick="checkPhone()">
+						<input type="hidden" id="phoneConfirm" style="display:none">
+					</td>
+				</tr>
+				<tr id="phone_number" style="display: none">
+					<td>
+						<input type="text" id="phoneCertNumber" placeholder="인증번호 입력" class="text">
+						<input type="button" value="확인" class="btn2" onclick="certPhone()">
+					</td>
+				</tr>
+				<tr>
+					<td>생년월일</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="date" id="birth" name="birth" class="text" />
+					</td>
+				</tr>
+				<tr>
+					<td>주소</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" id="addr" class="text2" readonly>
+						<input type="button" value="검색" class="btn2" onclick="searchAddr()">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" id="detailAddr" class="text2" placeholder="상세주소" style="margin-bottom: 3px">
+						<input type="hidden" id="address" name="address">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="submit" value="가입하기" class="btn" style="margin-top: 5px; line-height: 1px" />
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
 </body>
 </html>

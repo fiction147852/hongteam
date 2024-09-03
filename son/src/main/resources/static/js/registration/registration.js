@@ -1,7 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // 세션 스토리지 초기화
-    sessionStorage.removeItem('selectedLectures');
-
     // 현재 페이지
     let currentPage = 1;
 
@@ -10,6 +7,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 페이지 네비게이션에서 한 번에 보여줄 페이지 번호의 개수
     const pagesToShow = 5;
+
+    // 세션 스토리지 초기화
+    sessionStorage.removeItem('selectedLectures');
 
     // 세션 스토리지에서 선택된 강의 불러오기
     const getSelectedLectures = () => {
@@ -47,7 +47,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     };
-
     // 페이지 로드 시 UI 업데이트
     updateLectureUI();
 
